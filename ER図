@@ -1,6 +1,8 @@
+卒業制作のER図を作成しました
+
 ### ER図
 （ER図のスクリーンショットの画像）
-[![Image from Gyazo](https://i.gyazo.com/f03230b1c5df91c44eff0f16b4ad8cf6.png)](https://gyazo.com/f03230b1c5df91c44eff0f16b4ad8cf6)
+[![Image from Gyazo](https://i.gyazo.com/d60502caefd53ce01a6160040037e7f7.png)](https://gyazo.com/d60502caefd53ce01a6160040037e7f7)
 
 ### 本サービスの概要（700文字以内）
 本サービスは、 プログラミング初学者で 習慣化が上手くいかない人 を対象としたサービスであり、
@@ -18,44 +20,46 @@
 * [X] ログイン機能
 * [X] ログアウト機能
 * [X] 投稿のCRUD
-  ** [X] 投稿機能（画像投稿含む）
-  ** [X] 投稿一覧の閲覧機能（未ログインでも閲覧可能）
-  ** [X] 投稿の編集機能
-  ** [X] 投稿の削除機能
+  * [X] 投稿機能（画像投稿含む）
+  * [X] 投稿一覧の閲覧機能（未ログインでも閲覧可能）
+  * [X] 投稿の編集機能
+  * [X] 投稿の削除機能
 * [X] コメント投稿機能
 * [X] コメント閲覧機能（未ログインでも閲覧可能）
 * [X] コメント編集機能
 * [X] コメント削除機能
 
 ### 各テーブルの解説  
+
 ### Usersテーブル
-* ユーザーを登録して、ログインしたり、投稿などを行えるテーブルです。  
-** name (string)ユーザー名 
-** mail (string)メールアドレス
-** encrypted_password (string)暗号化されたパスワード
-** Avatar  (string) 
-** プロフィール画像 
-** self_introducion(text) 自己紹介
-** created_at (datetime)作成日
-** updated_at (datetime)更新日
+      ユーザーを登録して、ログインしたり、投稿などを行えるテーブルです。
+        
+       name (string)ユーザー名 
+      mail (string)メールアドレス
+      encrypted_password (string)暗号化されたパスワード
+      Avatar  (string)  プロフィール画像 
+      self_introducion(text) 自己紹介
+      created_at (datetime)作成日
+      updated_at (datetime)更新日
 
 ### Postsテーブル
-* ユーザーが 学習を行ったらそれを投稿して、投稿一覧から見ることができたり、編集、削除などが行えます。
-** user_id(外部キー) Users (1)対 (Posts)多の関係性 
-** studied_title (string)学習内容 
-** studied_hour (time) 実際に学習した時間を記入
-** learned_text (text) 学習の感想、気づき、学びを記入
-** created_at(datetime)作成日
-** updated_at(datetime)更新日  
+  ユーザーが 学習を行ったらそれを投稿して、投稿一覧から見ることができたり、編集、削除などが行えます。
+  
+   user_id(外部キー) Users (1)対 (Posts)多の関係性 
+   studied_title (string)学習内容 
+   studied_hour (time) 実際に学習した時間を記入
+   learned_text (text) 学習の感想、気づき、学びを記入
+   created_at(datetime)作成日
+   updated_at(datetime)更新日  
 
-## Commentsテーブル 
-* ユーザーが他のユーザーの投稿された学習記録に対してコメントできます。
+### Commentsテーブル 
+  ユーザーが他のユーザーの投稿された学習記録に対してコメントできます。
 
-** user_id(外部キー) Users(1) 対 Comments(多)の関係性 
-** post_id(外部キー) Posts(1) 対 Comments(多)の関係性 
-** study_share(text) 投稿した人に対してコメント 
-** created_at(datetime) 作成日 
-**updated_at(date time) 更新日
+    user_id(外部キー) Users(1) 対 Comments(多)の関係性 
+    post_id(外部キー) Posts(1) 対 Comments(多)の関係性 
+    learned_share(text) 投稿した人に対してコメント 
+    created_at(datetime) 作成日 
+    updated_at(date time) 更新日
 
 ### ER図の注意点
 * [X] プルリクエストに最新のER図のスクリーンショットを画像が表示される形で掲載できているか？
