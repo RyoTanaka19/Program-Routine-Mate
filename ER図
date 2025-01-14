@@ -1,8 +1,6 @@
-卒業制作のER図を作成しました
-
-### ER図
-（ER図のスクリーンショットの画像）
-[![Image from Gyazo](https://i.gyazo.com/501365a77fa4068705431624d0fe652e.png)](https://gyazo.com/501365a77fa4068705431624d0fe652e)
+### ER図(変更)
+(ER図のスクリーンショットの画像）
+[![Image from Gyazo](https://i.gyazo.com/6a8691fbd5b370e33a631dd10ccf0090.png)](https://gyazo.com/6a8691fbd5b370e33a631dd10ccf0090)
 
 ### 本サービスの概要（700文字以内）
 本サービスは、 プログラミング初学者で 習慣化が上手くいかない人 を対象としたサービスであり、
@@ -34,25 +32,25 @@
 ### Usersテーブル
       ユーザーを登録して、ログインしたり、投稿などを行えるテーブルです。
         
-       name (string)ユーザー名 
-      mail (string)メールアドレス
-      encrypted_password (string)暗号化されたパスワード
-      Avatar  (string)  プロフィール画像 
+      name (string) ユーザー名 
+      mail (string) メールアドレス
+      encrypted_password (string) 暗号化されたパスワード
+      avatar  (string) プロフィール画像 
       self_introducion(text) 自己紹介
-      created_at (datetime)作成日
-      updated_at (datetime)更新日
+      created_at (datetime) 作成日
+      updated_at (datetime) 更新日
 
-### Postsテーブル
+### studyLogsテーブル(変更)
   ユーザーが 学習を行ったらそれを投稿して、投稿一覧から見ることができたり、編集、削除などが行えます。
   
-   user_id(外部キー) Users (1)対 (Posts)多の関係性 
-   studied_title (string)学習内容 
+   user_id(外部キー) Users (1)対 Posts(多)の関係性 
+   studied_title (string) 学習内容 
    studied_hour (time) 実際に学習した時間を記入
    learned_text (text) 学習の感想、気づき、学びを記入
-   created_at(datetime)作成日
-   updated_at(datetime)更新日  
+   created_at(datetime) 作成日
+   updated_at(datetime) 更新日  
 
-### Commentsテーブル 
+### studySharesテーブル (変更)
   ユーザーが他のユーザーの投稿された学習記録に対してコメントできます。
 
     user_id(外部キー) Users(1) 対 Comments(多)の関係性 
