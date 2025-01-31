@@ -1,0 +1,2 @@
+module StudyLogsHelper
+end
