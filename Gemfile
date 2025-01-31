@@ -57,3 +57,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'uglifier', '4.2.0'
+gem 'terser'
