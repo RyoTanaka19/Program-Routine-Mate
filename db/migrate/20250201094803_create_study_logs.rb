@@ -4,7 +4,6 @@ class CreateStudyLogs < ActiveRecord::Migration[7.2]
       t.string :content, null: false
       t.integer :hour, null: false
       t.text :text, null: false
-      
       t.timestamps
     end
   end
