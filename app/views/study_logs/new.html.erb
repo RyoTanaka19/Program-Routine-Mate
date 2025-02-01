@@ -1,1 +1,23 @@
-<h1>投稿画面</h1>
+<h1><font size= "7">投稿画面</font></h1>
+<br>
+<%= form_with(model: @study_log) do |f| %>
+  <div class="mb-3">
+    <%= f.label :content, "学習内容:" %>
+    <%= f.text_field :content, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :hour, "勉強時間:" %>
+    <%= f.number_field :hour, value: @study_log.hour || 0, required: true, min: 1, max: 12,  class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :text, "感想など:" %>
+    <%= f.text_area :text, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= f.submit nil ,class: 'btn btn-primary'%>
+  </div>
+<% end %>
+

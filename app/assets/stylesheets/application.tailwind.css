@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.form-control {
+  border: 1px solid #ccc; /* 枠線を明示的に設定 */
+  border-radius: 5px;
+}
