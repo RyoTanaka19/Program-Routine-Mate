@@ -1,3 +1,13 @@
-<h1>投稿一覧画面</h1>
+<h1><font size= "7">投稿一覧画面</font></h1>
+<br>
+<% @study_logs.each do |study_log| %>
+  <div class="mb-3">
+    <h2>学習内容: <%= study_log.content %></h2>
+    <h2>学習時間: <%= study_log.hour %></h2>
+    <h2> 感想など: <%= study_log.text %></h2>
+   </div>
+<% end %>
+
+
 
 <%= button_to '投稿画面へ遷移', new_study_log_path, method: :get, form: { data: { turbo_confirm: "投稿画面に遷移しますか？" } }, class: 'btn btn-primary' %> 
