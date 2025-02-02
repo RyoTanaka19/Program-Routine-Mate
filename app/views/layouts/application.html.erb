@@ -17,7 +17,14 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="min-h-screen flex flex-col">
+    <div class="flex-1">
+      <%= yield %>
+    </div>
+    <footer class="bg-blue-500 py-5">
+      <div class="text-center">
+         <%= render 'shared/footer' %>
+       </div>
+    </footer>
   </body>
 </html>

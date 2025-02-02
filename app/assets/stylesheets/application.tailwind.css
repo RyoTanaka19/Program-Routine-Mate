@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 .form-control {
-  border: 1px solid #ccc; /* 枠線を明示的に設定 */
+  border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.rounded-button {
+  border-radius: 50px;
+  width: 70px;
+  height: 70px;
 }
