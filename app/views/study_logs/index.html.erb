@@ -5,9 +5,16 @@
     <p>学習内容: <%= study_log.content %></p>
     <p>学習時間: <%= study_log.hour %></p>
     <p> 感想など: <%= study_log.text %></p>
-   </div>
+    <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}" do %>
+      <script src="https://unpkg.com/lucide@latest"></script>
+        <i data-lucide="pencil" class="w-6 h-6 text-gray-500"></i>
+      <script>
+        lucide.createIcons();
+      </script>
+    <% end %>
+  </div>
 <% end %>
 
-
+<br>
 
 <%= button_to '投稿画面へ遷移', new_study_log_path, method: :get, form: { data: { turbo_confirm: "投稿画面に遷移しますか？" } }, class: 'btn btn-primary' %> 
