@@ -1,2 +1,3 @@
 class StudyLog < ApplicationRecord
+
 end

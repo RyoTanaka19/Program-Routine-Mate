@@ -1,0 +1,19 @@
+<%= form_with(model: study_log, local: true) do |form| %>
+  <div class="mb-3">
+    <%= form.label :content, "学習内容:" %>
+    <%= form.text_field :content,required: true, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :hour, "勉強時間:" %>
+    <%= form.number_field :hour, required: true, min: 1, max: 12, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :text, "感想など:" %>
+    <%= form.text_area :text, required: true, class: "form-control" %>
+  </div>
+
+  <%= form.submit nil ,class: 'btn btn-primary'%>
+<% end %>
+<%= link_to "投稿一覧", study_logs_path, class: "btn btn-warning" %>
