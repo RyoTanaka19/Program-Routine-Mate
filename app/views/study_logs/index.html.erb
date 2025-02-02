@@ -2,9 +2,9 @@
 <br>
 <% @study_logs.each do |study_log| %>
   <div class="mb-3">
-    <h2>学習内容: <%= study_log.content %></h2>
-    <h2>学習時間: <%= study_log.hour %></h2>
-    <h2> 感想など: <%= study_log.text %></h2>
+    <p>学習内容: <%= study_log.content %></p>
+    <p>学習時間: <%= study_log.hour %></p>
+    <p> 感想など: <%= study_log.text %></p>
    </div>
 <% end %>
 

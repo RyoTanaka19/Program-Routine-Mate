@@ -3,17 +3,17 @@
 <%= form_with(model: @study_log) do |f| %>
   <div class="mb-3">
     <%= f.label :content, "学習内容:" %>
-    <%= f.text_field :content, class: "form-control" %>
+    <%= f.text_field :content,required: true, class: "form-control" %>
   </div>
 
   <div class="mb-3">
     <%= f.label :hour, "勉強時間:" %>
-    <%= f.number_field :hour, value: @study_log.hour || 0, required: true, min: 1, max: 12,  class: "form-control" %>
+    <%= f.number_field :hour, required: true, min: 1, max: 12,  class: "form-control" %>
   </div>
 
   <div class="mb-3">
     <%= f.label :text, "感想など:" %>
-    <%= f.text_area :text, class: "form-control" %>
+    <%= f.text_area :text, required: true, class: "form-control" %>
   </div>
 
   <div>
