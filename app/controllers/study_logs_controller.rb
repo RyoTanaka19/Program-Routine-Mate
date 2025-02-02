@@ -12,13 +12,17 @@ class StudyLogsController < ApplicationController
     end
   end
 
-    def index
-      @study_logs = StudyLog.all
-    end
+  def edit
+    @study_log
+  end
 
-    private
+  def index
+    @study_logs = StudyLog.all
+  end
 
-    def study_log_params
-      params.require(:study_log).permit(:content, :hour, :text)
-    end
+  private
+
+  def study_log_params
+    params.require(:study_log).permit(:content, :hour, :text)
+  end
 end

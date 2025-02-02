@@ -9,10 +9,10 @@
 #   end
 
 
-5.times do |n|
+5.times do |number|
   StudyLog.create!(
     content: "Ruby",
-    hour: "#{n+1}",
+    hour: "#{number+1}",
     text: "楽しかった"
   )
 end
