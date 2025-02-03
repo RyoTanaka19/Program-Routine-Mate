@@ -35,6 +35,10 @@ class StudyLogsController < ApplicationController
     @study_logs = StudyLog.order(created_at: :asc).all
   end
 
+  def show
+    @study_log = StudyLog.find(params[:id])
+  end
+
   private
 
 
