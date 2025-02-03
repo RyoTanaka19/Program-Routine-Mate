@@ -6,13 +6,18 @@
       <p>学習内容: <%= study_log.content %></p>
       <p>学習時間: <%= study_log.hour %></p>
       <p> 感想など: <%= study_log.text %></p>
+
       <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}" do %>
         <script src="https://unpkg.com/lucide@latest"></script>
           <i data-lucide="pencil" class="w-6 h-6 text-gray-500"></i>
-        <script>
+      <% end %>
+
+      <%= link_to study_log_path(study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, id: "button-edit-#{study_log.id}" do %>
+          <i data-lucide="trash" class="w-6 h-6 text-gray-500"></i>
+      <% end %>
+      <script>
           lucide.createIcons();
         </script>
-      <% end %>
     </div>
   </div>
 <% end %>
