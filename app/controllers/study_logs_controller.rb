@@ -25,6 +25,11 @@ class StudyLogsController < ApplicationController
     end
   end
 
+  def destroy
+    study_log = StudyLog.find(params[:id])
+    study_log.destroy!
+    redirect_to study_logs_path
+  end
 
   def index
     @study_logs = StudyLog.order(created_at: :asc).all

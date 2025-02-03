@@ -61,3 +61,4 @@ group :test do
 end
 
 gem "uglifier"
+gem "pry-rails"
