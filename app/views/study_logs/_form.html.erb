@@ -10,6 +10,11 @@
   </div>
 
   <div class="mb-3">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: "form-control", accept: 'image/*' %>
+    <%= form.hidden_field :image_cache %>
+  </div>
+  <div class="mb-3">
     <%= form.label :text, "感想など:" %>
     <%= form.text_area :text, required: true, class: "form-control" %>
   </div>

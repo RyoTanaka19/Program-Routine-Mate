@@ -62,3 +62,4 @@ end
 
 gem "uglifier"
 gem "pry-rails"
+gem "carrierwave", "2.2.2"
