@@ -14,7 +14,7 @@ class StudyLogsImageUploader < CarrierWave::Uploader::Base
   end
 
   def default_url
-    "study_logs_placeholdr"
+    "study_logs"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
