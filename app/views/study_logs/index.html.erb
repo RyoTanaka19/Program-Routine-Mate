@@ -5,9 +5,8 @@
     <div class="border">
     <p>学習内容: <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-500 hover:underline" %></p>
       <p>学習時間: <%= study_log.hour %></p>
-      <p><%= image_tag(study_log.image? ? study_log.image_url : "study_logs_image.png", width: "300", height: "200") %></p>
+      <p><%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
       <p> 感想など: <%= study_log.text %></p>
-
 
       <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}" do %>
         <script src="https://unpkg.com/lucide@latest"></script>

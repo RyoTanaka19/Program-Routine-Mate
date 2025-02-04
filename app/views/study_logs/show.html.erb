@@ -9,7 +9,7 @@
 
 <p>学習時間: <%= @study_log.hour %></p>
 
-<p>画像: <p><%= image_tag(@study_log.image? ? @study_log.image_url : "study_logs_image.png", width: "300", height: "200") %></p>
+<p>画像: <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
 
 <br>
 

@@ -45,7 +45,6 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  gem "rspec-rails"
   gem "faker"
 end
 
@@ -62,4 +61,6 @@ end
 
 gem "uglifier"
 gem "pry-rails"
+
+# 画像投稿
 gem "carrierwave", "~> 3.0"
