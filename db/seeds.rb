@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-
+=begin
 5.times do |number|
   StudyLog.create!(
     content: "Ruby",
@@ -16,3 +16,4 @@
     text: "楽しかった"
   )
 end
+=end
