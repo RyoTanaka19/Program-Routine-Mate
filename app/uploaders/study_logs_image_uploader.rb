@@ -13,8 +13,8 @@ class StudyLogsImageUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  def default_url
-    "study_logs"
+  def default_url(*args)
+    "/images/fallback/" + [ version_name, "study_logs_image.png" ].compact.join("_")
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

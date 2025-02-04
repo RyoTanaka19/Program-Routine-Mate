@@ -62,4 +62,4 @@ end
 
 gem "uglifier"
 gem "pry-rails"
-gem "carrierwave", "2.2.2"
+gem "carrierwave", "~> 3.0"
