@@ -16,13 +16,6 @@
       <%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %>
       <%= form.hidden_field :image_cache %>
     </p>
-
-    <p>
-      <label>
-        <%= form.check_box :remove_image %>
-        Remove image
-      </label>
-    </p>
   </div>
 
   <div class="mb-3">
