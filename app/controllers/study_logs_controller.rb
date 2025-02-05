@@ -1,5 +1,4 @@
 class StudyLogsController < ApplicationController
-
   def new
     @study_log = StudyLog.new
   end
