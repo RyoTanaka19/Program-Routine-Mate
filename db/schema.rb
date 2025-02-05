@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_03_164032) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_04_190305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "learning_comments", force: :cascade do |t|
+    t.bigint "study_log_id"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_log_id"], name: "index_learning_comments_on_study_log_id"
+  end
 
   create_table "study_logs", force: :cascade do |t|
     t.string "content", null: false
@@ -22,4 +30,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_164032) do
     t.datetime "updated_at", null: false
     t.string "image"
   end
+
+  add_foreign_key "learning_comments", "study_logs"
 end
