@@ -38,7 +38,7 @@ class StudyLogsController < ApplicationController
   def show
     @study_log = StudyLog.find(params[:id])
     @learning_comment = LearningComment.new
-    @learning_comments = @study_log.learning_comments
+    @learning_comments = @study_log.learning_comments.order(created_at: :desc)
   end
 
   private
