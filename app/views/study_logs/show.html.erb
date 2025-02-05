@@ -1,0 +1,32 @@
+<h1><font size= "7">投稿詳細画面</font></h1>
+
+<br>
+
+<div class="border">
+<p>学習内容: <%= @study_log.content %></p>
+
+<br>
+
+<p>学習時間: <%= @study_log.hour %></p>
+
+<p>画像: <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
+
+<br>
+
+<p>感想など: <%= @study_log.text %></p>
+</div>
+<br>
+
+<%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
+<br>
+
+<div class="row">
+<div class="col-lg-8 offset-lg-2">
+  <table class="table">
+    <tbody id="table-comment">
+      <%= render @learning_comments %>
+    </tbody>
+  </table>
+</div>
+</div>
+<%= link_to "投稿一覧", study_logs_path, class: "btn btn-warning" %>
