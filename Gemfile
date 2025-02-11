@@ -64,3 +64,6 @@ gem "pry-rails"
 
 # 画像投稿
 gem "carrierwave", "~> 3.0"
+
+# 新規登録・ログイン・ログアウト
+gem "devise"

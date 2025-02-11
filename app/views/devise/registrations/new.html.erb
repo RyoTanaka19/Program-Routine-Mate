@@ -1,0 +1,35 @@
+<div class="login-section pt-3">
+  <div class="card text-center pt-5 mx-auto" style="width: 23rem;">
+    <h1>新規登録画面</h1>
+
+    <div class="card-body">
+      <%= form_with model: @user, url: user_registration_path do |form| %>
+        <div class="mb-3 mt-4">
+          <%= form.email_field :email, class: "form-control", placeholder: "メールアドレス" %>
+        </div>
+
+          <div class="mb-3 mt-4">
+            <%= form.text_field :name, class: "form-control", placeholder: "ユーザー名" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.password_field :password, class: "form-control", placeholder: "パスワード" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.password_field :password_confirmation, class: "form-control", placeholder: "パスワード確認" %>
+          </div>
+
+          <%= form.submit "新規登録", class: "btn btn-primary w-100" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card text-center py-2 mt-3 mx-auto" style="width: 23rem;">
+      <div class="card-text">
+        既にアカウントを持っている？
+        <%= link_to "ログイン", new_user_session_path, class: "fs-6 my-4 text-decoration-none text-info" %>
+      </div>
+    </div>
+  </div>
+</div>

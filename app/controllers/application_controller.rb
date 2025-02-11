@@ -1,4 +1,26 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  protected
+
+
+  # 新規登録後　学習記録
+  def after_sign_up_path_for(study_logs)
+    study_logs_path
+  end
+
+ # ログイン後 学習記録
+  def after_sign_in_path_for(study_logs)
+    study_logs_path
+  end
+
+
+  def after_sign_out_path_for(new_user_session)
+    new_user_session_path 
+  end
+
+  def configure_permitted_parameters
+     # /users/sign_up
+     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :profile_image, :self_introduction])
+  end
+
 end
