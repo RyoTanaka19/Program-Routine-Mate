@@ -32,7 +32,7 @@ class StudyLogsController < ApplicationController
   end
 
   def index
-    @study_logs = StudyLog.order(created_at: :asc).all
+    @study_logs = StudyLog.includes(:user).order(created_at: :asc).all
   end
 
   def show
