@@ -29,3 +29,9 @@
     color: RED;
   }
 }
+
+.fixed-bottom-end {
+  position: fixed;
+  top: 900px;
+  right: 20px; /* 右から20pxの位置に配置 */
+}

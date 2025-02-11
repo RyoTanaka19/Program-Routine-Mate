@@ -7,16 +7,16 @@
     <div class="card text-center pt-5" style="width: 23rem;">
       <h1>ログイン画面</h1>
       <div class="card-body">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= form_with model: @user, url: user_session_path do |form| %>
           <div class="mb-3 mt-4">
-            <%= f.email_field :email, class: "form-control", placeholder: "電話番号, ユーザ名, Eメール" %>
+            <%= form.email_field :email, class: "form-control", placeholder: "メールアドレス" %>
           </div>
 
           <div class="mb-3">
-            <%= f.password_field :password, class: "form-control", placeholder: "パスワード" %>
+            <%= form.password_field :password, class: "form-control", placeholder: "パスワード" %>
           </div>
 
-          <%= f.submit "ログイン", class: "btn btn-primary w-100" %>
+          <%= form.submit "ログイン", class: "btn btn-primary w-100" %>
         <% end %>
 
         <% if notice %>
