@@ -1,4 +1,6 @@
 class StudyLogsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @study_log = StudyLog.new
   end
@@ -8,7 +10,7 @@ class StudyLogsController < ApplicationController
     if @study_log.save
       redirect_to study_logs_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
