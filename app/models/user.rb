@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :study_logs
+  has_many :study_logs, dependent: :destroy
   has_many :learning_comments, dependent: :destroy
 
   def own?(object)

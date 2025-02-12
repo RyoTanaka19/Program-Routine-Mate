@@ -6,7 +6,7 @@ class StudyLogsController < ApplicationController
   end
 
   def create
-    @study_log = current_user.study_logs.new(study_log_params)
+    @study_log = current_user.study_logs.build(study_log_params)
     if @study_log.save
       redirect_to study_logs_path
     else
@@ -23,7 +23,7 @@ class StudyLogsController < ApplicationController
     if @study_log.update(study_log_params)
       redirect_to study_logs_path
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
