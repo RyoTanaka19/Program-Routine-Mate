@@ -1,6 +1,6 @@
 class LearningCommentsController < ApplicationController
   def create
-    learning_comment = LearningComment.build(learning_comment_params)
+    learning_comment = current_user.learning_comments.build(learning_comment_params)
     if learning_comment.save
       redirect_to study_logs_path(learning_comment.study_log)
     else

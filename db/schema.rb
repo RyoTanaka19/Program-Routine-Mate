@@ -10,28 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_07_175345) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_12_002845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "learning_comments", force: :cascade do |t|
-    t.bigint "user_id"
     t.bigint "study_log_id"
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["study_log_id"], name: "index_learning_comments_on_study_log_id"
     t.index ["user_id"], name: "index_learning_comments_on_user_id"
   end
 
   create_table "study_logs", force: :cascade do |t|
-    t.bigint "user_id"
     t.string "content", null: false
     t.integer "hour", null: false
     t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_study_logs_on_user_id"
   end
 
