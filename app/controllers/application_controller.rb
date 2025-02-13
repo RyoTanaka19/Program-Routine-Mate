@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
     study_logs_path
   end
 
-
+  # ログアウト後 トップ画面に遷移
   def after_sign_out_path_for(new_user_session)
-    new_user_session_path
+    root_path
   end
 
   def configure_permitted_parameters
