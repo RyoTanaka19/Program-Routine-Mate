@@ -1,13 +1,5 @@
-<footer class="bg-blue-600 py-4 mt-auto flex justify-between items-center px-4">
-  <!-- 投稿画面に遷移 -->
-  <div class="flex-1 text-center">
-    <%= link_to "📝", new_study_log_path, class: "btn btn-light btn-lg" %>
-  </div>
-
-  <!-- 投稿一覧画面に遷移 -->
-  <div class="flex justify-end">
-    <%= link_to study_logs_path do %>
-      <%= image_tag "study_logs_list.png", alt: "トップページへ", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition" %>
-    <% end %>
-  </div>
+<footer class="bg-blue-600  py-4 mt-auto">
+    <div class="text-center">
+      <%= link_to "📝", new_study_log_path, class: "btn btn-light btn-lg" %>
+    </div>
 </footer>
