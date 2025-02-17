@@ -25,8 +25,6 @@ module Myapp
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.generators.system_tests = nil
-
-
     config.generators do |g|
       g.skip_routes true # routes.rb変更しない
       g.assets false # CSS/JSファイルを自動生成しない

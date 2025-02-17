@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_002845) do
 
   create_table "learning_comments", force: :cascade do |t|
     t.bigint "study_log_id"
-    t.text "text"
+    t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
