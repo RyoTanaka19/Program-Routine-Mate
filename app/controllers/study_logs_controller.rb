@@ -8,9 +8,9 @@ class StudyLogsController < ApplicationController
   def create
     @study_log = current_user.study_logs.build(study_log_params)
     if @study_log.save
-      redirect_to study_logs_path, notice: '学習記録を作成しました'
+      redirect_to study_logs_path, notice: "学習記録を作成しました。"
     else
-      flash.now[:alert] = '学習記録を作成できませんでした。'
+      flash.now[:alert] = "学習記録を作成できませんでした。"
       render :new, status: :unprocessable_entity
     end
   end
@@ -22,9 +22,9 @@ class StudyLogsController < ApplicationController
   def update
     @study_log = current_user.study_logs.find(params[:id])
     if @study_log.update(study_log_params)
-      redirect_to study_logs_path, notice: '学習記録の変更しました。'
+      redirect_to study_logs_path, notice: "学習記録の変更しました。"
     else
-      flash.now[:alert] = '学習記録の変更に失敗しました。'
+      flash.now[:alert] = "学習記録の変更に失敗しました。"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -32,7 +32,7 @@ class StudyLogsController < ApplicationController
   def destroy
     study_log = current_user.study_logs.find(params[:id])
     study_log.destroy!
-    redirect_to study_logs_path, notice: '学習記録の削除をしました'
+    redirect_to study_logs_path, notice: "学習記録の削除をしました。"
   end
 
   def index

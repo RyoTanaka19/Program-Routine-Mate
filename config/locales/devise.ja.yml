@@ -109,7 +109,7 @@ ja:
       updated: アカウント情報を変更しました。
       updated_but_not_signed_in: あなたのアカウントは正常に更新されましたが、パスワードが変更されたため、再度ログインしてください。
     sessions:
-      signed_in: 'ログインしています。'
+      signed_in: 'ログインしました。'
       signed_out: 'ログアウトしました。'
     shared:
       links:
