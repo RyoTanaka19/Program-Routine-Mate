@@ -1,5 +1,5 @@
 class LearningCommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: [ :create ]
   def create
     learning_comment = current_user.learning_comments.build(learning_comment_params)
     if learning_comment.save

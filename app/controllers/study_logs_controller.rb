@@ -1,5 +1,5 @@
 class StudyLogsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [ :show, :index ]
 
   def new
     @study_log = StudyLog.new
@@ -52,4 +52,3 @@ class StudyLogsController < ApplicationController
     params.require(:study_log).permit(:content, :hour, :text, :image, :image_cache)
   end
 end
-
