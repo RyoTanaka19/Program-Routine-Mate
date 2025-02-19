@@ -4,6 +4,9 @@
     <%= render 'shared/error_messages', object: @learning_comment %>
 
     <div class="mb-4">
+      <p>投稿者: <%= @study_log.user&.name || "ユーザー情報なし" %></p>
+      <p><strong>投稿日:</strong> <%= @study_log.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
+      <br>
       <p class="text-lg font-semibold">学習内容:</p>
       <p class="border border-gray-300 rounded-md p-2 shadow-sm"><%= @study_log.content %></p>
     </div>
