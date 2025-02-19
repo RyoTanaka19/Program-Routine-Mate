@@ -1,28 +1,29 @@
-<%= form_with(model: study_log, local: true) do |form| %>
-  <div class="mb-3">
-    <%= form.label :content, "学習内容:" %>
-    <%= form.text_field :content,required: true, class: "form-control" %>
-  </div>
+<div class="flex items-center justify-center min-screen bg-gray-100">
+  <%= form_with(model: study_log, local: true) do |form| %>
+    <%= render 'shared/error_messages', object: form.object %>
+    
+    <div class="mb-3">
+      <%= form.label :content, "学習内容:" %>
+      <%= form.text_field :content, class: "w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :hour, "勉強時間:" %>
+      <%= form.number_field :hour, min: 1, max: 12, class: "border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
+    </div>
+    <div class="mb-3">
+      <p>
+        <%= form.label :image, "画像:" %>
+        <%= form.file_field :image, class: "w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500", accept: 'image/*' %>
+        <%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %>
+        <%= form.hidden_field :image_cache %>
+      </p>
+    </div>
 
-  <div class="mb-3">
-    <%= form.label :hour, "勉強時間:" %>
-    <%= form.number_field :hour, required: true, min: 1, max: 12, class: "form-control" %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :text, "学んだことなど:" %>
+      <%= form.text_area :text, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
+    </div>
 
-  <div class="mb-3">
-    <p>
-      <%= form.label :image %>
-      <%= form.file_field :image, class: "form-control", accept: 'image/*' %>
-      <%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %>
-      <%= form.hidden_field :image_cache %>
-    </p>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :text, "感想など:" %>
-    <%= form.text_area :text, required: true, class: "form-control" %>
-  </div>
-
-  <%= form.submit nil ,class: 'btn btn-primary'%>
-<% end %>
-<br>
+    <%= form.submit nil ,class: 'btn btn-primary' %>
+  <% end %>
+</div>
