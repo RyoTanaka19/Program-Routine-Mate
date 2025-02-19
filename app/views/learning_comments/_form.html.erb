@@ -2,7 +2,9 @@
   <div class="col-lg-8 offset-lg-2">
     <%= form_with model: learning_comment, url: study_log_learning_comments_path(study_log) do |form| %>
       <%= form.label :text, "コメント" %>
-      <%= form.text_area :text, class: "form-control mb-3", row: "4" %>
+      <%= form.text_area :text, class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      <br>
+      <br>
       <%= form.submit 'コメントする', class: "btn btn-primary" %>
     <% end %>
   </div>
