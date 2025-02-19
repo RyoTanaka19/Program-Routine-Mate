@@ -30,7 +30,7 @@ class StudyLogsController < ApplicationController
   end
 
   def destroy
-    study_log = StudyLog.find(params[:id])
+    study_log = current_user.study_logs.find(params[:id])
     study_log.destroy!
     redirect_to study_logs_path, notice: "学習記録の削除をしました。"
   end
