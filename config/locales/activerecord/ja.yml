@@ -1,0 +1,12 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        study_log:
+          attributes:
+            content:
+              blank: '内容を入力してください'
+            hour:
+              blank: '時間を入力してください'
+            text:
+              blank: '学んだことなどを入力してください'

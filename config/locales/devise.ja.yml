@@ -8,8 +8,9 @@ ja:
         created_at: 作成日
         current_password: 現在のパスワード
         current_sign_in_at: 現在のログイン時刻
-        current_sign_in_ip: 現在のログインIPアドレス
-        email: Eメール
+        current_sign_in_ip: 現在のログインIPアドレスc
+        name: 名前
+        email: メールアドレス
         encrypted_password: 暗号化パスワード
         failed_attempts: 失敗したログイン試行回数
         last_sign_in_at: 最終ログイン時刻
@@ -25,8 +26,7 @@ ja:
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
-    models:
-      user: ユーザ
+
   devise:
     confirmations:
       confirmed: メールアドレスが確認できました。

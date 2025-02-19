@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .form-control {
-  border: 1px solid #ccc;
+  border: 5px solid #f06c08ed;
   border-radius: 5px;
 }
 

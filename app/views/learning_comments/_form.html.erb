@@ -3,6 +3,7 @@
     <%= form_with model: learning_comment, url: study_log_learning_comments_path(study_log) do |form| %>
       <%= form.label :text, "コメント" %>
       <%= form.text_area :text, class: "form-control mb-3", row: "4" %>
-      <%= form.submit nil, class: "btn btn-primary" %>
+      <%= form.submit 'コメントする', class: "btn btn-primary" %>
     <% end %>
   </div>
+  
