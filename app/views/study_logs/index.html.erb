@@ -11,7 +11,16 @@
         <p><strong>投稿日:</strong> <%= study_log.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
         <br>
         <p>学習内容: <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-500 hover:underline" %></p>
-        <p>学習時間: <%= study_log.hour %></p>
+        <p>
+          学習時間: 
+          <span class="text-blue-600"><%= study_log.hour %></span>
+          <span class="text-gray-600">時間</span>
+          <span class="text-green-600"><%= study_log.minute %></span>
+          <span class="text-gray-600">分</span>
+         <span class="text-red-600"><%= study_log.second %></span>
+          <span class="text-gray-600">秒</span>
+        </p>
+        <br>
         <p><%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
         <p> 感想など: <%= study_log.text %></p>
 

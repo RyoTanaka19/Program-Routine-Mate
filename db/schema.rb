@@ -27,6 +27,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_002845) do
   create_table "study_logs", force: :cascade do |t|
     t.string "content", null: false
     t.integer "hour", null: false
+    t.integer "minute", null: false
+    t.integer "second", null: false
     t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

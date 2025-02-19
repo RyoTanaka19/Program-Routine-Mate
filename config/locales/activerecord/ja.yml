@@ -8,5 +8,9 @@ ja:
               blank: '内容を入力してください'
             hour:
               blank: '時間を入力してください'
+            minute:
+              blank: '分を入力してください'
+            second:
+              blank: '秒を入力してください'
             text:
-              blank: '学んだことなどを入力してください'
+              blank: '感想などを入力してください'
