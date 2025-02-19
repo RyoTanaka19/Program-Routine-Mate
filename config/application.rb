@@ -25,7 +25,7 @@ module Myapp
     # config.eager_load_paths << Rails.root.join("extras")
     config.generators.system_tests = nil
     config.i18n.default_locale = :ja # 日本語化の設定
-    config.time_zone = 'Tokyo' #  日本時間の設定
+    config.time_zone = "Tokyo" #  日本時間の設定
     config.generators do |g|
       g.skip_routes true # routes.rb変更しない
       g.assets false # CSS/JSファイルを自動生成しない
