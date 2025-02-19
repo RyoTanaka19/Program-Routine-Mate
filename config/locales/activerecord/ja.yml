@@ -5,8 +5,8 @@ ja:
         study_log:
           attributes:
             content:
-              blank: '内容を入力してください'
+              blank: '学習内容を入力してください'
             hour:
-              blank: '時間を入力してください'
+              blank: '学習時間を入力してください'
             text:
-              blank: '学んだことなどを入力してください'
+              blank: '感想などを入力してください'
