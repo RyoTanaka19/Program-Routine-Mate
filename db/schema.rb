@@ -32,8 +32,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_19_182440) do
     t.datetime "updated_at", null: false
     t.string "image"
     t.bigint "user_id"
-    t.integer "minute", null: false
-    t.integer "second", null: false
+    t.integer "minute", default: 0, null: false
+    t.integer "second", default: 0, null: false
     t.index ["user_id"], name: "index_study_logs_on_user_id"
   end
 
