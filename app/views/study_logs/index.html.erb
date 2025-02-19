@@ -1,26 +1,34 @@
-<h1><font size= "7">投稿一覧画面</font></h1>
+<h1 class="text-center text-7xl">投稿一覧画面</h1>
+<br>
 <br>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-<% @study_logs.each do |study_log| %>
-  <div class="mb-3">
-    <div class="border">
-    <p>学習内容: <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-500 hover:underline" %></p>
-      <p>学習時間: <%= study_log.hour %></p>
-      <p><%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
-      <p> 感想など: <%= study_log.text %></p>
+<div class="flex flex-wrap gap-4">
+  <% @study_logs.each do |study_log| %>
+    <div class="w-80 mb-3">
+      <div class="border p-4">
+        <p>投稿者: <%= study_log.user&.name || "ユーザー情報なし" %></p>
+        <p><strong>投稿日:</strong> <%= study_log.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
+        <br>
+        <p>学習内容: <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-500 hover:underline" %></p>
+        <p>学習時間: <%= study_log.hour %></p>
+        <p><%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
+        <p> 感想など: <%= study_log.text %></p>
 
-      <% if user_signed_in? && study_log.user_id == current_user.id %>
-        <!-- 編集ボタン -->
-        <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" do %>
-        <i class="fas fa-pencil-alt w-6 h-6 mr-2"></i>
+        <br>
+
+        <% if user_signed_in? && study_log.user_id == current_user.id %>
+          <!-- 編集ボタン -->
+          <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" do %>
+          <i class="fas fa-pencil-alt w-2 h-4 mr-2"></i>
+          <% end %>
+          <!-- 削除ボタン -->
+          <%= link_to study_log_path(study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, id: "button-delete-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
+          <i class="fas fa-trash w-2 h-4 mr-2"></i>
+          <% end %>
         <% end %>
-        <!-- 削除ボタン -->
-        <%= link_to study_log_path(study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, id: "button-delete-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
-        <i class="fas fa-trash w-6 h-6 mr-2"></i>
-        <% end %>
-      <% end %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
