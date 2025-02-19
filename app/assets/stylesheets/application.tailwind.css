@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.form-control {
-  border: 5px solid #f06c08ed;
-  border-radius: 5px;
-}
-
 .rounded-button {
   border-radius: 50px;
   width: 70px;
