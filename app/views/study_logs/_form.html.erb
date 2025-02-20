@@ -7,9 +7,18 @@
       <%= form.text_field :content, class: "w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
     </div>
     <div class="mb-3">
-      <%= form.label :hour, "勉強時間:" %>
-      <%= form.number_field :hour, min: 1, max: 24, class: "border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
+      学習時間:
+      <br>
+      <%= form.label :hour, "(時間) : " %>
+      <%= form.number_field :hour, min: 0, max: 12, class: "border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
+
+      <%= form.label :minute, "（分）:" %>
+      <%= form.number_field :minute, min: 0, max: 59, class: "border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
+
+      <%= form.label :minute, "（秒）:" %>
+      <%= form.number_field :second, min: 1, max: 59, class: "border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500" %>
     </div>
+
     <div class="mb-3">
       <p>
         <%= form.label :image, "画像:" %>
