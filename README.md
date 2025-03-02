@@ -56,7 +56,7 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 
   - (本日の調子が悪く学習の取り組む気になれない時に AI に相談できる) → MVPリリース後、自身が考えた学習取り組みをAIに相談して、さらに良いアドバイスをもらいたいと検討している。
 
-- ユーザーが現在学習中などと見える化する(Mattermost、discordのようなイメージ)
+- ユーザーが現在ログインしてるかなどを見える化する(Mattermost、discordのようなイメージ)
 
 ## ▪️ ユーザーの獲得・宣伝方法
 
@@ -125,5 +125,4 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 ## 画面遷移図
 Figma: https://www.figma.com/design/l76ZQiTKnKvVSaeN2Gx7GI/Program-Routin-Mate-%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&p=f&t=WXJwUnWwraNNPRDn-0
 ## ER図
-[[![Image from Gyazo](https://i.gyazo.com/a35ec83ca7496d986ce6a6b0f613c4c2.png)](https://gyazo.com/a35ec83ca7496d986ce6a6b0f613c4c2)
-](https://gyazo.com/893af016949a07430bb8d433f90e6b8f)
+[![Image from Gyazo](https://i.gyazo.com/893af016949a07430bb8d433f90e6b8f.png)](https://gyazo.com/893af016949a07430bb8d433f90e6b8f)
