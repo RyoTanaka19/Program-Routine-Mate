@@ -123,5 +123,6 @@ Mattermost や Discode というコミュニケーションサービスを使っ
     - 無料プランを使うつもりであり、リクエスト頻度が多ければ有料プランに変更する場合もある。(追加)
 
 ## 画面遷移図
-
 Figma: https://www.figma.com/design/l76ZQiTKnKvVSaeN2Gx7GI/Program-Routin-Mate-%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&p=f&t=WXJwUnWwraNNPRDn-0
+## ER図
+[![Image from Gyazo](https://i.gyazo.com/a35ec83ca7496d986ce6a6b0f613c4c2.png)](https://gyazo.com/a35ec83ca7496d986ce6a6b0f613c4c2)
