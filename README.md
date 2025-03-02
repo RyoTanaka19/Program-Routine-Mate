@@ -113,14 +113,14 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 - render :PostgreSql
 
 - 高度機能
-- 即日通知機能 (即日追加)
+- 即日通知機能
 - ActionCable（Rails 標準）を使う予定
   - 詳細(追加)
-  - その期日、時間になったらメールで通知をユーザーに送るイメージです(追加)
+  - その期日、時間になったらメールで通知をユーザーに送るイメージです
 - OpenAI API 使用予定
   - 詳細(追加)
-    - ビジネス用途で考えてないので(追加)
-    - 無料プランを使うつもりであり、リクエスト頻度が多ければ有料プランに変更する場合もある。(追加)
+    - ビジネス用途で考えてないので
+    - 無料プランを使うつもりであり、リクエスト頻度が多ければ有料プランに変更する場合もある。
 
 ## 画面遷移図
 Figma: https://www.figma.com/design/l76ZQiTKnKvVSaeN2Gx7GI/Program-Routin-Mate-%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&p=f&t=WXJwUnWwraNNPRDn-0
