@@ -126,5 +126,4 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 ## 画面遷移図
 Figma: https://www.figma.com/design/l76ZQiTKnKvVSaeN2Gx7GI/Program-Routin-Mate-%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&p=f&t=WXJwUnWwraNNPRDn-0
 ## ER図
-[![Image from Gyazo](https://i.gyazo.com/6172f694e4e140d7b5b08a081b4fd309.png)](https://gyazo.com/6172f694e4e140d7b5b08a081b4fd309)
-](https://gyazo.com/67dde81e496eaaff8bd033fa5769b658)
+[![Image from Gyazo](https://i.gyazo.com/de626449e6b92c2666d3aa8374e92281.png)](https://gyazo.com/de626449e6b92c2666d3aa8374e92281)
