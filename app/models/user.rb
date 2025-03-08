@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable
 
   has_many :study_logs, dependent: :destroy
+
+  # ユーザーが削除されると学習コメントも削除される
   has_many :learning_comments, dependent: :destroy
 
   # 名前 空はなし、一意性
@@ -18,7 +20,7 @@ class User < ApplicationRecord
   # パスワードとパスワード確認が一致するかどうか確認
   validates :password, confirmation: { message: "が一致しません" }
 
-
+# 特定のコメントが現在ログインしているユーザーが投稿したものであるかどうか判定
   def own?(object)
     id == object&.user_id
   end

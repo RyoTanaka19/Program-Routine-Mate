@@ -1,3 +1,4 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <tr id="learning_comment-<%= learning_comment.id %>" class="align-top">
   <td>
     <div class="bg-gray-100 border border-gray-300 rounded-md p-3 my-2 shadow-sm">
@@ -10,9 +11,20 @@
       <p><strong>投稿日:</strong> <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
 
       <!-- コメント本文 -->
-      <p class="text-gray-800 text-sm leading-snug">
+      <div>
+        <p class="text-gray-800 text-sm leading-snug">
         <%= simple_format(learning_comment.text) %>
-      </p>
+        </p>
+      </div>
+
+      <li class="list-none">
+        <%= link_to learning_comment_path(learning_comment), 
+          class: "inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300", 
+          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
+          id: "button-delete-#{learning_comment.id}" do %>
+         <i class="fas fa-trash w-4 h-4 mr-2"></i>
+        <% end %>
+      </li>
     </div>
   </td>
 </tr>
