@@ -20,7 +20,7 @@ class User < ApplicationRecord
   # パスワードとパスワード確認が一致するかどうか確認
   validates :password, confirmation: { message: "が一致しません" }
 
-# 特定のコメントが現在ログインしているユーザーが投稿したものであるかどうか判定
+  # 特定のコメントが現在ログインしているユーザーが投稿したものであるかどうか判定
   def own?(object)
     id == object&.user_id
   end
