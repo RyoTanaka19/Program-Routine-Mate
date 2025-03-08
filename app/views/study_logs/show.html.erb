@@ -39,6 +39,16 @@
     </div>
 
     <div class="mt-6">
+      <% if @study_log.liked_users.include?(current_user) %>
+        <%= button_to 'いいね解除', study_log_like_path(@study_log), method: :delete, class: "btn btn-danger" %>
+      <% else %>
+       <%= button_to 'いいね', study_log_like_path(@study_log), method: :study_log, class: "btn btn-primary" %>
+     <% end %>
+    </div>
+
+<p>いいね数: <%= @study_log.likes.count %></p>
+
+    <div class="mt-6">
       <h2 class="text-xl font-semibold text-center mb-4">コメント一覧</h2>
       <div class="border border-gray-300 rounded-md shadow-sm p-4 bg-white">
         <table class="w-full border-collapse border border-gray-300 rounded-md shadow-sm">
