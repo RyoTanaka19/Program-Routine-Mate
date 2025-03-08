@@ -42,11 +42,11 @@
       <% if @study_log.liked_users.include?(current_user) %>
         <%= button_to 'いいね解除', study_log_like_path(@study_log), method: :delete, class: "btn btn-danger" %>
       <% else %>
-       <%= button_to 'いいね', study_log_like_path(@study_log), method: :study_log, class: "btn btn-primary" %>
+       <%= button_to 'いいね', study_log_like_path(@study_log), method: :post, class: "btn btn-primary" %>
      <% end %>
     </div>
 
-<p>いいね数: <%= @study_log.likes.count %></p>
+<p>いいねの数: <%= @study_log.likes.count %></p>
 
     <div class="mt-6">
       <h2 class="text-xl font-semibold text-center mb-4">コメント一覧</h2>
