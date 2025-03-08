@@ -1,0 +1,15 @@
+<% if @learning_comment.errors.present? %>
+  <%= turbo_stream.replace "learning_comments-form" do %>
+    <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @learning_comment.study_log %>
+  <% end %>
+<% else %>
+  <!-- フォームを新しくする -->
+  <%= turbo_stream.replace "learning_comments-form" do %>
+    <%= render 'learning_comments/form', learning_comment: LearningComment.new, study_log: @learning_comment.study_log %>
+  <% end %>
+
+  <!-- コメント一覧に新しいコメントを追加 -->
+  <%= turbo_stream.prepend "learning_comments-list" do %>
+   <%= render 'learning_comments/learning_comment', learning_comment: @learning_comment %>
+ <% end %>
+<% end %>

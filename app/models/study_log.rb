@@ -7,6 +7,8 @@ class StudyLog < ApplicationRecord
   validates :content, presence: true
   # 学習時間 空なし
   validates :hour, presence: true
+  validates :minute, presence: true
+  validates :second, presence: true
   # 学んだこと 空なし
   validates :text, presence: true
 end

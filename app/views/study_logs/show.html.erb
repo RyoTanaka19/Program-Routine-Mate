@@ -12,8 +12,14 @@
     </div>
 
     <div class="mb-4">
-      <p class="text-lg font-semibold">学習時間:</p>
-      <p class="border border-gray-300 rounded-md p-2 shadow-sm"><%= @study_log.hour %></p>
+      <p class="border border-gray-300 rounded-md p-2 shadow-sm">
+        <span class="text-blue-600"><%= @study_log.hour %></span>
+        <span class="text-gray-600">時間</span>
+        <span class="text-green-600"><%= @study_log.minute %></span>
+        <span class="text-gray-600">分</span>
+        <span class="text-red-600"><%= @study_log.second %></span>
+       <span class="text-gray-600">秒</span>
+      </p>
     </div>
 
     <div class="mb-4">
@@ -36,9 +42,9 @@
       <h2 class="text-xl font-semibold text-center mb-4">コメント一覧</h2>
       <div class="border border-gray-300 rounded-md shadow-sm p-4 bg-white">
         <table class="w-full border-collapse border border-gray-300 rounded-md shadow-sm">
-          <tbody id="table-comment">
-            <%= render @learning_comments %>
-          </tbody>
+        <tbody id="learning_comments-list">
+          <%= render @learning_comments %>
+        </tbody>
         </table>
       </div>
     </div>

@@ -49,6 +49,6 @@ class StudyLogsController < ApplicationController
 
 
   def study_log_params
-    params.require(:study_log).permit(:content, :hour, :text, :image, :image_cache)
+    params.require(:study_log).permit(:content, :hour, :minute, :second, :text, :image, :image_cache)
   end
 end
