@@ -1,13 +1,11 @@
 class LikesController < ApplicationController
-  
-
   def create
     @study_log = StudyLog.find(params[:study_log_id])
     @like = @study_log.likes.build(user: current_user)
     if @like.save
-      redirect_to study_logs_path, notice: 'いいねしました！'
+      redirect_to study_logs_path, notice: "いいねしました！"
     else
-      redirect_to study_logs_path, alert: 'いいねできませんでした。'
+      redirect_to study_logs_path, alert: "いいねできませんでした。"
     end
   end
 
@@ -16,9 +14,9 @@ class LikesController < ApplicationController
     @like = @study_log.likes.find_by(user: current_user)
     if @like
       @like.destroy
-      redirect_to study_logs_path, notice: 'いいねを取り消しました。'
+      redirect_to study_logs_path, notice: "いいねを取り消しました。"
     else
-      redirect_to study_logs_path, alert: 'いいねが見つかりません。'
+      redirect_to study_logs_path, alert: "いいねが見つかりません。"
     end
   end
 end
