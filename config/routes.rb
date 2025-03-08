@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   root "top_study_logs#top"
   # 学習記録に属するコメント
   resources :study_logs, only: %i[ index show new create edit update destroy ] do
-    resources :learning_comments, only: %i[create destroy ], shallow: true
+    resources :learning_comments, only: %i[ create destroy ], shallow: true
+    resource :like, only: %i[ create destroy ]
   end
 end

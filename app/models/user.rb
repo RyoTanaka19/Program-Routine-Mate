@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
 
+  has_many :likes, dependent: :destroy
+  has_many :liked_study_logs, through: :likes, source: :study_log
   has_many :study_logs, dependent: :destroy
 
   # ユーザーが削除されると学習コメントも削除される
