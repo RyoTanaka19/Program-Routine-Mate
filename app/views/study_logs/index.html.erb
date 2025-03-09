@@ -26,9 +26,9 @@
         <p> 感想など: <%= study_log.text %></p>
 
         <br>
-        
+
         <div class="login-status">
-          <% if user_signed_in? %>
+          <% if user_signed_in? && current_user == study_log.user %>
             <span style="color: green;">✅ ログイン中</span>
           <% else %>
              <span style="color: red;">❌ 未ログイン</span>

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+
   protected
   # 新規登録後　投稿一覧画面
   def after_sign_up_path_for(study_logs)
@@ -15,6 +16,7 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(new_user_session)
     root_path
   end
+  
 
   def configure_permitted_parameters
      # /users/sign_up
