@@ -4,6 +4,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <div class="flex flex-wrap gap-4">
+
   <% @study_logs.each do |study_log| %>
     <div class="w-80 mb-3">
       <div class="border p-4">
@@ -25,6 +26,14 @@
         <p> 感想など: <%= study_log.text %></p>
 
         <br>
+
+        <div class="login-status">
+          <% if user_signed_in? && current_user == study_log.user %>
+            <span style="color: green;">✅ ログイン中</span>
+          <% else %>
+             <span style="color: red;">❌ 未ログイン</span>
+          <% end %>
+        </div>
 
         <% if user_signed_in? && study_log.user_id == current_user.id %>
           <!-- 編集ボタン -->
