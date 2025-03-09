@@ -15,6 +15,6 @@ class StudyLog < ApplicationRecord
   validates :text, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    ["content"]
+    [ "content" ]
   end
 end

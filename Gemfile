@@ -72,4 +72,4 @@ gem "devise"
 gem "rails-i18n", "~> 7.0.0"
 
 # 検索機能の追加
-gem 'ransack'
+gem "ransack"
