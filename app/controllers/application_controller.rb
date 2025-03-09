@@ -16,7 +16,6 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(new_user_session)
     root_path
   end
-  
 
   def configure_permitted_parameters
      # /users/sign_up
