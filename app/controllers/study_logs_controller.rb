@@ -36,7 +36,8 @@ class StudyLogsController < ApplicationController
   end
 
   def index
-    @study_logs = StudyLog.includes(:user).order(created_at: :asc).all
+    @q = StudyLog.ransack(params[:q])
+    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc)
   end
 
   def show

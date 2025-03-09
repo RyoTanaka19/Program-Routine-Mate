@@ -13,4 +13,8 @@ class StudyLog < ApplicationRecord
   validates :second, presence: true
   # 学んだこと 空なし
   validates :text, presence: true
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["content"]
+  end
 end

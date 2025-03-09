@@ -1,0 +1,18 @@
+<div class="flex justify-center items-center">
+  <%= search_form_for q, url: study_logs_path do |form| %>
+    <div class="flex items-center space-x-2 mb-4">
+      <%= form.label :content_cont, '学習内容', class: 'text-lg font-medium' %> <!-- ラベル -->
+      <%= form.search_field :content_cont, class: 'border rounded-lg p-2' %> <!-- search_field メソッドのスタイル -->
+      <%= form.submit class: 'bg-blue-500 text-white rounded-lg p-2 hover:bg-blue-600' %> <!-- submitボタン -->
+    </div>
+  <% end %>
+</div>
+
+<!-- 検索結果があれば表示 -->
+<% if @study_logs.any? %>
+  <p class="text-green-500 font-semibold mt-4">
+      検索結果: <%= @study_logs.count %> 件
+  </p>
+<% else %>
+  <p class="text-red-500 font-semibold mt-4">検索結果一覧がありません</p>
+<% end %>

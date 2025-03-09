@@ -70,3 +70,6 @@ gem "devise"
 
 # 日本語化(いずれ使う可能性あり)
 gem "rails-i18n", "~> 7.0.0"
+
+# 検索機能の追加
+gem 'ransack'
