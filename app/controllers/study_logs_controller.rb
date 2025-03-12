@@ -3,10 +3,6 @@ class StudyLogsController < ApplicationController
 
   def new
     @study_log = StudyLog.new
-
-    if StudyLog.count >= 3
-      redirect_to study_logs_path, alert: "You can only create up to 3 study logs."
-    end
   end
 
   def create
