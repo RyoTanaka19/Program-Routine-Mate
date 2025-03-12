@@ -13,9 +13,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root "top_study_logs#top"
-  # 学習記録に属するコメント
-  resources :study_logs, only: %i[ index show new create edit update destroy ] do
-    resources :learning_comments, only: %i[ create destroy ], shallow: true
-    resource :like, only: %i[ create destroy ]
-  end
+
+    resources :study_logs, only: %i[index show new create edit update destroy] do
+      collection do
+        get "ranking"  # ランキングページを追加
+      end
+
+      resources :learning_comments, only: %i[create destroy], shallow: true
+      resource :like, only: %i[create destroy]
+    end
+
+    get "user/:id/badges", to: "users#badges", as: "user_badges"
 end

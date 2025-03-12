@@ -6,8 +6,11 @@ class User < ApplicationRecord
 
   has_many :likes, dependent: :destroy
   has_many :liked_study_logs, through: :likes, source: :study_log
+
   has_many :study_logs, dependent: :destroy
 
+  has_many :user_study_badges
+  has_many :study_badges, through: :user_study_badges
   # ユーザーが削除されると学習コメントも削除される
   has_many :learning_comments, dependent: :destroy
 
@@ -25,5 +28,12 @@ class User < ApplicationRecord
   # 特定のコメントが現在ログインしているユーザーが投稿したものであるかどうか判定
   def own?(object)
     id == object&.user_id
+  end
+
+  def self.studied_logs_days_ranking
+    StudyLog
+      .select(Arel.sql("user_id, COUNT(DISTINCT DATE(study_day)) AS posted_days_count"))
+      .group(:user_id)
+      .order(Arel.sql("posted_days_count DESC"))
   end
 end
