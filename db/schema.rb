@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_08_191916) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_12_014220) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,17 +34,36 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_191916) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "study_badges", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", null: false
+    t.string "icon", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "study_logs", force: :cascade do |t|
     t.string "content", null: false
-    t.integer "hour", default: 0, null: false
     t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
     t.bigint "user_id"
-    t.integer "minute", default: 0, null: false
-    t.integer "second", default: 0, null: false
+    t.string "genre"
+    t.date "study_day"
+    t.time "start_time"
+    t.time "end_time"
     t.index ["user_id"], name: "index_study_logs_on_user_id"
+  end
+
+  create_table "user_study_badges", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "study_badge_id", null: false
+    t.datetime "earned_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_badge_id"], name: "index_user_study_badges_on_study_badge_id"
+    t.index ["user_id"], name: "index_user_study_badges_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -67,4 +86,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_191916) do
   add_foreign_key "likes", "study_logs"
   add_foreign_key "likes", "users"
   add_foreign_key "study_logs", "users"
+  add_foreign_key "user_study_badges", "study_badges"
+  add_foreign_key "user_study_badges", "users"
 end

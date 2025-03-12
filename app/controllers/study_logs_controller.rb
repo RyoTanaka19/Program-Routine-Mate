@@ -3,11 +3,17 @@ class StudyLogsController < ApplicationController
 
   def new
     @study_log = StudyLog.new
+
+    if StudyLog.count >= 3
+      redirect_to study_logs_path, alert: "You can only create up to 3 study logs."
+    end
   end
 
   def create
     @study_log = current_user.study_logs.build(study_log_params)
+
     if @study_log.save
+      StudyBadgeService.new(current_user).assign_first_study_log_badge
       redirect_to study_logs_path, notice: "学習記録を作成しました。"
     else
       flash.now[:alert] = "学習記録を作成できませんでした。"
@@ -22,7 +28,7 @@ class StudyLogsController < ApplicationController
   def update
     @study_log = current_user.study_logs.find(params[:id])
     if @study_log.update(study_log_params)
-      redirect_to study_logs_path, notice: "学習記録の変更しました。"
+      redirect_to study_logs_path, notice: "学習記録の変更をしました。"
     else
       flash.now[:alert] = "学習記録の変更に失敗しました。"
       render :edit, status: :unprocessable_entity
@@ -38,6 +44,12 @@ class StudyLogsController < ApplicationController
   def index
     @q = StudyLog.ransack(params[:q])
     @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc)
+    @ranking = User.studied_logs_days_ranking.limit(3)
+  end
+
+  def ranking
+    # 投稿日数ランキングを取得
+    @ranking = User.studied_logs_days_ranking  # ユーザーの投稿日数ランキング
   end
 
   def show
@@ -48,8 +60,7 @@ class StudyLogsController < ApplicationController
 
   private
 
-
   def study_log_params
-    params.require(:study_log).permit(:content, :hour, :minute, :second, :text, :image, :image_cache)
+    params.require(:study_log).permit(:genre, :start_date, :end_date, :study_day, :start_time, :end_time, :content, :text, :image, :image_cache)
   end
 end
