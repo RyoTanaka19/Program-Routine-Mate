@@ -1,0 +1,13 @@
+<% if @learning_comment.errors.any? %>
+  <div class="alert alert-danger">
+    <ul>
+      <% @learning_comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "learning_comment_#{@learning_comment.id}" do %>
+  <%= render @learning_comment %>
+<% end %>

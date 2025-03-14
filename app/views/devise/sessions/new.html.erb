@@ -1,25 +1,46 @@
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
-  <div class="w-96 bg-white shadow-lg rounded-lg p-6">
+  <div class="w-96 bg-white shadow-lg rounded-lg p-8">
 
-    <h1 class="text-xl font-bold text-center mb-4">ログイン画面</h1>
+    <!-- ログインタイトル -->
+    <h1 class="text-2xl font-bold text-center mb-6 text-gray-700">ログイン</h1>
 
-    <div>
-      <%= form_with model: @user, url: user_session_path, class: "space-y-4" do |form| %>
-        <div>
-          <%= form.email_field :email, class: "border rounded-md p-2 w-full", placeholder: "メールアドレス" %>
-        </div>
+    <!-- エラーメッセージ表示 -->
+    <% if flash[:alert].present? %>
+      <div class="text-red-500 text-sm mb-4">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
 
-        <div>
-          <%= form.password_field :password, class: "border rounded-md p-2 w-full", placeholder: "パスワード" %>
-        </div>
+    <!-- フォーム -->
+    <%= form_with model: @user, url: user_session_path, class: "space-y-6" do |form| %>
+      
+      <!-- メール入力フィールド -->
+      <div>
+        <%= form.email_field :email, class: "border rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent", placeholder: "メールアドレス" %>
+      </div>
 
-        <%= form.submit "ログイン", class: "bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600" %>
-      <% end %>
+      <!-- パスワード入力フィールド -->
+      <div>
+        <%= form.password_field :password, class: "border rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent", placeholder: "パスワード" %>
+      </div>
 
-      <a href="#" class="text-sm block my-4 text-gray-500 hover:underline">パスワードを忘れた？</a>
+      <!-- ログインボタン -->
+      <%= form.submit "ログイン", class: "bg-blue-500 text-white font-bold py-3 rounded w-full hover:bg-blue-600" %>
+    <% end %>
 
-      <p>アカウントを持っていない？</p>
-    <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 hover:underline" %>
-    </div>
+    <!-- パスワードリセット -->
+    <a href="<%= new_user_password_path %>" class="text-sm text-gray-500 hover:underline block text-center mt-4">パスワードを忘れた？</a>
+
+    <!-- サインアップリンク -->
+    <p class="text-sm text-center text-gray-600 mt-4">アカウントを持っていない？ 
+      <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 hover:underline" %>
+    </p>
+
+    <!-- Googleログインボタン -->
+    <%- if devise_mapping.omniauthable? %>
+      <%= link_to 'Sign in with Google', user_google_oauth2_omniauth_authorize_path, class: 'btn btn-primary' %>
+    <% end %>  
   </div>
 </div>
+
+new_user_password_path
