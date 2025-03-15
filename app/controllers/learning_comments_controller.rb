@@ -1,11 +1,8 @@
 class LearningCommentsController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :destroy, :edit, :update ]
-  before_action :set_learning_comment, only: [ :update ]
-  before_action :set_study_log, only: [ :edit ]
 
   def edit
     @learning_comment = LearningComment.find(params[:id])
-    @study_log = @learning_comment.study_log
   end
 
   def create
@@ -16,7 +13,6 @@ class LearningCommentsController < ApplicationController
   def update
     respond_to do |format|
       if @learning_comment.update(learning_comment_params)
-        Rails.logger.debug params[:study_log_id]
         format.turbo_stream
         format.html { redirect_to root_path, notice: "コメントが更新されました" }
       else
@@ -34,14 +30,6 @@ class LearningCommentsController < ApplicationController
   end
 
   private
-
-  def set_learning_comment
-    @learning_comment = LearningComment.find(params[:id])
-  end
-
-  def set_study_log
-    @study_log = StudyLog.find_by(id: params[:study_log_id])
-  end
 
   def learning_comment_params
     params.require(:learning_comment).permit(:text).merge(study_log_id: params[:study_log_id])
