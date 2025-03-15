@@ -76,4 +76,4 @@ gem "ransack"
 
 gem "dotenv-rails"
 gem "omniauth"
-gem "omniauth-google-oauth2" 
+gem "omniauth-google-oauth2"

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
     registrations: "users/registrations",
-    passwords: 'users/passwords' 
+    passwords: "users/passwords"
   }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       collection do
         get "ranking"  # ランキングページを追加
       end
-    
+
       resources :learning_comments, only: %i[create destroy edit update], shallow: true
       resource :like, only: %i[create destroy]  # もし「いいね」が単一ならこれでOK
       # 複数の「いいね」が必要な場合は、上記を次のように変更
@@ -31,5 +31,5 @@ Rails.application.routes.draw do
     end
 
     get "user/:id/badges", to: "users#badges", as: "user_badges"
-    get 'users/:id', to: 'users#show', as: 'users_profile'
+    get "users/:id", to: "users#show", as: "users_profile"
 end

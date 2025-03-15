@@ -55,6 +55,6 @@ class User < ApplicationRecord
   end
 
   def from_google_oauth?
-    provider == 'google_oauth2'
+    provider == "google_oauth2"
   end
 end
