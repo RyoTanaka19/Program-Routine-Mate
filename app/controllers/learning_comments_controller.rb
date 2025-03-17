@@ -11,16 +11,8 @@ class LearningCommentsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @learning_comment.update(learning_comment_params)
-        format.turbo_stream
-        format.html { redirect_to root_path, notice: "コメントが更新されました" }
-      else
-        Rails.logger.debug @learning_comment.errors.full_messages
-        format.turbo_stream { render :edit, status: :unprocessable_entity }
-        format.html { render :edit, status: :unprocessable_entity }
-      end
-    end
+    @learning_comment = LearningComment.find(params[:id])
+    @learning_comment.update(learning_comment_params)
   end
 
 

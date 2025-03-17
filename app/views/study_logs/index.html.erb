@@ -33,6 +33,61 @@
 
 <br>
 
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
+
+<div class="w-full flex lg:items-center flex-col">
+  <div id="cal-heatmap" class="overflow-auto md:overflow-scroll"></div>
+</div>
+
+<script>
+  function set_heatmap() {
+    let startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 2); // 2ヶ月前からスタート
+    console.log(startDate);
+    let data = <%= @study_logs_for_js.to_json.html_safe %>; // サーバーサイドで渡されたstudy_logsデータ
+
+    // データの形式を整え、ISO形式の日付に変換する
+    data = data.map(item => ({
+      date: new Date(item.date).toISOString(), // 日付をISO形式に変換
+      total: item.total
+    }));
+
+    // CalHeatmapの設定
+    const cal = new CalHeatmap();
+    cal.paint({
+      itemSelector: '#cal-heatmap',
+      domain: {
+        type: 'month',
+        gutter: 4,
+        label: { text: 'MMM', textAlign: 'start', position: 'top' }, // 月のラベル
+      },
+      subDomain: {
+        type: 'ghDay',
+        radius: 2,
+        width: 11,
+        height: 11,
+        gutter: 4,
+      },
+      date: { start: startDate }, // ヒートマップの開始日
+      range: 12, // 表示する月数
+      data: { source: data, x: 'date', y: 'total' }, // 日付と学習時間のマッピング
+      type: 'json',
+      scale: {
+        color: {
+          type: 'linear',
+          range: ['#f2f2f2', '#6abf4f', '#337d2b', '#175e17'], // 学習時間に基づく色のグラデーション
+          domain: [0, 1, 2, 3], // 学習時間のスケール
+        },
+      },
+    });
+  }
+
+  set_heatmap(); 
+</script>
+
 <!-- 投稿一覧セクション -->
 <div class="flex flex-wrap gap-4 justify-center">
   <% @study_logs.each do |study_log| %>
