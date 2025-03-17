@@ -12,8 +12,7 @@ class StudyLog < ApplicationRecord
   validates :text, presence: true
   validates :genre, presence: true, uniqueness: true
   validates :study_day, presence: true
-  validates :date, presence: true
-  validates :total, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
 
 
   def self.ransackable_attributes(auth_object = nil)

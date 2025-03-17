@@ -1,4 +1,10 @@
-
-  <%= turbo_stream.replace "learning_comment_#{@learning_comment.id}" do %>
-    <%= render 'learning_comments/form', learning_comment: @learning_comment %>
+<%= turbo_stream.replace "learning_comment_#{@learning_comment.id}" do %>
+  <%= form_with model: @learning_comment, data: { turbo_action: "replace" } do |form| %>
+    <div>
+      <%= form.text_area :text, class: "input input-bordered w-full bg-gray-600" %>
+    </div>
+    <div class="flex justify-end text-xs mt-1">
+      <%= form.submit "更新", class: "btn btn-primary" %>
+    </div>
   <% end %>
+<% end %>
