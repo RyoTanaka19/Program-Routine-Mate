@@ -1,4 +1,6 @@
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<%= turbo_frame_tag "learning_comment_#{learning_comment.id}" do %>
 <tr id="learning_comment-<%= learning_comment.id %>" class="align-top">
   <td>
     <div class="bg-gray-100 border border-gray-300 rounded-md p-3 my-2 shadow-sm">
@@ -11,13 +13,11 @@
       <p><strong>投稿日:</strong> <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
 
       <!-- コメント本文 -->
-      <div>
-        <p class="text-gray-800 text-sm leading-snug">
-        <%= simple_format(learning_comment.text) %>
-        </p>
-      </div>
-
-
+        <div>
+          <p class="text-gray-800 text-sm leading-snug">
+         <%= simple_format(learning_comment.text) %>
+          </p>
+        </div>
 
       <li class="list-none">
 
@@ -39,3 +39,4 @@
     </div>
   </td>
 </tr>
+<% end %>
