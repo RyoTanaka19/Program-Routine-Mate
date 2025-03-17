@@ -1,11 +1,18 @@
-<h1 class="text-center text-7xl">投稿一覧画面</h1>
-<% if current_user %> <!-- current_userがnilでない場合に表示 -->
-      <%= link_to image_tag("icon.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), user_badges_path(current_user) %>
-  <% end %>
-<br>
-<%= render 'search_form', q: @q, url: study_logs_path %>
+<h1 class="text-center text-7xl mb-8">投稿一覧画面</h1>
+
+<% if current_user %>
+  <div class="text-center mb-4">
+    <%= link_to image_tag("icon.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), user_badges_path(current_user) %>
+  </div>
+<% end %>
+
 <br>
 
+<%= render 'search_form', q: @q, url: study_logs_path %>
+
+<br>
+
+<!-- ランキングセクション -->
 <div class="flex flex-col items-center mb-6">
   <%= link_to image_tag("crown.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), ranking_study_logs_path %>
 
@@ -25,40 +32,114 @@
 </div>
 
 <br>
-<br>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-<div class="flex flex-wrap gap-4">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
+
+<div class="w-full flex lg:items-center flex-col">
+  <div id="cal-heatmap" class="overflow-auto md:overflow-scroll"></div>
+</div>
+
+<script>
+  function set_heatmap() {
+    let startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 2); // 2ヶ月前からスタート
+    console.log(startDate);
+    let data = <%= @study_logs_for_js.to_json.html_safe %>; // サーバーサイドで渡されたstudy_logsデータ
+
+    // データの形式を整え、ISO形式の日付に変換する
+    data = data.map(item => ({
+      date: new Date(item.date).toISOString(), // 日付をISO形式に変換
+      total: item.total
+    }));
+
+    // CalHeatmapの設定
+    const cal = new CalHeatmap();
+    cal.paint({
+      itemSelector: '#cal-heatmap',
+      domain: {
+        type: 'month',
+        gutter: 4,
+        label: { text: 'MMM', textAlign: 'start', position: 'top' }, // 月のラベル
+      },
+      subDomain: {
+        type: 'ghDay',
+        radius: 2,
+        width: 11,
+        height: 11,
+        gutter: 4,
+      },
+      date: { start: startDate }, // ヒートマップの開始日
+      range: 12, // 表示する月数
+      data: { source: data, x: 'date', y: 'total' }, // 日付と学習時間のマッピング
+      type: 'json',
+      scale: {
+        color: {
+          type: 'linear',
+          range: ['#f2f2f2', '#6abf4f', '#337d2b', '#175e17'], // 学習時間に基づく色のグラデーション
+          domain: [0, 1, 2, 3], // 学習時間のスケール
+        },
+      },
+    });
+  }
+
+  set_heatmap(); 
+</script>
+
+
+
+<!-- 投稿一覧セクション -->
+<div class="flex flex-wrap gap-4 justify-center">
   <% @study_logs.each do |study_log| %>
-    <div class="w-80 mb-3">
-      <div class="border p-4">
-        <p>投稿者: <%= study_log.user&.name || "ユーザー情報なし" %></p>
+    <div class="w-80 mb-4">
+      <div class="border p-4 rounded-lg shadow-md hover:bg-gray-100">
+      <!-- 投稿者のプロフィール画像 -->
+      <div class="flex items-center mb-4">
+        <%= link_to users_profile_path(study_log.user), class: "flex items-center" do  %>
+          <%= image_tag(study_log.user.profile_image? ? study_log.user.profile_image_url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
+          <p class="font-semibold text-gray-700"><%= study_log.user&.name || "ユーザー情報なし" %></p>
+        <% end %>
+     </div>
+
+        <!-- 投稿日時 -->
         <p><strong>投稿日:</strong> <%= study_log.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
-        <br>
-        <p>学習内容: <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-500 hover:underline" %></p>
-        <br>
-        <p><%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", width: "300", height: "200") %></p>
-        <p> 感想など: <%= study_log.text %></p>
+
+        <!-- 学習内容 -->
+        <p class="mt-2">学習内容: <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-500 hover:underline" %></p>
+
+        <!-- 投稿画像 -->
+        <div class="mt-2">
+          <%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", class: "w-full h-auto rounded-md") %>
+        </div>
+
+        <!-- 感想 -->
+        <p class="mt-2">感想など: <%= study_log.text %></p>
 
         <br>
 
-        <div class="login-status">
+        <!-- ログインステータス -->
+        <div class="login-status mb-4">
           <% if user_signed_in? && current_user == study_log.user %>
             <span style="color: green;">✅ ログイン中</span>
           <% else %>
-             <span style="color: red;">❌ 未ログイン</span>
+            <span style="color: red;">❌ 未ログイン</span>
           <% end %>
         </div>
 
+        <!-- 編集と削除ボタン -->
         <% if user_signed_in? && study_log.user_id == current_user.id %>
-          <!-- 編集ボタン -->
-          <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" do %>
-          <i class="fas fa-pencil-alt w-2 h-4 mr-2"></i>
-          <% end %>
-          <!-- 削除ボタン -->
-          <%= link_to study_log_path(study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, id: "button-delete-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
-          <i class="fas fa-trash w-2 h-4 mr-2"></i>
-          <% end %>
+          <div class="flex justify-between mt-4">
+            <!-- 編集ボタン -->
+            <%= link_to edit_study_log_path(study_log), id: "button-edit-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" do %>
+              <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> 編集
+            <% end %>
+
+            <!-- 削除ボタン -->
+            <%= link_to study_log_path(study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, id: "button-delete-#{study_log.id}", class: "inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
+              <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>

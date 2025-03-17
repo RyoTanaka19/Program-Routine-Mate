@@ -1,5 +1,5 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <%= form_with(model: [@study_setting, study_log], local: true) do |form| %>
+  <%= form_with(model: (@study_log), local: true) do |form| %>
     <div class="max-w-4xl w-full bg-white p-6 rounded-md shadow-lg">
       <!-- エラーメッセージ -->
       <%= render 'shared/error_messages', object: form.object %>
@@ -49,6 +49,17 @@
         <%= form.label :text, "感想など:", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_area :text, class: "mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
       </div>
+
+      <div class="form-group">
+        <%= form.label :date %>
+        <%= form.date_field :date, value: Date.today %>
+      </div>
+  
+      <div class="form-group">
+       <%= form.label :total, "学習時間 (分)" %>
+        <%= form.number_field :total, value: 0 %>
+      </div>
+      
 
       <!-- 送信ボタン -->
       <div class="mt-6">

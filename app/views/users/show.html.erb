@@ -1,0 +1,66 @@
+<div class="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-md">
+  <!-- Flexboxコンテナでプロフィールと投稿を左右に並べる -->
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- プロフィールセクション（左側） -->
+    <div class="flex-1 max-w-2xl bg-white p-6 rounded-lg shadow-md">
+      <h1 class="text-2xl font-bold text-center mb-6">プロフィール</h1>
+
+      <div class="login-status mb-4">
+        <% if user_signed_in? && current_user == @user %>
+          <span style="color: green;">✅ ログイン中</span>
+        <% else %>
+          <span style="color: red;">❌ 未ログイン</span>
+        <% end %>
+      </div>
+
+      <!-- ユーザー名 -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700">ユーザー名</h3>
+        <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.name %></p>
+      </div>
+
+      <!-- メールアドレス -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700">メールアドレス</h3>
+        <% if user_signed_in? && @user == current_user %>
+          <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.email %></p>
+        <% else %>
+          <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2">非公開</p>
+        <% end %>
+      </div>
+
+      <!-- 自己紹介 -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700">自己紹介</h3>
+        <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.self_introduction %></p>
+      </div>
+
+      <!-- プロフィール画像 -->
+      <div class="mb-4 text-center">
+        <%= image_tag(@user.profile_image? ? @user.profile_image_url : "default_study_logs_image.png", width: "300", height: "200") %>
+      </div>
+
+      <!-- プロフィール編集リンク -->
+      <div class="text-center">
+        <%= link_to "プロフィールの編集", edit_user_registration_path, class: "fs-6 text-decoration-none text-info" %>
+      </div>
+    </div>
+
+    <!-- 投稿セクション（右側） -->
+    <div class="flex-1 max-w-2xl bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-center mb-6">自分の投稿</h2>
+
+      <% if @study_logs.any? %>
+        <ul class="space-y-4">
+          <% @study_logs.each do |study_log| %>
+            <li class="bg-gray-100 p-4 rounded-md shadow-sm">
+              <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-600 hover:underline" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-center text-gray-600">まだ投稿がありません。</p>
+      <% end %>
+    </div>
+  </div>
+</div>
