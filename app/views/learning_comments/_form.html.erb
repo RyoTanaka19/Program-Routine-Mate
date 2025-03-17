@@ -1,17 +1,19 @@
-<div class="row mb-3" id="learning_comments-form">
-  <div class="col-lg-8 offset-lg-2">
-    <%= form_with model: learning_comment, url: study_log_learning_comments_path(study_log) do |form| %>
-      <!-- エラーメッセージの表示 -->
-      <%= render 'shared/error_messages', object: form.object %>
+<%= turbo_frame_tag "learning_comment_#{learning_comment.id}" do %>
+  <div class="row mb-3" id="learning_comments-form">
+    <div class="col-lg-8 offset-lg-2">
+      <%= form_with model: learning_comment, url: learning_comment.new_record? ? study_log_learning_comments_path(study_log) : learning_comment_path(learning_comment) do |form| %>
+        <!-- エラーメッセージの表示 -->
+        <%= render 'shared/error_messages', object: form.object %>
 
-      <!-- コメント内容の入力フィールド -->
-      <%= form.label :text, "コメント" %>
-      <%= form.text_area :text, class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-      
-      <br><br>
-      
-      <!-- 送信ボタン -->
-      <%= form.submit 'コメントする', class: "btn btn-primary" %>
-    <% end %>
+        <!-- コメント内容の入力フィールド -->
+        <%= form.label :text, "コメント", autofocus: true %>
+        <%= form.text_area :text, class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+
+        <br>
+
+        <!-- 送信ボタン -->
+        <%= form.submit "送信", class: "btn btn-primary" %>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>
