@@ -1,4 +1,10 @@
-<h1 class="text-center text-7xl mb-8">投稿一覧画面</h1>
+<div class="flex items-center justify-center mb-8">
+  <h1 class="text-7xl mr-8">投稿一覧画面</h1>
+  <%= link_to 'AI', new_proposal_path, class: "px-3 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" %>
+</div>
+
+
+
 
 <% if current_user %>
   <div class="text-center mb-4">
@@ -9,6 +15,7 @@
 <br>
 
 <%= render 'search_form', q: @q, url: study_logs_path %>
+
 
 <br>
 
@@ -33,6 +40,9 @@
 
 <br>
 
+<div class="w-full flex lg:items-center flex-col">
+  <div id="cal-heatmap" class="overflow-auto md:overflow-scroll"></div>
+</div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
@@ -43,6 +53,9 @@
 </div>
 
 <script>
+  // ヒートマップをセットする関数を直ちに実行
+  set_heatmap(); 
+
   function set_heatmap() {
     let startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 2); // 2ヶ月前からスタート
@@ -84,8 +97,6 @@
       },
     });
   }
-
-  set_heatmap(); 
 </script>
 
 <!-- 投稿一覧セクション -->

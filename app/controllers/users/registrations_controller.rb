@@ -16,8 +16,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :profile_image,
-      :profile_image_cache, :self_introduction ])
-   end
+      :profile_image_cache, :self_introduction, :systematizing_continuous_learning ])
+    end
 
    def after_sign_up_path_for(resource)
       study_logs_path

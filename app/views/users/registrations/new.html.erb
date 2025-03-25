@@ -5,24 +5,24 @@
     <h1 class="text-xl font-bold text-center mb-4">新規登録画面</h1>
 
     <div>
-      <%= form_with model: @user, url: user_registration_path, class: "space-y-4" do |form| %>
+      <%= form_with model: @user, url: user_registration_path, class: "space-y-4" do |f| %>
         <div>
-          <%= form.email_field :email, class: "border rounded-md p-2 w-full", placeholder: "メールアドレス" %>
+          <%= f.email_field :email, class: "border rounded-md p-2 w-full", placeholder: "メールアドレス" %>
         </div>
 
         <div>
-          <%= form.text_field :name, class: "border rounded-md p-2 w-full", placeholder: "ユーザー名" %>
+          <%= f.text_field :name, class: "border rounded-md p-2 w-full", placeholder: "ユーザー名" %>
         </div>
 
         <div>
-          <%= form.password_field :password, class: "border rounded-md p-2 w-full", placeholder: "パスワード" %>
+          <%= f.password_field :password, class: "border rounded-md p-2 w-full", placeholder: "パスワード" %>
         </div>
 
         <div>
-          <%= form.password_field :password_confirmation, class: "border rounded-md p-2 w-full", placeholder: "パスワード確認" %>
+          <%= f.password_field :password_confirmation, class: "border rounded-md p-2 w-full", placeholder: "パスワード確認" %>
         </div>
 
-        <%= form.submit "新規登録", class: "bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600" %>
+        <%= f.submit "新規登録", class: "bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600" %>
       <% end %>
     </div>
 

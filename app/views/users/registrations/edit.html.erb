@@ -1,37 +1,38 @@
 <h2 class="text-2xl font-bold mb-6">プロフィール情報編集画面</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |form| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
 
   <div class="space-y-2">
-    <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.email_field :email, autofocus: true, autocomplete: "email", class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
   </div>
 
   <div class="space-y-2">
-    <%= form.label :name, "名前", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_field :name, autofocus: true, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    <%= f.label :name, "名前", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_field :name, autofocus: true, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
   </div>
 
   <div class="space-y-2">
-    <%= form.label :self_introduction, "自己紹介", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :self_introduction, autofocus: true, rows: 5, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    <%= f.label :self_introduction, "自己紹介", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_area :self_introduction, autofocus: true, rows: 5, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :systematizing_continuous_learning, "学習継続の仕組み化", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_area :systematizing_continuous_learning, autofocus: true, rows: 5, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
   </div>
 
   <div class="space-y-4">
-    <%= form.label :profile_image, "画像:", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.file_field :profile_image, autofocus: true, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
+    <%= f.label :profile_image, "画像:", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.file_field :profile_image, autofocus: true, class: "w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
 
     <!-- 画像がアップロードされていれば表示、なければデフォルト画像を表示 -->
     <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", width: "300", height: "200", class: "mt-4 rounded-md") %>
-    <%= form.hidden_field :profile_image_cache, autofocus: true %>
+    <%= f.hidden_field :profile_image_cache, autofocus: true %>
   </div>
 
-  <div class="flex justify-end">
-    <%= form.submit "Update", class: "px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+  <div class="flex justify-between items-center">
+    <%= link_to "マイページに戻る", users_profile_path(current_user.id), class: "text-blue-600 hover:underline" %>
+    <%= f.submit "Update", class: "px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
   </div>
-
 <% end %>
-
-<div class="mt-6">
-  <%= link_to "マイページに戻る", users_profile_path(current_user.id), class: "text-blue-600 hover:underline" %>
-</div>
