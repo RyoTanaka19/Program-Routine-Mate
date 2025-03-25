@@ -123,6 +123,9 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.1)
+    event_stream_parser (1.0.0)
+    excon (1.2.5)
+      logger
     execjs (2.10.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
@@ -130,6 +133,8 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
+    faraday-multipart (1.1.0)
+      multipart-post (~> 2.0)
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     ffi (1.17.1-aarch64-linux-gnu)
@@ -140,6 +145,23 @@ GEM
     ffi (1.17.1-x86_64-darwin)
     ffi (1.17.1-x86_64-linux-gnu)
     ffi (1.17.1-x86_64-linux-musl)
+    fog-aws (3.30.0)
+      base64 (~> 0.2.0)
+      fog-core (~> 2.6)
+      fog-json (~> 1.1)
+      fog-xml (~> 0.1)
+    fog-core (2.6.0)
+      builder
+      excon (~> 1.0)
+      formatador (>= 0.2, < 2.0)
+      mime-types
+    fog-json (1.2.0)
+      fog-core
+      multi_json (~> 1.10)
+    fog-xml (0.1.5)
+      fog-core
+      nokogiri (>= 1.5.11, < 2.0.0)
+    formatador (1.1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
@@ -174,6 +196,10 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     method_source (1.1.0)
+    mime-types (3.6.1)
+      logger
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2025.0318)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     minitest (5.25.4)
@@ -181,6 +207,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
+    multipart-post (2.4.1)
     net-http (0.6.0)
       uri
     net-imap (0.5.5)
@@ -330,6 +357,10 @@ GEM
       rubocop-minitest
       rubocop-performance
       rubocop-rails
+    ruby-openai (8.0.0)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.2.2)
       ffi (~> 1.12)
@@ -405,6 +436,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   faker
+  fog-aws
   jbuilder
   jsbundling-rails
   omniauth
@@ -416,6 +448,7 @@ DEPENDENCIES
   rails-i18n (~> 7.0.0)
   ransack
   rubocop-rails-omakase
+  ruby-openai
   selenium-webdriver
   sprockets-rails
   stimulus-rails

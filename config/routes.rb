@@ -32,4 +32,5 @@ Rails.application.routes.draw do
 
     get "user/:id/badges", to: "users#badges", as: "user_badges"
     get "users/:id", to: "users#show", as: "users_profile"
+    resources :proposals, only: %i[new create show index]
 end

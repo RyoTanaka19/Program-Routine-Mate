@@ -15,7 +15,6 @@ class User < ApplicationRecord
           end
     end
 
-
   has_many :likes, dependent: :destroy
   has_many :liked_study_logs, through: :likes, source: :study_log
 
@@ -26,6 +25,7 @@ class User < ApplicationRecord
   # ユーザーが削除されると学習コメントも削除される
   has_many :learning_comments, dependent: :destroy
 
+  has_many :proposals
   mount_uploader :profile_image, ProfileImageUploader
 
   # 名前 空はなし、一意性
