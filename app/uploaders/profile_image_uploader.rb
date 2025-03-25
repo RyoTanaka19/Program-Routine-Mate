@@ -5,12 +5,12 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::Vips
 
   # Choose what kind of storage to use for this uploader:
-  # storage :fog
+  storage :fog
 
   if Rails.env.production?
-    storage :fog
+    storage :fog # 本番環境のみ
   else
-    storage :file
+    storage :file # 本番環境以外
   end
 
   # Override the directory where uploaded files will be stored.
@@ -22,7 +22,6 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
   def default_url(*args)
     "/images/fallback/" + [ version_name, "default_study_logs_image.png" ].compact.join("_")
   end
-
 
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
