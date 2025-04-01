@@ -40,7 +40,8 @@ class StudyLogsController < ApplicationController
   def index
     @q = StudyLog.ransack(params[:q])
     # ransack でフィルタリングした結果を取得
-    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc)
+    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
+
     # ランキングの取得
     @ranking = User.studied_logs_days_ranking.limit(3)
     # current_userが存在する場合のみデータを取得、未ログイン時は空の配列

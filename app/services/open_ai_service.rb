@@ -1,5 +1,5 @@
 class OpenAiService
-  def self.fetch_proposal(question)
+  def self.fetch_suggest(question)
     client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
     prompt = <<~PROMPT
       あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。ユーザーの質問に対して、日本語で明確かつ簡潔にプログラミングの習慣化を助けるアドバイスを提供してください。300字以内で書いてください。リストや重要なポイントを箇条書きで改行してください。各ポイントには具体例や説明を加えてください。記号やマークダウン形式（**など）は使用しないでください。

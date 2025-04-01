@@ -5,8 +5,6 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::Vips
 
   # Choose what kind of storage to use for this uploader:
-  storage :fog
-
   if Rails.env.production?
     storage :fog # 本番環境のみ
   else

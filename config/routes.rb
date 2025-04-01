@@ -1,3 +1,5 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
@@ -32,5 +34,7 @@ Rails.application.routes.draw do
 
     get "user/:id/badges", to: "users#badges", as: "user_badges"
     get "users/:id", to: "users#show", as: "users_profile"
-    resources :proposals, only: %i[new create show index]
+    resources :suggests, only: %i[new create show index]
+    mount Sidekiq::Web => "/sidekiq"
+    resources :studying_sessions, only: [:new, :create]
 end

@@ -1,0 +1,13 @@
+<%= form_with model: @studying_session, url: studying_sessions_path, local: true do |form| %>
+  <div>
+    <%= form.label :start_time, "学習開始時間" %>
+    <%= form.datetime_local_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, "学習終了時間" %>
+    <%= form.datetime_local_field :end_time %>
+  </div>
+
+  <%= form.submit "通知を設定" %>
+<% end %>
