@@ -16,7 +16,7 @@ class Users::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     sign_out
-    redirect_to root_path, notice: 'You have successfully signed out.'
+    redirect_to root_path, notice: "You have successfully signed out."
   end
 
   # protected

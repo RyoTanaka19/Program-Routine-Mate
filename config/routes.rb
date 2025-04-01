@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
     get "user/:id/badges", to: "users#badges", as: "user_badges"
     get "users/:id", to: "users#show", as: "users_profile"
-    resources :suggests, only: %i[new create show index]
+    resources :suggests, only: %i[ new create show index ]
     mount Sidekiq::Web => "/sidekiq"
-    resources :studying_sessions, only: [:new, :create]
+    resources :studying_sessions, only: [ :new, :create ]
 end

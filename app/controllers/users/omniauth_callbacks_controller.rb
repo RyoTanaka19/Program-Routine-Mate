@@ -55,27 +55,27 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @omniauth = request.env["omniauth.auth"]
     if @omniauth.present?
       @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
-      
+
       # emailが空の場合、OmniAuthの情報からemailを設定
       if @profile.email.blank?
         email = @omniauth["info"]["email"] ? @omniauth["info"]["email"] : "#{@omniauth["uid"]}-#{@omniauth["provider"]}@example.com"
-        
+
         # パスワード生成
         password = Devise.friendly_token[0, 20]
-        
+
         # current_userがいない場合は新しいユーザーを作成（passwordとpassword_confirmationを一致させる）
         @profile = current_user || User.create!(provider: @omniauth["provider"], uid: @omniauth["uid"], email: email, name: @omniauth["info"]["name"], password: password, password_confirmation: password)
       end
-      
+
       # OmniAuth情報をセット
       @profile.set_values(@omniauth)
-      
+
       # ログイン
       sign_in(:user, @profile)
-      
+
       # ログイン後のflash messageとリダイレクト先を設定
       flash[:notice] = "ログインしました"
-      
+
       # リダイレクト先を設定
       redirect_to study_logs_path
     else

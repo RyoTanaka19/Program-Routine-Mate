@@ -12,7 +12,7 @@ class StudyingSessionsController < ApplicationController
       # 学習終了時間に通知を送るジョブをスケジュール
       NotifyLineJob.perform_later(@studying_session.id, :end_time)
 
-      redirect_to studying_sessions_path, notice: '学習時間が保存され、通知が設定されました'
+      redirect_to studying_sessions_path, notice: "学習時間が保存され、通知が設定されました"
     else
       render :new
     end
@@ -24,4 +24,3 @@ class StudyingSessionsController < ApplicationController
     params.require(:studying_session).permit(:start_time, :end_time)
   end
 end
-
