@@ -12,13 +12,14 @@ module Myapp
     config.load_defaults 7.2
 
     config.time_zone = "Tokyo" #  日本時間の設定
-    config.i18n.default_locale = :ja # 日本語化の設定
+    config.i18n.default_locale = :ja
+    config.active_job.queue_adapter = :sidekiq
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
-    Dotenv::Railtie.load if defined?(Dotenv)
+    Dotenv::Rails.load if defined?(Dotenv)
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

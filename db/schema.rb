@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_24_222137) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_30_073239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,15 +32,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_222137) do
     t.index ["study_log_id"], name: "index_likes_on_study_log_id"
     t.index ["user_id", "study_log_id"], name: "index_likes_on_user_id_and_study_log_id", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
-  end
-
-  create_table "proposals", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.text "input"
-    t.text "response"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_proposals_on_user_id"
   end
 
   create_table "study_badges", force: :cascade do |t|
@@ -67,6 +58,31 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_222137) do
     t.index ["user_id"], name: "index_study_logs_on_user_id"
   end
 
+  create_table "study_schedules", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_study_schedules_on_user_id"
+  end
+
+  create_table "studying_sessions", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "suggests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "input"
+    t.text "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_suggests_on_user_id"
+  end
+
   create_table "user_study_badges", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "study_badge_id", null: false
@@ -90,7 +106,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_222137) do
     t.text "self_introduction"
     t.string "provider"
     t.string "uid"
-    t.text "systematizing_continuous_learning"
+    t.text "studying_continuation_systematization"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -99,8 +115,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_222137) do
   add_foreign_key "learning_comments", "users"
   add_foreign_key "likes", "study_logs"
   add_foreign_key "likes", "users"
-  add_foreign_key "proposals", "users"
   add_foreign_key "study_logs", "users"
+  add_foreign_key "study_schedules", "users"
+  add_foreign_key "suggests", "users"
   add_foreign_key "user_study_badges", "study_badges"
   add_foreign_key "user_study_badges", "users"
 end

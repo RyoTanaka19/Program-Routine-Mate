@@ -4,8 +4,6 @@ class StudyLogsImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kinstorage :file
-  # storage :fog
-
   if Rails.env.production?
     storage :fog
   else

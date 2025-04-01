@@ -2,7 +2,7 @@
   <div class="card bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-6 relative max-w-3xl mx-auto">
     
     <h2 class="text-2xl text-gray-700 font-bold text-center flex items-center justify-center mb-6">
-      <%= image_tag 'ai_proposals.png', alt: "AI", class: "w-12 h-12 mr-2" %>
+      <%= image_tag 'ai_suggests.png', alt: "AI", class: "w-12 h-12 mr-2" %>
       AIに相談する
     </h2>
     
@@ -11,7 +11,7 @@
       もっと良い提案をお伝えします!!
     </p>
     
-    <%= form_with(model: @proposal, local: true, html: { id: "proposal-form" }) do |f| %>
+    <%= form_with(model: @suggest, local: true, html: { id: "suggest-form" }) do |f| %>
       <div class="form-control mb-6">
         <%= f.label :input, "相談内容", class: "label text-lg font-medium text-gray-700" %>
         <%= f.text_area :input, class: "textarea textarea-bordered h-24 resize-none bg-white shadow-inner", 
@@ -25,7 +25,7 @@
     <% end %>
     
     <div class="text-center mt-4">
-      <%= link_to "提案一覧へ", proposals_path, class: "text-blue-500 underline" %>
+      <%= link_to "提案一覧へ", suggests_path, class: "text-blue-500 underline" %>
     </div>
   </div>
 </div>
