@@ -17,12 +17,12 @@ class StudyLog < ApplicationRecord
 
   # Ransackで検索可能な属性（カラム）
   def self.ransackable_attributes(auth_object = nil)
-    ["content"]
+    [ "content" ]
   end
 
   # Ransackで検索可能な関連（アソシエーション）
   def self.ransackable_associations(auth_object = nil)
-    ["user", "learning_comments", "likes", "liked_users"]
+    [ "user", "learning_comments", "likes", "liked_users" ]
   end
 
   private

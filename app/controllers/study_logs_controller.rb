@@ -57,8 +57,8 @@ class StudyLogsController < ApplicationController
   def autocomplete
     @q = StudyLog.ransack(params[:q])
     @study_logs = @q.result(distinct: true).limit(10)
-  
-    render json: @study_logs.as_json(only: [:content])
+
+    render json: @study_logs.as_json(only: [ :content ])
   end
 
   def ranking
