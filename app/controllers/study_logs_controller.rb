@@ -54,6 +54,13 @@ class StudyLogsController < ApplicationController
     end
   end
 
+  def autocomplete
+    @q = StudyLog.ransack(params[:q])
+    @study_logs = @q.result(distinct: true).limit(10)
+  
+    render json: @study_logs.as_json(only: [:content])
+  end
+
   def ranking
     # 投稿日数ランキングを取得
     @ranking = User.studied_logs_days_ranking  # ユーザーの投稿日数ランキング

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resources :study_logs, only: %i[index show new create edit update destroy] do
       collection do
         get "ranking"  # ランキングページを追加
+        get :autocomplete
       end
 
       resources :learning_comments, only: %i[create destroy edit update], shallow: true
