@@ -7,7 +7,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     if @contact.save
       ContactMailer.contact_mail(@contact).deliver
-      redirect_to root_path, notice: 'お問い合わせ内容を送信しました'
+      redirect_to root_path, notice: "お問い合わせ内容を送信しました"
     else
       redirect_to new_contact_path
     end
@@ -18,5 +18,4 @@ class ContactsController < ApplicationController
   def contact_params
     params.require(:contact).permit(:name, :message, :subject, :email)
   end
-  
 end
