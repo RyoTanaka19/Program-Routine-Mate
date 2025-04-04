@@ -7,10 +7,12 @@ class StudyLogsController < ApplicationController
 
   def create
     @study_log = current_user.study_logs.build(study_log_params)
-
     if @study_log.save
       StudyBadgeService.new(current_user).assign_first_study_log_badge
-      redirect_to study_logs_path, notice: "学習記録を作成しました。"
+      tweet_text = URI.encode_www_form_component(
+        "学習記録！\n『学習内容: #{@study_log.content}』\n『感想: #{@study_log.text}』\n#ProgramRoutineMate"
+      )
+      redirect_to study_logs_path(tweet_text: tweet_text), notice: "学習記録を作成しました。"
     else
       flash.now[:alert] = "学習記録を作成できませんでした。"
       render :new, status: :unprocessable_entity

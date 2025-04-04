@@ -147,6 +147,16 @@
               <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
             <% end %>
           </div>
+          <!-- Twitterシェアボタン（tweet_textがある場合のみ表示） -->
+          <% if params[:tweet_text].present? %>
+            <div class="mt-4">
+              <%= link_to "https://twitter.com/intent/tweet?text=#{params[:tweet_text]}", 
+                          target: "_blank", rel: "noopener", 
+                          class: "inline-flex items-center" do %>
+                <%= image_tag "Twitter.jpeg", alt: "Share on X", class: "w-10 h-10 rounded-md cursor-pointer" %> <!-- 画像ボタン -->
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

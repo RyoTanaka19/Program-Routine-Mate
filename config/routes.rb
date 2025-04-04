@@ -38,4 +38,5 @@ Rails.application.routes.draw do
     resources :suggests, only: %i[ new create show index ]
     mount Sidekiq::Web => "/sidekiq"
     resources :studying_sessions, only: [ :new, :create ]
+    resources :contacts, only: [:new, :create]
 end
