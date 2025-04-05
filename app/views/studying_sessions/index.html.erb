@@ -13,13 +13,6 @@
           <li class="flex items-center gap-1">
             <span>🕒</span>
             <span><%= session.start_time.strftime("%H:%M") %>〜<%= session.end_time.strftime("%H:%M") %></span>
-            <% if session.study_logs.any? %>
-              <ul class="mt-1 text-xs text-gray-600">
-                <% session.study_logs.each do |log| %>
-                  <li>📖 <%= log.content %></li>
-                <% end %>
-              </ul>
-            <% end %>
           </li>
         <% end %>
       </ul>

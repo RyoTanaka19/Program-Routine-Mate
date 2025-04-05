@@ -5,8 +5,7 @@ class StudyLog < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
   has_many :learning_comments, dependent: :destroy
-  belongs_to :studying_session
-  belongs_to :user
+
 
   # 学習内容 空なし
   validates :content, presence: true

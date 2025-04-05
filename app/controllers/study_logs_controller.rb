@@ -14,6 +14,7 @@ class StudyLogsController < ApplicationController
       )
       redirect_to study_logs_path(tweet_text: tweet_text), notice: "学習記録を作成しました。"
     else
+      Rails.logger.error @study_log.errors.full_messages
       flash.now[:alert] = "学習記録を作成できませんでした。"
       render :new, status: :unprocessable_entity
     end
