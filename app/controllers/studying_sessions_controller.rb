@@ -1,4 +1,8 @@
 class StudyingSessionsController < ApplicationController
+  def index
+    @studying_sessions = StudyingSession.all
+  end
+
   def new
     @studying_session = StudyingSession.new
   end
@@ -24,3 +28,4 @@ class StudyingSessionsController < ApplicationController
     params.require(:studying_session).permit(:start_time, :end_time)
   end
 end
+@studying_sessions = StudyingSession.all
