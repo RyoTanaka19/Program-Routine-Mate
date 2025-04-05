@@ -412,6 +412,8 @@ GEM
       rufus-scheduler (~> 3.2)
       sidekiq (>= 6, < 8)
       tilt (>= 1.4.0, < 3)
+    simple_calendar (3.1.0)
+      rails (>= 6.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -496,6 +498,7 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   sidekiq-scheduler
+  simple_calendar
   sprockets-rails
   stimulus-rails
   turbo-rails

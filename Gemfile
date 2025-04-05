@@ -97,3 +97,4 @@ gem "line-bot-api"
 
 gem "sidekiq"
 gem "sidekiq-scheduler"
+gem "simple_calendar"

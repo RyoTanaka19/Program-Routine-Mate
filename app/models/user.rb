@@ -49,7 +49,7 @@ class User < ApplicationRecord
   has_many :suggests
   mount_uploader :profile_image, ProfileImageUploader
 
-  has_many :study_schedules
+  has_many :studying_sessions
 
   # 名前 空はなし、一意性
   validates :name, presence: true

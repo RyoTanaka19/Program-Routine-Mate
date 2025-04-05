@@ -1,4 +1,9 @@
 class StudyingSessionsController < ApplicationController
+
+  def index
+    @studying_sessions = StudyingSession.includes(:study_logs).all
+  end
+
   def new
     @studying_session = StudyingSession.new
   end
