@@ -1,7 +1,6 @@
 class StudyingSessionsController < ApplicationController
-
   def index
-    @studying_sessions = StudyingSession.includes(:study_logs).all
+    @studying_sessions = StudyingSession.all
   end
 
   def new
