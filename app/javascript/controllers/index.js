@@ -2,11 +2,16 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { Application } from '@hotwired/stimulus';
-import { application as app } from './application'; // 名前を変更して競合を避ける
-import RedirectController from './redirect_controller';
-import AutocompleteController from './autocomplete_controller';
+import { application } from './application';
 
-// applicationを既にインポートしているため、再定義しない
-app.register('autocomplete', AutocompleteController);
-app.register('redirect', RedirectController);
+import AutocompleteController from './autocomplete_controller';
+application.register('autocomplete', AutocompleteController);
+
+import HelloController from './hello_controller';
+application.register('hello', HelloController);
+
+import LoadingController from './loading_controller';
+application.register('loading', LoadingController);
+
+import RedirectController from './redirect_controller';
+application.register('redirect', RedirectController);
