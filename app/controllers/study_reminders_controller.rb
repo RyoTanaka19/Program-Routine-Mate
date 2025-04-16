@@ -26,6 +26,7 @@ class StudyRemindersController < ApplicationController
     render json: @calendar_events
   end
 
+
   def new
     @study_reminder = StudyReminder.new
   end
