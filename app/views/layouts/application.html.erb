@@ -15,15 +15,19 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= action_cable_meta_tag %>
   </head>
 
-  <body class="flex flex-col min-h-screen">
-  <!-- ヘッダーを表示-->
-  <%= render 'shared/header' %>
-  <!-- メッセージを表示-->
-  <%= render 'shared/flash_messages' %>
+  <!-- ✅ bodyタグはこれだけ！ここにdata属性つける -->
+  <body data-current-user-id="<%= current_user&.id %>" class="flex flex-col min-h-screen">
+    <!-- ヘッダーを表示-->
+    <%= render 'shared/header' %>
+    <!-- メッセージを表示-->
+    <%= render 'shared/flash_messages' %>
+ <div id="notification-area" style="position: fixed; top: 10px; right: 10px; z-index: 9999;"></div>
     <%= yield %>
-  <!-- フッターを表示-->
-  <%= render 'shared/footer' %>
+
+    <!-- フッターを表示-->
+    <%= render 'shared/footer' %>
   </body>
 </html>

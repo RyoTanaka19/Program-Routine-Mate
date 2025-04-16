@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "like-button-#{@study_log.id}" do %>
+  <%= button_to 'いいね', study_log_like_path(@study_log), method: :post, class: "btn btn-primary", data: { turbo_stream: "true" } %>
+<% end %>
+
+<%= turbo_stream.update "like-count-#{@study_log.id}" do %>
+  <p>いいねの数: <%= @study_log.likes.count %></p>
+<% end %>

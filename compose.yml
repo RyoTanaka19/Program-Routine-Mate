@@ -33,6 +33,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+
   redis:
     image: 'redis:7.0-alpine'
     volumes:
@@ -40,6 +43,12 @@ services:
     command: redis-server --appendonly yes
     ports:
       - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   sidekiq:
     build:
       context: .
@@ -47,8 +56,14 @@ services:
     volumes:
       - .:/myapp
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      SIDEKIQ_CONCURRENCY: 5
+
 volumes:
   bundle_data:
   postgresql_data:

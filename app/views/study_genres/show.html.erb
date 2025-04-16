@@ -1,0 +1,46 @@
+<div class="max-w-5xl mx-auto p-6 space-y-10">
+
+  <!-- ジャンル名 -->
+  <div class="border-b pb-4">
+    <h1 class="text-4xl font-bold text-gray-800">
+      <%= @study_genre.name %>
+    </h1>
+  </div>
+
+  <!-- Wikipedia概要 -->
+  <div class="bg-white shadow-md rounded-2xl p-6">
+    <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
+      <svg class="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M13 16h-1v-4h-1m1-4h.01M12 6a9 9 0 11-6.363 15.363A9 9 0 0112 6z" />
+      </svg>
+      Wikipediaの概要
+    </h2>
+    <p class="text-gray-700 leading-relaxed whitespace-pre-line">
+      <%= @wikipedia_summary %>
+    </p>
+  </div>
+
+  <!-- 投稿情報 -->
+  <div class="bg-gray-50 shadow-inner rounded-2xl p-6">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+      <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M12 14v-4m0 0V6m0 4H8m4 0h4" />
+      </svg>
+      投稿情報
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+      <div class="flex items-center">
+        <span class="mr-2 font-medium">投稿数：</span>
+        <span><%= @study_genre.study_logs.count %> 件</span>
+      </div>
+      <div class="flex items-center">
+        <span class="mr-2 font-medium">投稿ユーザー数：</span>
+        <span><%= @study_genre.study_logs.select(:user_id).distinct.count %> 人</span>
+      </div>
+    </div>
+  </div>
+</div>

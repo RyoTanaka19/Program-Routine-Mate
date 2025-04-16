@@ -1,51 +1,62 @@
-<div class="flex items-center h-20 p-6 bg-blue-600 sticky top-0">
-  <div class="drawer drawer-end">
+<div class="flex items-center h-20 p-6 bg-blue-600 sticky top-0 justify-between">
+
+  <!-- ハンバーガーメニュー -->
+  <div class="drawer drawer-end ml-4"> <!-- ml-4 を追加して間隔を開ける -->
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content">
       <div class="flex justify-between p-4">
 
-      <%= link_to 'top', root_path, class: "p-3 rounded-full bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+        <%= link_to 'top', root_path, class: "p-3 rounded-full bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
 
-        <label for="my-drawer-4" class="drawer-button btn btn-ghost">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            class=" h-5 w-5 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-      </label>
-    </div>
+<label for="my-drawer-4" class="drawer-button btn btn-ghost p-0">
+  <div class="mb-0">
+    <%= image_tag(
+          current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
+          class: "w-10 h-10 rounded-full object-cover"
+        ) %>
   </div>
+</label>
+      </div>
+    </div>
 
-  <div class="drawer-side">
-    <label for="my-drawer-4" class="drawer-overlay"></label>
-    <ul class="menu p-4 w-50 bg-orange-600">
-      <li><span>メニュー</span></li>
-      <% if user_signed_in? %>
-        <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" } %></li>
-      <% else %>
-        <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
-        <li><%= link_to "新規登録", new_user_registration_path, class: "fs-6 text-decoration-none text-info" %></li>
-      <% end %>
-
-      <li>
-        <% if current_user %>
-          <%= link_to "マイページ", users_profile_path(current_user.id), class: "fs-6 text-decoration-none text-info" %>
+    <div class="drawer-side">
+      <label for="my-drawer-4" class="drawer-overlay"></label>
+      <ul class="menu p-4 w-50 bg-orange-600">
+        <li><span>メニュー</span></li>
+        <% if user_signed_in? %>
+          <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" } %></li>
         <% else %>
-        <!-- ログインしていない場合の別の処理（例: ログイン画面へのリンク） -->
-          <%= link_to "ログイン", new_user_session_path, class: "fs-6 text-decoration-none text-info" %>
+          <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
+          <li><%= link_to "新規登録", new_user_registration_path, class: "fs-6 text-decoration-none text-info" %></li>
         <% end %>
-      </li>
-      <li>
-        <%= link_to 'お問い合せ', new_contact_path %>
-       </li>
-    </ul>
+        <% if current_user %>
+           <li>
+            <%= link_to "マイページ", users_profile_path(current_user.id), class: "fs-6 text-decoration-none text-info" %>
+           </li>
+        <% end %>
+        <li>
+            <%= link_to 'お問い合せ', new_public_contact_path %>
+         </li>
+      </ul>
     </div>
   </div>
+
+  <!-- 通知アイコン -->
+  <div class="relative mr-4 ml-auto"> <!-- ml-auto を追加して通知アイコンを右寄せ -->
+    <button id="notification-icon" class="text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
+      </svg>
+      <!-- 通知数表示 -->
+      <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
+        0
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- 通知エリア -->
+<div id="notification-area" style="display: none; position: absolute; top: 60px; right: 10px; z-index: 9999; width: 300px; max-height: 400px; overflow-y: auto;">
+  <!-- 通知がここに追加される -->
 </div>

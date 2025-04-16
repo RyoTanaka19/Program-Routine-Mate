@@ -39,7 +39,7 @@
 
 /node_modules
 
-# Githubにアップロードしない
+
 /public/uploads
 .env
 

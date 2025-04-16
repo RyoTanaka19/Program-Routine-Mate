@@ -14,6 +14,7 @@ module Myapp
     config.time_zone = "Tokyo" #  日本時間の設定
     config.i18n.default_locale = :ja
     config.active_job.queue_adapter = :sidekiq
+    config.active_record.default_timezone = :local
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

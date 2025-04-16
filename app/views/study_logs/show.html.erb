@@ -24,19 +24,16 @@
       <p class="border border-gray-300 rounded-md p-2 shadow-sm"><%= @study_log.text %></p>
     </div>
 
+    <p><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
+
     <div class="mt-6">
       <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
     </div>
 
-    <div class="mt-6">
-      <% if @study_log.liked_users.include?(current_user) %>
-        <%= button_to 'いいね解除', study_log_like_path(@study_log), method: :delete, class: "btn btn-danger" %>
-      <% else %>
-       <%= button_to 'いいね', study_log_like_path(@study_log), method: :post, class: "btn btn-primary" %>
-     <% end %>
-    </div>
-
-<p>いいねの数: <%= @study_log.likes.count %></p>
+    <%= render 'study_logs/like_button', study_log: @study_log %>
+    <%= render 'study_logs/like_count', study_log: @study_log %>
+    
+    
 
     <div class="mt-6">
       <h2 class="text-xl font-semibold text-center mb-4">コメント一覧</h2>
