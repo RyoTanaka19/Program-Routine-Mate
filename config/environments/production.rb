@@ -5,8 +5,8 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.enable_reloading = false
-  config.hosts << "program-routine-mate.onrender.com"      # 独自ドメイン
-  config.hosts << "www.program-routine-mate.onrender.com"  # サブドメイン
+  config.hosts << "program-routine-mate.com"      # 独自ドメイン
+  config.hosts << "www.program-routine-mate.com"  # サブドメイン
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers

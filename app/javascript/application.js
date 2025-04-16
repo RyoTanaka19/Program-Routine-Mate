@@ -53,3 +53,16 @@ document.addEventListener('turbo:load', function () {
     console.error('カレンダーの要素が見つかりません。');
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form');
+
+  if (form) {
+    form.addEventListener('submit', () => {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      if (loadingOverlay) {
+        loadingOverlay.classList.remove('hidden');
+      }
+    });
+  }
+});

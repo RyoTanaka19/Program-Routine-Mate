@@ -20,14 +20,30 @@
 
   <!-- ✅ bodyタグはこれだけ！ここにdata属性つける -->
   <body data-current-user-id="<%= current_user&.id %>" class="flex flex-col min-h-screen">
-    <!-- ヘッダーを表示-->
-    <%= render 'shared/header' %>
-    <!-- メッセージを表示-->
-    <%= render 'shared/flash_messages' %>
- <div id="notification-area" style="position: fixed; top: 10px; right: 10px; z-index: 9999;"></div>
-    <%= yield %>
+    <div data-controller="loading" class="flex flex-col flex-1">
+        <!-- ローディングスピナー -->
+        <div data-loading-target="spinner" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+        <div class="h-[150px] w-[150px] flex items-center justify-center">
+           <span class="loading loading-spinner text-default w-full h-full"></span>
+        </div>
+     </div>
 
-    <!-- フッターを表示-->
+    <!-- ヘッダー -->
+    <%= render 'shared/header' %>
+
+    <!-- フラッシュメッセージ -->
+    <%= render 'shared/flash_messages' %>
+
+    <!-- 通知 -->
+    <div id="notification-area" style="position: fixed; top: 10px; right: 10px; z-index: 9999;"></div>
+
+    <!-- メインコンテンツ -->
+    <main class="flex-1">
+      <%= yield %>
+    </main>
+
+    <!-- フッター -->
     <%= render 'shared/footer' %>
+    </div>
   </body>
 </html>
