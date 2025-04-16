@@ -1,0 +1,91 @@
+<h1 class="text-4xl font-bold mb-8 text-center text-gray-800">学習セッションカレンダー</h1>
+
+<%= link_to '学習時間の設定', new_study_reminder_path, class: 'px-8 py-4 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition duration-300 mb-8 inline-block shadow-lg text-center w-full max-w-xs mx-auto' %>
+
+<!-- カレンダーのコンテナ -->
+<div id="calendar" class="w-[90%] max-w-full mx-auto h-[500px] rounded-lg shadow-md border border-gray-200 bg-white"></div>
+
+<script>
+  const calendarEvents = <%= raw @calendar_events.to_json %>;
+
+  document.addEventListener('turbo:load', function () {
+    const calendarEl = document.getElementById('calendar');
+
+    if (calendarEl) {
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [FullCalendar.dayGridPlugin, FullCalendar.interactionPlugin],
+        initialView: 'dayGridMonth',
+        events: calendarEvents, // eventsに変数を渡す
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: ''
+        },
+        editable: false,
+        droppable: false,
+        // カレンダーの日付セルのスタイルを調整
+        dayCellClassNames: ['custom-day-cell'],
+        // 現在の日付を強調表示
+        dayCellContent: function(info) {
+          if (info.date.getDate() === new Date().getDate() &&
+              info.date.getMonth() === new Date().getMonth() &&
+              info.date.getFullYear() === new Date().getFullYear()) {
+            info.el.classList.add('bg-blue-500', 'text-white');
+          }
+        },
+      });
+
+      calendar.render();
+
+      // 学習時間が設定された後にイベントをカレンダーに追加
+      const addEventToCalendar = function(newEvent) {
+        calendar.addEvent(newEvent);
+        // 新しく追加されたイベントを即座にカレンダーに反映
+        calendar.refetchEvents();
+      };
+
+      // 例えば、学習時間の設定が完了した時に`addEventToCalendar`を呼び出す
+      // 以下は仮のコード。実際には学習時間の設定後にこの関数を呼び出す
+      addEventToCalendar({
+        title: '新しい学習セッション',
+        start: '2025-04-15T10:00:00',
+        end: '2025-04-15T12:00:00',
+        description: 'この日は新しい学習セッションが開始されました。',
+      });
+
+    } else {
+      console.error('カレンダーの要素が見つかりません。');
+    }
+  });
+</script>
+
+<style>
+  /* 日付セルの幅を広げる */
+  .custom-day-cell {
+    min-width: 90px; /* 必要に応じて調整 */
+  }
+
+  /* カレンダーの日付セル内の内容を中央に配置 */
+  .fc-daygrid-day-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ヘッダー背景色を変更 */
+  .fc-header-toolbar {
+    background-color: #4CAF50; /* 緑色 */
+    color: white;
+  }
+
+  /* 現在の日付を強調表示 */
+  .fc-daygrid-day-number.fc-day-today {
+    background-color: #2196F3; /* 現在の日付背景色 */
+    color: white; /* 現在の日付文字色 */
+  }
+
+  /* 土日の背景色 */
+  .fc-day-sat, .fc-day-sun {
+    background-color: #f1f5f9; /* 土日の日付背景色（薄いグレー） */
+  }
+</style>

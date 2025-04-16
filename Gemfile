@@ -62,39 +62,37 @@ end
 gem "uglifier"
 gem "pry-rails"
 
-# 画像投稿
-gem "carrierwave", "~> 3.0"
 
-gem "devise"
+
+
 
 # 日本語化(いずれ使う可能性あり)
 gem "rails-i18n", "~> 7.0.0"
 
-# 検索機能の追加
-gem "ransack"
 
 
-gem "omniauth"
-gem "omniauth-google-oauth2"
 
 
-gem "ruby-openai"
-
-gem "dotenv-rails"
 
 
-gem "fog-aws"
 
 gem "kaminari"
 
 
-gem "omniauth-line"
 
-gem "omniauth-rails_csrf_protection"
-
-
-gem "line-bot-api"
-
-gem "sidekiq"
-gem "sidekiq-scheduler"
+gem "fullcalendar-rails"
+gem "redis", "~> 4.0"
 gem "simple_calendar"
+gem "sidekiq-scheduler"
+gem "line-bot-api"
+gem "devise"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-line"
+gem "omniauth-rails_csrf_protection"
+gem "sidekiq"
+gem "ruby-openai"
+gem "ransack"
+gem "carrierwave", "~> 3.0"
+gem "fog-aws"
+gem "dotenv-rails"

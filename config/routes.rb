@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     registrations: "users/registrations",
     passwords: "users/passwords"
   }
-
+ get "users/show" => "users#show", as: :users_profile
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -20,23 +20,46 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root "top_study_logs#top"
-
-    resources :study_logs, only: %i[index show new create edit update destroy] do
+  resources :study_genres do
+    resources :study_logs, only: %i[ index show new create edit update destroy ] do
       collection do
         get "ranking"  # ランキングページを追加
         get :autocomplete
       end
-
-      resources :learning_comments, only: %i[create destroy edit update], shallow: true
-      resource :like, only: %i[create destroy]  # もし「いいね」が単一ならこれでOK
-      # 複数の「いいね」が必要な場合は、上記を次のように変更
-      # resources :likes, only: %i[create destroy]
     end
+  end
+
 
     get "user/:id/badges", to: "users#badges", as: "user_badges"
-    get "users/:id", to: "users#show", as: "users_profile"
-    resources :suggests, only: %i[ new create show index ]
+    resources :suggests, only: %i[ new create show index destroy ]
     mount Sidekiq::Web => "/sidekiq"
-    resources :studying_sessions, only: [ :new, :create, :index ]
-    resources :contacts, only: [ :new, :create ]
+    mount ActionCable.server => "/cable"
+
+    resources :study_reminders, only: [ :index, :new, :create ] do
+      collection do
+        get "events", to: "study_reminders#events"
+      end
+    end
+
+    namespace :public do
+      resources :contacts, only: %i[new create] do
+        collection do
+          post :confirm
+          post :back
+          get :done
+        end
+      end
+    end
+
+
+
+
+    resources :study_logs do
+     collection do
+      get :autocomplete
+      get "ranking"
+     end
+      resources :learning_comments, only: %i[ create destroy edit update ], shallow: true
+      resource :like, only: %i[ create destroy ]
+    end
 end

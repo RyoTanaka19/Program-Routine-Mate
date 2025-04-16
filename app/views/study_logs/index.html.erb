@@ -1,8 +1,17 @@
-<div class="flex items-center justify-center mb-8">
+<div class="flex items-center justify-center mb-8 space-x-4">
   <h1 class="text-7xl mr-8">投稿一覧画面</h1>
-  <%= link_to 'AI', new_suggest_path, class: "px-3 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" %>
-</div>
 
+  <%= link_to 'AI', new_suggest_path, class: "px-3 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" %>
+
+<%= link_to study_reminders_path, class: 'inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white text-sm font-semibold rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all' do %>
+  <!-- カレンダーアイコン -->
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+  学習カレンダー
+<% end %>
+
+</div>
 
 
 
@@ -109,6 +118,8 @@
         <% end %>
      </div>
 
+     <p><strong>学習時間：</strong><%= study_log.total %> 分</p> 
+
         <!-- 投稿日時 -->
         <p><strong>投稿日:</strong> <%= study_log.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
 
@@ -125,6 +136,13 @@
 
         <br>
 
+        <p><strong>ジャンル:</strong>
+        <% if study_log.study_genre.present? %>
+          <%= study_log.study_genre.name %>
+        <% else %>
+          未設定
+        <% end %>
+      </p>
         <!-- ログインステータス -->
         <div class="login-status mb-4">
           <% if user_signed_in? && current_user == study_log.user %>
@@ -147,6 +165,8 @@
               <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
             <% end %>
           </div>
+
+
           <!-- Twitterシェアボタン（tweet_textがある場合のみ表示） -->
           <% if params[:tweet_text].present? %>
             <div class="mt-4">
@@ -164,4 +184,3 @@
 </div>
 <%= paginate @study_logs %>
 
-<%= link_to '学習セッション一覧', studying_sessions_path, class: 'text-blue-500 hover:underline' %>

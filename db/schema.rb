@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_05_131332) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_07_184104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_05_131332) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "study_genres", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_study_genres_on_user_id"
+  end
+
   create_table "study_logs", force: :cascade do |t|
     t.string "content", null: false
     t.text "text", null: false
@@ -58,13 +66,23 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_05_131332) do
     t.datetime "updated_at", null: false
     t.string "image"
     t.bigint "user_id"
-    t.string "genre"
-    t.date "study_day"
-    t.time "start_time"
-    t.time "end_time"
     t.date "date"
     t.integer "total"
+    t.bigint "study_genre_id"
+    t.integer "count"
+    t.integer "study_reminder_id"
+    t.index ["study_genre_id"], name: "index_study_logs_on_study_genre_id"
+    t.index ["study_reminder_id"], name: "index_study_logs_on_study_reminder_id"
     t.index ["user_id"], name: "index_study_logs_on_user_id"
+  end
+
+  create_table "study_reminders", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_study_reminders_on_user_id"
   end
 
   create_table "study_schedules", force: :cascade do |t|
@@ -106,6 +124,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_05_131332) do
     t.index ["user_id"], name: "index_user_study_badges_on_user_id"
   end
 
+  create_table "user_study_genres", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "study_genre_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_genre_id"], name: "index_user_study_genres_on_study_genre_id"
+    t.index ["user_id"], name: "index_user_study_genres_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -128,11 +155,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_05_131332) do
   add_foreign_key "learning_comments", "users"
   add_foreign_key "likes", "study_logs"
   add_foreign_key "likes", "users"
+  add_foreign_key "study_genres", "users"
+  add_foreign_key "study_logs", "study_genres"
+  add_foreign_key "study_logs", "study_reminders"
   add_foreign_key "study_logs", "users"
+  add_foreign_key "study_reminders", "users"
   add_foreign_key "study_schedules", "users"
   add_foreign_key "studying_sessions", "study_logs", column: "study_logs_id"
   add_foreign_key "studying_sessions", "users"
   add_foreign_key "suggests", "users"
   add_foreign_key "user_study_badges", "study_badges"
   add_foreign_key "user_study_badges", "users"
+  add_foreign_key "user_study_genres", "study_genres"
+  add_foreign_key "user_study_genres", "users"
 end

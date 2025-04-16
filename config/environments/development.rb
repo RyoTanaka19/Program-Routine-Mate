@@ -58,20 +58,25 @@ Rails.application.configure do
   config.active_job.verbose_enqueue_logs = true
 
   # Suppress logger output for asset requests.
+
   config.assets.quiet = true
-config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+
   config.action_mailer.raise_delivery_errors = true
+
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "gmail.com",
-    user_name: ENV["MAILER_SENDER"],
-    password: ENV["MAILER_PASSWORD"],
-    authentication: "plain",
-    enable_starttls_auto: true
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+     address: "smtp.gmail.com",
+     port: 587,
+     domain: "gmail.com",
+     user_name: ENV["MAILER_SENDER"],
+     password: ENV["MAILER_PASSWORD"],
+     authentication: "plain",
+     enable_starttls_auto: true
 }
+
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
@@ -88,4 +93,6 @@ config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
   # config.generators.apply_rubocop_autocorrect_after_generate!
   config.assets.compile = true
   config.assets.digest = false
+  config.action_cable.url = "ws://localhost:3000/cable"
+  config.action_cable.allowed_request_origins = [ "http://localhost:3000" ]
 end

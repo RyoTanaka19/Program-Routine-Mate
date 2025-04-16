@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!  # ユーザーがログインしていることを確認
 
   def show
-    @user = User.find(params[:id])
+    @user = current_user
     @study_logs = @user.study_logs
   end
 

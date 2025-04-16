@@ -1,0 +1,42 @@
+<% if @study_genres.present? %>
+  <% @study_genres.limit(3).each do |genre| %>
+    <% if genre.study_logs.any? %>
+      <div class="bg-blue-50 p-4 rounded-md shadow-md mb-4">
+        <%= link_to "#{genre.name}", study_genre_path(genre), class: "text-blue-600 hover:underline" %>の学習記録があります。
+        <p class="text-gray-600">このジャンルはすでに設定されています。</p>
+        <p class="text-gray-600">学習記録の投稿数: <%= genre.study_logs.count %> 件</p>
+
+        <h4 class="text-lg font-semibold text-gray-800 mt-4">ジャンルを編集</h4>
+        <%= form_with model: genre, url: study_genre_path(genre), method: :patch, class: "mt-4" do |f| %>
+          <div class="mb-4">
+            <%= f.label :name, "ジャンル選択", class: "block text-gray-700" %>
+            <%= f.select :name, options_for_select(StudyGenre::GENRES, selected: genre.name), class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+          </div>
+          <div class="mt-4">
+            <%= f.submit "ジャンル更新", class: "px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-yellow-50 p-4 rounded-md shadow-md mb-4">
+    <%= link_to "#{genre.name}", study_genre_path(genre), class: "text-blue-600 hover:underline" %>の
+    学習記録がまだありません。
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @study_genres.blank? || @study_genres.count < 3 %>
+  <div class="bg-green-50 p-4 rounded-md shadow-md mt-6">
+    <h3 class="text-xl font-semibold text-gray-800">新しいジャンルを追加</h3>
+    <%= form_with model: StudyGenre.new, url: study_genres_path, class: "mt-4" do |f| %>
+      <div class="mb-4">
+        <%= f.label :name, "ジャンル選択", class: "block text-gray-700" %>
+        <%= f.select :name, options_for_select(StudyGenre::GENRES), class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" %>
+      </div>
+      <div class="mt-4">
+        <%= f.submit "ジャンル設定", class: "px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

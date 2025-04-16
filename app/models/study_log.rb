@@ -1,9 +1,14 @@
 class StudyLog < ApplicationRecord
-  belongs_to :user
-  after_create :assign_badges
   mount_uploader :image, StudyLogsImageUploader
+
+  belongs_to :user
+  belongs_to :study_genre
+  belongs_to :study_reminder, optional: true
+  after_create :assign_badges
+
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
+
   has_many :learning_comments, dependent: :destroy
 
 
@@ -11,16 +16,38 @@ class StudyLog < ApplicationRecord
   validates :content, presence: true
   # 学んだこと 空なし
   validates :text, presence: true
-  validates :genre, presence: true, uniqueness: true
-  validates :study_day, presence: true
   validates :date, presence: true
-  validates :total, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
+
+
 
   # Ransackで検索可能な属性（カラム）
   def self.ransackable_attributes(auth_object = nil)
     [ "content" ]
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    super + [ "study_genre_id" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    super + [ "study_genre" ]
+  end
+
+  before_create :calculate_study_duration
+
+
   private
+
+  def calculate_study_duration
+    return unless study_reminder.present?
+    return unless study_reminder.start_time.present? && study_reminder.end_time.present?
+
+    start_time = study_reminder.start_time
+    end_time = study_reminder.end_time
+
+    self.total = ((end_time - start_time) / 60).to_i
+  end
 
   def assign_badges
     if user.study_logs.count == 1
