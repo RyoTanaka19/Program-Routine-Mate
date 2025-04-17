@@ -10,6 +10,10 @@ class StudyGenre < ApplicationRecord
     "AI", "Data Science", "Android Development", "iOS Development", "Blockchain"
   ]
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["name"]
+  end
+
   # ===============================
   # アソシエーション
   # ===============================

@@ -5,7 +5,10 @@
       <!-- ジャンルの選択 -->
       <div class="flex flex-col">
         <%= form.label :study_genre_id_eq, 'ジャンル', class: 'text-lg font-semibold mb-2' %>
-        <%= form.select :study_genre_id_eq, options_for_select(@study_genres.map { |genre| [genre.name, genre.id] }, params[:study_genre_id]), { include_blank: 'すべて' }, class: 'form-control border rounded-lg p-3 text-gray-700' %>
+<%= form.select :study_genre_name_eq,
+                options_for_select(StudyGenre::GENRES.map { |genre| [genre, genre] }, params.dig(:q, :study_genre_name_eq)),
+                { include_blank: 'すべて' },
+                class: 'form-control border rounded-lg p-3 text-gray-700' %>
       </div>
       
       <!-- 学習内容の検索 -->
