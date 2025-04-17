@@ -92,4 +92,3 @@ gem "fog-aws"
 gem "dotenv-rails"
 gem "mini_magick"
 gem "meta-tags"
-
