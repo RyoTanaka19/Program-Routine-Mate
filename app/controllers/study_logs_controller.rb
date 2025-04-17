@@ -4,6 +4,12 @@ class StudyLogsController < ApplicationController
   def new
     @study_log = StudyLog.new
     @study_genre = current_user.study_genres.last # ユーザーが選択した最新のジャンルを取得
+
+    unless @study_genre
+      redirect_to new_study_genre_path, alert: "学習ジャンルを先に登録してください"
+      return
+    end
+
     @study_reminder = current_user.study_reminders.last
 
     # ユーザーがジャンルを選択していない場合
@@ -58,25 +64,24 @@ end
 
   def destroy
     study_log = current_user.study_logs.find(params[:id])
+     study_log.destroy
     redirect_to study_logs_path, notice: "学習記録の削除をしました。"
   end
 
   def index
     @q = StudyLog.ransack(params[:q])
-    @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present? # ジャンルIDの検索条件を追加
 
-    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
+    # ジャンル名での検索（IDではなく name を使う）
+    @q.study_genre_name_eq = params[:q][:study_genre_name_eq] if params.dig(:q, :study_genre_name_eq).present?
 
+    @study_logs = @q.result(distinct: true).includes(:user, :study_genre).order(created_at: :asc).page(params[:page])
 
     @ranking = User.studied_logs_days_ranking.limit(3)
-
-
 
     @study_logs_for_js = current_user ? current_user.study_logs.where.not(date: nil).map { |log| { date: log.date.to_date, total: log.try(:total) || 0 } } : []
 
     @study_genres = StudyGenre.all # ジャンルのリストを取得
   end
-
 
   def autocomplete
     @q = StudyLog.ransack(params[:q])
