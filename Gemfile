@@ -73,13 +73,7 @@ gem "rails-i18n", "~> 7.0.0"
 
 
 
-
-
-
 gem "kaminari"
-
-
-
 gem "fullcalendar-rails"
 gem "redis", "~> 4.0"
 gem "simple_calendar"

@@ -13,7 +13,7 @@ document.addEventListener('turbo:load', function () {
     const calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin, interactionPlugin],
       initialView: 'dayGridMonth',
-      events: calendarEvents,
+      events: [], // <- 明示的に空にしておく
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
@@ -40,7 +40,7 @@ document.addEventListener('turbo:load', function () {
 
     const addEventToCalendar = function (newEvent) {
       calendar.addEvent(newEvent);
-      calendar.refetchEvents();
+      // calendar.refetchEvents(); <- 削除
     };
 
     addEventToCalendar({
@@ -51,5 +51,18 @@ document.addEventListener('turbo:load', function () {
     });
   } else {
     console.error('カレンダーの要素が見つかりません。');
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form');
+
+  if (form) {
+    form.addEventListener('submit', () => {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      if (loadingOverlay) {
+        loadingOverlay.classList.remove('hidden');
+      }
+    });
   }
 });
