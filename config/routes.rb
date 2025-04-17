@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
 
     get "user/:id/badges", to: "users#badges", as: "user_badges"
+    get "privacy", to: 'static_pages#privacy'
+    get "terms", to: 'static_pages#terms'
     resources :suggests, only: %i[ new create show index destroy ]
     mount Sidekiq::Web => "/sidekiq"
     mount ActionCable.server => "/cable"
