@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
- 
+
   protected
 
   # ログイン後 投稿一覧画面
@@ -18,4 +18,3 @@ class ApplicationController < ActionController::Base
      devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :self_introduction, :studying_continuation_systematization, :profile_image, :profile_image_cache ])
   end
 end
-
