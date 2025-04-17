@@ -116,6 +116,6 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-  config.action_cable.url = "wss://localhost:3000/cable"
+  config.action_cable.url = "wss://program-routine-mate.onrender.com/cable"
   config.action_cable.allowed_request_origins = [ "https://program-routine-mate.onrender.com/" ]
 end
