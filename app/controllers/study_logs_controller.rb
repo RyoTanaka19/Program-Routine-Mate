@@ -36,7 +36,7 @@ class StudyLogsController < ApplicationController
         "学習記録！\n『学習日: #{@study_log.date.strftime('%Y-%m-%d')}』\n『学習ジャンル: #{@study_genre.name}』\n『学習内容: #{@study_log.content}』\n『感想: #{@study_log.text}』\n#ProgramRoutineMate"
       )
 
-      ogp_image_url = ogp_set_meta_tags(@study_log)
+      ogp_image_url = ogp_meta_tags(@study_log)
       set_meta_tags(og: { image: ogp_image_url }, twitter: { image: ogp_image_url })
 
       # 成功時のリダイレクト
@@ -127,7 +127,7 @@ end
                       }
       end
 
-  def ogp_set_meta_tags(study_log)
+  def ogp_meta_tags(study_log)
     begin
       image_data = OgpCreator.build("#{study_log.user.name}さんが#{study_log.content}を投稿しました")
       study_log.update!(ogp: image_data)
