@@ -20,13 +20,13 @@ module ApplicationHelper
         description: "プログラミング学習継続アプリです",
         type: "website",
         url: request.original_url,
-        image: image_url("ProramRoutineMate.png"),
+        image: image_url("ProgramRoutineMate.png"),
         local: "ja-JP"
       },
       twitter: {
         card: "summary_large_image",
         site: "@https://x.com/58a_tanakaryo",
-        image: image_url("ProramRoutineMate.png")
+        image: image_url("ProgramRoutineMate.png")
       }
     }
   end

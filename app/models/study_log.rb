@@ -1,5 +1,6 @@
 class StudyLog < ApplicationRecord
   mount_uploader :image, StudyLogsImageUploader
+  mount_uploader :ogp, StudyLogsOgpUploader
 
   belongs_to :user
   belongs_to :study_genre
