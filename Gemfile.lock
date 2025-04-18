@@ -314,8 +314,6 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (2.2.13)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
     rack-session (1.0.2)
       rack (< 3)
     rack-test (2.2.0)
@@ -510,7 +508,6 @@ DEPENDENCIES
   pg (~> 1.1)
   pry-rails
   puma (>= 5.0)
-  rack-cors
   rails (~> 7.2.2)
   rails-i18n (~> 7.0.0)
   ransack
