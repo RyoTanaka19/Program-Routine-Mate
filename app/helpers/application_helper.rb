@@ -18,9 +18,9 @@ module ApplicationHelper
         site_name: "ProgramRoutineMate",
         title: "ProgramRoutineMate",
         description: "プログラミング学習継続アプリです",
-        type: 'website',
+        type: "website",
         url: request.original_url,
-        image: image_url('ProramRoutineMate.png'),
+        image: image_url("ProramRoutineMate.png"),
         local: "ja-JP"
       },
       twitter: {
@@ -31,4 +31,3 @@ module ApplicationHelper
     }
   end
 end
-

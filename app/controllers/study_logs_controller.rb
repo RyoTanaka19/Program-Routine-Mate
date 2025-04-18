@@ -107,7 +107,6 @@ end
   end
 
   def prepare_meta_tags(study_log)
-    ## このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
         image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
         set_meta_tags og: {
                         site_name: "ProgramRoutineMate",
@@ -120,7 +119,7 @@ end
                       },
                       twitter: {
                         card: "summary_large_image",
-                        site: '@https://x.com/58a_tanaka_ryo',
+                        site: "@https://x.com/58a_tanaka_ryo",
                         image: image_url
                       }
       end

@@ -1,10 +1,11 @@
 class OgpCreator
   require "mini_magick"
-  BASE_IMAGE_PATH = "./app/assets/images/{Program Routine Mate.png}"
+
+  BASE_IMAGE_PATH = "./app/assets/images/Program Routine Mate.png"
   GRAVITY = "center"
   TEXT_POSITION = "0,0"
-  FONT = "./app/assets/fonts/{ Program Routine Mate.png}
-  FONT_SIZE = 65
+  FONT = "./app/assets/fonts/Program Routine Mate.ttf" # フォントの拡張子も確認してね
+  FONT_SIZE = "65"
   INDENTION_COUNT = 16
   ROW_LIMIT = 8
 
@@ -13,14 +14,16 @@ class OgpCreator
     image = MiniMagick::Image.open(BASE_IMAGE_PATH)
     image.combine_options do |config|
       config.font FONT
-      config.fill 'red'
+      config.fill "red"
       config.gravity GRAVITY
       config.pointsize FONT_SIZE
-      config.draw "text #{TEXT_POSITION} '#{text}'"
+      config.draw %(text #{TEXT_POSITION} '#{text}')
     end
+    image # 最後に image を返すようにしておくと便利
   end
 
   private
+
   def self.prepare_text(text)
     text.to_s.scan(/.{1,#{INDENTION_COUNT}}/)[0...ROW_LIMIT].join("\n")
   end
