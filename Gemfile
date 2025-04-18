@@ -90,4 +90,8 @@ gem "ransack"
 gem "carrierwave", "~> 3.0"
 gem "fog-aws"
 gem "dotenv-rails"
-gem "meta-tags"
+gem "meta-tags", require: "meta_tags"
+gem "mini_magick"
+
+
+

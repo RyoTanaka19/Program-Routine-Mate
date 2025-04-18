@@ -26,11 +26,12 @@
 
     <p><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
 
-    <%= link_to "Twitterでシェアする", 
-  "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(@study_log.title)}&url=#{ERB::Util.url_encode(request.original_url)}", 
-  target: "_blank", 
-  rel: "noopener", 
-  class: "twitter-share-button bg-blue-500 text-white py-2 px-4 rounded" %>
+    <div class="text-gray-600">
+      <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}" %>
+       <%= link_to twitter_share_url, target: '_blank', data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+          <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
+        <% end %>
+     </div>
 
     <div class="mt-6">
       <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
@@ -38,7 +39,7 @@
 
     <%= render 'study_logs/like_button', study_log: @study_log %>
     <%= render 'study_logs/like_count', study_log: @study_log %>
-    
+
     
 
     <div class="mt-6">
