@@ -60,6 +60,7 @@ end
     end
   end
 
+
   def destroy
     study_log = current_user.study_logs.find(params[:id])
     study_log.destroy
@@ -98,11 +99,8 @@ end
     @learning_comment = LearningComment.new
     @learning_comments = @study_log.learning_comments.includes(:user).order(created_at: :desc)
     prepare_meta_tags(@study_log)
-
-    if @study_log
-      ogp_image_url = ogp(@study_log)
-      set_meta_tags(og: { image: ogp_image_url }, twitter: { image: ogp_image_url }) 
-     end
+    ogp_image_url = ogp(@study_log)
+    set_meta_tags(og: { image: ogp_image_url }, twitter: { image: ogp_image_url })
   end
 
   private
@@ -131,7 +129,7 @@ end
 
     def ogp(study_log)
       begin
-       image_data = OgpCreator.build("#{post.study_log.name}さんが#{study_log.content}を投稿しました")
+        image_data = OgpCreator.build("#{study_log.user.name}さんが#{study_log.content}を投稿しました")
        study_log.update!(ogp: image_data)
        study_log.ogp.url
       rescue StandardError => e
@@ -140,3 +138,4 @@ end
       end
     end
 end
+
