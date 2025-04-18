@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     get "privacy", to: "static_pages#privacy"
     get "terms", to: "static_pages#terms"
     get "form", to: "static_pages#form"
+    get 'images/ogp.png', to: 'images#ogp', as: 'images_ogp'
+
     resources :suggests, only: %i[ new create show index destroy ]
     mount Sidekiq::Web => "/sidekiq"
     mount ActionCable.server => "/cable"
