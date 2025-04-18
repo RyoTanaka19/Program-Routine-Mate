@@ -1,7 +1,7 @@
 class StudyLogsImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   # Choose what kinstorage :file
 
@@ -40,7 +40,6 @@ class StudyLogsImageUploader < CarrierWave::Uploader::Base
   def extension_allowlist
     %w[jpg jpeg gif png]
   end
-
   # Create different versions of your uploaded files:
   # version :thumb do
   #   process resize_to_fit: [50, 50]

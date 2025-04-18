@@ -5,8 +5,9 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.enable_reloading = false
-  config.hosts << "program-routine-mate.onrender.com"      # 独自ドメイン
-  config.hosts << "www.program-routine-mate.onrender.com"  # サブドメイン
+  config.hosts << "program-routine-mate.com"
+  config.hosts << "www.program-routine-mate.com"
+  config.hosts << "program-routine-mate.onrender.com"
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -116,6 +117,10 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-  config.action_cable.url = "wss://program-routine-mate.onrender.com/cable"
-  config.action_cable.allowed_request_origins = [ "https://program-routine-mate.onrender.com/" ]
+  config.action_cable.url = "wss://program-routine-mate.com/cable"
+  config.action_cable.allowed_request_origins = [
+    "https://program-routine-mate.com",
+    "https://www.program-routine-mate.com",
+    "https://program-routine-mate.onrender.com"
+  ]
 end
