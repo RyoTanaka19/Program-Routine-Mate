@@ -21,13 +21,13 @@ module ApplicationHelper
         description: :description,
         type: "website",
         url: request.original_url,
-        image: image_url("ogp.png"),
+        image: image_url("Program_Routine_Mate.png"),
         local: "ja-JP"
       },
       twitter: {
         card: "summary_large_image",
         site: "@https://x.com/58a_tanakaryo",  # ユーザー名の形式に修正
-        image: image_url("ogp.png")
+        image: image_url("Program_Routine_Mate.png")
       }
     }
   end
