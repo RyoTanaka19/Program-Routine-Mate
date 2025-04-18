@@ -13,7 +13,7 @@ module ApplicationHelper
       reverse: true,
       charset: "utf-8",
       description: "ProgramRoutineMateは、プログラミング学習を継続的にサポートするアプリです。ユーザーが学習を記録し、モチベーションを維持するためのツールを提供します。",
-      keywords: "プログラミング","学習","習慣",
+      keywords: ["プログラミング", "学習", "習慣"],
       canonical: "https://program-routine-mate.com",
       separator: "|",
       og: {
@@ -21,7 +21,7 @@ module ApplicationHelper
         title: :title,
         description: :description,
         type: "website",
-        url: https://program-routine-mate.com,
+        url: "https://program-routine-mate.com",
         image: image_url("ogp.png"),
         local: "ja-JP"
       },
