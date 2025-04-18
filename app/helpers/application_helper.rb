@@ -17,9 +17,9 @@ module ApplicationHelper
       canonical: "https://program-routine-mate.com",
       separator: "|",
       og: {
-        site_name: "ProgramRoutineMate",
-        title: "プログラミング学習を共有するアプリです",
-        description: "初学者がプログラミング学習を継続し、他の学習者と共有するアプリです。",
+        site_name: :site,
+        title: :title,
+        description: :description,
         type: "website",
         url: "https://program-routine-mate.com",
         image: image_url("ogp.png"),
@@ -33,3 +33,4 @@ module ApplicationHelper
     }
   end
 end
+

@@ -8,7 +8,6 @@ Rails.application.configure do
   config.hosts << "program-routine-mate.com"
   config.hosts << "www.program-routine-mate.com"
   config.hosts << "program-routine-mate.onrender.com"
-  config.action_controller.asset_host = "https://program-routine-mate.com"
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
