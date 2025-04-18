@@ -97,6 +97,7 @@ end
     @study_log = StudyLog.find(params[:id])
     @learning_comment = LearningComment.new
     @learning_comments = @study_log.learning_comments.includes(:user).order(created_at: :desc)
+    prepare_meta_tags(@study_log)
   end
 
   private
@@ -104,4 +105,22 @@ end
   def study_log_params
     params.require(:study_log).permit(:content, :text, :image, :image_cache, :date, :study_genre_id, :study_reminder_id, :count)
   end
+
+  def prepare_meta_tags(study_log)
+        image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
+        set_meta_tags og: {
+                        site_name: "ProgramRoutineMate",
+                        title: study_log.content,
+                        description: "プログラミング学習記録の投稿",
+                        type: "website",
+                        url: "https://program-routine-mate.com/",
+                        image: image_url,
+                        locale: "ja-JP"
+                      },
+                      twitter: {
+                        card: "summary_large_image",
+                        site: "@58a_tanaka_ryo",
+                        image: image_url
+                      }
+      end
 end

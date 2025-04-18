@@ -26,6 +26,13 @@
 
     <p><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
 
+    <div class="text-gray-600">
+    <% twitter_share_url = "https://twitter.com/share?url= #{CGI.escape(study_log_url(@study_log))}" %>
+    <%= link_to twitter_share_url, target: '_blank', data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+    <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
+    <% end %>
+</div>
+
     <div class="mt-6">
       <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
     </div>
