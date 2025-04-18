@@ -99,8 +99,6 @@ end
     @learning_comment = LearningComment.new
     @learning_comments = @study_log.learning_comments.includes(:user).order(created_at: :desc)
     prepare_meta_tags(@study_log)
-    ogp_image_url = ogp(@study_log)
-    set_meta_tags(og: { image: ogp_image_url }, twitter: { image: ogp_image_url })
   end
 
   private
@@ -113,29 +111,18 @@ end
         image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
         set_meta_tags og: {
                         site_name: "ProgramRoutineMate",
-                        title: study_log.content,
+                        title: "#{study_log.content} | Program-Routine-Mate,
                         description: "プログラミング学習記録の投稿です",
                         type: "website",
-                        url: "https://program-routine-mate.com",
+                        url: request.original_url,
                         image: image_url,
                         locale: "ja-JP"
                       },
                       twitter: {
                         card: "summary_large_image",
-                        site: "@58a_tanaka_ryo",
+                        site: "@https://x.com/@58a_tanaka_ryo",
                         image: image_url
                       }
-    end
-
-    def ogp(study_log)
-      begin
-        image_data = OgpCreator.build("#{study_log.user.name}さんが#{study_log.content}を投稿しました")
-       study_log.update!(ogp: image_data)
-       study_log.ogp.url
-      rescue StandardError => e
-        Rails.logger.error("動的OGP画像の生成または保存に失敗: #{e.message}")
-        nil
-      end
     end
 end
 
