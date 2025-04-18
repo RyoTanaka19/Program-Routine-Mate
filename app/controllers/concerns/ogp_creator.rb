@@ -1,10 +1,10 @@
 class OgpCreator
   require "mini_magick"
 
-  BASE_IMAGE_PATH = "./app/assets/images/Program Routine Mate.png"
+  BASE_IMAGE_PATH = "./app/assets/images/Program_Routine_Mate.png"
   GRAVITY = "center"
   TEXT_POSITION = "0,0"
-  FONT = "./app/assets/fonts/Program Routine Mate.ttf" # フォントの拡張子も確認してね
+  FONT = "./app/assets/fonts/Program_Routine_Mate.ttf"
   FONT_SIZE = "65"
   INDENTION_COUNT = 16
   ROW_LIMIT = 8
