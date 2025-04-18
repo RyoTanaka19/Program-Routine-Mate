@@ -17,13 +17,13 @@ module ApplicationHelper
       canonical: "https://program-routine-mate.com",
       separator: "|",
       og:{
-        site_name: :site,
-        title: :title,
-        description: :description,
+        site_name: "ProgramRoutineMate",
+        title: "プログラミング学習を共有数するアプリです,
+        description: "初学者がプログラミング学習を継続し、他の学習者と共有するアプリです。",
         type: "website",
-        url: :canonical,
+        url: "https://program-routine-mate.com",
         image: image_url("ogp.png"),
-        local: 'ja-JP'
+        locale: 'ja-JP'
       },
       twitter: {
         card: "summary_large_image",
