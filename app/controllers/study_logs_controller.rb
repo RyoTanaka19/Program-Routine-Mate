@@ -5,7 +5,7 @@ class StudyLogsController < ApplicationController
     @study_log = StudyLog.new
     @study_genre = current_user.study_genres.last # ユーザーが選択した最新のジャンルを取得
     @study_reminder = current_user.study_reminders.last
-  
+
     # ユーザーがジャンルを選択していない場合
     if @study_genre.nil?
       flash[:alert] = "ジャンルを先に設定してください"
