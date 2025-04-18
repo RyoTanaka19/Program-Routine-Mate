@@ -9,21 +9,21 @@ module ApplicationHelper
   def default_meta_tags
     {
       site: "ProgramRoutineMate",
-      title: "プログラミング学習を共有数するアプリです",
+      title: "プログラミング学習を共有するアプリです",
       reverse: true,
       charset: "utf-8",
       description: "初学者がプログラミング学習を継続し、他の学習者と共有するアプリです。",
-      keywords: "プログラミング、学習、継続、初学者",
+      keywords: "プログラミング, 学習, 継続, 初学者",
       canonical: "https://program-routine-mate.com",
       separator: "|",
-      og:{
+      og: {
         site_name: "ProgramRoutineMate",
-        title: "プログラミング学習を共有数するアプリです,
+        title: "プログラミング学習を共有するアプリです",
         description: "初学者がプログラミング学習を継続し、他の学習者と共有するアプリです。",
         type: "website",
         url: "https://program-routine-mate.com",
         image: image_url("ogp.png"),
-        locale: 'ja-JP'
+        locale: "ja_JP"
       },
       twitter: {
         card: "summary_large_image",
