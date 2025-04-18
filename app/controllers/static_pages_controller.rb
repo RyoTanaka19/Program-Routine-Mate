@@ -3,4 +3,7 @@ class StaticPagesController < ApplicationController
   end
   def terms
   end
+
+  def form
+  end
 end
