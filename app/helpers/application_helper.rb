@@ -8,31 +8,27 @@ module ApplicationHelper
 
   def default_meta_tags
     {
-      site: "ProramRoutineMate",
-      title: "ProgramRoutineMate",
+      site: "ProgramRoutineMate",
+      title: "プログラミング学習を共有数するアプリです",
       reverse: true,
       charset: "utf-8",
-      description: "みんなで学習記録を投稿しながらプログラミング学習習慣をつけましょう!",
-      keywords: [ "プログラミング学習初心者", "学習", "プログラミング" ],
-      canonical: request.original_url,
+      description: "初学者がプログラミング学習を継続し、他の学習者と共有するアプリです。",
+      keywords: "プログラミング、学習、継続、初学者",
+      canonical: "https://program-routine-mate.com",
       separator: "|",
-      icon: [
-        { href: image_url("icon.png") },
-        { href: image_url("icon.png"), rel: "apple-touch-icon", sizes: "180x180", type: "image/png" }
-      ],
-      og: {
+      og:{
         site_name: :site,
         title: :title,
         description: :description,
         type: "website",
-        url: request.original_url,
-        image: image_url("icon.png"),
-        local: "ja-JP"
+        url: :canonical,
+        image: image_url("ogp.png"),
+        local: 'ja-JP'
       },
       twitter: {
         card: "summary_large_image",
-        site: "@58a_tanaka_ry",
-        image: image_url("icon.png")
+        site: "@58a_tanaka_ryo",
+        image: image_url("ogp.png")
       }
     }
   end

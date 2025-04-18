@@ -34,15 +34,15 @@
             <%= link_to "マイページ", users_profile_path(current_user.id), class: "fs-6 text-decoration-none text-info" %>
            </li>
         <% end %>
-        <li>
-            <%= link_to 'お問い合せ', new_public_contact_path %>
-         </li>
          <li>
              <%= link_to '利用規約', terms_path %>
          </li>
          <li>
             <%= link_to 'プライバシーポリシー', privacy_path %>
          </li>
+         <li>
+         <%= link_to 'お問い合わせ', form_path %>
+      </li>
       </ul>
     </div>
   </div>
