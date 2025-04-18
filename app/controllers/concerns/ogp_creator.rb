@@ -19,7 +19,7 @@ class OgpCreator
       config.pointsize FONT_SIZE
       config.draw %(text #{TEXT_POSITION} '#{text}')
     end
-    image # 最後に image を返すようにしておくと便利
+    image
   end
 
   private
