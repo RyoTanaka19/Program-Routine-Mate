@@ -4,7 +4,7 @@ class OgpCreator
   BASE_IMAGE_PATH = "./app/assets/images/Program_Routine_Mate.png"
   GRAVITY = "center"
   TEXT_POSITION = "0,0"
-  FONT = "./app/assets/fonts/Program_Routine_Mate.ttf"
+  FONT = "./app/assets/fonts/Program_Routine_Mate.png"
   FONT_SIZE = "65"
   INDENTION_COUNT = 16
   ROW_LIMIT = 8

@@ -119,7 +119,7 @@ end
                       },
                       twitter: {
                         card: "summary_large_image",
-                        site: "@https://x.com/58a_tanaka_ryo",
+                        site: "@58a_tanaka_ryo",
                         image: image_url
                       }
       end

@@ -12,12 +12,12 @@ module ApplicationHelper
       title: "ProgramRoutineMate",
       reverse: true,
       charset: "utf-8",
-      description: "プログラミング学習継続アプリです。",
+      description: "ProgramRoutineMateは、プログラミング学習を継続的にサポートするアプリです。ユーザーが学習を記録し、モチベーションを維持するためのツールを提供します。",
       canonical: "https://program-routine-mate.com",
       og: {
         site_name: "ProgramRoutineMate",
         title: "ProgramRoutineMate",
-        description: "プログラミング学習継続アプリです",
+        description: "ProgramRoutineMateは、プログラミング学習を継続的にサポートするアプリです。",
         type: "website",
         url: "https://program-routine-mate.com",
         image: image_url("Program_Routine_Mate.png"),
@@ -25,7 +25,7 @@ module ApplicationHelper
       },
       twitter: {
         card: "summary_large_image",
-        site: "@https://x.com/58a_tanakaryo",
+        site: "@58a_tanakaryo",  # ユーザー名の形式に修正
         image: image_url("Program_Routine_Mate.png")
       }
     }
