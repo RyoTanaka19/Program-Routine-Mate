@@ -91,4 +91,3 @@ gem "carrierwave", "~> 3.0"
 gem "fog-aws"
 gem "dotenv-rails"
 gem "meta-tags"
-
