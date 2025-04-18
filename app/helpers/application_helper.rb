@@ -13,13 +13,13 @@ module ApplicationHelper
       reverse: true,
       charset: "utf-8",
       description: "プログラミング学習継続アプリです。",
-      canonical: request.original_url,
+      canonical: "https://program-routine-mate.com",
       og: {
         site_name: "ProgramRoutineMate",
         title: "ProgramRoutineMate",
         description: "プログラミング学習継続アプリです",
         type: "website",
-        url: request.original_url,
+        url: "https://program-routine-mate.com",
         image: image_url("Program_Routine_Mate.png"),
         local: "ja-JP"
       },
