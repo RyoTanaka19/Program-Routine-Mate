@@ -113,7 +113,7 @@ end
                         title: study_log.content,
                         description: "プログラミング学習記録の投稿",
                         type: "website",
-                        url: request.original_url,
+                        url: "https://program-routine-mate.com/"
                         image: image_url,
                         locale: "ja-JP"
                       },

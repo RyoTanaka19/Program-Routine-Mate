@@ -1,12 +1,13 @@
 class OgpCreator
   require "mini_magick"
-  BASE_IMAGE_PATH = "./app/assets/images/ogp.png"
+  BASE_IMAGE_PATH = "./app/assets/images/icon.png"
   GRAVITY = "center"
   TEXT_POSITION = "0,0"
-  FONT = "./app/assets/fonts/NotoSansJP-Regular.ttf"
-  FONT_SIZE = 65
-  INDENTION_COUNT = 16
-  ROW_LIMIT = 8
+  FONT ="./app/assets/fonts/NotoSansJP-Regular.ttf"
+  FONT_SIZE = 60
+  FONT_SIZE_USER = 30
+  INDENTION_COUNT = 18
+  ROW_LIMIT = 3
 
   def self.build(text)
     text = prepare_text(text)
