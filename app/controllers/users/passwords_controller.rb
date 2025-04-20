@@ -9,11 +9,14 @@ class Users::PasswordsController < Devise::PasswordsController
   # POST /resource/password
   def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)
+
     if successfully_sent?(resource)
-       redirect_to after_sending_reset_password_instructions_path_for(resource_name)
+      redirect_to after_sending_reset_password_instructions_path_for(resource_name)
     else
-      flash[:alert] = "メールアドレスを確認してください" if is_navigational_format?
-      render :new # もしくは、適切なテンプレートを表示
+      # エラーメッセージをflashに設定（flash.nowではなくflash）
+      if resource.errors[:email].any?
+        respond_with resource
+      end
     end
   end
 
@@ -26,7 +29,7 @@ class Users::PasswordsController < Devise::PasswordsController
   def update
     self.resource = resource_class.reset_password_by_token(resource_params)
     if resource.errors.empty?
-      flash[:success] = "パスワードが変更されました" if is_navigational_format?
+      flash[:notice] = "パスワードが変更されました" if is_navigational_format?
       sign_in(resource_name, resource) # 自動的にログインする
       respond_with resource, location: after_sign_in_path_for(resource)
     else

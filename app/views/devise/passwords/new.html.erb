@@ -1,15 +1,29 @@
-<h2 class="text-center text-2xl font-semibold mb-6">Forgot your password?</h2>
+<h2 class="text-center text-3xl font-semibold mb-6 text-gray-700">パスワードをお忘れですか？</h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "max-w-lg mx-auto" }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="mb-4">
-    <%= f.label :email, class: "block text-lg font-medium text-gray-700" %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" %>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
+  <!-- エラーメッセージの表示部分 -->
+  <div class="mb-6">
+    <% if flash[:alert] %>
+      <div class="alert alert-danger text-red-500">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+    <%= render "devise/shared/error_messages", resource: resource %>
   </div>
 
+  <!-- メールアドレスの入力フィールド -->
+  <div class="mb-6">
+    <%= f.label :email, class: "block text-lg font-medium text-gray-700" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" %>
+  </div>
+
+  <!-- 送信ボタン -->
   <div class="actions text-center">
-    <%= f.submit "'パスワードリセットを申請する'", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none" %>
+    <%= f.submit "パスワードリセットを申請する", class: "bg-blue-500 text-white px-6 py-3 rounded-md w-full hover:bg-blue-600 focus:outline-none transition-all" %>
   </div>
 <% end %>
 
+<!-- パスワードリセット後の説明（オプション） -->
+<div class="mt-6 text-center text-sm text-gray-600">
+  <p>登録したメールアドレスにパスワードリセットの手順を送信します。</p>
+</div>
