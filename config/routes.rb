@@ -33,8 +33,8 @@ Rails.application.routes.draw do
     get "user/:id/badges", to: "users#badges", as: "user_badges"
     get "privacy", to: "static_pages#privacy"
     get "terms", to: "static_pages#terms"
-    get "form", to: "static_pages#form"
     get "images/ogp.png", to: "images#ogp", as: "images_ogp"
+    get "form", to: "static_pages#form"
 
     resources :suggests, only: %i[ new create show index destroy ]
     mount Sidekiq::Web => "/sidekiq"
@@ -45,19 +45,6 @@ Rails.application.routes.draw do
         get "events", to: "study_reminders#events"
       end
     end
-
-    namespace :public do
-      resources :contacts, only: %i[new create] do
-        collection do
-          post :confirm
-          post :back
-          get :done
-        end
-      end
-    end
-
-
-
 
     resources :study_logs do
      collection do
