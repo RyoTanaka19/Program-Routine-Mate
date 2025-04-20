@@ -85,10 +85,13 @@ gem "omniauth-google-oauth2"
 gem "omniauth-line"
 gem "omniauth-rails_csrf_protection"
 gem "sidekiq"
-gem "ruby-openai"
 gem "ransack"
 gem "carrierwave", "~> 3.0"
 gem "fog-aws"
 gem "dotenv-rails"
 gem "meta-tags"
 gem "mini_magick"
+
+# OpenAI API を使ってチャットボットや文章生成を行うための公式ライブラリ
+# 本アプリではAIによるアドバイス生成機能に使用
+gem "ruby-openai"

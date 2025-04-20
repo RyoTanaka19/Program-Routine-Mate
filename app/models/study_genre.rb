@@ -3,11 +3,12 @@ class StudyGenre < ApplicationRecord
   # 定数：登録できるジャンルの一覧
   # ===============================
   GENRES = [
-    "Ruby", "SQL", "JavaScript", "Python", "HTML", "CSS", "Rails",
-    "Node.js", "React", "Vue.js", "Angular", "TypeScript", "Go",
-    "Swift", "Kotlin", "Java", "C#", "C++", "PHP", "Rust", "Ruby on Rails",
-    "Docker", "GraphQL", "Firebase", "Elixir", "DevOps", "Machine Learning",
-    "AI", "Data Science", "Android Development", "iOS Development", "Blockchain"
+    "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "Web技術",
+    "ITパスポート", "基本情報技術者試験", "応用技術者試験",
+    "Java", "JavaScript", "Python", "HTML", "CSS",
+    "React", "TypeScript", "Go",
+    "Swift", "Kotlin", "C",
+    "Docker"
   ]
 
   def self.ransackable_attributes(auth_object = nil)

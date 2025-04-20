@@ -9,8 +9,6 @@ class StudyReminder < ApplicationRecord
     }
   end
 
-
-
   # バリデーション（任意）
   validates :start_time, presence: true
   validates :end_time, presence: true

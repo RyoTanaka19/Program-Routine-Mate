@@ -1,30 +1,48 @@
-<h1 class="text-2xl font-bold mb-4">投稿日数ランキング</h1>
+<h1 class="text-3xl font-bold mb-6 text-center text-blue-700">🏆 投稿日数ランキング 🏆</h1>
 
-<table class="min-w-full table-auto border-collapse">
-  <thead>
-    <tr class="bg-gray-100">
-      <th class="px-4 py-2 text-left">順位</th>
-      <th class="px-4 py-2 text-left">ユーザー名</th>
-      <th class="px-4 py-2 text-left">学習した日数</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% previous_posted_days_count = nil %>
-    <% rank = 0 %>
-    <% @ranking.each_with_index do |ranking, index| %>
-      <% user = User.find(ranking[:user_id]) %> <!-- ranking[:user_id] は user_id -->
-      
-      <% if previous_posted_days_count != ranking[:posted_days_count] %>
-        <% rank = index + 1 %> <!-- 投稿日数が同じなら順位を更新しない -->
-      <% end %>
-
-      <tr class="<%= 'bg-gray-50' if index.even? %> hover:bg-gray-200">
-        <td class="px-4 py-2"><%= rank %></td>
-        <td class="px-4 py-2"><%= user.name %></td>
-        <td class="px-4 py-2"><%= ranking[:posted_days_count] %> 日</td> <!-- ranking[:posted_days_count] が学習した日数 -->
+<div class="overflow-x-auto">
+  <table class="min-w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-blue-100 text-blue-900">
+        <th class="px-4 py-3 text-left">順位</th>
+        <th class="px-4 py-3 text-left">ユーザー名</th>
+        <th class="px-4 py-3 text-left">学習した日数</th>
       </tr>
-      
-      <% previous_posted_days_count = ranking[:posted_days_count] %> <!-- 前回の投稿日数を保存 -->
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% previous_posted_days_count = nil %>
+      <% rank = 0 %>
+
+      <% @ranking.each_with_index do |ranking, index| %>
+        <% user = User.find(ranking[:user_id]) %>
+
+        <% if previous_posted_days_count != ranking[:posted_days_count] %>
+          <% rank = index + 1 %>
+        <% end %>
+
+        <% crown_icon = case rank
+          when 1 then "👑"
+          when 2 then "🥈"
+          when 3 then "🥉"
+          else "🎖️"
+        end %>
+
+        <% is_current_user = current_user && current_user.id == user.id %>  <!-- 自分のユーザーかどうか確認 -->
+
+        <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> hover:bg-blue-50 transition <%= 'bg-yellow-100 font-bold' if is_current_user %>">
+          <td class="px-4 py-3 font-semibold text-blue-800">
+            <%= crown_icon %> <%= rank %>位
+          </td>
+          <td class="px-4 py-3 text-gray-800">
+            <%= user.name %>
+          </td>
+          <td class="px-4 py-3 text-gray-600">
+            <%= ranking[:posted_days_count] %> 日
+          </td>
+        </tr>
+
+        <% previous_posted_days_count = ranking[:posted_days_count] %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

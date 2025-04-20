@@ -35,7 +35,7 @@ class StudyGenresController < ApplicationController
       end
 
     # 最後に作成されたジャンルの学習ログが1件だけある場合
-    elsif last_genre.present? && last_genre.study_logs.count == 1
+    elsif last_genre.present? && last_genre.study_logs.count >= 1
       @study_genre = current_user.study_genres.new(study_genre_params)
 
       # 他のジャンルと重複していないか確認
@@ -63,6 +63,7 @@ class StudyGenresController < ApplicationController
 
   # ジャンルの編集ページを表示するアクション
   def edit
+    # 指定されたIDのジャンルを取得
     @study_genre = StudyGenre.find(params[:id])
 
     # 現在のユーザーのジャンルでなければアクセスを拒否
@@ -72,9 +73,12 @@ class StudyGenresController < ApplicationController
     end
   end
 
+  # ジャンル情報を更新するアクション
   def update
+    # 指定されたIDのジャンルを取得
     @study_genre = StudyGenre.find(params[:id])
 
+    # 現在のユーザーのジャンルでなければアクセスを拒否
     if @study_genre.user != current_user
       flash[:alert] = "アクセス権限がありません。"
       redirect_to study_genres_path
@@ -83,22 +87,26 @@ class StudyGenresController < ApplicationController
 
     new_name = params[:study_genre][:name]
 
+    # 他で同じ名前のジャンルがあるか確認（現在のジャンルを除く）
     if current_user.study_genres.exists?(name: new_name) && @study_genre.name != new_name
       flash[:alert] = "他で設定しているジャンルと同じ名前は設定できません。"
       redirect_to study_genres_path
       return
     end
 
+    # 現在のジャンル名を変更しない場合は、更新処理を行わない
     if @study_genre.name == new_name
       flash[:alert] = "現在のジャンルでの更新はできません。"
       redirect_to study_genres_path
       return
     end
 
+    # 名前が変更される場合、関連する学習ログを更新
     if @study_genre.name != new_name
       @study_genre.study_logs.update_all(study_genre_id: nil)
     end
 
+    # 新しい名前に変更して更新
     if @study_genre.update(study_genre_params)
       flash.now[:notice] = "ジャンルが更新されました。"
       redirect_to new_study_log_path(study_genre_id: @study_genre.id), notice: "ジャンルが設定されました。"
@@ -110,26 +118,55 @@ class StudyGenresController < ApplicationController
 
   # ジャンルの詳細ページを表示するアクション
   def show
+    # 1. 指定されたIDのジャンルをデータベースから取得
+    # params[:id]で渡されたIDを使って、StudyGenreテーブルから該当するジャンルを探します。
+    # find_byは、IDに一致するレコードがあればそれを返し、なければnilを返します。
     @study_genre = StudyGenre.find_by(id: params[:id])
 
+    # 2. ジャンルが見つからない場合
     if @study_genre.nil?
+      # ジャンルが見つからない場合はフラッシュメッセージを設定して、indexビューを表示する
       flash[:alert] = "指定されたジャンルは見つかりません。"
       render :index
-      return
+      return  # 処理を終了
     end
 
+    # 3. 現在のユーザーのジャンルでなければアクセスを拒否
+    # @study_genre.userはそのジャンルを作成したユーザーを指します。
+    # current_userは現在ログインしているユーザーで、この2つが一致しない場合、アクセスを拒否する
     if @study_genre.user != current_user
+      # アクセス権限がない場合は、フラッシュメッセージを表示して、indexビューにリダイレクト
       flash[:alert] = "アクセス権限がありません。"
       render :index
-      return
+      return  # 処理を終了
     end
 
+    # 4. Wikipediaからジャンル名に関連するサマリーを取得
+    # WikipediaFetcherというカスタムクラスを使って、ジャンル名に基づくWikipediaのサマリーを取得
+    # 取得したサマリーは@wikipedia_summaryに格納
     @wikipedia_summary = WikipediaFetcher.fetch_summary(@study_genre.name)
+
+    # 5. レスポンス形式に応じて処理を分岐
+    respond_to do |format|
+      # 5.1 HTML形式の応答の場合
+      format.html  # ここでHTMLリクエストに対してshow.html.erbビューがレンダリングされる
+
+      # 5.2 JSON形式の応答の場合
+      format.json do
+        # @study_genre.study_logs.countで、ジャンルに関連する学習ログの数をカウント
+        # User.joins(:study_logs).distinct.countで、学習ログを持つユニークなユーザー数をカウント
+        render json: {
+          post_count: @study_genre.study_logs.count,  # 学習ログの数
+          user_count: User.joins(:study_logs).distinct.count  # ユーザー数
+        }
+      end
+    end
   end
+
   private
 
   # Strong Parameters：許可されたパラメータのみを受け取る
   def study_genre_params
-    params.require(:study_genre).permit(:name, :start_time, :end_time)
+    params.require(:study_genre).permit(:name)
   end
 end

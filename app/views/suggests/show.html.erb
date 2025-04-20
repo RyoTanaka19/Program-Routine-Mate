@@ -1,18 +1,22 @@
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 md:p-8 mt-6 leading-relaxed relative">
-
-  <!-- ユーザーの相談 -->
+  
+  <!-- ユーザーの相談部分 -->
   <div class="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6 mb-8">
+    <!-- ユーザー情報を表示するセクション -->
     <div class="bg-base-100 rounded-lg p-4 shadow-inner flex-1 relative">
+      <!-- ユーザーのプロフィール画像を表示 -->
       <% if @suggest.user.profile_image.present? %>
         <%= image_tag(@suggest.user.profile_image.url, 
                       alt: "#{@suggest.user.name}さんのプロフィール", 
                       class: "w-14 h-14 rounded-full object-cover shadow-lg border-4 border-white absolute -top-6 -left-6") %>
       <% else %>
+        <!-- プロフィール画像がない場合はデフォルト画像を表示 -->
         <%= image_tag("default_study_logs_image.png", 
                       alt: "#{@suggest.user.name}さんのプロフィール", 
                       class: "w-14 h-14 rounded-full object-cover shadow-lg border-4 border-white absolute -top-6 -left-6") %>
       <% end %>
       
+      <!-- ユーザー名と相談内容を表示 -->
       <h2 class="text-2xl font-semibold text-gray-800 mb-2 ml-16">
         <%= @suggest.user.name %>さんの相談
       </h2>
@@ -20,19 +24,22 @@
     </div>
   </div>
 
-  <!-- AIのアドバイス -->
+  <!-- AIのアドバイス部分 -->
   <div class="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6 mb-8">
+    <!-- AIからのアドバイスを表示するセクション -->
     <div class="bg-blue-50 rounded-lg p-4 shadow-md flex-1 relative">
+      <!-- AIのプロフィール画像を表示 -->
       <%= image_tag 'ai_suggests.png', 
                     alt: "AIのプロフィール", 
                     class: "w-14 h-14 rounded-full object-cover shadow-lg border-4 border-white absolute -top-6 -left-6" %>
       
+      <!-- AIのアドバイスのタイトルと内容を表示 -->
       <h2 class="text-2xl font-semibold text-gray-800 mb-2 ml-16">AIのアドバイス</h2>
       <p class="text-gray-700 ml-16"><%= @suggest.response %></p>
     </div>
   </div>
 
-  <!-- 他の提案へ -->
+  <!-- 他の提案へ誘導するメッセージ部分 -->
   <div class="bg-base-100 rounded-lg p-4 mb-8 text-center">
     <p class="text-gray-600 text-lg">
       他にも聞いてみたいことがあれば、いつでも相談してくださいね！<br>

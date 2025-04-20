@@ -1,9 +1,8 @@
-class CreateUserStudyBadges < ActiveRecord::Migration[7.2]
+class CreateUserStudyGenres < ActiveRecord::Migration[6.0]
   def change
-    create_table :user_study_badges do |t|
-      t.references :user, null: false, foreign_key: true
-      t.references :study_badge, null: false, foreign_key: true
-      t.datetime :earned_at
+    create_table :user_study_genres do |t|
+      t.integer :user_id
+      t.integer :study_genre_id
 
       t.timestamps
     end

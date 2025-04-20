@@ -1,15 +1,37 @@
+<%# 学習リマインダーの新規作成フォーム %>
+<%# 非同期送信 + Stimulusでのリダイレクト制御 %>
 <%= form_with model: @study_reminder, url: study_reminders_path, local: false, data: { controller: "redirect" }, id: 'study-reminder-form' do |f| %>
-  <div>
-    <%= f.label :start_time, "学習開始時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.datetime_local_field :start_time, class: "w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-  </div>
+  <div class="max-w-md mx-auto bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-6">
+    
+    <%# フォームのタイトル %>
+    <h2 class="text-2xl font-semibold text-gray-800 text-center">
+      学習リマインダーの設定
+    </h2>
 
-  <div>
-    <%= f.label :end_time, "学習終了時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.datetime_local_field :end_time, class: "w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-  </div>
-  
-  <div>
-    <%= f.submit "通知を設定", class: "w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition" %>
+    <%# 学習開始時間の入力欄 %>
+    <div>
+      <%= f.label :start_time, "学習開始時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%# datetime_local_fieldは日付と時間を一度に設定できるフォーム入力フィールド %>
+      <%= f.datetime_local_field :start_time, 
+          class: "w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      <%# start_timeフィールドに指定された学習開始時間を入力させる %>
+    </div>
+
+    <%# 学習終了時間の入力欄 %>
+    <div>
+      <%= f.label :end_time, "学習終了時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%# datetime_local_fieldを使って、終了時間も設定できるフォームフィールド %>
+      <%= f.datetime_local_field :end_time, 
+          class: "w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      <%# end_timeフィールドには学習終了時間を入力させる %>
+    </div>
+
+    <%# 通知を設定ボタン %>
+    <div>
+      <%= f.submit "通知を設定", 
+          class: "w-full bg-blue-600 text-white text-lg font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      <%# 通知設定のボタン。クリックで学習リマインダーの設定を送信する %>
+    </div>
+
   </div>
 <% end %>
