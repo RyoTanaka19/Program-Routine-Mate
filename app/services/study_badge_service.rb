@@ -18,7 +18,7 @@ class StudyBadgeService
       description: "初めて学習記録を投稿したユーザーに付与されるバッジ", # バッジの説明
       icon: "icon.png"  # バッジに関連するアイコンの名前（ここでは仮に "icon.png" を使用）
     )
-  
+
     # ユーザーがまだこのバッジを持っていない場合に処理を行います。
     # `@user.study_badges.exists?(badge.id)` で、ユーザーが既にこのバッジを持っているか確認します。
     unless @user.study_badges.exists?(badge.id)
@@ -26,7 +26,7 @@ class StudyBadgeService
       # `user_study_badges` テーブルに新たなレコードを作成して、バッジの付与を記録します。
       # `earned_at` にはバッジ獲得時の時間（現在時刻）を保存します。
       @user.user_study_badges.create(study_badge: badge, earned_at: Time.current)
-  
+
       # バッジ獲得を通知するために、LINE通知をバックグラウンドジョブで送信します。
       # `NotifyLineJob.perform_later` を呼び出して非同期で通知を送信します。
       # 通知内容にはバッジのIDとユーザーのIDを渡しますが、`nil` が渡されている部分は引数が不要であるか、後で追加される可能性があります。

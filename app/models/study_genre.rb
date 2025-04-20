@@ -5,9 +5,10 @@ class StudyGenre < ApplicationRecord
   GENRES = [
     "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "Web技術",
     "ITパスポート", "基本情報技術者試験", "応用技術者試験",
-    "Java", "Docker", "AWS", "JavaScript", "Python", "HTML", "CSS",
+    "Java", "C", "C#", "C++",
+     "Docker", "AWS", "JavaScript", "Python", "HTML", "CSS",
     "React", "TypeScript", "Go",
-    "Swift", "Kotlin", "C",
+    "Swift", "Kotlin"
   ]
 
   def self.ransackable_attributes(auth_object = nil)

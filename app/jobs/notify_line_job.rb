@@ -8,13 +8,13 @@ class NotifyLineJob < ApplicationJob
     if badge_id.present? && user_id.present?
       # 🎖 バッジ通知の場合
       # バッジ情報を取得する。`badge_id` でバッジを検索
-      badge = StudyBadge.find(badge_id)  
-      
+      badge = StudyBadge.find(badge_id)
+
       # ユーザー情報を取得する。`user_id` でユーザーを検索
-      user = User.find(user_id)  
+      user = User.find(user_id)
 
       # 通知メッセージを作成（バッジ獲得のお祝いメッセージ）
-      message = "🎉 #{user.name}さんが「#{badge.name}」バッジを獲得しました！"
+      message = "🎉 #{ user.name}さんが「#{badge.name }」バッジを獲得しました！"
 
       # LINE通知を送信するメソッドを呼び出し
       send_line_notification(message)
@@ -26,20 +26,20 @@ class NotifyLineJob < ApplicationJob
       # ⏰ 学習時間通知の場合
       # 学習リマインダー情報を取得する。`study_reminder_id` でリマインダーを検索
       study_reminder = StudyReminder.find(study_reminder_id)
-      
+
       # 指定された時間まで待機する処理
       wait_until_time(study_reminder, time_type)
 
       # 時間タイプに応じてメッセージを作成
       # 学習開始時刻または終了時刻に基づいてメッセージを生成
       message = case time_type
-                when :start_time
+      when :start_time
                   # 学習開始時間の通知メッセージ
                   "学習が開始されました！開始時間: #{study_reminder.start_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                when :end_time
+      when :end_time
                   # 学習終了時間の通知メッセージ
                   "学習が終了しました！終了時間: #{study_reminder.end_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                end
+      end
 
       # LINE通知を送信するメソッドを呼び出し
       send_line_notification(message)
@@ -56,10 +56,10 @@ class NotifyLineJob < ApplicationJob
   def wait_until_time(study_reminder, time_type)
     # 開始時間または終了時間を設定
     target_time = time_type == :start_time ? study_reminder.start_time : study_reminder.end_time
-    
+
     # 現在時刻との残り時間を計算
     sleep_time = target_time - Time.current
-    
+
     # 残り時間が正の値の場合、指定された時間まで待機
     sleep(sleep_time) if sleep_time > 0
   end
@@ -72,7 +72,7 @@ class NotifyLineJob < ApplicationJob
     # メッセージ送信先のユーザーIDは環境変数から取得
     client.push_message(
       ENV["LINE_USER_ID"],  # ユーザーID（LINEの通知を送信する先）
-      [{ type: "text", text: message }]  # 送信するメッセージ内容
+      [ { type: "text", text: message } ]  # 送信するメッセージ内容
     )
   end
 
