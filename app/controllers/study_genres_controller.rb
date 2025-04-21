@@ -1,5 +1,17 @@
 class StudyGenresController < ApplicationController
   # 新規ジャンル作成ページを表示するアクション
+
+  def index
+    # 各ジャンルの学習ログ数とその学習ログを持つユニークなユーザー数を集計
+    @genre_stats = StudyGenre.all.map do |genre|
+      {
+        name: genre.name,
+        post_count: genre.study_logs.count,  # 学習ログの数
+        user_count: genre.study_logs.distinct.count(:user_id)
+      }
+    end
+  end
+
   def new
     # ログインしていない場合は、ログインページにリダイレクト
     if current_user.nil?
