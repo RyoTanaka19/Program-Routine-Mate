@@ -40,15 +40,12 @@
       </div>
 
 
-      <!-- プロフィール画像 -->
-      <label for="my-drawer-4" class="drawer-button btn btn-ghost p-0">
-      <div class="mb-0">
-        <%= image_tag(
-              current_user&.profile_image? ? current_user.profile_image.url : "default_study_logs_image.png",
-              class: "w-10 h-10 rounded-full object-cover"
-            ) %>
-      </div>
-    </label>
+      <div class="flex items-center mb-4">
+      <%= link_to users_profile_path(@user), class: "flex items-center" do  %>
+        <%= image_tag(@user.profile_image.present? ? @user.profile_image.url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
+        <p class="font-semibold text-gray-700"><%= @user.name || "ユーザー情報なし" %></p>
+      <% end %>
+    </div>
 
       <!-- プロフィール編集リンク -->
       <div class="text-center">
