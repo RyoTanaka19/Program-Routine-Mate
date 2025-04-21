@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_21_022933) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_07_184104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,7 +62,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_21_022933) do
     t.bigint "study_genre_id"
     t.integer "count"
     t.integer "study_reminder_id"
-    t.string "grass_color"
     t.index ["study_genre_id"], name: "index_study_logs_on_study_genre_id"
     t.index ["study_reminder_id"], name: "index_study_logs_on_study_reminder_id"
     t.index ["user_id"], name: "index_study_logs_on_user_id"
@@ -84,17 +83,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_21_022933) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_study_schedules_on_user_id"
-  end
-
-  create_table "studying_sessions", force: :cascade do |t|
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "study_logs_id"
-    t.bigint "user_id"
-    t.index ["study_logs_id"], name: "index_studying_sessions_on_study_logs_id"
-    t.index ["user_id"], name: "index_studying_sessions_on_user_id"
   end
 
   create_table "suggests", force: :cascade do |t|
@@ -153,8 +141,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_21_022933) do
   add_foreign_key "study_logs", "users"
   add_foreign_key "study_reminders", "users"
   add_foreign_key "study_schedules", "users"
-  add_foreign_key "studying_sessions", "study_logs", column: "study_logs_id"
-  add_foreign_key "studying_sessions", "users"
   add_foreign_key "suggests", "users"
   add_foreign_key "user_study_badges", "study_badges"
   add_foreign_key "user_study_badges", "users"

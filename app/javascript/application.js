@@ -11,6 +11,7 @@ import './channels';
 import { Calendar } from '@fullcalendar/core';
 // 月表示などの日付表示プラグインをインポート
 import dayGridPlugin from '@fullcalendar/daygrid';
+
 // ユーザーの操作（クリックやドラッグ）を可能にするプラグインをインポート
 import interactionPlugin from '@fullcalendar/interaction';
 

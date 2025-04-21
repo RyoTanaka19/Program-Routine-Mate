@@ -2,14 +2,21 @@ class StudyGenresController < ApplicationController
   # 新規ジャンル作成ページを表示するアクション
 
   def index
-    # 各ジャンルの学習ログ数とその学習ログを持つユニークなユーザー数を集計
-    @genre_stats = StudyGenre.all.map do |genre|
-      {
-        name: genre.name,
-        post_count: genre.study_logs.count,  # 学習ログの数
-        user_count: genre.study_logs.distinct.count(:user_id)
-      }
+    raw_stats = StudyGenre.includes(:study_logs).flat_map do |genre|
+      genre.study_logs.map do |log|
+        { name: genre.name, user_id: log.user_id }
+      end
     end
+
+    grouped = raw_stats.group_by { |entry| entry[:name] }
+
+    @genre_stats = grouped.map do |name, entries|
+      {
+        name: name,
+        post_count: entries.count,
+        user_count: entries.map { |e| e[:user_id] }.uniq.count
+      }
+    end.sort_by { |stat| -stat[:user_count] }
   end
 
   def new
@@ -41,9 +48,8 @@ class StudyGenresController < ApplicationController
 
       # 同じ名前のジャンルがすでに存在するかチェック
       if current_user.study_genres.exists?(name: @study_genre.name)
-        flash[:alert] = "すでに設定しているジャンルは設定できません。"
-        redirect_to study_genres_path
-        return
+        flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
+        render :new, status: :unprocessable_entity and return
       end
 
     # 最後に作成されたジャンルの学習ログが1件だけある場合
@@ -52,16 +58,15 @@ class StudyGenresController < ApplicationController
 
       # 他のジャンルと重複していないか確認
       if current_user.study_genres.exists?(name: @study_genre.name)
-        flash[:alert] = "すでに設定しているジャンルは設定できません。"
-        redirect_to study_genres_path
+        flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
+      render :new, status: :unprocessable_entity and return
         return
       end
 
     # 上記2つの条件以外の場合は登録不可
     else
       flash[:alert] = "新しいジャンルを設定する条件が満たされていません。"
-      redirect_to study_genres_path
-      return
+      render :new, status: :unprocessable_entity and return
     end
 
     # バリデーションを通れば保存して学習ログ作成ページへ遷移
@@ -102,15 +107,13 @@ class StudyGenresController < ApplicationController
     # 他で同じ名前のジャンルがあるか確認（現在のジャンルを除く）
     if current_user.study_genres.exists?(name: new_name) && @study_genre.name != new_name
       flash[:alert] = "他で設定しているジャンルと同じ名前は設定できません。"
-      redirect_to study_genres_path
-      return
+      render :new, status: :unprocessable_entity and return
     end
 
     # 現在のジャンル名を変更しない場合は、更新処理を行わない
     if @study_genre.name == new_name
-      flash[:alert] = "現在のジャンルでの更新はできません。"
-      redirect_to study_genres_path
-      return
+      flash.now[:alert] = "現在のジャンルでの更新はできません。"
+      render :edit, status: :unprocessable_entity and return
     end
 
     # 名前が変更される場合、関連する学習ログを更新
@@ -120,8 +123,8 @@ class StudyGenresController < ApplicationController
 
     # 新しい名前に変更して更新
     if @study_genre.update(study_genre_params)
-      flash.now[:notice] = "ジャンルが更新されました。"
-      redirect_to new_study_log_path(study_genre_id: @study_genre.id), notice: "ジャンルが設定されました。"
+      flash[:notice] = "ジャンルが更新されました。"
+      redirect_to new_study_log_path(study_genre_id: @study_genre.id)
     else
       flash.now[:alert] = "ジャンルの更新に失敗しました。"
       render :edit
@@ -160,17 +163,16 @@ class StudyGenresController < ApplicationController
 
     # 5. レスポンス形式に応じて処理を分岐
     respond_to do |format|
-      # 5.1 HTML形式の応答の場合
-      format.html  # ここでHTMLリクエストに対してshow.html.erbビューがレンダリングされる
-
-      # 5.2 JSON形式の応答の場合
+      format.html
       format.json do
-        # @study_genre.study_logs.countで、ジャンルに関連する学習ログの数をカウント
-        # User.joins(:study_logs).distinct.countで、学習ログを持つユニークなユーザー数をカウント
-        render json: {
-          post_count: @study_genre.study_logs.count,  # 学習ログの数
-          user_count: User.joins(:study_logs).distinct.count  # ユーザー数
-        }
+        logs_by_date = @study_genre.study_logs
+                                   .where(user: current_user)
+                                   .group("DATE(created_at)")
+                                   .order("DATE(created_at)")
+                                   .count
+
+        logs_by_date_formatted = logs_by_date.transform_keys { |date| date.strftime("%Y-%m-%d") }
+        render json: logs_by_date_formatted
       end
     end
   end

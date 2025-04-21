@@ -5,26 +5,28 @@
   🎉 <%= current_user.name %>さんが獲得したバッジ 🎉
 </h1>
 
-<% if @study_badges.any? %>
+<% if @study_badges.any? %> <!-- ユーザーに獲得したバッジがあれば表示 -->
   <!-- グリッド表示 -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
-    <% @study_badges.each do |badge| %>
+    <% @study_badges.each do |badge| %> <!-- 取得したバッジの数だけ繰り返し処理 -->
       <!-- バッジカード -->
       <div class="bg-gradient-to-br from-yellow-100 via-white to-yellow-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transform transition hover:scale-105 border border-yellow-200">
         <div class="flex flex-col items-center text-center">
           <!-- バッジアイコン（バッジ風の丸背景付き） -->
           <div class="bg-yellow-300 p-4 rounded-full shadow-md mb-4 border-4 border-white">
+            <!-- バッジのアイコンを表示、もしアイコンが存在すれば -->
             <%= image_tag(badge.icon, class: "w-20 h-20") if badge.icon.present? %>
           </div>
 
           <!-- バッジ名 -->
           <h2 class="text-xl font-bold text-yellow-700 mb-1"><%= badge.name %></h2>
 
-          <!-- バッジ説明 -->
+          <!-- バッジの説明文 -->
           <p class="text-gray-700 text-sm mb-3"><%= badge.description %></p>
 
           <!-- 獲得日 -->
           <% earned = badge.user_study_badges.find_by(user: current_user)&.earned_at %>
+          <!-- 獲得日が存在する場合、その日付を表示 -->
           <% if earned.present? %>
             <p class="text-xs text-gray-500">🏅 <%= earned.strftime('%Y年%m月%d日') %> に獲得</p>
           <% end %>
@@ -32,7 +34,7 @@
       </div>
     <% end %>
   </div>
-<% else %>
+<% else %> <!-- もしユーザーがまだバッジを獲得していない場合 -->
   <!-- バッジ未獲得メッセージ -->
   <div class="text-center mt-10 text-gray-500 text-lg">
     まだバッジを獲得していません。<br>
