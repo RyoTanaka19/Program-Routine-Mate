@@ -12,9 +12,9 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       # Google認証とLINE認証で異なる処理をする
-      if auth.provider == 'google_oauth2'
+      if auth.provider == "google_oauth2"
         user.email = auth.info.email if auth.info.email.present? # Googleの場合はメールがあれば設定
-      elsif auth.provider == 'line'
+      elsif auth.provider == "line"
         # LINEの場合はメールアドレスが取得できないことがあるので、メールがない場合でもスキップ
         user.email = auth.info.email if auth.info.email.present?
       end
