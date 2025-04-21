@@ -66,10 +66,23 @@ class User < ApplicationRecord
 
   validates :password, presence: true, on: :create         # 新規作成時はパスワード必須
   validates :password_confirmation, presence: true, on: :create # パスワード確認も必須
-  validates :password, confirmation: { message: "が一致しません" }, on: :create, unless: :from_google_oauth? || :from_line_oauth?
-  validates :password, confirmation: true, unless: :from_google_oauth? || :from_line_oauth?
+  validates :password, confirmation: { message: "が一致しません" }, on: :create, unless: :from_oauth?
+  validates :password, confirmation: true, unless: :from_oauth?
 
-  # パスワード確認が一致することを検証。ただし、Google OAuthユーザーは対象外
+  # GoogleかLINEでのOAuth認証ユーザーかどうかを判定
+  def from_oauth?
+    from_google_oauth? || from_line_oauth?
+  end
+
+  # Googleログインユーザーかどうかを判定
+  def from_google_oauth?
+    provider == "google_oauth2"
+  end
+
+  # LINEログインユーザーかどうかを判定
+  def from_line_oauth?
+    provider == "line"
+  end
 
   # 特定のオブジェクトが自分のものかどうかを判定するヘルパー
   def own?(object)
@@ -88,14 +101,4 @@ class User < ApplicationRecord
       .group(:user_id)
       .order(Arel.sql("posted_days_count DESC"))
   end
-
-  # Googleログインユーザーかどうかを判定
-  def from_google_oauth?
-    provider == "google_oauth2"
-  end
-
-    # LINEログインユーザーかどうかを判定
-    def from_line_oauth?
-      provider == "line"
-    end
 end
