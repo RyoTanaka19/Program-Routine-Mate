@@ -11,7 +11,14 @@ class User < ApplicationRecord
   # SNSログイン用のユーザーを取得または作成する
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email                      # OAuthプロバイダーから取得したメールアドレスを設定
+      # Google認証とLINE認証で異なる処理をする
+      if auth.provider == 'google_oauth2'
+        user.email = auth.info.email if auth.info.email.present? # Googleの場合はメールがあれば設定
+      elsif auth.provider == 'line'
+        # LINEの場合はメールアドレスが取得できないことがあるので、メールがない場合でもスキップ
+        user.email = auth.info.email if auth.info.email.present?
+      end
+
       user.password = Devise.friendly_token[0, 20]      # ランダムなパスワードを自動生成
       user.password_confirmation = user.password        # パスワード確認用にも同じ値を設定
       user.name = auth.info.name                        # プロフィール名を設定
@@ -62,7 +69,7 @@ class User < ApplicationRecord
 
   # バリデーション
   validates :name, presence: true                          # 名前は必須
-  validates :email, presence: true, uniqueness: { case_sensitive: false } # メールアドレスは必須かつ一意（大文字小文字区別しない）
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, unless: :from_oauth? # OAuthの場合、emailバリデーションをスキップ
 
   validates :password, presence: true, on: :create         # 新規作成時はパスワード必須
   validates :password_confirmation, presence: true, on: :create # パスワード確認も必須
