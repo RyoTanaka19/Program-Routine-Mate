@@ -2,7 +2,6 @@
   <!-- ジャンル名の表示 -->
   <div class="border-b pb-4">
     <h1 class="text-4xl font-bold text-gray-800">
-      <!-- @study_genre.name は、コントローラから渡されたジャンル名を表示します -->
       <%= @study_genre.name %>
     </h1>
   </div>
@@ -10,45 +9,38 @@
   <!-- Wikipedia概要の表示 -->
   <div class="bg-white shadow-md rounded-2xl p-6">
     <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
-      <!-- Wikipediaのアイコン -->
       <svg class="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 6a9 9 0 11-6.363 15.363A9 9 0 0112 6z" />
       </svg>
       Wikipediaの概要
     </h2>
-    <!-- @wikipedia_summary は、Wikipediaから取得した概要を表示します -->
     <p class="text-gray-700 leading-relaxed whitespace-pre-line">
       <%= @wikipedia_summary %>
     </p>
   </div>
 
   <!-- 投稿情報の表示 -->
+  <!-- 投稿情報の表示 -->
   <div class="bg-gray-50 shadow-inner rounded-2xl p-6">
     <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
-      <!-- 投稿情報のアイコン -->
       <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M12 14v-4m0 0V6m0 4H8m4 0h4" />
       </svg>
       投稿情報
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-6">
       <!-- 投稿数を表示 -->
       <div class="flex items-center">
         <span class="mr-2 font-medium">投稿数：</span>
-        <!-- @study_genre.study_logs.count は、このジャンルに関連する投稿の数をカウントします -->
         <span><%= @study_genre.study_logs.count %> 件</span>
       </div>
-      <!-- 投稿ユーザー数を表示 -->
-      <div class="flex items-center">
-        <span class="mr-2 font-medium">投稿ユーザー数：</span>
-        <!-- User.joins(:study_logs).distinct.count は、投稿したユニークなユーザー数をカウントします -->
-        <span><%= User.joins(:study_logs).distinct.count %> 人</span>
-      </div>
-      <!-- グラフの表示場所 -->
-      <canvas id="chart"></canvas>
+    </div>
+  
+    <!-- グラフの表示 -->
+    <div class="h-64">
+      <canvas id="chart" class="w-full h-full"></canvas>
     </div>
   </div>
-</div>
 
 <!-- jQueryとChart.jsのライブラリを読み込み -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -56,41 +48,70 @@
 
 <script>
   $(document).ready(function() {
-    // ページがロードされたときに非同期でデータを取得
     $.ajax({
-      url: "<%= study_genre_path(@study_genre) %>", // APIエンドポイント
+      url: "<%= study_genre_path(@study_genre) %>",
       dataType: 'json',
       success: function(data) {
-        // 取得したデータを基にグラフを描画
-        var ctx = document.getElementById('chart').getContext('2d');
-        
-        // グラフの設定
-        var chart = new Chart(ctx, {
-          type: 'bar', // グラフの種類（棒グラフ）
+        const labels = Object.keys(data);
+        const counts = Object.values(data);
+
+        const ctx = document.getElementById('chart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
           data: {
-            labels: ['投稿数', '投稿ユーザー数'], // X軸のラベル
-            datasets: [
-              {
-                label: '投稿数', // データセット1のラベル
-                data: [data.post_count, 0], // 投稿数のデータ（data.post_count はサーバーから取得した投稿数）
-                backgroundColor: '#4CAF50', // 棒グラフの色
-                borderColor: '#388E3C', // 棒グラフの枠線の色
-                borderWidth: 1 // 枠線の太さ
-              },
-              {
-                label: '投稿ユーザー数', // データセット2のラベル
-                data: [0, data.user_count], // ユーザー数のデータ（data.user_count はサーバーから取得したユーザー数）
-                backgroundColor: '#FFC107', // 棒グラフの色
-                borderColor: '#FFB300', // 棒グラフの枠線の色
-                borderWidth: 1 // 枠線の太さ
-              }
-            ]
+            labels: labels,
+            datasets: [{
+              label: '日付ごとの投稿数',
+              data: counts,
+              backgroundColor: '#4CAF50',
+              borderColor: '#388E3C',
+              borderWidth: 1,
+              // 棒グラフの幅を設定
+              barThickness: 80 // 必要に応じて調整（デフォルトより狭くする）
+            }]
           },
           options: {
-            responsive: true, // 画面サイズに応じてグラフのサイズを変更
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
+              x: {
+                ticks: {
+                  autoSkip: true,
+                  maxRotation: 0,  // ラベルの角度を0度に設定（横並び）
+                  minRotation: 0,  // ラベルの角度を0度に設定
+                },
+                title: {
+                  display: true,
+                  text: '日付',
+                  color: '#666'
+                },
+                // ラベルの間隔調整
+                grid: {
+                  offset: true
+                }
+              },
               y: {
-                beginAtZero: true // Y軸がゼロから始まるように設定
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                },
+                title: {
+                  display: true,
+                  text: '投稿数',
+                  color: '#666'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return `${context.parsed.y} 件`;
+                  }
+                }
               }
             }
           }

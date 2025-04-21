@@ -91,6 +91,7 @@ gem "fog-aws"
 gem "dotenv-rails"
 gem "meta-tags"
 gem "mini_magick"
+gem "whenever", require: false
 
 # OpenAI API を使ってチャットボットや文章生成を行うための公式ライブラリ
 # 本アプリではAIによるアドバイス生成機能に使用

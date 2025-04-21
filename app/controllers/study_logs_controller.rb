@@ -19,29 +19,23 @@ class StudyLogsController < ApplicationController
 
   # 学習記録を作成するアクション
   def create
-    # 新しい学習記録をユーザーに紐づけて作成
     @study_log = current_user.study_logs.new(study_log_params)
-    # ジャンルIDが指定されていればそのIDを使い、なければユーザーの最新ジャンルを設定
     @study_genre = StudyGenre.find_by(id: params[:study_log][:study_genre_id]) || current_user.study_genres.last
 
-    # ジャンルが見つからなかった場合
     if @study_genre.nil?
       flash.now[:alert] = "指定された学習ジャンルが見つかりませんでした。"
       render :new, status: :unprocessable_entity and return
     end
 
-    # ユーザーが選択したジャンルをUserStudyGenreテーブルに保存
-    UserStudyGenre.find_or_create_by(user: current_user, study_genre: @study_genre)
+    # UserStudyGenreの登録（既存の場合はスキップ）
+    user_study_genre = UserStudyGenre.find_or_create_by(user: current_user, study_genre: @study_genre)
 
-    # 学習記録を保存
     if @study_log.save
-      # 学習記録を保存した後、バッジの割り当てを行う
-      StudyBadgeService.new(current_user).assign_first_study_log_badge
-      # 成功時、学習記録一覧ページへリダイレクト
-      redirect_to study_logs_path, notice: "学習記録を作成しました。"
+      # 成功時の処理
+      redirect_to study_logs_path, notice: "学習記録が作成されました！"
     else
-      # 保存できなかった場合、エラーメッセージを表示
-      flash.now[:alert] = "学習記録を作成できませんでした。"
+      # 保存失敗時
+      flash.now[:alert] = "学習記録の作成に失敗しました。"
       render :new, status: :unprocessable_entity
     end
   end
