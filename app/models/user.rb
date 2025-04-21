@@ -66,8 +66,8 @@ class User < ApplicationRecord
 
   validates :password, presence: true, on: :create         # 新規作成時はパスワード必須
   validates :password_confirmation, presence: true, on: :create # パスワード確認も必須
-  validates :password, confirmation: { message: "が一致しません" }, on: :create, unless: :from_google_oauth? && :from_line_oauth?
-  validates :password, confirmation: true, unless: :from_google_oauth? && :from_line_oauth?
+  validates :password, confirmation: { message: "が一致しません" }, on: :create, unless: :from_google_oauth? || :from_line_oauth?
+  validates :password, confirmation: true, unless: :from_google_oauth? || :from_line_oauth?
 
   # パスワード確認が一致することを検証。ただし、Google OAuthユーザーは対象外
 
