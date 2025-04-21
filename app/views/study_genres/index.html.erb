@@ -1,0 +1,71 @@
+<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chart.js" %>
+
+<!-- 見出し -->
+<h1 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+  学習ジャンルごとのユーザー数
+</h1>
+
+<!-- グラフを囲むコンテナ -->
+<div class="max-w-4xl mx-auto p-4 bg-white shadow-lg rounded-lg">
+  <canvas id="genreChart" width="400" height="200"></canvas>
+</div>
+
+<script>
+  // ページが完全に読み込まれた後に実行されるように
+  const renderChart = function() {
+    const genreStats = <%= raw @genre_stats.to_json %>;
+
+    // genreStatsが空でないことを確認
+    if (genreStats && genreStats.length > 0) {
+      const labels = genreStats.map(stat => stat.name);
+      const userCounts = genreStats.map(stat => stat.user_count);
+
+      // 各ジャンルごとにランダムな色を生成
+      const generateRandomColor = () => {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgba(${r}, ${g}, ${b}, 0.2)`;  // 透明度のあるランダムカラー
+      };
+
+      // 各ジャンルごとにランダムな色を設定
+      const backgroundColors = genreStats.map(() => generateRandomColor());
+      const borderColors = backgroundColors.map(color => color.replace('0.2', '1'));  // 境界線の色を濃く
+
+      const ctx = document.getElementById('genreChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',  // 横棒グラフを表示
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'ユーザー数',  // ユーザー数のラベル
+            data: userCounts,
+            backgroundColor: backgroundColors,  // 各ジャンルにランダムな色
+            borderColor: borderColors,  // 境界線の色も設定
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          indexAxis: 'y',  // 横棒グラフにするための設定
+          scales: {
+            x: {
+              beginAtZero: true  // x軸（横軸）を0から始める
+            }
+          }
+        }
+      });
+    } else {
+      console.error("No genre stats data available");
+    }
+  };
+
+  // turbolinks:load イベントと DOMContentLoaded イベントの両方で実行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderChart);
+  } else {
+    renderChart();
+  }
+
+  document.addEventListener('turbolinks:load', renderChart);  // turbolinksが使用されている場合に対応
+</script>
