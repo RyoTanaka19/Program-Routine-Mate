@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     end
   end
 
+  match "/wp-admin/*path", to: proc { [ 404, {}, [ "" ] ] }, via: :all
+
     get "user/:id/badges", to: "users#badges", as: "user_badges"
     get "privacy", to: "static_pages#privacy"
     get "terms", to: "static_pages#terms"

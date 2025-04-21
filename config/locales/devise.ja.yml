@@ -31,6 +31,7 @@ ja:
     confirmations:
       confirmed: メールアドレスが確認できました。
       new:
+        password_confirmation_mismatch: パスワードとパスワード確認用が一致しません
         resend_confirmation_instructions: アカウント確認メール再送
       send_instructions: アカウントの有効化について数分以内にメールでご連絡します。
       send_paranoid_instructions: メールアドレスが登録済みの場合、本人確認用のメールが数分以内に送信されます。

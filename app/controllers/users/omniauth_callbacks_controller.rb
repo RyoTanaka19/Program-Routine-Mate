@@ -1,68 +1,41 @@
 # frozen_string_literal: true
 
+# DeviseのOmniauthCallbacksControllerを継承して、
+# SNS認証（GoogleやLINEなど）のコールバックを処理するためのコントローラです。
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  # You should configure your model like this:
-  # devise :omniauthable, omniauth_providers: [:twitter]
-
-  # You should also create an action method in this controller like this:
-  # def twitter
-  # end
-
-  # More info at:
-  # https://github.com/heartcombo/devise#omniauth
-
-  # GET|POST /resource/auth/twitter
-  # def passthru
-  #   super
-  # end
-
-  # GET|POST /users/auth/twitter/callback
-  # def failure
-  #   super
-  # end
-
-  # protected
-
-  # The path used when OmniAuth fails
-  # def after_omniauth_failure_path_for(scope)
-  #   super(scope)
-  # end
-
-
+  # Googleアカウントでの認証後に呼び出されるアクション
   def google_oauth2
+    # Googleのコールバック処理を共通メソッドに委譲します
     callback_for(:google)
   end
 
-
+  # LINEでの認証後に呼び出されるアクション
   def line
-    basic_action
+    # LINE用の柔軟な処理を行う共通メソッドに委譲します
+    callback_for(:line)
   end
 
   private
 
+  # 各SNS（Googleなど）からの認証情報をもとにログイン処理を行う共通メソッド
   def callback_for(provider)
+    # SNSから渡されるユーザー情報をもとに、ユーザーを取得または作成します
     @user = User.from_omniauth(request.env["omniauth.auth"])
+
+    # もしユーザーが新規作成された場合、password_confirmationのバリデーションをスキップ
+    if @user.new_record?
+      @user.skip_password_validation_on_creation
+    end
+
+    # ユーザーをログインさせて、リダイレクトします（Deviseの機能）
     sign_in_and_redirect @user, event: :authentication
+
+    # フラッシュメッセージを表示します（例：「Googleでログインしました」）
     set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
   end
 
+  # SNSログインが失敗した場合の処理（トップページに戻す）
   def failure
     redirect_to root_path
-  end
-
-  def basic_action
-    @omniauth = request.env["omniauth.auth"]
-    if @omniauth.present?
-      @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
-      if @profile.email.blank?
-        email = @omniauth["info"]["email"] ? @omniauth["info"]["email"] : "#{@omniauth["uid"]}-#{@omniauth["provider"]}@example.com"
-        @profile = current_user || User.create!(provider: @omniauth["provider"], uid: @omniauth["uid"], email: email, name: @omniauth["info"]["name"], password: Devise.friendly_token[0, 20])
-      end
-      @profile.set_values(@omniauth)
-      sign_in(:user, @profile)
-    end
-
-    flash[:notice] = "ログインしました"
-    redirect_to expendable_items_path
   end
 end

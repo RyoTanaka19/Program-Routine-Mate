@@ -4,9 +4,9 @@ class StudyGenre < ApplicationRecord
   # ===============================
   GENRES = [
     "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "Web技術",
-    "ITパスポート", "基本情報技術者試験", "応用技術者試験",
-    "Java", "C", "C#", "C++",
-     "Docker", "AWS", "JavaScript", "Python", "HTML", "CSS",
+    "ITパスポート", "基本情報技術者試験", "応用技術者試験", "アルゴリズム", # カンマを追加
+    "Java", "C", "C#", "C++", "Git",
+    "Docker", "AWS", "JavaScript", "Python", "HTML", "CSS",
     "React", "TypeScript", "Go",
     "Swift", "Kotlin"
   ]
