@@ -28,14 +28,15 @@ class Users::PasswordsController < Devise::PasswordsController
   # PUT /resource/password
   def update
     self.resource = resource_class.reset_password_by_token(resource_params)
+
     if resource.errors.empty?
       flash[:notice] = "パスワードが変更されました" if is_navigational_format?
-      sign_in(resource_name, resource) # 自動的にログインする
+      sign_in(resource_name, resource)
       respond_with resource, location: after_sign_in_path_for(resource)
     else
-      Rails.logger.debug("送信されたリセットトークン: #{resource.reset_password_token}")
-      Rails.logger.debug("受信したリセットトークン: #{params[:user][:reset_password_token]}")
-      flash[:alert] = "パスワードを確認してください" if is_navigational_format?
+      # エラーメッセージがない場合のデバッグ
+      Rails.logger.debug("Validation Errors: #{resource.errors.full_messages}")
+      flash[:alert] = resource.errors.full_messages.join("、") if is_navigational_format?
       respond_with resource
     end
   end

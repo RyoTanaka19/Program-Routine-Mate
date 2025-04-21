@@ -1,6 +1,6 @@
 class StudyLogsController < ApplicationController
   # 認証が必要なアクションを定義。showとindexは認証なしでアクセス可能。
-  before_action :authenticate_user!, except: [ :show, :index ]
+  before_action :authenticate_user!, except: [ :show, :index, :autocomplete ]
 
   # 新しい学習記録のフォームを表示するアクション
   def new
