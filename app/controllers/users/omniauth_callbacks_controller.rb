@@ -15,6 +15,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     callback_for(:line)
   end
 
+  def github
+    callback_for(:github)
+  end
+
   private
 
   # 各SNS（Googleなど）からの認証情報をもとにログイン処理を行う共通メソッド
