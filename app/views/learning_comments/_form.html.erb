@@ -23,8 +23,7 @@
           <br>
 
           <!-- コメント送信ボタン。新規作成と編集で共通 -->
-          <%= form.submit "送信", class: "btn btn-primary" %>
-
+<%= form.submit (learning_comment.new_record? ? "送信" : "変更"), class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>
