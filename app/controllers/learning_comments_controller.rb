@@ -4,7 +4,7 @@ class LearningCommentsController < ApplicationController
   # ----------------------------------------
 
   # ユーザーがログインしていない場合、コメントの作成・削除・編集・更新はできないように制限
-  before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
+  before_action :authenticate_user!, only: [ :create, :destroy, :edit, :update ]
 
   # ----------------------------------------
   # コメントの新規作成アクション

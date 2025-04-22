@@ -86,13 +86,13 @@ class StudyLogsController < ApplicationController
 
   def autocomplete
     @q = StudyLog.ransack(params[:q])
-  
+
     if params.dig(:q, :study_genre_name_eq).present?
       @q.study_genre_name_eq = params[:q][:study_genre_name_eq]
     end
-  
+
     @study_logs = @q.result(distinct: true).limit(10)
-    render json: @study_logs.as_json(only: [:content])
+    render json: @study_logs.as_json(only: [ :content ])
   end
 
   # 学習記録のランキングを表示するアクション
