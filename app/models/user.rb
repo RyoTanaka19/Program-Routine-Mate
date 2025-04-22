@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # 使用するモジュール: データベース認証、新規登録、パスワードリカバリ、ログイン情報の記憶、OAuth認証（Google, LINE）
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 line]
+         :omniauthable, omniauth_providers: %i[google_oauth2 line github]
 
   # 同じプロバイダー内でUIDの重複を防ぐ（例: 同じGoogleアカウントは1ユーザーのみ）
   validates :uid, uniqueness: { scope: :provider }
@@ -78,7 +78,7 @@ class User < ApplicationRecord
 
   # GoogleかLINEでのOAuth認証ユーザーかどうかを判定
   def from_oauth?
-    from_google_oauth? || from_line_oauth?
+    from_google_oauth? || from_line_oauth? || from_github_oauth?
   end
 
   # Googleログインユーザーかどうかを判定
@@ -89,6 +89,10 @@ class User < ApplicationRecord
   # LINEログインユーザーかどうかを判定
   def from_line_oauth?
     provider == "line"
+  end
+
+  def from_github_oauth?
+    provider == "github"
   end
 
   # 特定のオブジェクトが自分のものかどうかを判定するヘルパー

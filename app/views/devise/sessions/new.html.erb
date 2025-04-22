@@ -1,67 +1,73 @@
-<div class="flex justify-center items-center min-h-screen bg-gray-100">
-  <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+<div class="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+  <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-8 space-y-6">
 
     <!-- ログインタイトル -->
-    <h1 class="text-2xl font-bold text-center mb-6 text-gray-700">ログイン</h1>
+    <h1 class="text-3xl font-bold text-center text-gray-800">ログイン</h1>
 
     <!-- エラーメッセージ表示 -->
     <% if flash[:alert].present? %>
-      <div class="text-red-500 text-sm mb-4">
+      <div class="text-red-600 text-sm text-center bg-red-100 rounded p-2">
         <%= flash[:alert] %>
       </div>
     <% end %>
 
     <!-- フォーム -->
-    <%= form_with model: @user, url: user_session_path, class: "space-y-6" do |form| %>
+    <%= form_with model: @user, url: user_session_path, class: "space-y-4" do |form| %>
       
       <!-- メール入力フィールド -->
       <div>
-        <%= form.email_field :email, class: "border rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent", placeholder: "メールアドレス" %>
+        <%= form.email_field :email, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder: "メールアドレス" %>
       </div>
 
       <!-- パスワード入力フィールド -->
       <div>
-        <%= form.password_field :password, class: "border rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent", placeholder: "パスワード" %>
+        <%= form.password_field :password, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder: "パスワード" %>
       </div>
 
       <!-- ログインボタン -->
       <div>
-        <%= form.submit "ログイン", class: "bg-blue-500 text-white font-bold py-3 rounded w-full hover:bg-blue-600 transition" %>
+        <%= form.submit "ログイン", class: "bg-blue-600 text-white font-semibold py-3 rounded-lg w-full hover:bg-blue-700 transition-colors" %>
       </div>
       
     <% end %>
 
     <!-- パスワードリセットリンク -->
-    <div class="text-center mt-4">
-      <a href="<%= new_user_password_path %>" class="text-sm text-gray-500 hover:underline">
-        パスワードを忘れた？
+    <div class="text-center">
+      <a href="<%= new_user_password_path %>" class="text-sm text-blue-500 hover:underline">
+        パスワードを忘れた方はこちら
       </a>
     </div>
 
     <!-- サインアップリンク -->
-    <p class="text-sm text-center text-gray-600 mt-4">アカウントを持っていない？ 
-      <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 hover:underline" %>
+    <p class="text-sm text-center text-gray-600">
+      アカウントをお持ちでない場合は
+      <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 font-medium hover:underline" %>
     </p>
 
-    <!-- GoogleおよびLINEログインボタン -->
-    <%- if devise_mapping.omniauthable? %>
-      
-      <!-- Googleログインボタン -->
-      <div class="mt-6">
-        <%= link_to user_google_oauth2_omniauth_authorize_path, class: "flex items-center justify-center w-full py-3 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-6 h-6 mr-2"><path d="M23.49 12.28c0-.73-.06-1.42-.17-2.08H12v4.08h6.29c-.27 1.56-1.02 2.88-2.12 3.59v3h3.42c2.01-1.86 3.16-4.64 3.16-7.59z" fill="#4285F4"/><path d="M12 6.92c1.1 0 2.04.37 2.79.99l2.08-2.08C15.29 4.03 13.57 3 12 3c-2.56 0-4.72 1.72-5.5 4.05l-3.41-2.55C3.88 2.04 7.44 0 12 0z" fill="#34A853"/><path d="M12 3c-.59 0-1.16.16-1.65.45L8.27 1.37C7.11.56 5.62.07 4.11.07 2.04.07 0 2.11 0 4.11s2.04 4.11 4.11 4.11c1.51 0 2.99-.5 3.97-1.36L10.35 6.5C9.72 5.81 9.02 5.47 8.29 5.28c.09.35.17.71.17 1.08" fill="#FBBC05"/><path d="M12 0c-.56 0-1.12.08-1.65.23L9.24.62C9.8 1.58 10.76 2.5 12 3c1.38-.5 2.42-1.42 3.12-2.58-.23-.1-.47-.19-.72-.28C12.66 0.08 12 0 12 0z" fill="#EB4335"/><path d="M12 0c-.56 0-1.12.08-1.65.23l-.69.7c.26.56.72.99 1.28 1.2C12.72 2.3 12.66 2.13 12 2z" fill="#4285F4"/></svg>
-          Googleでログイン
+    <!-- OAuthログインセクション -->
+    <% if devise_mapping.omniauthable? %>
+      <div class="space-y-3 mt-8">
+        
+        <!-- Googleログイン -->
+        <%= link_to user_google_oauth2_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700" do %>
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google logo">
+          <span>Googleでログイン</span>
         <% end %>
-      </div>
-      
-      <!-- LINEログインボタン -->
-      <div class="mt-4">
-        <%= link_to user_line_omniauth_authorize_path, class: "flex items-center justify-center w-full py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 mr-2"><path d="M21.51 4.96a10.04 10.04 0 0 0-6.98-2.89 10.09 10.09 0 0 0-6.12 2.08 9.92 9.92 0 0 0-2.82 3.83c-.01 0-.02.01-.02.01-.12-.01-.23-.02-.35-.02-.14 0-.27.01-.41.02-.15-.11-.31-.21-.47-.31a10.07 10.07 0 0 0-4.42 7.04c-.04.39-.07.77-.07 1.16s.03.77.07 1.16c.45 2.85 2.04 5.37 4.19 7.04-.21.15-.42.3-.64.45-1.12-.61-2.28-1.38-3.34-2.23-.71.75-1.48 1.43-2.34 2.06a10.08 10.08 0 0 0-5.16-7.31c-.2-.13-.41-.26-.63-.37 1.39-.97 3.04-1.74 4.76-2.4 3.09-1.14 5.34-2.17 8.2-3.21a9.88 9.88 0 0 1-.59-1.16z" fill="#fff"/></svg>
-          LINEでログイン
-        <% end %>
-      </div>
 
-    <% end %>  
+        <!-- LINEログイン -->
+        <%= link_to user_line_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm font-medium" do %>
+          <img src="https://www.svgrepo.com/show/353433/line-icon.svg" class="w-5 h-5" alt="LINE logo">
+          <span>LINEでログイン</span>
+        <% end %>
+
+        <!-- GitHubログイン -->
+        <%= link_to user_github_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-[#24292e] text-white rounded-lg hover:bg-[#1b1f23] transition text-sm font-medium" do %>
+          <img src="https://www.svgrepo.com/show/512317/github-142.svg" class="w-5 h-5" alt="GitHub logo">
+          <span>GitHubでログイン</span>
+        <% end %>
+
+      </div>
+    <% end %>
+
   </div>
 </div>
