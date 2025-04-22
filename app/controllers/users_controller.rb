@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def show
     # current_user を使って、現在ログインしているユーザーを取得します。
     # @user にその情報を格納し、ビューで使用できるようにします。
-    @user = current_user
+    @user = User.find(params[:id])
 
     # ユーザーが行った学習ログを @study_logs に格納してビューで表示できるようにします。
     # current_user.study_logs で、現在のユーザーに関連付けられた学習ログを取得します。

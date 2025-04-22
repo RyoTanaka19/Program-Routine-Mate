@@ -1,19 +1,32 @@
-<%= turbo_frame_tag "learning_comment_#{learning_comment.id}" do %>
-  <div class="row mb-3" id="learning_comments-form">
-    <div class="col-lg-8 offset-lg-2">
-      <%= form_with model: learning_comment, url: learning_comment.new_record? ? study_log_learning_comments_path(study_log) : learning_comment_path(learning_comment) do |form| %>
-        <!-- エラーメッセージの表示 -->
-        <%= render 'shared/error_messages', object: form.object %>
+<% if user_signed_in? %>
+  <%= turbo_frame_tag "learning_comment_#{learning_comment.id}" do %>
+    <!-- コメントフォーム全体をTurbo Frameで囲むことで、部分的な更新が可能に -->
+    <div class="row mb-3" id="learning_comments-form">
+      <div class="col-lg-8 offset-lg-2">
+        <%= form_with model: learning_comment, 
+                      url: (learning_comment.new_record? ? study_log_learning_comments_path(study_log) : learning_comment_path(learning_comment)), 
+                      method: (learning_comment.new_record? ? :post : :patch) do |form| %>
 
-        <!-- コメント内容の入力フィールド -->
-        <%= form.label :text, "コメント", autofocus: true %>
-        <%= form.text_area :text, class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          <!-- バリデーションエラーがあれば共通部品から表示 -->
+          <%= render 'shared/error_messages', object: form.object %>
 
-        <br>
+          <!-- コメントの入力ラベル -->
+          <%= form.label :text, "コメント", autofocus: true %>
 
-        <!-- 送信ボタン -->
-        <%= form.submit "送信", class: "btn btn-primary" %>
-      <% end %>
+          <!-- コメント本文の入力フィールド -->
+          <%= form.text_area :text, 
+                class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+
+          <!-- 対象の学習記録IDを隠しフィールドで送信（サーバー側でも紐付けに使用） -->
+          <%= form.hidden_field :study_log_id, value: @learning_comment.study_log_id %>
+
+          <br>
+
+          <!-- コメント送信ボタン。新規作成と編集で共通 -->
+          <%= form.submit "送信", class: "btn btn-primary" %>
+
+        <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

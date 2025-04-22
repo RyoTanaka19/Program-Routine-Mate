@@ -8,11 +8,18 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def authenticate_user!
+    unless user_signed_in?
+      flash[:alert] = "ログインしてください"
+      redirect_to new_user_session_path
+    end
+  end
+
   # ==========================================
   # ログイン後のリダイレクト先を指定するメソッド
   # Devise の after_sign_in_path_for メソッドをオーバーライド
   # ==========================================
-  def after_sign_in_path_for(study_logs)
+  def after_sign_in_path_for(resource)
     # ログイン後は学習ログ一覧ページへ遷移
     study_logs_path
   end
@@ -21,7 +28,7 @@ class ApplicationController < ActionController::Base
   # ログアウト後のリダイレクト先を指定するメソッド
   # Devise の after_sign_out_path_for メソッドをオーバーライド
   # ==========================================
-  def after_sign_out_path_for(new_user_session)
+  def after_sign_out_path_for(resource_or_scope)
     # ログアウト後はトップページ（ルートパス）へ遷移
     root_path
   end

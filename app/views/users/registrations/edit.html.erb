@@ -49,9 +49,10 @@
   }
 </script>
 
-
-  <div class="flex justify-between items-center">
-    <%= link_to "マイページに戻る", users_profile_path(current_user.id), class: "text-blue-600 hover:underline" %>
+<div class="flex justify-between items-center">
+<%= link_to "マイページに戻る", user_path(current_user), class: "text-blue-600 hover:underline" %>
     <%= f.submit "Update", class: "px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
   </div>
 <% end %>
+
+  

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_action :authenticate_user!, only: [ :edit, :update ]
    protected
+
    def after_sign_up_path_for(resource)
      # 登録後は学習ログ一覧ページへ遷移（例：ダッシュボードのような役割）
      study_logs_path

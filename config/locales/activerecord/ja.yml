@@ -14,3 +14,8 @@ ja:
               blank: '学習時間(秒)を入力してください'
             text:
               blank: '感想などを入力してください'
+
+        learning_comment:
+          attributes:
+            text:
+              blank: 'コメント内容を入力してください'
