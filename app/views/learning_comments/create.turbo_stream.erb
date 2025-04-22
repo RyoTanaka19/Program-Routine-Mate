@@ -10,6 +10,6 @@
 
   <!-- コメント一覧に新しいコメントを追加 -->
   <%= turbo_stream.prepend "learning_comments-list" do %>
-   <%= render 'learning_comments/learning_comment', learning_comment: @learning_comment %>
- <% end %>
+    <%= render 'learning_comments/learning_comment', learning_comment: @learning_comment %>
+  <% end %>
 <% end %>

@@ -1,6 +1,4 @@
 <div class="flex items-center justify-center mb-8 space-x-4">
-  <h1 class="text-7xl mr-8">投稿一覧画面</h1>
-
   <%= link_to 'AI', new_suggest_path, class: "px-3 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" %>
 
 <%= link_to study_reminders_path, class: 'inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white text-sm font-semibold rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all' do %>
@@ -115,11 +113,12 @@
       <div class="border p-4 rounded-lg shadow-md hover:bg-gray-100">
       <!-- 投稿者のプロフィール画像 -->
       <div class="flex items-center mb-4">
-        <%= link_to users_profile_path(study_log.user), class: "flex items-center" do  %>
-          <%= image_tag(study_log.user.profile_image? ? study_log.user.profile_image_url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
-          <p class="font-semibold text-gray-700"><%= study_log.user&.name || "ユーザー情報なし" %></p>
-        <% end %>
-     </div>
+  <%= link_to user_path(study_log.user), class: "flex items-center" do  %>
+    <%= image_tag(study_log.user.profile_image? ? study_log.user.profile_image_url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
+    <p class="font-semibold text-gray-700"><%= study_log.user&.name || "ユーザー情報なし" %></p>
+  <% end %>
+</div>
+
 
      <p><strong>学習時間：</strong><%= study_log.total %> 分</p> 
 
