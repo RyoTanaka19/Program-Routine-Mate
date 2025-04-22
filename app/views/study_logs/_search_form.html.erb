@@ -1,37 +1,45 @@
-<div class="flex justify-center items-center py-8">
-  <%= search_form_for @q, url: study_logs_path, method: :get, html: { data: { controller: "autocomplete", autocomplete_url_value: autocomplete_study_logs_path } } do |form| %>
-    <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+<div class="flex justify-center items-center py-8 px-4">
+  <%= search_form_for @q, url: study_logs_path, method: :get, html: { data: { controller: "autocomplete", autocomplete_url_value: autocomplete_study_logs_path }, class: "w-full max-w-3xl" } do |form| %>
+    <div class="bg-white shadow-xl rounded-2xl p-8 space-y-6">
       
+      <!-- フォーム見出し -->
+      <h2 class="text-2xl font-bold text-center text-gray-800">学習ログ検索</h2>
+
       <!-- ジャンルの選択 -->
-      <div class="flex flex-col">
-        <%= form.label :study_genre_id_eq, 'ジャンル', class: 'text-lg font-semibold mb-2' %>
-<%= form.select :study_genre_name_eq,
-                options_for_select(StudyGenre::GENRES.map { |genre| [genre, genre] }, params.dig(:q, :study_genre_name_eq)),
-                { include_blank: 'すべて' },
-                class: 'form-control border rounded-lg p-3 text-gray-700' %>
+      <div>
+        <%= form.label :study_genre_name_eq, 'ジャンルを選択', class: 'block text-lg font-medium text-gray-700 mb-2' %>
+        <%= form.select :study_genre_name_eq,
+          options_for_select(StudyGenre::GENRES.map { |genre| [genre, genre] }, params.dig(:q, :study_genre_name_eq)),
+          { include_blank: 'すべて' },
+          class: 'w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:ring-2 focus:ring-blue-400',
+          data: { action: 'change->autocomplete#resetSearch' } %>
       </div>
-      
+
       <!-- 学習内容の検索 -->
-      <div class="flex flex-col">
-        <%= form.label :content_cont, '学習内容', class: 'text-lg font-semibold mb-2' %>
-        <%= form.search_field :content_cont, class: 'form-control border rounded-lg p-3 text-gray-700', placeholder: '検索ワードを入力', data: { action: "input->autocomplete#search", autocomplete_target: "input" } %>
+      <div>
+        <%= form.label :content_cont, 'キーワードで検索', class: 'block text-lg font-medium text-gray-700 mb-2' %>
+        <%= form.search_field :content_cont,
+          class: 'w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:ring-2 focus:ring-blue-400',
+          placeholder: '例: Ruby, 勉強会, SQL',
+          data: { action: "input->autocomplete#search", autocomplete_target: "input" } %>
       </div>
-      
+
       <!-- 検索ボタン -->
-      <div class="flex justify-center">
-        <%= form.submit '検索', class: 'bg-blue-500 text-white rounded-lg p-3 w-full hover:bg-blue-600 transition duration-300' %>
+      <div class="pt-4">
+        <%= form.submit '🔍 検索する', class: 'w-full bg-blue-500 text-white text-lg font-semibold py-3 rounded-lg hover:bg-blue-600 transition duration-300' %>
       </div>
 
       <!-- オートコンプリート結果 -->
-      <ul data-autocomplete-target="results" class="autocomplete-results border rounded-lg bg-white shadow-md mt-2 max-h-60 overflow-auto"></ul>
+      <ul data-autocomplete-target="results" class="border rounded-lg bg-white shadow-md mt-2 max-h-60 overflow-auto text-sm text-gray-700 divide-y divide-gray-100"></ul>
 
-      <% if @study_logs.any? %>
-        <p class="text-green-500 font-semibold mt-4 text-center">
-          検索結果: <%= @study_logs.count %> 件
-        </p>
-      <% else %>
-        <p class="text-red-500 font-semibold mt-4 text-center">検索結果がありません</p>
-      <% end %>
+      <!-- 検索結果表示 -->
+      <div class="pt-4 text-center">
+        <% if @study_logs.any? %>
+          <p class="text-green-600 font-semibold">検索結果: <%= @study_logs.count %> 件</p>
+        <% else %>
+          <p class="text-red-500 font-semibold">検索結果がありません</p>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

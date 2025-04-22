@@ -1,3 +1,6 @@
 <%= turbo_frame_tag "like-count-#{study_log.id}" do %>
-  <p>いいねの数: <%= study_log.likes.count %></p>
+  <div class="flex items-center gap-2 text-gray-700 text-lg mt-4">
+    <span class="text-xl">👍</span>
+    <span><%= study_log.likes.count %></span>
+  </div>
 <% end %>

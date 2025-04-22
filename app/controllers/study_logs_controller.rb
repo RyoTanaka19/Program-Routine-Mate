@@ -84,11 +84,15 @@ class StudyLogsController < ApplicationController
     @study_genres = StudyGenre.all  # 学習ジャンルのリストを取得
   end
 
-  # 学習記録のコンテンツを検索するための自動補完機能
   def autocomplete
-    @q = StudyLog.ransack(params[:q])  # ransackを使って検索条件を作成
-    @study_logs = @q.result(distinct: true).limit(10)  # 検索結果を最大10件取得
-    render json: @study_logs.as_json(only: [ :content ])  # 結果をJSONで返却
+    @q = StudyLog.ransack(params[:q])
+  
+    if params.dig(:q, :study_genre_name_eq).present?
+      @q.study_genre_name_eq = params[:q][:study_genre_name_eq]
+    end
+  
+    @study_logs = @q.result(distinct: true).limit(10)
+    render json: @study_logs.as_json(only: [:content])
   end
 
   # 学習記録のランキングを表示するアクション
