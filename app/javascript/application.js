@@ -11,65 +11,67 @@ import './channels';
 import { Calendar } from '@fullcalendar/core';
 // 月表示などの日付表示プラグインをインポート
 import dayGridPlugin from '@fullcalendar/daygrid';
-
 // ユーザーの操作（クリックやドラッグ）を可能にするプラグインをインポート
 import interactionPlugin from '@fullcalendar/interaction';
 
 // Turboがページを完全に読み込んだタイミングで実行
 document.addEventListener('turbo:load', function () {
-  // HTML内にあるID "calendar" の要素を取得
   const calendarEl = document.getElementById('calendar');
 
-  // カレンダー要素が存在するかチェック
   if (calendarEl) {
-    // data-events属性に埋め込まれたJSON文字列をパースしてイベントデータに変換
     const eventsData = calendarEl.dataset.events
       ? JSON.parse(calendarEl.dataset.events)
       : [];
 
-    // FullCalendarのインスタンスを作成
     const calendar = new Calendar(calendarEl, {
-      plugins: [dayGridPlugin, interactionPlugin], // 使用するプラグインを指定
-      initialView: 'dayGridMonth', // 初期表示を月ビューに設定
-      events: eventsData, // 表示するイベントの配列
+      plugins: [dayGridPlugin, interactionPlugin],
+      initialView: 'dayGridMonth',
+      events: eventsData,
       headerToolbar: {
-        left: 'prev,next today', // 左側に「前月」「次月」「今日」ボタン
-        center: 'title', // 中央にカレンダーのタイトル
-        right: 'dayGridMonth,dayGridWeek,dayGridDay', // 右側に表示切替（カレンダーの種類）
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,dayGridWeek,dayGridDay',
       },
-      editable: false, // イベントのドラッグなど編集を無効化
-      droppable: false, // 外部要素のドロップを無効化
-      dayCellClassNames: ['custom-day-cell'], // 各日セルにカスタムクラスを追加
+      editable: false,
+      droppable: false,
+      dayCellClassNames: ['custom-day-cell'],
 
-      // 各日セルが描画された後に呼ばれる処理
       dayCellDidMount: function (info) {
-        const today = new Date(); // 今日の日付を取得
+        const today = new Date();
         const isToday =
           info.date.getDate() === today.getDate() &&
           info.date.getMonth() === today.getMonth() &&
           info.date.getFullYear() === today.getFullYear();
 
-        // 今日の日付のセルにスタイルを適用
         if (isToday) {
           info.el.classList.add(
-            'bg-blue-200', // 背景色
-            'border', // 境界線
-            'border-blue-600', // 青色の枠線
-            'rounded-md', // 角を丸く
-            'text-gray-900', // テキスト色
-            'font-semibold' // テキストを太字
+            'bg-blue-200',
+            'border',
+            'border-blue-600',
+            'rounded-md',
+            'text-gray-900',
+            'font-semibold'
           );
         }
+
+        // ✅ セルの高さとパディングをさらに広げ、内容を整列
+        info.el.classList.add(
+          'py-8', // 上下の余白を広げる
+          'min-h-[6rem]', // セルの最小高さを広げる
+          'flex', // Flexboxを使用して日付を整列
+          'items-center', // セル内で内容を縦方向に中央揃え
+          'justify-center', // セル内で内容を横方向に中央揃え
+          'text-lg', // テキストサイズを少し大きく
+          'text-gray-700' // 見やすい色に設定
+        );
       },
 
-      // イベントをクリックしたときの処理
       eventClick: function (info) {
         alert(
           `イベント: ${info.event.title}\n${info.event.start.toLocaleString()}`
         );
       },
 
-      // イベントにマウスを重ねたときの処理（ツールチップを表示）
       eventMouseEnter: function (info) {
         info.el.setAttribute(
           'title',
@@ -78,10 +80,8 @@ document.addEventListener('turbo:load', function () {
       },
     });
 
-    // カレンダーを画面に表示
     calendar.render();
   } else {
-    // 要素が見つからなかった場合のエラー出力
     console.error('カレンダーの要素が見つかりません。');
   }
 });

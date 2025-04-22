@@ -36,11 +36,11 @@
     <div class="mt-6">
       <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
     </div>
+    <% if user_signed_in? %>
+      <%= render 'study_logs/like_button', study_log: @study_log %>
+    <% end %>
 
-    <%= render 'study_logs/like_button', study_log: @study_log %>
     <%= render 'study_logs/like_count', study_log: @study_log %>
-    
-    
 
     <div class="mt-6">
       <h2 class="text-xl font-semibold text-center mb-4">コメント一覧</h2>

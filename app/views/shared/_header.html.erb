@@ -37,8 +37,10 @@
           <!-- ログインしていない場合はログイン・新規登録リンク -->
           <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
           <li><%= link_to "新規登録", new_user_registration_path, class: "fs-6 text-decoration-none text-info" %></li>
+          <%= link_to "マイページ", user_path(current_user) if user_signed_in? %>
         <% end %>
-
+ 
+        <li><%= link_to "投稿一覧", study_logs_path %></li>
         <!-- サイトの利用規約・プライバシーポリシー・お問い合わせリンク -->
         <li><%= link_to '利用規約', terms_path %></li>
         <li><%= link_to 'プライバシーポリシー', privacy_path %></li>

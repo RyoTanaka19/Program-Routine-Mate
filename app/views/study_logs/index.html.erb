@@ -70,39 +70,38 @@
     let data = <%= @study_logs_for_js.to_json.html_safe %>; // サーバーサイドで渡されたstudy_logsデータ
 
     // データの形式を整え、ISO形式の日付に変換する
-    data = data.map(item => ({
-      date: new Date(item.date).toISOString(), // 日付をISO形式に変換
-      total: item.total
-    }));
+data = data.map(item => ({
+  date: new Date(item.date).toISOString(),
+  total: item.total
+}));
 
-    // CalHeatmapの設定
-    const cal = new CalHeatmap();
-    cal.paint({
-      itemSelector: '#cal-heatmap',
-      domain: {
-        type: 'month',
-        gutter: 4,
-        label: { text: 'MMM', textAlign: 'start', position: 'top' }, // 月のラベル
-      },
-      subDomain: {
-        type: 'ghDay',
-        radius: 2,
-        width: 11,
-        height: 11,
-        gutter: 4,
-      },
-      date: { start: startDate }, // ヒートマップの開始日
-      range: 12, // 表示する月数
-      data: { source: data, x: 'date', y: 'total' }, // 日付と学習時間のマッピング
-      type: 'json',
-      scale: {
-        color: {
-          type: 'linear',
-          range: ['#f2f2f2', '#6abf4f', '#337d2b', '#175e17'], // 学習時間に基づく色のグラデーション
-          domain: [0, 1, 2, 3], // 学習時間のスケール
-        },
-      },
-    });
+const cal = new CalHeatmap();
+cal.paint({
+  itemSelector: '#cal-heatmap',
+  domain: {
+    type: 'month',
+    gutter: 4,
+    label: { text: 'MMM', textAlign: 'start', position: 'top' },
+  },
+  subDomain: {
+    type: 'ghDay',
+    radius: 2,
+    width: 11,
+    height: 11,
+    gutter: 4,
+  },
+  date: { start: startDate },
+  range: 12,
+  data: { source: data, x: 'date', y: 'total' },
+  type: 'json',
+  scale: {
+    color: {
+      type: 'linear',
+      range: ['#ff4d4d', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
+      domain: [0, 0.1, 1, 2, 3], // 0 → 赤、0.1以上 → 緑系
+    },
+  },
+});
   }
 </script>
 
@@ -120,7 +119,7 @@
 </div>
 
 
-     <p><strong>学習時間：</strong><%= study_log.total %> 分</p> 
+     <p><strong>学習時間：</strong><%= study_log.total.present? ? "#{study_log.total} 分" : "未設定" %></p>
 
         <!-- 投稿日時 -->
         <p><strong>投稿日:</strong> <%= study_log.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
@@ -167,18 +166,6 @@
               <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
             <% end %>
           </div>
-
-
-          <!-- Twitterシェアボタン（tweet_textがある場合のみ表示） -->
-          <% if params[:tweet_text].present? %>
-            <div class="mt-4">
-              <%= link_to "https://twitter.com/intent/tweet?text=#{params[:tweet_text]}", 
-                          target: "_blank", rel: "noopener", 
-                          class: "inline-flex items-center" do %>
-                <%= image_tag "Twitter.jpeg", alt: "Share on X", class: "w-10 h-10 rounded-md cursor-pointer" %> <!-- 画像ボタン -->
-              <% end %>
-            </div>
-          <% end %>
         <% end %>
       </div>
     </div>
