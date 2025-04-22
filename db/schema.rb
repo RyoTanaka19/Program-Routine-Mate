@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_21_225309) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_22_023756) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "learning_comments", force: :cascade do |t|
     t.bigint "study_log_id"
-    t.text "text"
+    t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
