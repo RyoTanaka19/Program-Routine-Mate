@@ -1,15 +1,17 @@
 class StudyGenresController < ApplicationController
-  # 新規ジャンル作成ページを表示するアクション
-
+  # ジャンルの統計情報を表示するページ（index）を処理するアクション
   def index
+    # 学習ログに関連するジャンル情報を収集し、各ジャンルごとの学習ログの数とユーザー数を集計
     raw_stats = StudyGenre.includes(:study_logs).flat_map do |genre|
       genre.study_logs.map do |log|
         { name: genre.name, user_id: log.user_id }
       end
     end
 
+    # 同じジャンル名でグループ化
     grouped = raw_stats.group_by { |entry| entry[:name] }
 
+    # ジャンルごとの学習ログ数とユニークユーザー数をカウントして、user_countが多い順にソート
     @genre_stats = grouped.map do |name, entries|
       {
         name: name,
@@ -19,6 +21,7 @@ class StudyGenresController < ApplicationController
     end.sort_by { |stat| -stat[:user_count] }
   end
 
+  # 新規ジャンル作成ページを表示するアクション
   def new
     # ログインしていない場合は、ログインページにリダイレクト
     if current_user.nil?
@@ -32,7 +35,7 @@ class StudyGenresController < ApplicationController
     # 現在のユーザーが持っているジャンルを新しい順に取得
     @study_genres = current_user.study_genres.order(created_at: :desc)
 
-    # 一番最後に作成したジャンルを取得
+    # 一番最後に作成したジャンルを取得（フォームに表示するため）
     @last_genre = @study_genres.first
   end
 
@@ -59,8 +62,7 @@ class StudyGenresController < ApplicationController
       # 他のジャンルと重複していないか確認
       if current_user.study_genres.exists?(name: @study_genre.name)
         flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
-      render :new, status: :unprocessable_entity and return
-        return
+        render :new, status: :unprocessable_entity and return
       end
 
     # 上記2つの条件以外の場合は登録不可
@@ -163,14 +165,16 @@ class StudyGenresController < ApplicationController
 
     # 5. レスポンス形式に応じて処理を分岐
     respond_to do |format|
-      format.html
+      format.html  # 通常のHTML形式のレスポンス
       format.json do
+        # ユーザーごとに学習ログを日付でグループ化して、日付ごとの件数をカウント
         logs_by_date = @study_genre.study_logs
                                    .where(user: current_user)
                                    .group("DATE(created_at)")
                                    .order("DATE(created_at)")
                                    .count
 
+        # 日付を"YYYY-MM-DD"の形式に変換してJSONで返す
         logs_by_date_formatted = logs_by_date.transform_keys { |date| date.strftime("%Y-%m-%d") }
         render json: logs_by_date_formatted
       end
@@ -181,6 +185,6 @@ class StudyGenresController < ApplicationController
 
   # Strong Parameters：許可されたパラメータのみを受け取る
   def study_genre_params
-    params.require(:study_genre).permit(:name)
+    params.require(:study_genre).permit(:name)  # ジャンルの名前のみ許可
   end
 end

@@ -10,7 +10,7 @@ class StudyRemindersController < ApplicationController
     # カレンダーに表示するイベント情報を整形
     @calendar_events = @study_reminders.map do |reminder|
       {
-        title: "学習時間 (#{reminder.start_time.strftime('%H:%M')}〜#{reminder.end_time.strftime('%H:%M')})", # 学習時間のタイトル
+        title: "学習時間 (#{reminder.start_time.strftime('%H:%M')}〜#{reminder.end_time.strftime('%H:%M')})",
         start: reminder.start_time.iso8601,
         end: reminder.end_time.iso8601
       }

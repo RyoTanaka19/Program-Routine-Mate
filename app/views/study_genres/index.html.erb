@@ -1,12 +1,11 @@
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chart.js" %>
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels" %>
 
-
-<h1 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+<h1 class="text-3xl font-semibold text-center text-gray-800 mb-8">
   学習ジャンルごとのユーザー数（人気ランキング）
 </h1>
 
-<div class="max-w-4xl mx-auto p-4 bg-white shadow-lg rounded-lg">
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
   <canvas id="genreChart" width="400" height="200"></canvas>
 </div>
 
@@ -42,9 +41,10 @@
         datasets: [{
           label: '投稿したユーザー数',
           data: userCounts,
-          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',  // 色を少し濃くして目立たせる
           borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
+          borderWidth: 1,
+          barThickness: 60  // 棒の幅を少し太くする（デフォルトより広め）
         }]
       },
       options: {
@@ -53,16 +53,21 @@
             display: true,
             text: 'ジャンル別 投稿ユーザー数',
             font: {
-              size: 18
-            }
+              size: 20,
+              weight: 'bold'
+            },
+            padding: { top: 20, bottom: 20 }  // タイトルの上下余白を広げる
           },
           datalabels: {
             anchor: 'end',
-            align: 'right',
+            align: 'start',
             formatter: (value) => `${value}人`,
             font: {
-              weight: 'bold'
-            }
+              weight: 'bold',
+              size: 14
+            },
+            color: 'black',  // ラベルの色を黒にして視認性を高める
+            offset: 10
           }
         },
         responsive: true,
@@ -72,13 +77,30 @@
             beginAtZero: true,
             title: {
               display: true,
-              text: 'ユーザー数'
+              text: 'ユーザー数',
+              font: {
+                size: 16,
+                weight: 'bold'
+              }
+            },
+            ticks: {
+              stepSize: 5,  // ユーザー数の目盛りを調整
+              min: 0
             }
           },
           y: {
             title: {
               display: true,
-              text: '学習ジャンル'
+              text: '学習ジャンル',
+              font: {
+                size: 16,
+                weight: 'bold'
+              }
+            },
+            ticks: {
+              font: {
+                size: 14
+              }
             }
           }
         }

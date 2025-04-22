@@ -31,10 +31,10 @@ class StudyLogsController < ApplicationController
     user_study_genre = UserStudyGenre.find_or_create_by(user: current_user, study_genre: @study_genre)
 
     if @study_log.save
-      # 成功時の処理
-      redirect_to study_logs_path, notice: "学習記録が作成されました！"
+      notice = "学習記録が作成されました！"
+      notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total.nil?
+      redirect_to study_logs_path, notice: notice
     else
-      # 保存失敗時
       flash.now[:alert] = "学習記録の作成に失敗しました。"
       render :new, status: :unprocessable_entity
     end
