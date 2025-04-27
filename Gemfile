@@ -73,7 +73,7 @@ gem "pry-rails"
 
 
 gem "fullcalendar-rails"
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.4"
 gem "simple_calendar"
 
 
