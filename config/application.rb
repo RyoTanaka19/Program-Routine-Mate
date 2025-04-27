@@ -12,7 +12,6 @@ module Myapp
     config.load_defaults 7.2
 
     config.time_zone = "Tokyo" #  日本時間の設定
-    config.i18n.default_locale = :ja
     config.active_job.queue_adapter = :sidekiq
     config.active_record.default_timezone = :local
 
@@ -35,5 +34,7 @@ module Myapp
       g.helper false # ヘルパーファイルを作成しない
       g.test_framework nil # テストフレームワークを使わないように設定
     end
+    config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}").to_s]
   end
 end

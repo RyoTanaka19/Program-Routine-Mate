@@ -17,6 +17,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
    def after_update_path_for(resource)
      # 更新後はそのユーザーのプロフィールページへ遷移
-     users_profile_path(current_user.id)
+     user_path(current_user.id)
    end
 end

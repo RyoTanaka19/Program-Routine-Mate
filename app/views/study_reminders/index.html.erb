@@ -1,14 +1,89 @@
-<h1 class="text-4xl font-bold mb-10 text-center text-gray-800">学習セッションカレンダー</h1>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学習セッションカレンダー</title>
 
-<div class="flex justify-center mb-10">
-  <%= link_to '学習時間の設定',
-      new_study_reminder_path,
-      class: 'px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-xl shadow-md transition duration-300' %>
-</div>
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <!-- Tailwind CSS（正しくlinkタグで読み込み） -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
 
-<!-- カレンダーのコンテナ -->
-<div
-  id="calendar"
-  data-events='<%= raw @calendar_events.to_json %>'
-  class="w-full max-w-7xl mx-auto h-[500px] rounded-xl shadow-lg border border-gray-200 bg-white p-6">
-</div>
+<body class="bg-gray-100 font-sans">
+
+  <!-- ヘッダー -->
+  <header class="bg-green-600 p-4">
+    <h1 class="text-3xl font-bold text-white text-center">学習セッションカレンダー</h1>
+  </header>
+
+  <!-- カレンダーコンテナ -->
+  <div class="max-w-4xl mx-auto px-4">
+    <div id="calendar" class="bg-white rounded-lg shadow-md p-4" style="height: 400px;"></div>
+  </div>
+
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+
+  <!-- カレンダーの初期化 -->
+  <script>
+  function initializeCalendar() {
+    var calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return; // カレンダーがないページでは何もしない
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'ja',
+      initialView: 'dayGridMonth',
+      initialDate: '2025-02-01',
+      events: [
+        <% @study_reminders.each do |reminder| %>
+          {
+            title: '学習リマインダー',
+            start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+            end: '<%= reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+            description: '学習セッション',
+            color: '#4CAF50'
+          },
+        <% end %>
+      ],
+      height: 'auto',
+      dateClick: function(info) {
+        var selectedDate = info.dateStr;
+
+        // 現在日時を取得してデフォルト設定
+        var currentDateTime = new Date();
+        var currentHour = currentDateTime.getHours();
+        var currentMinute = currentDateTime.getMinutes();
+        
+        // カレンダーの日付をクリックした際に、URLを変更
+        window.location.href = "<%= new_study_reminder_path %>?date=" + selectedDate + 
+                              "&hour=" + currentHour + "&minute=" + currentMinute;
+      }
+    });
+
+    calendar.render();
+  }
+
+  // ページのロード時にカレンダーを初期化する
+  document.addEventListener('DOMContentLoaded', function() {
+    initializeCalendar();
+  });
+
+  // Turboのページ遷移後にもカレンダーを初期化
+  document.addEventListener('turbo:load', function() {
+    // Turboでページが完全に読み込まれた後にカレンダーを再描画
+    initializeCalendar();
+  });
+
+  // turbo:frame-loadイベントを追加
+  document.addEventListener('turbo:frame-load', function() {
+    // Turboフレームがロードされた後にカレンダーを再描画
+    initializeCalendar();
+  });
+
+  </script>
+
+</body>
+</html>
