@@ -4,23 +4,19 @@ class StudyRemindersController < ApplicationController
 
   # ユーザーの学習リマインダーを一覧表示するアクション
   def index
-    # 現在のユーザーに紐づく全ての学習リマインダーを取得
     @study_reminders = current_user.study_reminders
-
-    # カレンダーに表示するイベント情報を整形
-    @calendar_events = @study_reminders.map do |reminder|
-      {
-        title: "学習時間 (#{reminder.start_time.strftime('%H:%M')}〜#{reminder.end_time.strftime('%H:%M')})",
-        start: reminder.start_time.iso8601,
-        end: reminder.end_time.iso8601
-      }
-    end
   end
 
   # 新しい学習リマインダーの作成フォームを表示するアクション
   def new
     # 新しい学習リマインダーオブジェクトを作成
     @study_reminder = StudyReminder.new
+
+    # 日付がURLパラメータで渡されていれば、その日付をstart_timeにセット
+    if params[:date]
+      @study_reminder.start_time = Date.parse(params[:date]).to_time
+      @study_reminder.end_time = @study_reminder.start_time
+    end
   end
 
   # 新しい学習リマインダーをデータベースに保存するアクション

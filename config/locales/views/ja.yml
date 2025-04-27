@@ -1,0 +1,11 @@
+ja:
+  study_logs:
+    index:
+      title: '掲示板一覧'
+    show:
+      title: '掲示板詳細'
+    new:
+      title: '掲示板作成'
+  pagination:
+    previous: '前へ'
+    next: '次へ'

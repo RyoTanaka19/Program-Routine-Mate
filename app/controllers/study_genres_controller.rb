@@ -135,46 +135,37 @@ class StudyGenresController < ApplicationController
 
   # ジャンルの詳細ページを表示するアクション
   def show
-    # 1. 指定されたIDのジャンルをデータベースから取得
-    # params[:id]で渡されたIDを使って、StudyGenreテーブルから該当するジャンルを探します。
-    # find_byは、IDに一致するレコードがあればそれを返し、なければnilを返します。
     @study_genre = StudyGenre.find_by(id: params[:id])
 
-    # 2. ジャンルが見つからない場合
     if @study_genre.nil?
-      # ジャンルが見つからない場合はフラッシュメッセージを設定して、indexビューを表示する
       flash[:alert] = "指定されたジャンルは見つかりません。"
       render :index
-      return  # 処理を終了
+      return
     end
 
-    # 3. 現在のユーザーのジャンルでなければアクセスを拒否
-    # @study_genre.userはそのジャンルを作成したユーザーを指します。
-    # current_userは現在ログインしているユーザーで、この2つが一致しない場合、アクセスを拒否する
     if @study_genre.user != current_user
-      # アクセス権限がない場合は、フラッシュメッセージを表示して、indexビューにリダイレクト
       flash[:alert] = "アクセス権限がありません。"
       render :index
-      return  # 処理を終了
+      return
     end
 
-    # 4. Wikipediaからジャンル名に関連するサマリーを取得
-    # WikipediaFetcherというカスタムクラスを使って、ジャンル名に基づくWikipediaのサマリーを取得
-    # 取得したサマリーは@wikipedia_summaryに格納
     @wikipedia_summary = WikipediaFetcher.fetch_summary(@study_genre.name)
 
-    # 5. レスポンス形式に応じて処理を分岐
-    respond_to do |format|
-      format.html  # 通常のHTML形式のレスポンス
-      format.json do
-        # ユーザーごとに学習ログを日付でグループ化して、日付ごとの件数をカウント
-        logs_by_date = @study_genre.study_logs
-                                   .where(user: current_user)
-                                   .group("DATE(created_at)")
-                                   .order("DATE(created_at)")
-                                   .count
+    # 指定ジャンルにおけるユーザーの投稿数をチェック
+    user_post_count = @study_genre.study_logs.where(user: current_user).count
+    if user_post_count == 1
+      flash[:notice] = "LGTM"
+    end
 
-        # 日付を"YYYY-MM-DD"の形式に変換してJSONで返す
+    respond_to do |format|
+      format.html
+      format.json do
+        logs_by_date = @study_genre.study_logs
+          .where(user: current_user)
+          .group("DATE(created_at)")
+          .order("DATE(created_at)")
+          .count
+
         logs_by_date_formatted = logs_by_date.transform_keys { |date| date.strftime("%Y-%m-%d") }
         render json: logs_by_date_formatted
       end

@@ -8,12 +8,6 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def authenticate_user!
-    unless user_signed_in?
-      flash[:alert] = "ログインしてください"
-      redirect_to new_user_session_path
-    end
-  end
 
   # ==========================================
   # ログイン後のリダイレクト先を指定するメソッド
