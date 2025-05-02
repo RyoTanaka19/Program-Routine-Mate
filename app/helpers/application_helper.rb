@@ -27,13 +27,13 @@ module ApplicationHelper
         description: :description,
         type: "website",
         url: "https://program-routine-mate.com",
-        image: image_url("programroutinemate.png"),
+        image: image_url("ogp.png"),
         locale: "ja_JP"
       },
       twitter: {
         card: "summary_large_image",
         site: "@58a_tanaka_ryo",
-        image: image_url("programroutinemate.png")
+        image: image_url("ogp.png")
       }
     }
   end
