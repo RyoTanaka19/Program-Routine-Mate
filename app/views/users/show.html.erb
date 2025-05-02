@@ -10,20 +10,19 @@
         <span class="text-red-600 font-semibold">❌ 未ログイン</span>
       <% end %>
     </div>
-
+    
+    <!-- ユーザーアイコン -->
+    <div class="flex items-center justify-center mb-4">
+      <%= link_to user_path(@user), class: "flex items-center" do  %>
+        <%= image_tag(@user.profile_image.present? ? @user.profile_image.url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
+      <% end %>
+    </div>
+    
     <!-- ユーザー名 -->
     <div class="mb-4">
       <h3 class="text-lg font-semibold text-gray-700">ユーザー名</h3>
       <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.name %></p>
     </div>
-
-    <!-- メールアドレス（自分だけに表示） -->
-    <% if user_signed_in? && current_user == @user %>
-      <div class="mb-4">
-        <h3 class="text-lg font-semibold text-gray-700">メールアドレス</h3>
-        <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.email %></p>
-      </div>
-    <% end %>
 
     <!-- 自己紹介 -->
     <div class="mb-4">
@@ -37,13 +36,7 @@
       <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.studying_continuation_systematization %></p>
     </div>
 
-    <!-- ユーザーアイコンと名前 -->
-    <div class="flex items-center mb-4">
-      <%= link_to user_path(@user), class: "flex items-center" do  %>
-        <%= image_tag(@user.profile_image.present? ? @user.profile_image.url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
-        <p class="font-semibold text-gray-700"><%= @user.name || "ユーザー情報なし" %></p>
-      <% end %>
-    </div>
+
 
     <!-- プロフィール編集リンク（現在のユーザーのみ表示） -->
     <% if user_signed_in? && current_user == @user %>
@@ -54,9 +47,9 @@
   </div>
 
   <!-- 投稿（右側）※自分だけに表示 -->
-  <% if user_signed_in? && current_user == @user %>
+  <% if user_signed_in?%>
     <div class="flex-1 max-w-2xl w-full bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold text-center mb-6">自分の投稿</h2>
+      <h2 class="text-2xl font-bold text-center mb-6"><%= @user.name %>の投稿</h2>
 
       <% if @study_logs.any? %>
         <ul class="space-y-4">

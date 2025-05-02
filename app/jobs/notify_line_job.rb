@@ -1,88 +1,70 @@
 class NotifyLineJob < ApplicationJob
-  # ジョブの実行メソッド
-  # このジョブは、LINE通知やブラウザ通知を送信する役割を持っています。
-  # バッジ獲得の通知や学習リマインダー通知を処理します。
-  queue_as :default
+  # このジョブは、バッジ獲得時や学習リマインダーに関する
+  # 通知（LINE通知・ブラウザ通知）を非同期で送信する役割を担います。
+  queue_as :default  # ジョブキューの種類を指定（デフォルトキューを使用）
 
   def perform(study_reminder_id = nil, time_type = nil, badge_id = nil, user_id = nil)
+    # 🎖 バッジ獲得通知の処理
     if badge_id.present? && user_id.present?
-      # 🎖 バッジ通知の場合
-      # バッジ情報を取得する。`badge_id` でバッジを検索
+      # 指定されたバッジとユーザー情報をデータベースから取得
       badge = StudyBadge.find(badge_id)
+      user  = User.find(user_id)
 
-      # ユーザー情報を取得する。`user_id` でユーザーを検索
-      user = User.find(user_id)
+      # 獲得メッセージを生成（例：「〇〇さんが△△バッジを獲得しました！」）
+      message = "🎉 #{user.name}さんが「#{badge.name}」バッジを獲得しました！"
 
-      # 通知メッセージを作成（バッジ獲得のお祝いメッセージ）
-      message = "🎉 #{ user.name}さんが「#{badge.name }」バッジを獲得しました！"
-
-      # LINE通知を送信するメソッドを呼び出し
+      # LINEとブラウザに通知を送信
       send_line_notification(message)
-
-      # ブラウザ通知を送信するメソッドを呼び出し
       broadcast_browser_notification(user_id, message)
 
+    # ⏰ 学習リマインダー通知の処理
     elsif study_reminder_id.present? && time_type.present?
-      # ⏰ 学習時間通知の場合
-      # 学習リマインダー情報を取得する。`study_reminder_id` でリマインダーを検索
+      # 指定されたリマインダー情報をデータベースから取得
       study_reminder = StudyReminder.find(study_reminder_id)
 
-      # 指定された時間まで待機する処理
+      # 通知対象の時間（開始 or 終了）まで待機
       wait_until_time(study_reminder, time_type)
 
-      # 時間タイプに応じてメッセージを作成
-      # 学習開始時刻または終了時刻に基づいてメッセージを生成
+      # 通知メッセージを時間種別に応じて作成
       message = case time_type
       when :start_time
-                  # 学習開始時間の通知メッセージ
                   "学習が開始されました！開始時間: #{study_reminder.start_time.strftime('%Y-%m-%d %H:%M:%S')}"
       when :end_time
-                  # 学習終了時間の通知メッセージ
                   "学習が終了しました！終了時間: #{study_reminder.end_time.strftime('%Y-%m-%d %H:%M:%S')}"
       end
 
-      # LINE通知を送信するメソッドを呼び出し
+      # LINEとブラウザに通知を送信
       send_line_notification(message)
-
-      # ブラウザ通知を送信するメソッドを呼び出し
       broadcast_browser_notification(study_reminder.user_id, message)
     end
   end
 
   private
 
-  # 指定された時間（開始または終了時間）まで待機する処理
-  # 学習リマインダーの開始または終了時刻まで待機するためのメソッド
+  # 指定時間（開始 or 終了）まで一時停止（秒単位で sleep）
   def wait_until_time(study_reminder, time_type)
-    # 開始時間または終了時間を設定
+    # 通知対象の時間を設定
     target_time = time_type == :start_time ? study_reminder.start_time : study_reminder.end_time
 
-    # 現在時刻との残り時間を計算
+    # 現在時刻との差を計算（正の値なら sleep）
     sleep_time = target_time - Time.current
-
-    # 残り時間が正の値の場合、指定された時間まで待機
     sleep(sleep_time) if sleep_time > 0
   end
 
-  # LINEに通知を送信するメソッド
-  # LINE_BOT_APIを使って、指定されたメッセージをLINEで送信する
+  # LINE通知を送信する（LINE Messaging API を使用）
   def send_line_notification(message)
-    # LINE_BOT_API を利用して LINE メッセージを送信
-    client = LINE_BOT_API
-    # メッセージ送信先のユーザーIDは環境変数から取得
+    client = LINE_BOT_API  # LINEクライアントを取得（外部定義済み）
     client.push_message(
-      ENV["LINE_USER_ID"],  # ユーザーID（LINEの通知を送信する先）
-      [ { type: "text", text: message } ]  # 送信するメッセージ内容
+      ENV["LINE_USER_ID"],              # 通知先ユーザー（開発中は固定の管理者など）
+      [ { type: "text", text: message } ]  # 送信するテキストメッセージ
     )
   end
 
-  # ブラウザのリアルタイム通知を送信するメソッド
-  # ActionCable を使用して、指定したユーザーにメッセージをブロードキャスト（リアルタイム通知）
+  # ブラウザ通知を送信する（ActionCableでリアルタイムに通知）
   def broadcast_browser_notification(user_id, message)
-    # ActionCableを使って、ユーザー固有のチャンネルにメッセージを送信
     ActionCable.server.broadcast(
-      "study_reminder_channel_#{user_id}",  # ユーザー固有のチャンネルにメッセージを送信
-      { message: message }  # 送信するメッセージ内容
+      "study_reminder_channel_#{user_id}",  # ユーザー専用の通知チャネル
+      { message: message }                  # 送信するメッセージデータ
     )
   end
 end

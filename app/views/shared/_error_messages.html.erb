@@ -1,7 +1,12 @@
 <% if object.errors.any? %>
+  <!-- エラーメッセージがある場合にのみ表示される -->
   <div id="error_explanation" class="bg-red-500 border border-red-700 text-white px-4 py-3 rounded">
+    <!-- エラーメッセージのコンテナ。赤い背景、白い文字、枠線などのスタイルを適用 -->
+
     <ul class="mb-0">
+      <!-- エラーメッセージのリスト -->
       <% object.errors.full_messages.each do |message| %>
+        <!-- 各エラーメッセージをリストアイテムとして表示 -->
         <li><%= message %></li>
       <% end %>
     </ul>

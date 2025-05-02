@@ -1,13 +1,9 @@
-<div class="flex justify-center items-center min-screen">
-  <div class="text-center">
-    <h1 class="text-red-500 text-8xl font-bold">Program-Routine-Mate</h1>
+<div class="flex justify-center items-center min-h-screen bg-white">
+  <div class="w-full h-screen">
+    <img
+      src="<%= asset_path('programroutinemate.png') %>"
+      alt="Program Routine Mate"
+      class="w-full h-full object-cover"
+    >
   </div>
 </div>
-
-<% unless user_signed_in? %>
-  <div class="flex justify-center mt-64 space-x-4">
-    <%= link_to "新規登録", new_user_registration_path, class: "bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
-    <%= link_to "ログイン", new_user_session_path, class: "bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300" %>
-  </div>
-<% end %>
-

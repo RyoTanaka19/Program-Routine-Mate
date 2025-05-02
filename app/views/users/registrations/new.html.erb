@@ -1,34 +1,69 @@
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
-  <div class="w-96 bg-white shadow-lg rounded-lg p-6">
+  <div class="w-full max-w-md bg-white shadow-xl rounded-lg p-8 space-y-6">
+    <!-- エラーメッセージ -->
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <h1 class="text-xl font-bold text-center mb-4">新規登録画面</h1>
+    <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">新規登録</h1>
 
-    <div>
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <div class="space-y-6">
+        <!-- メールアドレス -->
         <div>
-          <%= f.email_field :email, class: "border rounded-md p-2 w-full", placeholder: "メールアドレス" %>
+          <%= f.label :email, "メールアドレス", class: "text-sm font-medium text-gray-600" %>
+          <span class="text-red-500">（必須）</span>
+          <%= f.email_field :email, class: "border-2 border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "メールアドレス" %>
+          <% if resource.errors[:email].any? %>
+            <div class="text-red-500 text-xs">
+              <%= resource.errors[:email].join(", ") %>
+            </div>
+          <% end %>
         </div>
 
+        <!-- ユーザー名 -->
         <div>
-          <%= f.text_field :name, class: "border rounded-md p-2 w-full", placeholder: "ユーザー名" %>
+          <%= f.label :name, "ユーザー名", class: "text-sm font-medium text-gray-600" %>
+          <span class="text-red-500">（必須）</span>
+          <%= f.text_field :name, class: "border-2 border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "ユーザー名" %>
+          <% if resource.errors[:name].any? %>
+            <div class="text-red-500 text-xs">
+              <%= resource.errors[:name].join(", ") %>
+            </div>
+          <% end %>
         </div>
 
+        <!-- パスワード -->
         <div>
-          <%= f.password_field :password, class: "border rounded-md p-2 w-full", placeholder: "パスワード" %>
+          <%= f.label :password, "パスワード", class: "text-sm font-medium text-gray-600" %>
+          <span class="text-red-500">（必須）</span>
+          <%= f.password_field :password, class: "border-2 border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード" %>
+          <% if resource.errors[:password].any? %>
+            <div class="text-red-500 text-xs">
+              <%= resource.errors[:password].join(", ") %>
+            </div>
+          <% end %>
         </div>
 
+        <!-- パスワード確認 -->
         <div>
-          <%= f.password_field :password_confirmation, class: "border rounded-md p-2 w-full", placeholder: "パスワード確認" %>
+          <%= f.label :password_confirmation, "パスワード確認", class: "text-sm font-medium text-gray-600" %>
+          <span class="text-red-500">（必須）</span>
+          <%= f.password_field :password_confirmation, class: "border-2 border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード確認" %>
+          <% if resource.errors[:password_confirmation].any? %>
+            <div class="text-red-500 text-xs">
+              <%= resource.errors[:password_confirmation].join(", ") %>
+            </div>
+          <% end %>
         </div>
 
-        <%= f.submit "新規登録", class: "bg-blue-500 text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-600" %>
-      <% end %>
-    </div>
+        <!-- 送信ボタン -->
+        <div>
+          <%= f.submit "新規登録", class: "bg-blue-500 text-white font-semibold py-3 px-4 rounded-md w-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+      </div>
+    <% end %>
 
-    <div class="text-center mt-4">
-      <p>既にアカウントを持っている？</p>
+    <div class="text-center mt-6">
+      <p class="text-gray-600">既にアカウントを持っている？</p>
       <%= link_to "ログイン", new_user_session_path, class: "text-blue-500 hover:underline" %>
     </div>
   </div>

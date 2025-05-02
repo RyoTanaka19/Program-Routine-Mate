@@ -11,7 +11,7 @@ class StudyGenre < ApplicationRecord
     "Swift", "Kotlin"
   ]
   def self.ransackable_attributes(auth_object = nil)
-    [ "name" ]
+    [ "name" ]  # 検索対象として許可するカラムを指定
   end
 
   # ===============================

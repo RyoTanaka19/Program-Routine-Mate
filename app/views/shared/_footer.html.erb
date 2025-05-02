@@ -1,38 +1,13 @@
-<div class="flex justify-between items-center p-6 mt-auto bg-blue-600 sticky bottom-0">
-  <!-- 新規作成リンクを左に配置 -->
-  <div class="flex justify-start">
-    <%= link_to "新規作成", new_study_genre_path, class: "btn btn-primary" %>
-  </div>
+<div class="flex justify-center items-center space-x-6 p-6 mt-auto bg-blue-600 sticky bottom-0">
+  <p class="text-white">© 2025 ProgramRoutineMate. All rights reserved.</p>
 
-  <!-- 中央の投稿ボタンまたはジャンルリンク -->
-  <div class="flex justify-center w-full">
-  <% if current_user && current_user.study_genres.any? %>
-    <%= link_to "📝", new_study_genre_study_log_path(current_user.study_genres), class: "btn btn-primary" %>
-  <% else %>
-    <div class="text-center text-gray-500">
-      <%= link_to "📝 投稿ボタン", "#", class: "btn btn-secondary", id: "no-genre-button", title: "ジャンルを設定してください" %>
-    </div>
+  <%= link_to '利用規約', terms_path, class: "text-white hover:underline" %>
+  <%= link_to 'プライバシーポリシー', privacy_path, class: "text-white hover:underline" %>
+  <%= link_to 'お問い合わせ', form_path, class: "text-white hover:underline" %>
+
+  <!-- GitHubアイコン付きリンク -->
+  <%= link_to 'https://github.com/RyoTanaka19', class: "text-white hover:underline flex items-center space-x-2" do %>
+    <i class="fab fa-github"></i> <!-- Font AwesomeのGitHubアイコン -->
+    <span>GitHub</span>
   <% end %>
 </div>
-
-  <!-- 投稿一覧画面へのリンクを右に配置 -->
-  <div class="flex justify-end">
-    <% if defined?(@study_genre) && @study_genre.present? && @study_genre.persisted? %>
-      <%= link_to image_tag("study_logs_list.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), study_genre_study_logs_path(@study_genre) %>
-    <% else %>
-      <%= link_to image_tag("study_logs_list.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), study_logs_path %>
-    <% end %>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById('no-genre-button');
-    if (button) {
-      button.addEventListener('click', function(event) {
-        event.preventDefault(); // リンクのデフォルト動作をキャンセル
-        alert('先にジャンルを指定してください');
-      });
-    }
-  });
-</script>

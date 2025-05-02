@@ -69,11 +69,18 @@ class StudyLogsController < ApplicationController
 
   # 学習記録の一覧を表示するアクション
   def index
-    @q = StudyLog.ransack(params[:q])  # ransackで検索条件を作成
-    @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present?  # ジャンルIDで絞り込み
+    # ransackを使って検索オブジェクトを作成する（検索フォームなどから送られたパラメータをもとに条件を構築）
+    @q = StudyLog.ransack(params[:q])
 
-    # 絞り込んだ学習記録をページネーション付きで取得
-    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
+   # パラメータに学習ジャンルID（study_genre_id）が存在する場合、そのジャンルに該当する記録だけをさら に絞り込む
+   @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present?
+
+   # 検索・絞り込み結果から学習記録を取得し、以下の処理を適用：
+   # - 重複を排除（distinct: true）
+   # - 関連するユーザー情報も同時に読み込むことでN+1問題を回避（includes(:user)）
+   # - 作成日時の昇順で並び替え（order(created_at: :asc)）
+   # - ページネーションを適用（page(params[:page])）
+   @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
 
     # ユーザーの学習記録によるランキング（学習日数順）
     @ranking = User.studied_logs_days_ranking.limit(3)
@@ -85,27 +92,55 @@ class StudyLogsController < ApplicationController
   end
 
   def autocomplete
+    # Ransackを使用して検索オブジェクトを作成
+    # params[:q]に検索条件が含まれており、それを基にRansackで検索を設定します
     @q = StudyLog.ransack(params[:q])
 
+    # ジャンル指定がある場合、明示的に検索条件を設定
+    # セーフに取り出すためにparams.digを使用し、study_genre_name_eqが存在する場合のみ処理を行う
     if params.dig(:q, :study_genre_name_eq).present?
+      # ジャンル条件を検索オブジェクトに設定
       @q.study_genre_name_eq = params[:q][:study_genre_name_eq]
     end
 
+    # 検索結果を取得
+    # resultメソッドで検索を実行し、distinct: trueを指定して重複するレコードを排除します
+    # limit(10)でオートコンプリート用に結果を最大10件に制限
     @study_logs = @q.result(distinct: true).limit(10)
+
+    # 結果をJSON形式で返す
+    # .as_jsonメソッドで、必要なカラム（content）だけを抽出してレスポンスに含める
+    # これにより、オートコンプリート機能に必要なデータのみを最小限で返すことができます
     render json: @study_logs.as_json(only: [ :content ])
   end
 
-  # 学習記録のランキングを表示するアクション
+  # 🏆 学習記録のランキングを表示するアクション
   def ranking
-    @ranking = User.studied_logs_days_ranking  # 学習記録によるランキングを取得
+    # Userモデルのクラスメソッド `studied_logs_days_ranking` を呼び出して、
+    # 各ユーザーの学習ログに基づく学習日数を集計し、
+    # 学習日数の多い順に並べたユーザーのランキング情報を取得する。
+    @ranking = User.studied_logs_days_ranking
   end
 
-  # 学習記録の詳細ページを表示するアクション
+
+  # 📄 学習記録の詳細ページを表示するアクション
   def show
-    @study_log = StudyLog.find(params[:id])  # 対象の学習記録を取得
-    @learning_comment = LearningComment.new  # 新しいコメントオブジェクトを作成
-    @learning_comments = @study_log.learning_comments.includes(:user).order(created_at: :desc)  # コメントを降順で取得
-    prepare_meta_tags(@study_log)  # メタタグの設定（OGPなど）
+    # 指定されたIDの学習記録を1件取得
+    # params[:id]から学習記録のIDを取得し、それに対応するStudyLogオブジェクトをデータベースから検索
+    @study_log = StudyLog.find(params[:id])
+
+    # コメント投稿用の新規オブジェクト（form_withなどで使用）
+    # 新しいLearningCommentオブジェクトを作成し、コメントフォームで使用するために準備
+    @learning_comment = LearningComment.new
+
+    # 現在の学習記録に紐づくコメント一覧を取得
+    # 学習記録に関連するコメントを、ユーザー情報を一緒に読み込み、作成日時（created_at）を降順で取得
+    # includes(:user)でコメントに関連するユーザー情報を一度に読み込み、N+1クエリを防止
+    @learning_comments = @study_log.learning_comments.includes(:user).order(created_at: :desc)
+
+    # OGP（Open Graph Protocol）やTwitterカードなど、SNS向けのメタタグ設定を行う
+    # 現在の学習記録に基づいて、SNSでシェアされたときに表示されるメタタグを準備
+    prepare_meta_tags(@study_log)
   end
 
   private

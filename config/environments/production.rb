@@ -18,17 +18,51 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false
 
-  config.action_mailer.default_url_options = { host: "https://program-routine-mate.com/" }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              "smtp.gmail.com",
-    port:                 587,
-    domain:               "smtp.gmail.com",
-    user_name:            ENV["MAILER_SENDER"],
-    password:             ENV["MAILER_PASSWORD"],
-    authentication:       "plain",
-    enable_starttls_auto: true
-  }
+
+# メール送信に関する設定を行う
+
+# メール内で使用されるリンク（パスワードリセットリンクなど）の基本URLを指定します。
+# 本番環境では、実際のホスト（https://program-routine-mate.com/）を指定しています。
+# これにより、メール内に埋め込まれるリンクは、このホストをベースに生成されます。
+config.action_mailer.default_url_options = { host: "https://program-routine-mate.com/" }
+
+# メール送信方法をSMTPに設定します。
+# これにより、指定したSMTPサーバー（ここではGmail）を通じてメールが送信されるようになります。
+config.action_mailer.delivery_method = :smtp
+
+# SMTPサーバーの詳細設定を指定します。
+# ここでは、GmailのSMTPサーバーを使用する設定を行っています。
+config.action_mailer.smtp_settings = {
+  # 使用するSMTPサーバーのアドレスを指定します。
+  # GmailのSMTPサーバーは "smtp.gmail.com" です。
+  address: "smtp.gmail.com",
+
+  # 使用するSMTPサーバーのポート番号を指定します。
+  # Gmailではポート587を使用します。このポートはTLSによる暗号化をサポートしています。
+  port: 587,
+
+  # SMTPサーバーのドメインを指定します。
+  # Gmailを利用する場合は "smtp.gmail.com" を指定します。
+  domain: "smtp.gmail.com",
+
+  # メール送信に使用するユーザー名（送信者のメールアドレス）を指定します。
+  # 環境変数 "MAILER_SENDER" から送信者のメールアドレスを読み取ります。
+  user_name: ENV["MAILER_SENDER"],
+
+  # メール送信に使用するパスワードを指定します。
+  # 環境変数 "MAILER_PASSWORD" から送信者のメールアドレスのパスワードを読み取ります。
+  password: ENV["MAILER_PASSWORD"],
+
+  # 認証方式を指定します。
+  # "plain" はSMTP通信でユーザー名とパスワードを使用した認証方式です。
+  authentication: "plain",
+
+  # STARTTLSを有効にします。
+  # STARTTLSは、SMTP通信を暗号化するためのプロトコルです。
+  # これにより、送信中のメールデータが安全に暗号化されます。
+  enable_starttls_auto: true
+}
+
 
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment

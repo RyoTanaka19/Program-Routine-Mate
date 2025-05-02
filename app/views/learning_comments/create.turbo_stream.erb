@@ -1,14 +1,18 @@
 <% if @learning_comment.errors.present? %>
+  <!-- バリデーションエラーが存在する場合、コメントフォームを再表示します。
+       Turbo Streamを使ってフォームを更新し、ユーザーにエラーを修正する機会を提供します。 -->
   <%= turbo_stream.replace "learning_comments-form" do %>
     <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @learning_comment.study_log %>
   <% end %>
 <% else %>
-  <!-- フォームを新しくする -->
+  <!-- バリデーションエラーがない場合、新しいフォームを表示します。
+       新規コメント入力のためにフォームをリセットし、空のコメントを作成します。 -->
   <%= turbo_stream.replace "learning_comments-form" do %>
     <%= render 'learning_comments/form', learning_comment: LearningComment.new, study_log: @learning_comment.study_log %>
   <% end %>
 
-  <!-- コメント一覧に新しいコメントを追加 -->
+  <!-- 新しいコメントをコメント一覧の先頭に追加します。
+       turbo_stream.prependを使用して、コメント一覧の先頭に新しいコメントを挿入します。 -->
   <%= turbo_stream.prepend "learning_comments-list" do %>
     <%= render 'learning_comments/learning_comment', learning_comment: @learning_comment %>
   <% end %>

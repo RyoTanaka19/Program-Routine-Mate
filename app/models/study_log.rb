@@ -49,21 +49,29 @@ class StudyLog < ApplicationRecord
   # `date` カラムも必須です。学習した日付は必ず指定されなければなりません。
   validates :date, presence: true
 
-  # ---------- Ransack（検索）で許可するカラム ----------
-  # `ransack` を使って検索を行う際、`content` や `study_genre_id` で検索できるようにカラムを指定しています。
-  # `ransackable_attributes` では検索可能なカラムを追加しています。
-  def self.ransackable_attributes(auth_object = nil)
-    super + [ "content", "study_genre_id " ] # 検索対象に content と study_genre_id を追加
-  end
+# ---------- Ransack（検索）で許可するカラム ----------
+# `ransack` を使って検索を行う際、検索可能なカラムを指定します。
+# ここでは、`content` と `study_genre_id` というカラムを検索対象として追加しています。
+#
+# `ransackable_attributes`メソッドは、検索フォームで検索できるカラムを制限するために使用します。
+# `super`を呼び出すことで、親クラスで定義されたデフォルトの属性に加えて、`content` と `study_genre_id` を検索対象に追加しています。
 
-  # 関連モデル（アソシエーション）で検索対象とするもの
-  # `ransack` では、関連付けられたモデル（ここでは `study_genre`）に対しても検索を行えるように指定しています。
-  def self.ransackable_associations(auth_object = nil)
-    super + [ "study_genre" ] # study_genre を検索対象の関連モデルとして追加
-  end
+def self.ransackable_attributes(auth_object = nil)
+  super + [ "content", "study_genre_id" ]  # 検索対象に `content` と `study_genre_id` を追加
+end
 
-  # レコード作成前に学習時間を自動計算する
-  # `before_create` コールバックを使って、学習記録が保存される前に学習時間を計算する処理を呼び出します。
+# ---------- 関連モデル（アソシエーション）で検索対象とするもの ----------
+# `ransack` では、関連付けられたモデル（ここでは `study_genre`）に対しても検索を行うことができます。
+# `ransackable_associations`メソッドで関連モデルを検索対象に追加することができます。
+#
+# `super`を呼び出すことで、親クラスで定義されたデフォルトの関連モデルに加えて、`study_genre` を検索対象として追加しています。
+#
+# これにより、`study_genre`関連の属性を使った検索が可能になります。
+
+def self.ransackable_associations(auth_object = nil)
+  super + [ "study_genre" ]  # `study_genre` を検索対象の関連モデルとして追加
+end
+
   before_create :calculate_study_duration
 
   private

@@ -66,44 +66,33 @@ gem "pry-rails"
 
 
 
-
-
-
-
-
-
-gem "fullcalendar-rails"
-gem "redis", "~> 4.0"
-gem "simple_calendar"
-
-
-
-
-
-
-
-gem "whenever", require: false
-
-# OpenAI API を使ってチャットボットや文章生成を行うための公式ライブラリ
-# 本アプリではAIによるアドバイス生成機能に使用
-
-
-
-gem "fog-aws"
-gem "sidekiq-scheduler"
-gem "sidekiq"
-gem "line-bot-api"
-gem "ransack"
-gem "omniauth-github"
-gem "omniauth-line"
-gem "omniauth-rails_csrf_protection"
-gem "omniauth-google-oauth2"
-gem "omniauth"
-gem "dotenv-rails"
-gem "devise"
-gem "meta-tags"
-gem "mini_magick"
-gem "carrierwave", "~> 3.0"
 gem "rails-i18n", "~> 7.0.0"
+
+
+
+
+
+
+
+
+
+
+
 gem "kaminari"
+
+gem "meta-tags"
+gem "carrierwave", "~> 3.0"
+gem "mini_magick"
+gem "redis", "~> 4.0"
+gem "sidekiq"
 gem "ruby-openai"
+gem "line-bot-api"
+gem "devise"
+gem "omniauth-line"
+gem "omniauth"
+gem "omniauth-github"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+gem "ransack"
+gem "dotenv-rails"
+gem "fog-aws"
