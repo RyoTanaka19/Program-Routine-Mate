@@ -30,11 +30,11 @@ class NotifyLineJob < ApplicationJob
 
       # 通知内容を作成
       message = case time_type
-                when :start_time
+      when :start_time
                   "学習が開始されました！開始時間: #{study_reminder.start_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                when :end_time
+      when :end_time
                   "学習が終了しました！終了時間: #{study_reminder.end_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                end
+      end
 
       # 通知対象のユーザーを取得
       user = study_reminder.user
@@ -63,7 +63,7 @@ class NotifyLineJob < ApplicationJob
     client = LINE_BOT_API
 
     # 指定ユーザー（user.uid）にテキストメッセージを送信
-    client.push_message(user.uid, { type: 'text', text: message })
+    client.push_message(user.uid, { type: "text", text: message })
   end
 
   # 📢 ActionCable を使ってブラウザに通知を送る処理
