@@ -1,114 +1,97 @@
+<%# Chart.js およびデータラベルプラグインをCDNから読み込み %>
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chart.js" %>
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels" %>
 
 <h1 class="text-3xl font-semibold text-center text-gray-800 mb-8">
-  学習ジャンルごとのユーザー数（人気ランキング）
+  学習ジャンルごとのユーザー数
 </h1>
 
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-  <canvas id="genreChart" width="400" height="200"></canvas>
-</div>
+  <% if @genre_stats.present? %>
+    <%# グラフ描画用の canvas 要素 %>
+    <canvas id="genreChart" width="400" height="200"></canvas>
 
-<script>
-  document.addEventListener('turbo:load', () => {
-    const genreStats = <%= raw @genre_stats.to_json %>;
+    <script>
+      document.addEventListener('turbo:load', () => {
+        const genreStats = <%= raw @genre_stats.to_json %>;
 
-    if (!genreStats || genreStats.length === 0) {
-      console.error("No genre stats data available");
-      return;
-    }
-
-    const ctx = document.getElementById('genreChart');
-
-    // Chart.js が対象の canvas を取得できないときの保険
-    if (!ctx) {
-      console.error("Canvas element not found.");
-      return;
-    }
-
-    const labels = genreStats.map(stat => stat.name);
-    const userCounts = genreStats.map(stat => stat.user_count);
-
-    // 既存のチャートインスタンスを削除
-    if (window.genreChartInstance) {
-      window.genreChartInstance.destroy();
-    }
-
-    const chart = new Chart(ctx.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: '投稿したユーザー数',
-          data: userCounts,
-          backgroundColor: 'rgba(54, 162, 235, 0.7)',  // 色を少し濃くして目立たせる
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-          barThickness: 60  // 棒の幅を少し太くする（デフォルトより広め）
-        }]
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'ジャンル別 投稿ユーザー数',
-            font: {
-              size: 20,
-              weight: 'bold'
-            },
-            padding: { top: 20, bottom: 20 }  // タイトルの上下余白を広げる
-          },
-          datalabels: {
-            anchor: 'end',
-            align: 'start',
-            formatter: (value) => `${value}人`,
-            font: {
-              weight: 'bold',
-              size: 14
-            },
-            color: 'black',  // ラベルの色を黒にして視認性を高める
-            offset: 10
-          }
-        },
-        responsive: true,
-        indexAxis: 'y',
-        scales: {
-          x: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'ユーザー数',
-              font: {
-                size: 16,
-                weight: 'bold'
-              }
-            },
-            ticks: {
-              stepSize: 5,  // ユーザー数の目盛りを調整
-              min: 0
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: '学習ジャンル',
-              font: {
-                size: 16,
-                weight: 'bold'
-              }
-            },
-            ticks: {
-              font: {
-                size: 14
-              }
-            }
-          }
+        if (!genreStats || genreStats.length === 0) {
+          console.error("No genre stats data available");
+          return;
         }
-      },
-      plugins: [ChartDataLabels]
-    });
 
-    // グローバルにインスタンス保持（次回 destroy 用）
-    window.genreChartInstance = chart;
-  });
-</script>
+        const ctx = document.getElementById('genreChart');
+        if (!ctx) {
+          console.error("Canvas element not found.");
+          return;
+        }
+
+        const labels = genreStats.map(stat => stat.name);
+        const userCounts = genreStats.map(stat => stat.user_count);
+
+        if (window.genreChartInstance) {
+          window.genreChartInstance.destroy();
+        }
+
+        const chart = new Chart(ctx.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: '投稿したユーザー数',
+              data: userCounts,
+              backgroundColor: 'rgba(54, 162, 235, 0.7)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1,
+              barThickness: 60
+            }]
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'ジャンル別 投稿ユーザー数',
+                font: { size: 20, weight: 'bold' },
+                padding: { top: 20, bottom: 20 }
+              },
+              datalabels: {
+                anchor: 'end',
+                align: 'start',
+                formatter: (value) => `${value}人`,
+                font: { weight: 'bold', size: 14 },
+                color: 'black',
+                offset: 10
+              }
+            },
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+              x: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'ユーザー数',
+                  font: { size: 16, weight: 'bold' }
+                },
+                ticks: { stepSize: 5, min: 0 }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: '学習ジャンル',
+                  font: { size: 16, weight: 'bold' }
+                },
+                ticks: { font: { size: 14 } }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+
+        window.genreChartInstance = chart;
+      });
+    </script>
+  <% else %>
+    <p class="text-center text-gray-600 text-lg">まだ、誰も投稿してません</p>
+  <% end %>
+</div>

@@ -1,3 +1,5 @@
 <%= turbo_stream.replace "learning_comment_#{@learning_comment.id}" do %>
+  <!-- Turbo Streamを使用して、指定されたIDのコメントフォームを更新します。
+       `learning_comment_#{@learning_comment.id}`に対応する部分だけを更新し、フォームを再描画します。 -->
   <%= render 'learning_comments/form', learning_comment: @learning_comment %>
 <% end %>

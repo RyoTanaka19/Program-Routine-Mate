@@ -1,14 +1,13 @@
-<h2 class="text-center text-3xl font-semibold mb-6 text-gray-700">パスワードをお忘れですか？</h2>
+<h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">パスワードをお忘れですか？</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
   <!-- エラーメッセージの表示部分 -->
   <div class="mb-6">
     <% if flash[:alert] %>
-      <div class="alert alert-danger text-red-500">
+      <div class="alert alert-danger text-red-500 bg-red-100 p-4 rounded-md">
         <%= flash[:alert] %>
       </div>
     <% end %>
-    <%= render "devise/shared/error_messages", resource: resource %>
   </div>
 
   <!-- メールアドレスの入力フィールド -->
@@ -23,7 +22,8 @@
   </div>
 <% end %>
 
-<!-- パスワードリセット後の説明（オプション） -->
+<!-- パスワードリセット後の説明 -->
 <div class="mt-6 text-center text-sm text-gray-600">
   <p>登録したメールアドレスにパスワードリセットの手順を送信します。</p>
 </div>
+

@@ -1,73 +1,87 @@
 <!-- ヘッダー部分 -->
 <div class="flex items-center h-20 p-6 bg-blue-600 sticky top-0 justify-between">
 
-  <!-- ハンバーガーメニュー -->
-  <div class="drawer drawer-end ml-4"> <!-- ml-4 を追加して左側に間隔を開ける -->
-    <!-- ハンバーガーメニューのトグル -->
-    <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content">
-      <div class="flex justify-between p-4">
-        <!-- 'トップ'へのリンク -->
-        <%= link_to 'top', root_path, class: "p-3 rounded-full bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
-
-        <!-- プロフィール画像をクリックするとメニューが開く -->
-        <label for="my-drawer-4" class="drawer-button btn btn-ghost p-0">
-          <div class="mb-0">
-            <%= image_tag(
-              current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
-              class: "w-10 h-10 rounded-full object-cover"
-            ) %>
-          </div>
-        </label>
+  <!-- 左側：ハンバーガーメニュー + トップリンク -->
+  <div class="flex items-center">
+    <div class="drawer drawer-end ml-4">
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <%= link_to 'ProgramRoutineMate', root_path, class: "p-3 rounded-full bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
       </div>
-    </div>
 
-    <!-- サイドメニュー -->
-    <div class="drawer-side">
-      <!-- メニュー外側をクリックするとメニューが閉じる -->
-      <label for="my-drawer-4" class="drawer-overlay"></label>
-      <ul class="menu p-4 w-50 bg-orange-600">
-        <li><span>メニュー</span></li>
 
-        <!-- ログイン状態に応じてリンクを表示 -->
-        <% if user_signed_in? %>
-          <!-- ログイン中はログアウトリンク -->
-          <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" } %></li>
-        <% else %>
-          <!-- ログインしていない場合はログイン・新規登録リンク -->
-          <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
-          <li><%= link_to "新規登録", new_user_registration_path, class: "fs-6 text-decoration-none text-info" %></li>
-          <%= link_to "マイページ", user_path(current_user) if user_signed_in? %>
-        <% end %>
- 
-        <li><%= link_to "投稿一覧", study_logs_path %></li>
-        <!-- サイトの利用規約・プライバシーポリシー・お問い合わせリンク -->
-        <li><%= link_to '利用規約', terms_path %></li>
-        <li><%= link_to 'プライバシーポリシー', privacy_path %></li>
-        <li><%= link_to 'お問い合わせ', form_path %></li>
-      </ul>
+      <!-- サイドメニュー -->
+      <div class="drawer-side" style="margin-top: 80px;">
+        <label for="my-drawer-4" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-50 bg-orange-600">
+          <li><span>メニュー</span></li>
+
+          <% if user_signed_in? %>
+            <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" } %></li>
+            <li><%= link_to "マイページ", user_path(current_user) %></li>
+            <li><%= link_to "学習バッジ", user_badges_path(current_user) %></li>
+            <li><%= link_to 'ジャンル一覧', study_genres_path %></li>
+            <li><%= link_to "投稿日数ランキング", ranking_study_logs_path %></li>
+            <li><%= link_to 'AIコーチに相談', new_suggest_path %></li>
+          <% else %>
+            <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- 通知アイコン -->
-  <div class="relative mr-4 ml-auto"> <!-- ml-auto を使って通知アイコンを右側に寄せる -->
-    <!-- 通知アイコンボタン -->
-    <button id="notification-icon" class="text-white">
-      <!-- 通知アイコンとして使用するSVG -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
-      </svg>
-      <!-- 通知数表示 -->
-      <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
-        0 <!-- 初期の通知数は0 -->
-      </div>
-    </button>
+  
+
+  <!-- 右側：通知 + ユーザーアイコン -->
+  <div class="flex items-center space-x-4 mr-4">
+
+   <%= link_to image_tag("study_logs_list.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), study_logs_path , data: { action: "click->loading#show" } %>
+
+  <% if current_user %>
+  <%= link_to "ジャンル作成", new_study_genre_path, class: "btn btn-primary" %>
+
+  <%= link_to "📝", new_study_genre_study_log_path(current_user.study_genres), class: "btn btn-primary" %>
+<% end %>
+
+
+
+
+    <!-- 通知アイコン -->
+    <% if current_user %>
+    <div class="relative">
+      <button id="notification-icon" class="text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+          <path fill="none" d="M0 0h24v24H0z"/>
+          <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
+        </svg>
+        <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
+          0
+        </div>
+      </button>
+    </div>
+  <% end %>
+
+    <!-- ログイン・プロフィール切替 -->
+    <% if user_signed_in? %>
+      <label for="my-drawer-4" class="drawer-button btn btn-ghost p-0">
+        <%= image_tag(
+          current_user.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
+          class: "w-10 h-10 rounded-full object-cover"
+        ) %>
+      </label>
+    <% else %>
+      <label for="my-drawer-4" class="drawer-button btn btn-ghost p-0">
+        <%= link_to new_user_session_path do %>
+          <%= image_tag "login.png", alt: "ログイン", class: "h-10 w-10 object-cover rounded-full" %>
+        <% end %>
+      </label>
+    <% end %>
+
   </div>
 </div>
 
 <!-- 通知エリア -->
-<!-- 通知メッセージが追加される場所 -->
 <div id="notification-area" style="display: none; position: absolute; top: 60px; right: 10px; z-index: 9999; width: 300px; max-height: 400px; overflow-y: auto;">
   <!-- 通知がここに追加される -->
 </div>

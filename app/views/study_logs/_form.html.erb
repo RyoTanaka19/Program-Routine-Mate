@@ -7,8 +7,11 @@
 
       <!-- 学習ジャンル -->
       <div class="mb-4">
+      <% if @study_log.new_record? %>
+      <!-- 学習ジャンル（新規作成時のみ表示） -->
+      <div class="mb-4">
         <%= f.label :study_genre_id, "学習ジャンル", class: "block text-sm font-medium text-gray-700" %>
-         <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
+        <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
         <%= f.select :study_genre_id, 
           options_for_select(
             StudyGenre.where(user_id: current_user.id).pluck(:name, :id), 
@@ -17,6 +20,11 @@
           { include_blank: "ジャンルを選択" }, 
           class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
         %>
+      </div>
+    <% else %>
+      <%= f.hidden_field :study_genre_id %>
+      <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
+    <% end %>
       </div>
 
       <!-- 学習内容 -->
@@ -65,7 +73,7 @@
 
       <!-- 送信ボタン -->
       <div class="mt-6">
-        <%= f.submit @study_log.new_record? ? "投稿" : "更新", class: "w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500", data: { action: "click->loading#show" } %>
+        <%= f.submit @study_log.new_record? ? "投稿" : "更新", class: "w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
       </div>
     </div>
   <% end %>
