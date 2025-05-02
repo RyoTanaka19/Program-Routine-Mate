@@ -152,7 +152,7 @@ class StudyLogsController < ApplicationController
 
   # メタタグを設定するためのプライベートメソッド
   def prepare_meta_tags(study_log)
-    image_url = "#{request.base_url}/images/ogp1.png?text=#{CGI.escape(study_log.content)}"  # OGP画像のURLを作成
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"  # OGP画像のURLを作成
     set_meta_tags og: {
                         site_name: "ProgramRoutineMate",
                         title: study_log.content,
