@@ -16,12 +16,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     callback_for(:line)
   end
 
-  # GitHubアカウントでの認証後に呼び出されるアクション
-  def github
-    # GitHub用のコールバック処理を共通メソッドに渡して実行
-    callback_for(:github)
-  end
-
   private
 
   # 各SNS（Google, LINE, GitHubなど）から返ってきた認証情報を使って

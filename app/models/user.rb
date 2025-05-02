@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # omniauth_providers - 使用するSNSプロバイダーの一覧を指定（複数指定可）
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 line github]
+         :omniauthable, omniauth_providers: %i[google_oauth2 line ]
 
   # SNSログインにおいて、同一プロバイダー内でのUIDの重複を防止する
   # UIDは各プロバイダー（Google, LINE, GitHubなど）が提供する一意のユーザー識別子
@@ -116,12 +116,6 @@ end
   # provider カラムが "line" の場合に true を返します。
   def from_line_oauth?
     provider == "line"
-  end
-
-  # GitHubアカウントを使ってログインしたユーザーかどうかを判定します。
-  # provider カラムが "github" の場合に true を返します。
-  def from_github_oauth?
-    provider == "github"
   end
 
   # 特定のオブジェクトが自分のものかどうかを判定するヘルパー
