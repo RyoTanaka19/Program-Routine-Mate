@@ -1,5 +1,15 @@
 ja:
   activerecord:
+    attributes:
+      study_log:
+        content: ''
+        hour: ''
+        minute: ''
+        second: ''
+        text: ''
+      learning_comment:
+        text: ''
+
     errors:
       models:
         study_log:
