@@ -1,43 +1,46 @@
 <tr id="learning_comment_<%= learning_comment.id %>">
   <td>
-    <div class="bg-gray-100 border border-gray-300 rounded-md p-3 my-2 shadow-sm">
-      <div class="flex items-center space-x-3 mb-2">
-      <div class="flex items-center space-x-3 mb-2">
-      <%= link_to user_path(current_user) do %>
-        <%= image_tag(
-          current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
-          class: "w-10 h-10 rounded-full object-cover"
-        ) %>
-      <% end %>
-    </div>
-    
+    <div class="bg-white border border-gray-200 rounded-lg p-4 my-4 shadow-sm">
+      <div class="flex items-start space-x-4">
+        <!-- プロフィール画像 -->
+        <%= link_to user_path(current_user) do %>
+          <%= image_tag(
+            current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
+            class: "w-12 h-12 rounded-full object-cover"
+          ) %>
+        <% end %>
 
-      <p><strong>投稿日:</strong> <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
+        <div class="flex-1">
+          <!-- 投稿日 -->
+          <p class="text-xs text-gray-500 mb-1">
+            投稿日: <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+          </p>
 
-      <div>
-        <p class="text-gray-800 text-sm leading-snug">
-          <%= simple_format(learning_comment.text) %>
-        </p>
+          <!-- コメント本文 -->
+          <p class="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
+            <%= simple_format(learning_comment.text) %>
+          </p>
+
+          <!-- 編集/削除ボタン -->
+          <% if user_signed_in? && current_user == learning_comment.user %>
+            <div class="mt-3 flex space-x-2">
+              <%= link_to edit_learning_comment_path(learning_comment),
+                    class: "inline-flex items-center px-3 py-1.5 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
+                    data: { turbo_stream: true },
+                    id: "button-edit-#{learning_comment.id}" do %>
+                <i class="fas fa-pencil-alt mr-1"></i> 編集
+              <% end %>
+
+              <%= link_to learning_comment_path(learning_comment),
+                    class: "inline-flex items-center px-3 py-1.5 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300",
+                    data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
+                    id: "button-delete-#{learning_comment.id}" do %>
+                <i class="fas fa-trash mr-1"></i> 削除
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       </div>
-
-      <% if user_signed_in? && current_user == learning_comment.user %>
-        <li class="list-none">
-          <%= link_to edit_learning_comment_path(learning_comment),
-                class: "inline-flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
-                data: { turbo_stream: true },
-                id: "button-edit-#{learning_comment.id}" do %>
-            <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> 編集
-          <% end %>
-
-          <%= link_to learning_comment_path(learning_comment),
-                class: "inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300", 
-                data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
-                id: "button-delete-#{learning_comment.id}" do %>
-            <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
-          <% end %>
-        </li>
-      <% end %>
-
     </div>
   </td>
 </tr>
