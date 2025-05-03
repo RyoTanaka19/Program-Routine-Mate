@@ -11,11 +11,12 @@
           <%= render 'shared/error_messages', object: form.object %>
 
           <!-- コメントの入力ラベル -->
-          <%= form.label :text, "コメント", autofocus: true %>
+          <%= form.label :text, "コメント" %>
 
           <!-- コメント本文の入力フィールド -->
           <%= form.text_area :text, 
-                class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500",
+                autofocus: learning_comment.new_record? %>
 
           <!-- 対象の学習記録IDを隠しフィールドで送信（サーバー側でも紐付けに使用） -->
           <%= form.hidden_field :study_log_id, value: @learning_comment.study_log_id %>
@@ -23,7 +24,7 @@
           <br>
 
           <!-- コメント送信ボタン。新規作成と編集で共通 -->
-<%= form.submit (learning_comment.new_record? ? "送信" : "変更"), class: "btn btn-primary" %>
+          <%= form.submit (learning_comment.new_record? ? "送信" : "変更"), class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>
