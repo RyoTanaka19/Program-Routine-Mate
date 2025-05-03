@@ -1,29 +1,5 @@
 <div class="max-w-5xl mx-auto p-6 space-y-10">
 
-<% if flash[:notice] == "LGTM" %>
-  <div id="lgtm-container" class="fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-1000">
-    <div class="bg-white p-6 rounded-2xl shadow-2xl">
-      <%= image_tag "lgtm.jpg", alt: "LGTM", class: "w-[350px] h-[350px] object-contain" %>
-    </div>
-  </div>
-
-  <script>
-  document.addEventListener("turbo:load", function () {
-    const container = document.getElementById("lgtm-container");
-    if (container) {
-      setTimeout(function () {
-        container.classList.add("opacity-0");
-        setTimeout(function () {
-          container.classList.add("hidden");
-        }, 1000);
-      }, 3000); // 3秒後に非表示へ
-    }
-  });
-</script>
-
-<% end %>
-
-
   <!-- ジャンル名の表示 -->
   <div class="border-b pb-4">
     <h1 class="text-4xl font-bold text-gray-800">
@@ -43,7 +19,6 @@
       <%= @wikipedia_summary %>
     </p>
   </div>
-
 
   <!-- 投稿情報の表示 -->
   <div class="bg-gray-50 shadow-inner rounded-2xl p-6">
@@ -71,82 +46,91 @@
     <% end %>
   </div>
   
+  <!-- jQueryとChart.jsのライブラリを読み込み -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- jQueryとChart.jsのライブラリを読み込み -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener("turbo:load", function() {
+      // AJAXリクエストを送信
+      $.ajax({
+        url: "<%= study_genre_path(@study_genre) %>",
+        dataType: 'json',
+        success: function(data) {
+          const labels = Object.keys(data);
+          const counts = Object.values(data);
 
-<script>
-  $(document).ready(function() {
-    $.ajax({
-      url: "<%= study_genre_path(@study_genre) %>",
-      dataType: 'json',
-      success: function(data) {
-        const labels = Object.keys(data);
-        const counts = Object.values(data);
+          // グラフの描画
+          const ctx = document.getElementById('chart').getContext('2d');
+          
+          // グラフがすでに存在する場合は、インスタンスを破棄して新しいグラフを作成
+          if (window.chartInstance) {
+            window.chartInstance.destroy();
+          }
 
-        const ctx = document.getElementById('chart').getContext('2d');
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: '日付ごとの投稿数',
-              data: counts,
-              backgroundColor: '#4CAF50',
-              borderColor: '#388E3C',
-              borderWidth: 1,
-              // 棒グラフの幅を設定
-              barThickness: 80 // 必要に応じて調整（デフォルトより狭くする）
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                ticks: {
-                  autoSkip: true,
-                  maxRotation: 0,  // ラベルの角度を0度に設定（横並び）
-                  minRotation: 0,  // ラベルの角度を0度に設定
-                },
-                title: {
-                  display: true,
-                  text: '日付',
-                  color: '#666'
-                },
-                // ラベルの間隔調整
-                grid: {
-                  offset: true
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  stepSize: 1
-                },
-                title: {
-                  display: true,
-                  text: '投稿数',
-                  color: '#666'
-                }
-              }
+          window.chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: '日付ごとの投稿数',
+                data: counts,
+                backgroundColor: '#4CAF50',
+                borderColor: '#388E3C',
+                borderWidth: 1,
+                // 棒グラフの幅を設定
+                barThickness: 80 // 必要に応じて調整（デフォルトより狭くする）
+              }]
             },
-            plugins: {
-              legend: {
-                display: false
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  ticks: {
+                    autoSkip: true,
+                    maxRotation: 0,  // ラベルの角度を0度に設定（横並び）
+                    minRotation: 0,  // ラベルの角度を0度に設定
+                  },
+                  title: {
+                    display: true,
+                    text: '日付',
+                    color: '#666'
+                  },
+                  // ラベルの間隔調整
+                  grid: {
+                    offset: true
+                  }
+                },
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    stepSize: 1
+                  },
+                  title: {
+                    display: true,
+                    text: '投稿数',
+                    color: '#666'
+                  }
+                }
               },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    return `${context.parsed.y} 件`;
+              plugins: {
+                legend: {
+                  display: false
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      return `${context.parsed.y} 件`;
+                    }
                   }
                 }
               }
             }
-          }
-        });
-      }
+          });
+        }
+      });
     });
-  });
-</script>
+  </script>
+
+</div>

@@ -82,9 +82,6 @@ class StudyLogsController < ApplicationController
    # - ページネーションを適用（page(params[:page])）
    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
 
-    # ユーザーの学習記録によるランキング（学習日数順）
-    @ranking = User.studied_logs_days_ranking.limit(3)
-
     # ユーザーの学習記録をJavaScriptで表示するためにデータを加工
     @study_logs_for_js = current_user ? current_user.study_logs.where.not(date: nil).map { |log| { date: log.date.to_date, total: log.try(:total) || 0 } } : []
 
@@ -93,25 +90,25 @@ class StudyLogsController < ApplicationController
 
   def autocomplete
     # Ransackを使用して検索オブジェクトを作成
-    # params[:q]に検索条件が含まれており、それを基にRansackで検索を設定します
     @q = StudyLog.ransack(params[:q])
 
-    # ジャンル指定がある場合、明示的に検索条件を設定
-    # セーフに取り出すためにparams.digを使用し、study_genre_name_eqが存在する場合のみ処理を行う
+    # ジャンル指定がある場合、検索条件に追加
     if params.dig(:q, :study_genre_name_eq).present?
-      # ジャンル条件を検索オブジェクトに設定
-      @q.study_genre_name_eq = params[:q][:study_genre_name_eq]
+      @q.study_genre_name_eq = params.dig(:q, :study_genre_name_eq)
     end
 
-    # 検索結果を取得
-    # resultメソッドで検索を実行し、distinct: trueを指定して重複するレコードを排除します
-    # limit(10)でオートコンプリート用に結果を最大10件に制限
-    @study_logs = @q.result(distinct: true).limit(10)
+    begin
+      # 検索結果を取得
+      # distinct: true で重複を排除し、limit(10)で最大10件の結果を制限
+      @study_logs = @q.result(distinct: true).limit(10)
 
-    # 結果をJSON形式で返す
-    # .as_jsonメソッドで、必要なカラム（content）だけを抽出してレスポンスに含める
-    # これにより、オートコンプリート機能に必要なデータのみを最小限で返すことができます
-    render json: @study_logs.as_json(only: [ :content ])
+      # 結果をJSON形式で返す（contentのみ）
+      render json: @study_logs.as_json(only: [ :content ])
+
+    rescue => e
+      # エラーが発生した場合はエラーメッセージを返す
+      render json: { error: "検索中にエラーが発生しました: #{e.message}" }, status: 500
+    end
   end
 
   # 🏆 学習記録のランキングを表示するアクション

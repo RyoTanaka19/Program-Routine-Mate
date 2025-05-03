@@ -1,9 +1,10 @@
-<div class="flex flex-col md:flex-row justify-center items-start gap-6 max-w-7xl mx-auto px-4">
+<div class="flex flex-col md:flex-row justify-center items-start gap-6 max-w-7xl mx-auto px-6 py-8">
+  
   <!-- プロフィールセクション（左側） -->
-  <div class="flex-1 max-w-2xl w-full bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold text-center mb-6">プロフィール</h1>
+  <div class="flex-1 max-w-2xl w-full bg-white p-6 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-semibold text-center mb-6 text-gray-800">プロフィール</h1>
 
-    <div class="login-status mb-4 text-center">
+    <div class="login-status mb-6 text-center">
       <% if user_signed_in? && current_user == @user %>
         <span class="text-green-600 font-semibold">✅ ログイン中</span>
       <% else %>
@@ -12,49 +13,47 @@
     </div>
     
     <!-- ユーザーアイコン -->
-    <div class="flex items-center justify-center mb-4">
-      <%= link_to user_path(@user), class: "flex items-center" do  %>
-        <%= image_tag(@user.profile_image.present? ? @user.profile_image.url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover mr-4") %>
+    <div class="flex justify-center mb-6">
+      <%= link_to user_path(@user), class: "flex items-center" do %>
+        <%= image_tag(@user.profile_image.present? ? @user.profile_image.url : "default_study_logs_image.png", class: "w-24 h-24 rounded-full object-cover shadow-lg") %>
       <% end %>
     </div>
     
     <!-- ユーザー名 -->
-    <div class="mb-4">
-      <h3 class="text-lg font-semibold text-gray-700">ユーザー名</h3>
-      <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.name %></p>
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold text-gray-700">ユーザー名</h3>
+      <p class="text-gray-600 bg-gray-100 p-4 rounded-lg mt-2 text-center"><%= @user.name %></p>
     </div>
 
     <!-- 自己紹介 -->
-    <div class="mb-4">
-      <h3 class="text-lg font-semibold text-gray-700">自己紹介</h3>
-      <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.self_introduction %></p>
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold text-gray-700">自己紹介</h3>
+      <p class="text-gray-600 bg-gray-100 p-4 rounded-lg mt-2"><%= @user.self_introduction %></p>
     </div>
 
     <!-- if-thenルール -->
-    <div class="mb-4">
-      <h3 class="text-lg font-semibold text-gray-700">if-thenルール</h3>
-      <p class="text-gray-600 bg-gray-100 p-3 rounded-md mt-2"><%= @user.studying_continuation_systematization %></p>
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold text-gray-700">if-thenルール</h3>
+      <p class="text-gray-600 bg-gray-100 p-4 rounded-lg mt-2"><%= @user.studying_continuation_systematization %></p>
     </div>
-
-
 
     <!-- プロフィール編集リンク（現在のユーザーのみ表示） -->
     <% if user_signed_in? && current_user == @user %>
-      <div class="text-center">
+      <div class="text-center mt-8">
         <%= link_to "プロフィールの編集", edit_user_registration_path, class: "text-blue-500 hover:underline font-semibold" %>
       </div>
     <% end %>
   </div>
 
-  <!-- 投稿（右側）※自分だけに表示 -->
-  <% if user_signed_in?%>
-    <div class="flex-1 max-w-2xl w-full bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold text-center mb-6"><%= @user.name %>の投稿</h2>
+  <!-- 投稿セクション（右側）※自分だけに表示 -->
+  <% if user_signed_in? && current_user == @user %>
+    <div class="flex-1 max-w-2xl w-full bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800"><%= @user.name %>の投稿</h2>
 
       <% if @study_logs.any? %>
         <ul class="space-y-4">
           <% @study_logs.each do |study_log| %>
-            <li class="bg-gray-100 p-5 rounded-md shadow-sm hover:bg-gray-200 transition">
+            <li class="bg-gray-100 p-4 rounded-md shadow-sm hover:bg-gray-200 transition">
               <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-600 font-semibold hover:underline" %>
             </li>
           <% end %>
@@ -64,4 +63,5 @@
       <% end %>
     </div>
   <% end %>
+
 </div>

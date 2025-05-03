@@ -12,7 +12,8 @@
     <canvas id="genreChart" width="400" height="200"></canvas>
 
     <script>
-      document.addEventListener('turbo:load', () => {
+      // グラフ初期化処理
+      function initializeChart() {
         const genreStats = <%= raw @genre_stats.to_json %>;
 
         if (!genreStats || genreStats.length === 0) {
@@ -89,6 +90,26 @@
         });
 
         window.genreChartInstance = chart;
+      }
+
+      // Turboイベントに合わせてグラフを初期化
+      document.addEventListener('DOMContentLoaded', () => {
+        requestAnimationFrame(() => {
+          initializeChart();
+        });
+      });
+
+      // Turbo対応
+      document.addEventListener('turbo:load', () => {
+        requestAnimationFrame(() => {
+          initializeChart();
+        });
+      });
+
+      document.addEventListener('turbo:frame-load', () => {
+        requestAnimationFrame(() => {
+          initializeChart();
+        });
       });
     </script>
   <% else %>

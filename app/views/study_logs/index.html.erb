@@ -2,16 +2,7 @@
 
 <%= render 'search_form', q: @q, url: study_logs_path %>
 
-<div class="flex items-center justify-center mb-8 space-x-4">
-<%= link_to study_reminders_path, class: 'inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white text-sm font-semibold rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all' do %>
-  <!-- カレンダーアイコン -->
-  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-  </svg>
-  学習カレンダー
-<% end %>
 
-</div>
 
 
 <br>

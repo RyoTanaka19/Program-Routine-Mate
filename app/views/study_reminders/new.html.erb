@@ -1,31 +1,37 @@
-<%# 学習リマインダーの新規作成フォーム（非同期送信 + Stimulusでのリダイレクト制御） %>
 <%= form_with model: @study_reminder, url: study_reminders_path, local: false, data: { controller: "redirect" }, id: 'study-reminder-form' do |f| %>
-  <div class="max-w-md mx-auto bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-6">
-    
-    <h2 class="text-2xl font-semibold text-gray-800 text-center">
-      学習リマインダーの設定
+  <div class="max-w-xl mx-auto bg-white border border-blue-200 rounded-2xl shadow p-6 space-y-6">
+
+    <h2 class="text-xl font-semibold text-blue-700 text-center border-b pb-2">
+      学習リマインダー設定
     </h2>
 
-    <%# 学習開始時間の入力欄 %>
+    <%# 学習日付の選択（カレンダー風） %>
     <div>
-      <%= f.label :start_time, "学習開始時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.datetime_local_field :start_time,
-          class: "w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      <%= f.label :start_date, "学習日付", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :start_time,
+          class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+    
+    <%# 学習時間帯の入力（開始・終了） %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :start_time, "開始時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.time_field :start_time,
+            class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+    
+      <div>
+        <%= f.label :end_time, "終了時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.time_field :end_time,
+            class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
     </div>
 
-    <%# 学習終了時間の入力欄 %>
+    <%# 登録ボタン %>
     <div>
-      <%= f.label :end_time, "学習終了時間", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.datetime_local_field :end_time,
-          class: "w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-    </div>
-
-    <%# 通知を設定ボタン %>
-    <div>
-      <%= f.submit "通知を設定",
-          class: "w-full bg-blue-600 text-white text-lg font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      <%= f.submit "リマインダーを設定",
+          class: "w-full bg-blue-600 text-white text-lg font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
     </div>
 
   </div>
 <% end %>
-

@@ -15,7 +15,7 @@ class StudyRemindersController < ApplicationController
     # 日付がURLパラメータで渡されていれば、その日付をstart_timeにセット
     if params[:date]
       @study_reminder.start_time = Date.parse(params[:date]).to_time
-      @study_reminder.end_time = @study_reminder.start_time
+      @study_reminder.end_time = @study_reminder.start_time + 1.hour # 終了時刻を1時間後に設定
     end
   end
 

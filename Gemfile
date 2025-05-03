@@ -81,7 +81,6 @@ gem "rails-i18n", "~> 7.0.0"
 gem "kaminari"
 
 gem "meta-tags"
-gem "carrierwave", "~> 3.0"
 gem "mini_magick"
 gem "redis", "~> 4.0"
 gem "sidekiq"
@@ -93,6 +92,10 @@ gem "omniauth"
 gem "omniauth-github"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+
+
+
 gem "ransack"
-gem "dotenv-rails"
+gem "carrierwave", "~> 3.0"
 gem "fog-aws"
+gem "dotenv-rails"
