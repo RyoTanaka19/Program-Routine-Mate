@@ -103,7 +103,7 @@ end
   # Google、LINE、GitHubいずれかのOAuth認証を使用してログインしたユーザーかどうかを判定します。
   # いずれかのSNS認証であれば true を返し、そうでなければ false を返します。
   def from_oauth?
-    from_google_oauth? || from_line_oauth? || from_github_oauth?
+    from_google_oauth? || from_line_oauth?
   end
 
   # Googleアカウントを使ってログインしたユーザーかどうかを判定します。

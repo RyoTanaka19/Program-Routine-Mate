@@ -7,11 +7,14 @@
 
   <!-- FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
-  <!-- Tailwind CSS（正しくlinkタグで読み込み） -->
+  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans min-h-screen">
 
   <!-- ヘッダー -->
   <header class="bg-green-600 p-4">
@@ -19,70 +22,64 @@
   </header>
 
   <!-- カレンダーコンテナ -->
-  <div class="max-w-4xl mx-auto px-4">
-    <div id="calendar" class="bg-white rounded-lg shadow-md p-4" style="height: 400px;"></div>
+  <div class="max-w-7xl mx-auto px-4 py-6">
+    <div id="calendar" class="bg-white rounded-lg shadow-md p-4 min-h-[750px]"></div>
   </div>
 
   <!-- FullCalendar JS -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+  
 
   <!-- カレンダーの初期化 -->
   <script>
-  function initializeCalendar() {
-    var calendarEl = document.getElementById('calendar');
-    if (!calendarEl) return; // カレンダーがないページでは何もしない
+    let calendarInstance = null;
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      locale: 'ja',
-      initialView: 'dayGridMonth',
-      initialDate: '2025-02-01',
-      events: [
-        <% @study_reminders.each do |reminder| %>
-          {
-            title: '学習リマインダー',
-            start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
-            end: '<%= reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
-            description: '学習セッション',
-            color: '#4CAF50'
-          },
-        <% end %>
-      ],
-      height: 'auto',
-      dateClick: function(info) {
-        var selectedDate = info.dateStr;
+    function initializeCalendar() {
+      const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) return;
 
-        // 現在日時を取得してデフォルト設定
-        var currentDateTime = new Date();
-        var currentHour = currentDateTime.getHours();
-        var currentMinute = currentDateTime.getMinutes();
-        
-        // カレンダーの日付をクリックした際に、URLを変更
-        window.location.href = "<%= new_study_reminder_path %>?date=" + selectedDate + 
-                              "&hour=" + currentHour + "&minute=" + currentMinute;
+      if (calendarInstance !== null) {
+        calendarInstance.destroy();
+        calendarInstance = null;
       }
-    });
 
-    calendar.render();
-  }
+      calendarInstance = new FullCalendar.Calendar(calendarEl, {
+        locale: 'ja',
+        initialView: 'dayGridMonth',
+        initialDate: '2025-02-01',
+        height: 750,  // 高さを固定して見やすく
+        events: [
+          <% @study_reminders.each do |reminder| %>
+            {
+              start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+              end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : "" %>',  <!-- end_time が nil の場合空文字を返す -->
+              description: '学習セッション',
+              color: '#4CAF50'
+            },
+          <% end %>
+        ],
+        dateClick: function(info) {
+          const selectedDate = info.dateStr;
+          const now = new Date();
+          const hour = now.getHours();
+          const minute = now.getMinutes();
+          window.location.href = "<%= new_study_reminder_path %>?date=" + selectedDate +
+                                 "&hour=" + hour + "&minute=" + minute;
+        }
+      });
 
-  // ページのロード時にカレンダーを初期化する
-  document.addEventListener('DOMContentLoaded', function() {
-    initializeCalendar();
-  });
+      calendarInstance.render();
+    }
 
-  // Turboのページ遷移後にもカレンダーを初期化
-  document.addEventListener('turbo:load', function() {
-    // Turboでページが完全に読み込まれた後にカレンダーを再描画
-    initializeCalendar();
-  });
+    // Turbo対応含む初期化
+    const setupCalendar = () => {
+      requestAnimationFrame(() => {
+        initializeCalendar();
+      });
+    };
 
-  // turbo:frame-loadイベントを追加
-  document.addEventListener('turbo:frame-load', function() {
-    // Turboフレームがロードされた後にカレンダーを再描画
-    initializeCalendar();
-  });
-
+    document.addEventListener('DOMContentLoaded', setupCalendar);
+    document.addEventListener('turbo:load', setupCalendar);
+    document.addEventListener('turbo:frame-load', setupCalendar);
   </script>
 
 </body>

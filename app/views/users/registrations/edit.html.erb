@@ -1,46 +1,51 @@
-<h2 class="text-3xl font-bold text-center mb-8 text-gray-800">プロフィール情報編集画面</h2>
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">プロフィール情報編集</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-8" }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true, class: "space-y-8" }) do |f| %>
 
-  <!-- Name Field -->
-  <div class="space-y-4">
-    <%= f.label :name, "名前", class: "block text-lg font-medium text-gray-700" %>
-    <%= f.text_field :name, autofocus: true, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-  </div>
-
-  <!-- Self Introduction Field -->
-  <div class="space-y-4">
-    <%= f.label :self_introduction, "自己紹介", class: "block text-lg font-medium text-gray-700" %>
-    <%= f.text_area :self_introduction, autofocus: true, rows: 5, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-  </div>
-
-  <!-- Studying Continuation Systematization Field -->
-  <div class="space-y-4">
-    <%= f.label :studying_continuation_systematization, "if-thenルール", class: "block text-lg font-medium text-gray-700" %>
-    <%= f.text_area :studying_continuation_systematization, autofocus: true, rows: 5, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-  </div>
-
-  <!-- Profile Image Upload -->
-  <div class="space-y-4">
-    <%= f.label :profile_image, "プロフィール画像", class: "block text-lg font-medium text-gray-700" %>
-    <%= f.file_field :profile_image, autofocus: true, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500", onchange: 'previewImage()', accept: 'image/*' %>
-
-    <div class="mt-4">
-      <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", width: "300", height: "200", class: "mt-4 rounded-md shadow-lg", id: "preview") %>
+    <!-- 名前 -->
+    <div>
+      <%= f.label :name, "名前", class: "block text-lg font-semibold text-gray-700 mb-2" %>
+      <%= f.text_field :name, autofocus: true, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
     </div>
-    <%= f.hidden_field :profile_image_cache %>
-  </div>
 
-  <!-- Form Actions -->
-  <div class="flex justify-between items-center mt-8">
-    <%= link_to "マイページに戻る", user_path(current_user), class: "text-blue-600 hover:underline text-lg" %>
-    <%= f.submit "更新する", class: "px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-lg" %>
-  </div>
-<% end %>
+    <!-- 自己紹介 -->
+    <div>
+      <%= f.label :self_introduction, "自己紹介", class: "block text-lg font-semibold text-gray-700 mb-2" %>
+      <%= f.text_area :self_introduction, rows: 5, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <!-- if-thenルール -->
+    <div>
+      <%= f.label :studying_continuation_systematization, "if-thenルール", class: "block text-lg font-semibold text-gray-700 mb-2" %>
+      <%= f.text_area :studying_continuation_systematization, rows: 5, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <!-- プロフィール画像 -->
+    <div>
+      <%= f.label :profile_image, "プロフィール画像", class: "block text-lg font-semibold text-gray-700 mb-2" %>
+      <%= f.file_field :profile_image, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500", onchange: 'previewImage()', accept: 'image/*' %>
+
+      <p class="mt-2 text-sm text-gray-600">現在の画像：</p>
+      <div class="mt-2 border border-gray-200 p-2 rounded-md inline-block shadow-sm">
+        <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", width: "300", height: "200", class: "rounded-md shadow-md", id: "preview") %>
+      </div>
+
+      <%= f.hidden_field :profile_image_cache %>
+    </div>
+
+    <!-- ボタン -->
+    <div class="flex justify-between items-center pt-4">
+      <%= link_to "マイページに戻る", user_path(current_user), class: "text-blue-600 hover:underline text-lg" %>
+      <%= f.submit "更新する", class: "px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-lg" %>
+    </div>
+
+  <% end %>
+</div>
 
 <script>
   function previewImage() {
-    const fileInput = document.querySelector('input[type="file"][name="user[profile_image]"]'); 
+    const fileInput = document.querySelector('input[type="file"][name="user[profile_image]"]');
     const preview = document.getElementById('preview');
 
     const file = fileInput.files[0];

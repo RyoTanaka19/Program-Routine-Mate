@@ -151,11 +151,7 @@ class StudyGenresController < ApplicationController
 
     @wikipedia_summary = WikipediaFetcher.fetch_summary(@study_genre.name)
 
-    # 指定ジャンルにおけるユーザーの投稿数をチェック
-    user_post_count = @study_genre.study_logs.where(user: current_user).count
-    if user_post_count == 1
-      flash[:notice] = "LGTM"
-    end
+
 
     respond_to do |format|
       format.html

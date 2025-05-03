@@ -22,7 +22,7 @@
             <li><%= link_to "学習バッジ", user_badges_path(current_user) %></li>
             <li><%= link_to 'ジャンル一覧', study_genres_path %></li>
             <li><%= link_to "投稿日数ランキング", ranking_study_logs_path %></li>
-            <li><%= link_to 'AIコーチに相談', new_suggest_path %></li>
+            <li><%= link_to 'AIコーチに(学習継続)の相談', new_suggest_path %></li>
           <% else %>
             <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
           <% end %>
@@ -36,31 +36,57 @@
   <!-- 右側：通知 + ユーザーアイコン -->
   <div class="flex items-center space-x-4 mr-4">
 
-   <%= link_to image_tag("study_logs_list.png", class: "w-16 h-16 rounded-full shadow-md hover:shadow-lg transition"), study_logs_path , data: { action: "click->loading#show" } %>
+  <%= link_to study_logs_path, data: { action: "click->loading#show" } do %>
+  <div class="flex flex-col items-center">
+    <%= image_tag("home.png", class: "w-14 h-14 rounded-full shadow-md hover:shadow-lg transition") %>
+    <span class="mt-2 text-sm text-center">投稿一覧</span>
+  </div>
+<% end %>
 
   <% if current_user %>
-  <%= link_to "ジャンル作成", new_study_genre_path, class: "btn btn-primary" %>
 
-  <%= link_to "📝", new_study_genre_study_log_path(current_user.study_genres), class: "btn btn-primary" %>
+  <%= link_to study_reminders_path do %>
+    <div class="flex flex-col items-center">
+      <%= image_tag("calendar.png", alt: "学習カレンダー", size: "60x60") %>
+      <span class="mt-2 text-sm text-center">学習カレンダー</span>
+    </div>
+  <% end %>
+  
+  <%= link_to new_study_genre_path do %>
+    <div class="flex flex-col items-center">
+      <%= image_tag("icon.png", alt: "ジャンル作成", class: "me-2", size: "60x60") %>
+      <span class="mt-2 text-sm text-center">ジャンル作成</span>
+    </div>
+  <% end %>
+
+
+  <%= link_to new_study_genre_study_log_path(current_user.study_genres) do %>
+    <div class="flex flex-col items-center">
+      <%= image_tag("study_logs.png", alt: "Study Logs", size: "50x50") %>
+      <span class="mt-2 text-sm text-center">学習記録投稿</span>
+    </div>
+  <% end %>
 <% end %>
 
 
 
 
-    <!-- 通知アイコン -->
-    <% if current_user %>
-    <div class="relative">
-      <button id="notification-icon" class="text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
-          <path fill="none" d="M0 0h24v24H0z"/>
-          <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
-        </svg>
-        <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
-          0
-        </div>
-      </button>
-    </div>
-  <% end %>
+<!-- 通知アイコン -->
+<% if current_user %>
+  <div class="relative flex flex-col items-center text-white">
+    <button id="notification-icon" class="relative">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-10 w-10">
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
+      </svg>
+      <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
+        0
+      </div>
+    </button>
+    <span class="mt-2 text-sm">通知アイコン</span>
+  </div>
+<% end %>
+
 
     <!-- ログイン・プロフィール切替 -->
     <% if user_signed_in? %>
@@ -73,7 +99,8 @@
     <% else %>
       <label for="my-drawer-4" class="drawer-button btn btn-ghost p-0">
         <%= link_to new_user_session_path do %>
-          <%= image_tag "login.png", alt: "ログイン", class: "h-10 w-10 object-cover rounded-full" %>
+          <%= image_tag "login.png", alt: "ログイン", class: "h-11 w-10 object-cover rounded-full" %>
+          <span class="mt-2 text-sm text-center">ログイン</span>
         <% end %>
       </label>
     <% end %>

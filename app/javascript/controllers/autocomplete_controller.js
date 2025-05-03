@@ -30,6 +30,7 @@ export default class extends Controller {
   updateResults(data) {
     // 結果の表示領域を空にする
     this.resultsTarget.innerHTML = '';
+    console.log('オートコンプリートAPIからの返却データ:', data);
 
     // 結果がない場合、メッセージを表示
     if (data.length === 0) {
