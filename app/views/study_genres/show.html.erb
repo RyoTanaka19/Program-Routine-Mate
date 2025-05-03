@@ -1,5 +1,4 @@
 <div class="max-w-5xl mx-auto p-6 space-y-10">
-
   <!-- ジャンル名の表示 -->
   <div class="border-b pb-4">
     <h1 class="text-4xl font-bold text-gray-800">
@@ -28,7 +27,7 @@
       </svg>
       投稿情報
     </h2>
-  
+
     <% if @study_genre.study_logs.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-6">
         <div class="flex items-center">
@@ -36,22 +35,23 @@
           <span><%= @study_genre.study_logs.count %> 件</span>
         </div>
       </div>
-  
+
       <!-- グラフの表示 -->
-      <div class="h-64">
+      <div class="h-64" id="chart-container">
         <canvas id="chart" class="w-full h-full"></canvas>
       </div>
     <% else %>
       <p class="text-gray-600">まだこのジャンルの投稿がありません。</p>
     <% end %>
   </div>
-  
+
   <!-- jQueryとChart.jsのライブラリを読み込み -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
 
   <script>
-    document.addEventListener("turbo:load", function() {
+    let chartInstance = null; // グラフインスタンスを外部で保持
+
+    function initializeChart() {
       // AJAXリクエストを送信
       $.ajax({
         url: "<%= study_genre_path(@study_genre) %>",
@@ -63,12 +63,12 @@
           // グラフの描画
           const ctx = document.getElementById('chart').getContext('2d');
           
-          // グラフがすでに存在する場合は、インスタンスを破棄して新しいグラフを作成
-          if (window.chartInstance) {
-            window.chartInstance.destroy();
+          // すでにインスタンスがあれば破棄
+          if (chartInstance) {
+            chartInstance.destroy();
           }
 
-          window.chartInstance = new Chart(ctx, {
+          chartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
               labels: labels,
@@ -130,7 +130,28 @@
           });
         }
       });
+    }
+
+    // ページが完全に読み込まれた後に処理を実行
+    document.addEventListener("DOMContentLoaded", function() {
+      initializeChart();
+    });
+
+    // Turbo対応: ページ遷移時にグラフをリフレッシュ
+    document.addEventListener('turbo:load', function() {
+      initializeChart();
+    });
+
+    // Turboのフレームを使って部分的な更新を検知
+    document.addEventListener('turbo:frame-load', function() {
+      initializeChart();
+    });
+
+    // Turboを使った遷移時でもグラフをリフレッシュ
+    document.addEventListener('turbo:before-cache', function() {
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
     });
   </script>
-
 </div>
