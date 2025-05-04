@@ -1,10 +1,10 @@
 <!-- 画面全体を中央に配置し、背景色と余白を設定 -->
 <div class="flex justify-center items-center min-h-screen bg-gray-100 px-4">
-  <!-- ログインフォームのコンテナ。幅を制限し、白背景・影・角丸・内側余白・要素間のスペースを設定 -->
-  <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-8 space-y-6">
+  <!-- ログインフォームのコンテナ：幅、背景、影、角丸、内側余白、レスポンシブ -->
+  <div class="w-full sm:max-w-md md:max-w-lg bg-white shadow-lg rounded-xl p-6 sm:p-8 space-y-6">
 
     <!-- ログインページのタイトル -->
-    <h1 class="text-3xl font-bold text-center text-gray-800">ログイン</h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-center text-gray-800">ログイン</h1>
 
     <!-- フラッシュメッセージ（alert）がある場合にエラーメッセージとして表示 -->
     <% if flash[:alert].present? %>
@@ -13,24 +13,24 @@
       </div>
     <% end %>
 
-    <!-- Deviseのセッション用ログインフォーム。`@user`モデルにバインドして送信先はuser_session_path -->
+    <!-- Deviseのセッション用ログインフォーム -->
     <%= form_with model: @user, url: user_session_path, class: "space-y-4" do |form| %>
-      
+
       <!-- メールアドレスの入力欄 -->
       <div>
-        <%= form.email_field :email, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder: "メールアドレス" %>
+        <%= form.email_field :email, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "メールアドレス" %>
       </div>
 
       <!-- パスワードの入力欄 -->
       <div>
-        <%= form.password_field :password, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder: "パスワード" %>
+        <%= form.password_field :password, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "パスワード" %>
       </div>
 
       <!-- ログインボタン -->
       <div>
-        <%= form.submit "ログイン", class: "bg-blue-600 text-white font-semibold py-3 rounded-lg w-full hover:bg-blue-700 transition-colors" %>
+        <%= form.submit "ログイン", class: "bg-blue-600 text-white font-semibold py-3 rounded-lg w-full hover:bg-blue-700 transition-colors text-sm sm:text-base" %>
       </div>
-      
+
     <% end %>
 
     <!-- パスワードリセットリンク -->
@@ -40,27 +40,28 @@
       </a>
     </div>
 
-    <!-- サインアップ（新規登録）ページへのリンク -->
+    <!-- サインアップリンク -->
     <p class="text-sm text-center text-gray-600">
       アカウントをお持ちでない場合は
       <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 font-medium hover:underline" %>
     </p>
 
-    <!-- OAuthによるログイン（Google, LINE, GitHubなど）が有効な場合に表示 -->
+    <!-- OAuthログイン -->
     <% if devise_mapping.omniauthable? %>
-      <div class="space-y-3 mt-8">
-        
-        <!-- Googleでログイン -->
+      <div class="space-y-3 mt-6">
+
+        <!-- Googleログイン -->
         <%= link_to user_google_oauth2_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700" do %>
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google logo">
           <span>Googleでログイン</span>
         <% end %>
 
-        <!-- LINEでログイン -->
+        <!-- LINEログイン -->
         <%= link_to user_line_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm font-medium" do %>
-          <img src="https://www.svgrepo.com/download/353433/line-icon.svg" class="w-5 h-5" alt="LINE logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="w-5 h-5" alt="LINE logo">
           <span>LINEでログイン</span>
         <% end %>
+
       </div>
     <% end %>
 

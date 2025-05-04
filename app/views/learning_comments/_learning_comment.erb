@@ -1,45 +1,47 @@
 <tr id="learning_comment_<%= learning_comment.id %>">
   <td>
-    <div class="bg-white border border-gray-200 rounded-lg p-4 my-4 shadow-sm">
-      <div class="flex items-start space-x-4">
-        <!-- プロフィール画像 -->
-        <%= link_to user_path(current_user) do %>
-          <%= image_tag(
-            current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
-            class: "w-12 h-12 rounded-full object-cover"
-          ) %>
+    <div class="flex items-start space-x-4 my-4">
+      <!-- プロフィール画像 -->
+      <%= link_to user_path(current_user) do %>
+        <%= image_tag(
+          current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
+          class: "w-12 h-12 rounded-full object-cover"
+        ) %>
+      <% end %>
+
+      <!-- コメント吹き出し -->
+      <div class="relative bg-white border border-gray-200 rounded-lg p-4 shadow-sm max-w-2xl">
+        <!-- 吹き出しの三角形 -->
+        <div class="absolute -left-3 top-5 w-0 h-0 border-t-8 border-b-8 border-r-8 border-transparent border-r-white"></div>
+
+        <!-- 投稿日 -->
+        <p class="text-xs text-gray-500 mb-1">
+          投稿日: <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+        </p>
+
+        <!-- コメント本文 -->
+        <p class="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
+          <%= simple_format(learning_comment.text) %>
+        </p>
+
+        <!-- 編集/削除ボタン -->
+        <% if user_signed_in? && current_user == learning_comment.user %>
+          <div class="mt-3 flex space-x-2">
+            <%= link_to edit_learning_comment_path(learning_comment),
+                  class: "inline-flex items-center px-3 py-1.5 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
+                  data: { turbo_stream: true },
+                  id: "button-edit-#{learning_comment.id}" do %>
+              <i class="fas fa-pencil-alt mr-1"></i> 編集
+            <% end %>
+
+            <%= link_to learning_comment_path(learning_comment),
+                  class: "inline-flex items-center px-3 py-1.5 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300",
+                  data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
+                  id: "button-delete-#{learning_comment.id}" do %>
+              <i class="fas fa-trash mr-1"></i> 削除
+            <% end %>
+          </div>
         <% end %>
-
-        <div class="flex-1">
-          <!-- 投稿日 -->
-          <p class="text-xs text-gray-500 mb-1">
-            投稿日: <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %>
-          </p>
-
-          <!-- コメント本文 -->
-          <p class="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
-            <%= simple_format(learning_comment.text) %>
-          </p>
-
-          <!-- 編集/削除ボタン -->
-          <% if user_signed_in? && current_user == learning_comment.user %>
-            <div class="mt-3 flex space-x-2">
-              <%= link_to edit_learning_comment_path(learning_comment),
-                    class: "inline-flex items-center px-3 py-1.5 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
-                    data: { turbo_stream: true },
-                    id: "button-edit-#{learning_comment.id}" do %>
-                <i class="fas fa-pencil-alt mr-1"></i> 編集
-              <% end %>
-
-              <%= link_to learning_comment_path(learning_comment),
-                    class: "inline-flex items-center px-3 py-1.5 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300",
-                    data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
-                    id: "button-delete-#{learning_comment.id}" do %>
-                <i class="fas fa-trash mr-1"></i> 削除
-              <% end %>
-            </div>
-          <% end %>
-        </div>
       </div>
     </div>
   </td>
