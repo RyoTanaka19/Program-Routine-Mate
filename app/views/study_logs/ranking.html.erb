@@ -1,31 +1,29 @@
 <!-- タイトル -->
-<h1 class="text-3xl font-bold mb-6 text-center text-blue-700">🏆 投稿日数ランキング 🏆</h1>
+<h1 class="text-2xl md:text-3xl font-bold mb-6 text-center text-blue-700">
+  🏆 投稿日数ランキング 🏆
+</h1>
 
 <!-- 横スクロール対応のラッパー -->
-<div class="overflow-x-auto">
-  <table class="min-w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+<div class="w-full overflow-x-auto">
+  <table class="min-w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden text-sm md:text-base">
     <!-- テーブルヘッダー -->
     <thead>
       <tr class="bg-blue-100 text-blue-900">
-        <th class="px-4 py-3 text-left">順位</th>
-        <th class="px-4 py-3 text-left">ユーザー名</th>
-        <th class="px-4 py-3 text-left">学習した日数</th>
+        <th class="px-2 py-3 md:px-4 text-left whitespace-nowrap">順位</th>
+        <th class="px-2 py-3 md:px-4 text-left whitespace-nowrap">ユーザー名</th>
+        <th class="px-2 py-3 md:px-4 text-left whitespace-nowrap">学習した日数</th>
       </tr>
     </thead>
     <tbody>
-      <% previous_posted_days_count = nil %> <!-- 前のユーザーの学習日数を保持する（同率順位の判定用） -->
-      <% rank = 0 %> <!-- 現在の順位を保持する変数 -->
+      <% previous_posted_days_count = nil %>
+      <% rank = 0 %>
 
-      <!-- ランキング配列をループ処理（各要素には user_id と posted_days_count を含む） -->
       <% @ranking.each_with_index do |ranking, index| %>
-        <% user = User.find(ranking[:user_id]) %> <!-- user_idからユーザー情報を取得 -->
-
-        <!-- 同じ学習日数であれば順位を据え置く（同率順位対応） -->
+        <% user = User.find(ranking[:user_id]) %>
         <% if previous_posted_days_count != ranking[:posted_days_count] %>
           <% rank = index + 1 %>
         <% end %>
 
-        <!-- 順位に応じたアイコンを設定 -->
         <% crown_icon = case rank
           when 1 then "👑"
           when 2 then "🥈"
@@ -33,28 +31,21 @@
           else "🎖️"
         end %>
 
-        <% is_current_user = current_user && current_user.id == user.id %> <!-- 表示中のユーザーが現在のユーザーか判定 -->
+        <% is_current_user = current_user && current_user.id == user.id %>
 
-        <!-- ユーザー1名分の行（ストライプ表示 + ホバーエフェクト + 自分の行をハイライト） -->
         <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> hover:bg-blue-50 transition <%= 'bg-yellow-100 font-bold' if is_current_user %>">
-          
-          <!-- 順位列：アイコン＋順位 -->
-          <td class="px-4 py-3 font-semibold text-blue-800">
+          <td class="px-2 py-2 md:px-4 md:py-3 font-semibold text-blue-800 whitespace-nowrap">
             <%= crown_icon %> <%= rank %>位
           </td>
-
-          <!-- ユーザー名列 -->
-          <td class="px-4 py-3 text-gray-800">
+          <td class="px-2 py-2 md:px-4 md:py-3 text-gray-800 whitespace-nowrap">
             <%= user.name %>
           </td>
-
-          <!-- 学習日数列 -->
-          <td class="px-4 py-3 text-gray-600">
+          <td class="px-2 py-2 md:px-4 md:py-3 text-gray-600 whitespace-nowrap">
             <%= ranking[:posted_days_count] %> 日
           </td>
         </tr>
 
-        <% previous_posted_days_count = ranking[:posted_days_count] %> <!-- 次のユーザーとの比較用に現在の日数を保存 -->
+        <% previous_posted_days_count = ranking[:posted_days_count] %>
       <% end %>
     </tbody>
   </table>

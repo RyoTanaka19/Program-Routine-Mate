@@ -12,6 +12,3 @@ application.register('hello', HelloController);
 
 import LoadingController from './loading_controller';
 application.register('loading', LoadingController);
-
-import RedirectController from './redirect_controller';
-application.register('redirect', RedirectController);

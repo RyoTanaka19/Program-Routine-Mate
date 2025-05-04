@@ -10,35 +10,40 @@
     </h2>
   <% end %>
 
-<!-- 提案がある場合、1件ずつカード形式で一覧表示する -->
-<% if @suggests.any? %>
-  <% @suggests.each do |suggest| %>
-    <%# 各提案へのリンク付きカードを作成 %>
-    <div id="suggest_<%= suggest.id %>" class="card bg-white shadow-lg mb-6 p-6 rounded-xl block hover:shadow-xl transition-shadow duration-300 border-t-4 border-accent relative">
-      <div class="flex items-center space-x-6">
+  <!-- 提案がある場合、1件ずつカード形式で一覧表示する -->
+  <% if @suggests.any? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <% @suggests.each do |suggest| %>
+        <%# 各提案へのリンク付きカードを作成 %>
+        <div id="suggest_<%= suggest.id %>" class="card bg-white shadow-lg p-6 rounded-xl block hover:shadow-xl transition-shadow duration-300 border-t-4 border-accent relative">
+          <div class="flex items-center space-x-6">
 
-        <%# ユーザーのプロフィール画像を表示（なければデフォルト画像） %>
-        <% if suggest.user.profile_image.present? %>
-          <%= image_tag(suggest.user.profile_image.url, alt: suggest.user.name, class: "w-14 h-14 rounded-full object-cover") %>
-        <% else %>
-          <%= image_tag("default_study_logs_image.png", alt: suggest.user.name, class: "w-14 h-14 rounded-full object-cover") %>
-        <% end %>
+            <%# ユーザーのプロフィール画像を表示（なければデフォルト画像） %>
+            <% if suggest.user.profile_image.present? %>
+              <%= image_tag(suggest.user.profile_image.url, alt: suggest.user.name, class: "w-14 h-14 rounded-full object-cover") %>
+            <% else %>
+              <%= image_tag("default_study_logs_image.png", alt: suggest.user.name, class: "w-14 h-14 rounded-full object-cover") %>
+            <% end %>
 
-        <div>
-          <%# ユーザーがAIに相談した内容（質問）を見出しに表示 %>
-          <h3 class="font-bold text-xl text-primary"><%= suggest.input %></h3>
-          <%# AIからの返答を120文字に切り詰めて表示（全体は詳細ページで） %>
-          <p class="mt-2 text-gray-600 text-sm"><%= truncate(suggest.response, length: 120) %></p>
+            <div>
+              <%# ユーザーがAIに相談した内容（質問）を見出しに表示 %>
+              <h3 class="font-bold text-xl text-primary"><%= suggest.input %></h3>
+              <%# AIからの返答を120文字に切り詰めて表示（全体は詳細ページで） %>
+              <p class="mt-2 text-gray-600 text-sm"><%= truncate(suggest.response, length: 120) %></p>
+            </div>
+          </div>
+
+          <%# 削除ボタンを右上に配置 %>
+ <%= button_to suggest_path(suggest), method: :delete,
+      data: { turbo_confirm: "本当に削除しますか?" },
+      class: "absolute top-2 right-2 z-10 bg-red-100 hover:bg-red-200 text-red-600 rounded-full w-8 h-8 flex items-center justify-center shadow-sm transition duration-200",
+      aria: { label: "削除" } do %>
+  <i class="fas fa-trash w-4 h-4"></i>
+<% end %>
+
         </div>
-      </div>
-
-      <%# 削除ボタンを右上に配置 %>
-      <%= button_to suggest_path(suggest), method: :delete, data: { turbo_confirm: "本当に削除しますか?" }, class: "absolute top-2 right-2 inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
-        <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
       <% end %>
     </div>
-  <% end %>
-
   <% else %>
     <%# 提案がまだ1件もない場合に、案内文を表示 %>
     <div class="bg-white shadow-lg rounded-xl p-6 text-center">

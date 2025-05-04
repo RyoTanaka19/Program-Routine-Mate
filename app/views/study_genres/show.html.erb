@@ -37,7 +37,7 @@
       </div>
 
       <!-- グラフの表示 -->
-      <div class="h-64" id="chart-container">
+      <div class="h-64 sm:h-80 md:h-96 lg:h-[400px]" id="chart-container">
         <canvas id="chart" class="w-full h-full"></canvas>
       </div>
     <% else %>
@@ -46,8 +46,6 @@
   </div>
 
   <!-- jQueryとChart.jsのライブラリを読み込み -->
- 
-
   <script>
     let chartInstance = null; // グラフインスタンスを外部で保持
 

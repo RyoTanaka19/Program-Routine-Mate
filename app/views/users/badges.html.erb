@@ -1,42 +1,45 @@
 <!-- app/views/users/badges.html.erb -->
 
-<h1 class="text-2xl sm:text-3xl font-bold text-center mb-8 text-yellow-600 drop-shadow-md">
-  🎖 <%= current_user.name %>さんのバッジコレクション 🎖
-</h1>
+<div class="max-w-screen-xl mx-auto px-4">
 
-<% if @study_badges.any? %>
-  <!-- バッジらしさを出すため、カードではなく「アイコン＋最小限のテキスト」でコンパクト表示 -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-4">
-    
-    <% @study_badges.each do |badge| %>
-      <div class="flex flex-col items-center text-center">
-        
-        <!-- 円形バッジアイコン部分（中央に画像、縁取りと影付き） -->
-        <div class="w-24 h-24 rounded-full bg-yellow-200 border-4 border-yellow-400 shadow-md flex items-center justify-center mb-2">
-          <%= image_tag(badge.icon, class: "w-12 h-12") if badge.icon.present? %>
-        </div>
+  <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 text-yellow-600 drop-shadow-md">
+    🎖 <%= current_user.name %>さんのバッジコレクション 🎖
+  </h1>
 
-        <!-- バッジ名（短く目立つように） -->
-        <div class="text-sm font-semibold text-yellow-800 truncate max-w-none">
-          <%= badge.name %>
-        </div>
+  <% if @study_badges.any? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
 
-        <!-- 取得日（小さく控えめに） -->
-        <% earned = badge.user_study_badges.find_by(user: current_user)&.earned_at %>
-        <% if earned.present? %>
-          <div class="text-xs text-gray-500">
-            <%= earned.strftime('%m/%d') %>獲得
+      <% @study_badges.each do |badge| %>
+        <div class="flex flex-col items-center text-center">
+
+          <!-- 円形バッジアイコン部分 -->
+          <div class="w-24 h-24 sm:w-24 sm:h-24 rounded-full bg-yellow-200 border-4 border-yellow-400 shadow-md flex items-center justify-center mb-2">
+            <%= image_tag(badge.icon, class: "w-10 h-10 sm:w-12 sm:h-12") if badge.icon.present? %>
           </div>
-        <% end %>
 
-      </div>
-    <% end %>
+          <!-- バッジ名 -->
+          <div class="text-sm sm:text-base font-semibold text-yellow-800 truncate max-w-[90%]">
+            <%= badge.name %>
+          </div>
 
-  </div>
+          <!-- 取得日 -->
+          <% earned = badge.user_study_badges.find_by(user: current_user)&.earned_at %>
+          <% if earned.present? %>
+            <div class="text-xs text-gray-500 mt-1">
+              <%= earned.strftime('%m/%d') %>獲得
+            </div>
+          <% end %>
 
-<% else %>
-  <div class="text-center mt-10 text-gray-500 text-lg">
-    まだバッジを獲得していません。<br>
-    さあ、学習を始めてバッジを集めましょう！💪
-  </div>
-<% end %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <div class="text-center mt-10 text-gray-500 text-base sm:text-lg">
+      まだバッジを獲得していません。<br>
+      さあ、学習を始めてバッジを集めましょう！💪
+    </div>
+  <% end %>
+
+</div>

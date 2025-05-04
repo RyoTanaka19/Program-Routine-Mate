@@ -1,17 +1,19 @@
 class ProfileImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  # Include RMagick, MiniMagick, or Vips support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
-  # include CarrierWave::Vips
 
-  # Choose what kind of storage to use for this uploader:
 
-  if Rails.env.production?
-    storage :fog
-  else
-    storage :file
-  end
+
+# Railsの環境に応じてファイルの保存方法を切り替える設定です。
+
+# 本番環境（production）では、外部ストレージ（例えばAmazon S3やGoogle Cloud Storageなど）を使用してファイルを保存します。
+# これは、クラウドストレージを使ってスケーラブルで高可用性のあるファイルストレージを確保するためです。
+if Rails.env.production?
+  storage :fog
+# 本番環境以外（開発環境やテスト環境）では、ローカルファイルシステムを使用してファイルを保存します。
+# 開発中やテスト時は、ファイルの保存先としてローカルディスクを利用することが一般的です。
+else
+  storage :file
+end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

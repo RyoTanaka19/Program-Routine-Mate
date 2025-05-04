@@ -3,10 +3,10 @@ class StudyGenre < ApplicationRecord
   # 定数：登録できるジャンルの一覧
   # ===============================
   GENRES = [
-    "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "Web技術",
+    "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "CakePHP", "Web",
     "ITパスポート", "基本情報技術者試験", "応用技術者試験", "アルゴリズム",
-    "Java", "SQL", "データベース設計", "C", "C#", "C++", "Git",
-    "Docker", "AWS", "JavaScript",  "React", "TypeScript", "Next.js", "Python", "HTML", "CSS",
+    "Java", "データベース設計", "C", "C#", "C++", "VBA", "VB", "Git",
+    "Docker", "AWS", "JavaScript",  "React", "TypeScript", "Next.js", "Python", "HTML CSS",
      "Go",
     "Swift", "Kotlin"
   ]

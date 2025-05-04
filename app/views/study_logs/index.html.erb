@@ -13,15 +13,6 @@
   <div id="cal-heatmap" class="overflow-auto md:overflow-scroll"></div>
 </div>
 
-<!-- d3.jsライブラリの読み込み（データ可視化用） -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
-
-<!-- Cal-Heatmapライブラリの読み込み（ヒートマップ描画用） -->
-<script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
-
-<!-- Cal-Heatmapのスタイルシート -->
-<link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
-
 <script>
   // ヒートマップを初期化する関数を即時に実行
   set_heatmap(); 
@@ -139,6 +130,4 @@
   <% end %>
 </div>
 
-
 <%= paginate @study_logs %>
-

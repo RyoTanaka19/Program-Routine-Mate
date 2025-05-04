@@ -40,6 +40,8 @@ class StudyLogsImageUploader < CarrierWave::Uploader::Base
   def extension_allowlist
     %w[jpg jpeg gif png]
   end
+
+  process resize_to_limit: [ 300, 200 ]
   # Create different versions of your uploaded files:
   # version :thumb do
   #   process resize_to_fit: [50, 50]

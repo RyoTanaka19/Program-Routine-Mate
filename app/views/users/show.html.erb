@@ -48,7 +48,7 @@
   <!-- 投稿セクション（右側）※自分だけに表示 -->
   <% if user_signed_in? && current_user == @user %>
     <div class="flex-1 max-w-2xl w-full bg-white p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800"><%= @user.name %>の投稿</h2>
+      <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800"><%= @user.name %>さんの投稿</h2>
 
       <% if @study_logs.any? %>
         <ul class="space-y-4">

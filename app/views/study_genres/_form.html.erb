@@ -6,7 +6,7 @@
     <!-- 3. ジャンルに関連する学習記録（study_logs）が1件以上あるか確認 -->
     <% if genre.study_logs.any? %>
       <!-- 4. 学習記録が存在する場合、青い背景のボックスでジャンル情報を表示 -->
-      <div class="bg-blue-50 p-4 rounded-md shadow-md mb-4">
+      <div class="bg-blue-50 p-4 rounded-md shadow-md mb-4 md:max-w-md mx-auto">
         <!-- 5. ジャンル名をクリックして、そのジャンルのページにリンク -->
         <%= link_to "#{genre.name}", study_genre_path(genre), class: "text-blue-600 hover:underline" %>の学習記録があります。
         <p class="text-gray-600">このジャンルはすでに設定されています。</p>
@@ -32,7 +32,7 @@
       </div>
     <!-- 10. 学習記録がない場合、黄色い背景でその旨を表示 -->
     <% else %>
-      <div class="bg-yellow-50 p-4 rounded-md shadow-md mb-4">
+      <div class="bg-yellow-50 p-4 rounded-md shadow-md mb-4 md:max-w-md mx-auto">
         <%= link_to "#{genre.name}", study_genre_path(genre), class: "text-blue-600 hover:underline" %>の
         学習記録がまだありません。
       </div>
@@ -42,7 +42,7 @@
 
 <!-- 11. @study_genresが空か、ジャンル数が3未満の場合に新しいジャンルを追加するフォームを表示 -->
 <% if @study_genres.blank? || @study_genres.count < 3 %>
-  <div class="bg-green-50 p-4 rounded-md shadow-md mt-6">
+  <div class="bg-green-50 p-4 rounded-md shadow-md mt-6 md:max-w-md mx-auto">
     <!-- 12. 新しいジャンルを追加するセクション -->
     <h3 class="text-xl font-semibold text-gray-800">新しいジャンルを追加</h3>
 
