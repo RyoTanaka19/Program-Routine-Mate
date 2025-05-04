@@ -5,8 +5,8 @@ class StudyGenre < ApplicationRecord
   GENRES = [
     "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "CakePHP", "Web",
     "ITパスポート", "基本情報技術者試験", "応用技術者試験", "アルゴリズム",
-    "Java", "データベース設計", "C", "C#", "C++", "VBA","VB", "Git",
-    "Docker", "AWS", "JavaScript",  "React", "TypeScript", "Next.js", "Python","HTML CSS",
+    "Java", "データベース設計", "C", "C#", "C++", "VBA", "VB", "Git",
+    "Docker", "AWS", "JavaScript",  "React", "TypeScript", "Next.js", "Python", "HTML CSS",
      "Go",
     "Swift", "Kotlin"
   ]

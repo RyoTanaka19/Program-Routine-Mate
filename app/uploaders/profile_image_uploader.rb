@@ -1,11 +1,7 @@
 class ProfileImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  # Include RMagick, MiniMagick, or Vips support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
-  # include CarrierWave::Vips
 
-  # Choose what kind of storage to use for this uploader:
+
 
 # Railsの環境に応じてファイルの保存方法を切り替える設定です。
 
