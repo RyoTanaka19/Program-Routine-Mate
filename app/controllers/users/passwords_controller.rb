@@ -13,9 +13,10 @@ class Users::PasswordsController < Devise::PasswordsController
     if successfully_sent?(resource)
       redirect_to after_sending_reset_password_instructions_path_for(resource_name)
     else
-      # メールアドレスが未入力の場合や他のエラーがある場合にエラーメッセージをflashに追加
-      if resource.errors[:email].any?
+      if resource.email.blank?
         flash[:alert] = "メールアドレスを入力してください"
+      elsif !resource.persisted?
+        flash[:alert] = "そのメールアドレスは登録されていません"
       else
         flash[:alert] = "エラーが発生しました。もう一度お試しください。"
       end
