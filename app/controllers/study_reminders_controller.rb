@@ -23,15 +23,13 @@ class StudyRemindersController < ApplicationController
   def create
     # 現在のユーザーに紐づけて、新しい学習リマインダーを作成
     @study_reminder = current_user.study_reminders.new(study_reminder_params)
-  
     if @study_reminder.save
       # 通知ジョブを非同期で実行
       NotifyLineJob.perform_later(@study_reminder.id, :start_time)
       NotifyLineJob.perform_later(@study_reminder.id, :end_time)
-  
       # ✅ フラッシュメッセージを設定
       flash[:notice] = "学習開始時間と学習終了時間が設定されました"
-  
+
       # 一覧ページへリダイレクト（Turbo対応）
       redirect_to study_reminders_path, status: :see_other
     else
@@ -43,7 +41,6 @@ class StudyRemindersController < ApplicationController
       ), status: :unprocessable_entity
     end
   end
-  
 
   private
 

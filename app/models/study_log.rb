@@ -82,23 +82,23 @@ end
   def calculate_study_duration
     # 学習リマインダーが存在しない場合は処理をスキップ
     return unless study_reminder.present?
-  
+
     # リマインダーの開始時間・終了時間が設定されていない場合は処理をスキップ
     return unless study_reminder.start_time.present? && study_reminder.end_time.present?
-  
+
     start_time = study_reminder.start_time
     end_time = study_reminder.end_time
     current_time = Time.current
-  
+
     # 終了時刻まで含めて、範囲外かチェック
     unless current_time >= start_time && current_time <= end_time
       self.total = nil # 現在時刻がリマインダーの期間外の場合、学習時間を保存しない
       return
     end
-  
+
     # 実際に経過した時間（秒）を計算
     elapsed_seconds = (current_time - start_time).to_i
-  
+
     # 経過時間が1秒未満なら記録しない（誤差対策）
     self.total = elapsed_seconds > 0 ? elapsed_seconds : nil
   end

@@ -78,28 +78,24 @@ gem "rails-i18n", "~> 7.0.0"
 
 
 
-
-
-
-
-
-
-
-
-gem "simple_calendar"
-gem "ruby-openai"
 gem "kaminari"
-gem "redis", "~> 4.0"
-gem "sidekiq"
-gem "line-bot-api"
+
 gem "meta-tags"
 gem "mini_magick"
-gem "omniauth-line"
-gem "omniauth-rails_csrf_protection"
-gem "ransack"
-gem "omniauth-google-oauth2"
-gem "omniauth"
+gem "redis", "~> 4.0"
+gem "sidekiq"
+gem "ruby-openai"
+gem "line-bot-api"
 gem "devise"
+gem "omniauth-line"
+gem "omniauth"
+gem "omniauth-github"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+
+
+
+gem "ransack"
 gem "carrierwave", "~> 3.0"
 gem "fog-aws"
 gem "dotenv-rails"

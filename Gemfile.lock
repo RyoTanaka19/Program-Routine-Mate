@@ -260,6 +260,9 @@ GEM
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
+    omniauth-github (1.4.0)
+      omniauth (~> 1.5)
+      omniauth-oauth2 (>= 1.4.0, < 2.0)
     omniauth-google-oauth2 (0.8.2)
       jwt (>= 2.0)
       oauth2 (~> 1.1)
@@ -403,8 +406,6 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
-    simple_calendar (3.1.0)
-      rails (>= 6.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -476,6 +477,7 @@ DEPENDENCIES
   meta-tags
   mini_magick
   omniauth
+  omniauth-github
   omniauth-google-oauth2
   omniauth-line
   omniauth-rails_csrf_protection
@@ -490,7 +492,6 @@ DEPENDENCIES
   ruby-openai
   selenium-webdriver
   sidekiq
-  simple_calendar
   sprockets-rails
   stimulus-rails
   turbo-rails
