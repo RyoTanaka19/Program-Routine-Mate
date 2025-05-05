@@ -96,11 +96,11 @@ end
       return
     end
 
-    # 実際に経過した時間（分）を計算
-    elapsed_minutes = ((current_time - start_time) / 60).to_i
+    # 実際に経過した時間（秒）を計算
+    elapsed_seconds = (current_time - start_time).to_i
 
-    # 経過時間が1分未満なら記録しない（誤差対策）
-    self.total = elapsed_minutes > 0 ? elapsed_minutes : nil
+    # 経過時間が1秒未満なら記録しない（誤差対策）
+    self.total = elapsed_seconds > 0 ? elapsed_seconds : nil
   end
 
   # 初回投稿時にバッジを付与する

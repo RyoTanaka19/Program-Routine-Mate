@@ -69,29 +69,40 @@
     calendarInstance = new FullCalendar.Calendar(calendarEl, {
       locale: 'ja',  // 日本語ロケール設定
       initialView: 'dayGridMonth',  // 初期表示ビュー
-      initialDate: '2025-02-01',  // 初期日付
       height: 'auto',  // レスポンシブ対応
       events: [
         <% @study_reminders.each do |reminder| %>
           {
-            start: '<%= reminder.start_time.strftime("%Y-%m-%d") %>',  <!-- 全日イベントとして開始日だけを渡す -->
-            end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%d") : reminder.start_time.strftime("%Y-%m-%d") %>',  <!-- 終了時間がnilの場合は開始時間と同じ -->
+            start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',  <!-- 開始日付+時間 -->
+            end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',  <!-- 終了時刻がnilの場合は開始時間と同じ -->
             title: '<%= reminder.start_time.strftime("%H:%M") %> - <%= reminder.end_time.present? ? reminder.end_time.strftime("%H:%M") : reminder.start_time.strftime("%H:%M") %>',  <!-- タイトルに時間を表示 -->
             color: '#4CAF50',  <!-- 緑色に設定 -->
             description: '学習セッション',  // 任意で追加情報
-            allDay: true  // 全日イベントとして扱う
+            allDay: true   // 時間指定イベント
           },
         <% end %>
       ],
+
+       eventClick: function (info) {
+            alert('イベント名 学習開始時間 - 学習終了時間: ' + info.event.title);
+          },
       
-      dateClick: function(info) {
-        const selectedDate = info.dateStr;
-        const now = new Date();
-        const hour = now.getHours();
-        const minute = now.getMinutes();
-        window.location.href = "<%= new_study_reminder_path %>?date=" + selectedDate +
-                               "&hour=" + hour + "&minute=" + minute;
-      }
+dateClick: function(info) {
+  const selectedDate = new Date(info.dateStr);  // クリックされた日付
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);  // 今日の0:00にリセットして比較
+
+  if (selectedDate < today) {
+    alert('過去の日付には学習リマインダーを追加できません。');
+    return;  // 過去なら処理終了（遷移しない）
+  }
+
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  window.location.href = "<%= new_study_reminder_path %>?date=" + info.dateStr +
+                         "&hour=" + hour + "&minute=" + minute;
+}
     });
 
     try {
