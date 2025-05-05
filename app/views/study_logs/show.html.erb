@@ -17,10 +17,23 @@
       <p class="border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm break-words whitespace-pre-wrap"><%= @study_log.content %></p>
     </div>
 
-    <!-- 学習時間 -->
-    <div class="mb-6 space-y-2 sm:space-y-0 sm:flex sm:justify-between">
+
+    <!-- 投稿日と学習時間 -->
+    <div class="mb-6 space-y-2">
       <p><strong>投稿日:</strong> <%= @study_log.date %></p>
-      <p><strong>学習時間:</strong> <%= @study_log.total.present? ? "#{@study_log.total} 分" : "未設定" %></p>
+      <p><strong>学習時間:</strong>
+      <% if @study_log.total.present? %>
+        <% minutes = @study_log.total / 60 %>
+        <% seconds = @study_log.total % 60 %>
+        <% if minutes > 0 %>
+          <%= "#{minutes}分#{seconds}秒" %>
+        <% else %>
+          <%= "#{seconds}秒" %>
+        <% end %>
+      <% else %>
+        未設定
+      <% end %>
+    </p>
     </div>
 
     <!-- 画像 -->
@@ -40,26 +53,26 @@
     <!-- 学習ジャンル -->
     <p class="mb-6"><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
 
-    <!-- 編集・削除ボタン (ユーザー本人のみ) -->
+    <!-- 編集・削除・シェアボタン (ユーザー本人のみ) -->
     <% if user_signed_in? && @study_log.user == current_user %>
-      <div class="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+      <div class="mt-6 flex flex-col space-y-3">
         <!-- 編集ボタン -->
         <%= link_to edit_study_log_path(@study_log), class: "inline-flex items-center justify-center px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600" do %>
           <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> 編集
         <% end %>
-
+    
         <!-- 削除ボタン -->
         <%= link_to study_log_path(@study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, class: "inline-flex items-center justify-center px-6 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600" do %>
           <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
         <% end %>
-      </div>
-
-      <!-- シェアボタン -->
-      <div class="mt-4 text-right text-gray-600">
+    
+        <!-- シェアボタン -->
+        <div class="w-full flex justify-center text-gray-600">
         <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}" %>
-        <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア" do %>
+        <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
           <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
         <% end %>
+      </div>
       </div>
     <% end %>
 

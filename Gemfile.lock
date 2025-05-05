@@ -403,6 +403,8 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
+    simple_calendar (3.1.0)
+      rails (>= 6.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -488,6 +490,7 @@ DEPENDENCIES
   ruby-openai
   selenium-webdriver
   sidekiq
+  simple_calendar
   sprockets-rails
   stimulus-rails
   turbo-rails

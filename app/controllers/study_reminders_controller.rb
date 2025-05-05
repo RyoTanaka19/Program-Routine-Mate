@@ -15,7 +15,7 @@ class StudyRemindersController < ApplicationController
     # 日付がURLパラメータで渡されていれば、その日付をstart_timeにセット
     if params[:date]
       @study_reminder.start_time = Date.parse(params[:date]).to_time
-      @study_reminder.end_time = @study_reminder.start_time + 1.hour # 終了時刻を1時間後に設定
+      @study_reminder.end_time = @study_reminder.start_time
     end
   end
 
@@ -23,25 +23,27 @@ class StudyRemindersController < ApplicationController
   def create
     # 現在のユーザーに紐づけて、新しい学習リマインダーを作成
     @study_reminder = current_user.study_reminders.new(study_reminder_params)
-
-    # リマインダーが正常に保存された場合
+  
     if @study_reminder.save
-      # リマインダーの開始時刻に通知を送信（非同期処理でLineに通知）
+      # 通知ジョブを非同期で実行
       NotifyLineJob.perform_later(@study_reminder.id, :start_time)
-      # リマインダーの終了時刻に通知を送信（非同期処理でLineに通知）
       NotifyLineJob.perform_later(@study_reminder.id, :end_time)
-
-      # 学習リマインダー一覧ページにリダイレクト（Turboで遷移させる）
+  
+      # ✅ フラッシュメッセージを設定
+      flash[:notice] = "学習開始時間と学習終了時間が設定されました"
+  
+      # 一覧ページへリダイレクト（Turbo対応）
       redirect_to study_reminders_path, status: :see_other
     else
-      # リマインダーの保存に失敗した場合、フォームを再表示
+      # 保存に失敗した場合、フォームをTurbo Streamsで再描画
       render turbo_stream: turbo_stream.replace(
-        "study-reminder-form",  # フォームのIDを指定
-        partial: "study_reminders/form",  # 部分テンプレートを指定
-        locals: { study_reminder: @study_reminder }  # フォームに使用するリマインダーオブジェクト
+        "study-reminder-form",
+        partial: "study_reminders/form",
+        locals: { study_reminder: @study_reminder }
       ), status: :unprocessable_entity
     end
   end
+  
 
   private
 

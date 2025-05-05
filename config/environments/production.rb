@@ -152,6 +152,9 @@ config.action_mailer.smtp_settings = {
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   config.action_cable.url = "wss://program-routine-mate.com/cable"
+  config.assets.compile = false
+  config.assets.debug = false
+  config.assets.digest = true
   config.action_cable.allowed_request_origins = [
     "https://program-routine-mate.com",
     "https://www.program-routine-mate.com",

@@ -86,7 +86,7 @@ gem "rails-i18n", "~> 7.0.0"
 
 
 
-
+gem "simple_calendar"
 gem "ruby-openai"
 gem "kaminari"
 gem "redis", "~> 4.0"
