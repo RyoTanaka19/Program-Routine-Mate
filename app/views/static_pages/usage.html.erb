@@ -1,0 +1,111 @@
+<div style="display: flex; flex-direction: column; align-items: center; max-width: 800px; margin: auto;">
+
+  <br><br>
+  <h1>使い方</h1>
+
+  <h2>ログイン</h2>
+  <p>
+    ヘッダーのログインをクリックするとログイン画面に遷移
+    ログインしていない場合、新規登録、GoogleログインとLINEログインも可能
+    パスワードを忘れた場合、パスワードリセット可能
+  </p>
+  <%= link_to image_tag("usage_study_login.png", width: 1000), image_path("usage_study_login.png") %>
+
+ 
+     <h2>マイページ</h2>
+  <p>
+    メニューバーの「マイページ」では、自身のプロフィール変更と投稿を確認できます。
+  </p>
+  <%= link_to image_tag("usage_profile.png", width: 1000), image_path("usage_study_ai.png") %>
+
+  <h2>学習ジャンルを作成して記録を投稿</h2>
+  <p>
+    学習記録を投稿する前に「ジャンル作成」をクリックし、学習習慣をつけたいジャンルを設定してください。
+  </p>
+  <%= link_to image_tag("usage_study_genre1.png", width: 1000), image_path("usage_study_genre1.png") %>
+
+  <p>
+    ジャンルを設定すると、ジャンルに応じた学習記録を投稿できるようになります。
+  </p>
+  <%= link_to image_tag("usage_study_log.png", width: 1000), image_path("usage_study_log.png") %>
+
+  <p>
+    記録を継続すると、21日間達成後に新しいジャンルの投稿が可能になります。
+    条件をクリアする前に記録を編集すると、再び1日目からスタートになります。
+  </p>
+  <%= link_to image_tag("usage_study_genre2.png", width: 1000), image_path("usage_study_genre2.png") %>
+
+  <p>
+    学習ジャンルを選択すると、そのジャンルの説明と、自身の学習状況を確認できます。
+  </p>
+  <%= link_to image_tag("usage_study_genre3.png", width: 1000), image_path("usage_study_genre3.png") %>
+
+  <p>
+    メニューバーの「ジャンル一覧」をクリックすると、ユーザーが学習中のジャンルを確認できます。
+  </p>
+  <%= link_to image_tag("usage_study_genre4.png", width: 1000), image_path("usage_study_genre4.png") %>
+
+  <p>
+    投稿一覧では、記録された学習内容を確認できます。<br>
+    学習時間を設定していない場合、時間は「未設定」と表示され、Contribution Graphは赤色になります。
+  </p>
+  <%= link_to image_tag("usage_study_log_list_notime.png", width: 1000), image_path("usage_study_log_list_notime.png") %>
+
+  <h2>学習時間を設定</h2>
+  <p>
+    学習時間を設定するには、ヘッダーの「学習カレンダー」→「日付クリック」で設定できます。
+  </p>
+  <%= link_to image_tag("usage_study_reminder1.png", width: 1000), image_path("usage_study_reminder1.png") %>
+
+  <p>
+    LINEで通知を受け取りたい場合は、「友達追加」をクリックし、LINEに追加してください。(Lineログインの場合のみ)
+  </p>
+  <%= link_to image_tag("usage_study_reminder2.png", width: 1000), image_path("usage_study_reminder2.png") %>
+
+  <p>
+    設定した開始時間と終了時間はカレンダーに表示されます。
+  </p>
+  <%= link_to image_tag("usage_study_reminder3.png", width: 1000), image_path("usage_study_reminder3.png") %>
+
+  <p>
+    時間になると通知が表示され、メッセージをクリックで通知を削除できます。
+  </p>
+  <%= link_to image_tag("usage_study_reminder4.png", width: 1000), image_path("usage_study_reminder4.png") %>
+
+  <p>
+    設定した時間内に学習記録を投稿すると、Contribution Graphが緑になります。
+  </p>
+  <%= link_to image_tag("usage_study_log_time.png", width: 1000), image_path("usage_study_log_time.png") %>
+
+  <p>
+    学習記録をクリックすると、投稿した時間を詳細に確認できます。
+  </p>
+  <%= link_to image_tag("usage_study_log_detail.png", width: 1000), image_path("usage_study_log_detail.png") %>
+
+  <h2>コメント・いいね</h2>
+  <p>
+    学習記録をクリックすると、コメントや「いいね」ができます。
+  </p>
+  <%= link_to image_tag("usage_likes_comment_share.png", width: 1000), image_path("usage_likes_comment_share.png") %>
+
+  <h2>学習バッジ</h2>
+  <p>
+    メニューバーの「学習バッジ」をクリックすると、条件を達成したバッジが表示されます。
+    現在は1種類ですが、今後増える予定です。
+  </p>
+  <%= link_to image_tag("usage_study_badge.png", width: 1000), image_path("usage_study_badge.png") %>
+
+  <h2>投稿日数ランキング</h2>
+  <p>
+    メニューから「投稿日数ランキング」を選ぶと、ユーザーの投稿数ランキングが確認できます。
+    同じ日数であれば同じ順位になります。
+  </p>
+  <%= link_to image_tag("usage_study_log_ranking.png", width: 1000), image_path("usage_study_log_ranking.png") %>
+
+  <h2>AIコーチに相談</h2>
+  <p>
+    メニューバーの「AIコーチに相談」では、学習継続に関する質問をAIにすることができます。
+  </p>
+  <%= link_to image_tag("usage_study_ai.png", width: 1000), image_path("usage_study_ai.png") %>
+
+</div>
