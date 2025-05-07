@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0097)https://spsvcpc-tls.i-mobile.co.jp/ad_spot.aspx?pid=49575&asid=1355668&asn=1&width=300&height=250 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	i-mobile adSpot
+</title><meta http-equiv="pragma" content="no-cache"><meta http-equiv="cache-control" content="no-cache"><link type="text/css" rel="Stylesheet" href="./style.css"></head>
+<body>
+
+<div id="adspotdiv" class="adspot_img" style="width: 300px; height: 250px; visibility:visible;">
+	
+	
+	
+	
+	
+		<a href="https://spsvcpc-tls.i-mobile.co.jp/ad_link.ashx?pid=49575&amp;asid=1355668&amp;advid=7304210&amp;vh=6280d223974c480e3a23157373be8abc" target="_blank">
+			<img src="./main.gif" alt="AD">
+		</a>
+	
+	
+	
+</div>
+<script type="text/javascript">
+    var InformationIcon = {
+        logo: document.getElementById("panel_L"),
+        icon: document.getElementById("panel_S"),
+        isSmartPhone:("ontouchstart" in window),
+        Init: function(){
+            if(this.logo && this.icon)
+            {
+                var that = this;
+                if (this.isSmartPhone) {
+                    this.icon.onclick = function () {
+                        that.showLogo();
+                    };
+                }
+                else
+                {
+                    this.icon.onmouseover = function () {
+                        that.showLogo();
+                    };
+                }
+                this.logo.onclick = function() {
+                    that.goToIMobileSite();
+                };
+                this.logo.onmouseout = function () {
+                    that.hideLogo();
+                };
+                var initialOpen = false;
+                if(initialOpen)
+                {
+                    setTimeout(that.fadeOut, 2000);
+                }
+            }
+        },
+        showLogo: function () {
+            this.logo.style.display = "block";
+            this.icon.style.display = "none";
+            if(this.isSmartPhone)
+            {
+                var that = this;
+                setTimeout(that.fadeOut, 2000);
+            }
+        },
+        hideLogo: function () {
+            this.icon.style.display = "block";
+            this.logo.style.display = "none";
+        },
+        fadeOut: function () {
+            window.InformationIcon.hideLogo();
+        },
+        goToIMobileSite: function () {
+            window.open("http://www.i-mobile.co.jp/about-service.aspx");
+        }
+    };
+	InformationIcon.Init();
+
+	
+</script>
+
+
+
+
+<script type="text/javascript">
+	
+</script>
+
+</body></html>

@@ -1,0 +1,355 @@
+﻿* {
+	margin: 0px;
+	padding: 0px;
+	font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',"MS PGothic",sans-serif;
+}
+
+.adspot_img {
+	overflow: hidden;
+}
+
+/* image spot style. */
+.adspot_img img {
+	border-style: none;
+}
+
+/* text spot style. */
+.adspot_text {
+	border-width: 1px;
+	border-style: solid;
+}
+.adspot_text a {
+	text-decoration: underline;
+}
+.adspot_text p {
+	margin: 2px;
+}
+
+/* BigBanner */
+.BigBanner {
+	overflow: hidden;
+	width: 726px;
+	height: 70px;
+}
+.BigBanner p {
+	overflow: hidden;
+	float: left;
+	width: 177px;
+	line-height: 14px;
+}
+.BigBanner .AdTitle {
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 15px;
+}
+.BigBanner .AdText {
+	line-height: 13px;
+	font-size: 11px;
+}
+.BigBanner .AdDomain {
+	font-size: 11px;
+	line-height: 12px;
+}
+
+/* Banner */
+.Banner {
+	overflow: hidden;
+	width: 466px;
+	height: 41px;
+	line-height: 13px;
+}
+.Banner p {
+	overflow: hidden;
+	float: left;
+	width: 229px;
+}
+.Banner .AdTitle {
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 14px;
+}
+.Banner .AdText {
+	font-size: 11px;
+}
+
+/* Whole Banner */
+.WholeBanner {
+	overflow: hidden;
+	width: 448px;
+	height: 40px;
+	line-height: 9pt;
+}
+.WholeBanner p {
+	float: left;
+	overflow: hidden;
+	width: 220px;
+}
+.WholeBanner .AdTitle {
+	font-weight: bold;
+	font-size: 9pt;
+}
+.WholeBanner .AdText {
+	font-size: 8pt;
+}
+
+/* Skyscraper */
+.Skyscraper {
+	overflow: hidden;
+	width: 118px;
+	height: 580px;
+	line-height: 11pt;
+}
+.Skyscraper p {
+	overflow: hidden;
+	height: 139px;
+}
+.Skyscraper .AdTitle {
+	font-weight: bold;
+	font-size: 10pt;
+}
+.Skyscraper .AdText {
+	font-size: 10pt;
+}
+.Skyscraper .AdDomain {
+	font-size: 7pt;
+}
+
+/* Wide Skyscraper */
+.WideSkyscraper {
+	overflow: hidden;
+	width: 158px;
+	height: 580px;
+	line-height: 11pt;
+}
+.WideSkyscraper p {
+	overflow: hidden;
+	height: 112px;
+}
+.WideSkyscraper .AdTitle {
+	font-weight: bold;
+	font-size: 10pt;
+}
+.WideSkyscraper .AdText {
+	font-size: 10pt;
+}
+.WideSkyscraper .AdDomain {
+	font-size: 7pt;
+}
+
+/* Half Skyscraper */
+.HalfSkyscraper {
+	overflow: hidden;
+	width: 158px;
+	height: 280px;
+	line-height: 10pt;
+}
+.HalfSkyscraper p {
+	overflow: hidden;
+	height: 89px;
+}
+.HalfSkyscraper .AdTitle {
+	font-weight: bold;
+	font-size: 9pt;
+}
+.HalfSkyscraper .AdText {
+	font-size: 8pt;
+}
+.HalfSkyscraper .AdDomain {
+	font-size: 7pt;
+}
+
+/* Small Square */
+.Square_Small {
+	overflow: hidden;
+	width: 198px;
+	height: 180px;
+	line-height: 11pt;
+}
+.Square_Small p {
+	overflow: hidden;
+	height: 86px;
+}
+.Square_Small .AdTitle {
+	font-weight: bold;
+	font-size: 9pt;
+}
+.Square_Small .AdText {
+	font-size: 8pt;
+}
+.Square_Small .AdDomain {
+	font-size: 7pt;
+}
+
+/* Square */
+.Square {
+	overflow: hidden;
+	width: 248px;
+	height: 230px;
+	line-height: 11pt;
+}
+.Square p {
+	overflow: hidden;
+	height: 72px;
+}
+.Square .AdTitle {
+	font-weight: bold;
+	font-size: 9pt;
+}
+.Square .AdText {
+	font-size: 9pt;
+}
+.Square .AdDomain {
+	font-size: 7pt;
+}
+
+/* Rectangle Middle */
+.Rectangle_Middle {
+	overflow: hidden;
+	width: 298px;
+	height: 230px;
+	line-height: 11pt;
+}
+.Rectangle_Middle p {
+	overflow: hidden;
+	height: 72px;
+}
+.Rectangle_Middle .AdTitle {
+	font-weight: bold;
+	font-size: 10pt;
+}
+.Rectangle_Middle .AdText {
+	font-size: 9pt;
+}
+.Rectangle_Middle .AdDomain {
+	font-size: 7pt;
+}
+
+/* Rectangle_Big */
+.Rectangle_Big {
+	overflow: hidden;
+	width: 334px;
+	height: 260px;
+	line-height: 11pt;
+}
+.Rectangle_Big p {
+	overflow: hidden;
+	height: 61px;
+}
+.Rectangle_Big .AdTitle {
+	font-weight: bold;
+	font-size: 10pt;
+}
+.Rectangle_Big .AdText {
+	font-size: 8pt;
+}
+.Rectangle_Big .AdDomain {
+	font-size: 7pt;
+}
+
+/* Horizontal Rectangle */
+.HorizontalRectangle {
+	overflow: hidden;
+	width: 598px;
+	height: 140px;
+	line-height: 13pt;
+}
+.HorizontalRectangle p {
+	overflow: hidden;
+	width: 594px;
+	height: 42px;
+}
+.HorizontalRectangle .AdTitle {
+	font-weight: bold;
+	font-size: 12pt;
+}
+.HorizontalRectangle .AdText {
+	font-size: 10pt;
+}
+.HorizontalRectangle .AdDomain {
+	font-size: 7pt;
+}
+
+/* Horizontal Rectangle */
+.HorizontalRectangle2 {
+	overflow: hidden;
+	width: 592px;
+	height: 140px;
+	line-height: 13pt;
+}
+.HorizontalRectangle2 p {
+	overflow: hidden;
+	width: 588px;
+	height: 42px;
+}
+.HorizontalRectangle2 .AdTitle {
+	font-weight: bold;
+	font-size: 12pt;
+}
+.HorizontalRectangle2 .AdText {
+	font-size: 10pt;
+}
+.HorizontalRectangle2 .AdDomain {
+	font-size: 7pt;
+}
+
+/* Small Skyscraper */
+.SmallSkyscraper {
+	overflow: hidden;
+	width: 178px;
+	height: 278px;
+	line-height: 11pt;
+}
+.SmallSkyscraper p {
+	overflow: hidden;
+	height: 93px;
+}
+.SmallSkyscraper .AdTitle {
+	font-weight: bold;
+	font-size: 10pt;
+}
+.SmallSkyscraper .AdText {
+	font-size: 9pt;
+}
+.SmallSkyscraper .AdDomain {
+	font-size: 8pt;
+}
+
+/* Half Page */
+.HalfPage {
+	overflow: hidden;
+	width: 298px;
+	height: 580px;
+	line-height: 11pt;
+}
+.HalfPage p {
+	overflow: hidden;
+	height: 96px;
+}
+.HalfPage .AdTitle {
+	font-weight: bold;
+	font-size: 10pt;
+}
+.HalfPage .AdText {
+	font-size: 9pt;
+}
+.HalfPage .AdDomain {
+	font-size: 8pt;
+}
+
+
+/* i-mobile Logo. */
+.adlogo {
+	position: relative;
+	top: -18px;
+	font-size: 8pt;
+	font-weight: bold;
+}
+.adlogo a {
+	color: Blue;
+	text-decoration: none;
+}
+.adlogo a:hover {
+	color: Blue;
+	text-decoration: underline;
+}
+

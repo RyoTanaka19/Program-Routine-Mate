@@ -42,5 +42,10 @@
 
 
 
-/public/uploads
+
+
+
+
 .env
+
+/public/uploads

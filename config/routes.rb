@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     get "terms", to: "static_pages#terms"
     get "images/ogp.png", to: "images#ogp", as: "images_ogp"
     get "form", to: "static_pages#form"
+    get "friend", to: "static_pages#friend"
 
     resources :suggests, only: %i[ new create show index destroy ]
     mount Sidekiq::Web => "/sidekiq"

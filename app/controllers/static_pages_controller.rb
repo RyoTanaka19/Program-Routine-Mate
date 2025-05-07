@@ -6,4 +6,7 @@ class StaticPagesController < ApplicationController
 
   def form
   end
+
+  def friend
+  end
 end
