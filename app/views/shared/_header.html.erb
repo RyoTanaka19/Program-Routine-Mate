@@ -26,6 +26,7 @@
           <% else %>
             <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-blue-500 no-underline" %></li>
           <% end %>
+          <li><%= link_to "使い方ページへ", usage_path %></li>
         </ul>
       </div>
     </div>
@@ -42,6 +43,7 @@
     <span class="mt-2 text-sm text-center">投稿一覧</span>
   </div>
 <% end %>
+
 
   <% if current_user %>
 
