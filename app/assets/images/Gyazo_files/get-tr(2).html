@@ -1,0 +1,22 @@
+
+<!-- saved from url=(0045)https://cache.send.microad.jp/fpc/get-tr.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script>
+    <!-- This code is copied from get-tr.js -->
+    (function () {
+      window.onload = function () {
+        const cookieEnabled = window.navigator.cookieEnabled;
+        if (cookieEnabled) {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const [name, value] = cookies[i].trim().split("=");
+            if (name === "TR") {
+              window.parent.postMessage({ tr: value }, "*");
+            }
+          }
+        }
+      };
+    })();
+  </script>
+  </head><body>
+
+</body></html>

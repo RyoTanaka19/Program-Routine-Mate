@@ -60,42 +60,54 @@ group :test do
 end
 
 gem "uglifier"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gem "omniauth-github"
+
 gem "pry-rails"
 
 
 
-
-
 gem "rails-i18n", "~> 7.0.0"
-
-
-
-
-
-
-
-
-
-
-
-gem "kaminari"
-
-gem "meta-tags"
-gem "mini_magick"
-gem "redis", "~> 4.0"
-gem "sidekiq"
 gem "ruby-openai"
-gem "line-bot-api"
+gem "kaminari"
+gem "mini_magick"
+gem "meta-tags"
+gem "dotenv-rails"
+gem "ransack"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "fog-aws"
+gem "carrierwave", "~> 3.0"
 gem "devise"
 gem "omniauth-line"
-gem "omniauth"
-gem "omniauth-github"
-gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
-
-
-
-gem "ransack"
-gem "carrierwave", "~> 3.0"
-gem "fog-aws"
-gem "dotenv-rails"
+gem "line-bot-api"
+gem "sidekiq"
+gem "redis", "~> 4.0"
