@@ -6,12 +6,20 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQWLCDX3Q3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KQWLCDX3Q3');
+</script>
+
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+      <%= favicon_link_tag('mate.png') %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -31,7 +39,7 @@
     <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
   </head>
 
-  <body class="flex flex-col min-h-screen" data-controller="loading">
+  <body class="flex flex-col min-h-screen bg-yellow-100" data-controller="loading">
     <!-- ヘッダー -->
     <%= render 'shared/header' %>
 

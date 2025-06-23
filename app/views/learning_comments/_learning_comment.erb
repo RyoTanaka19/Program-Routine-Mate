@@ -2,12 +2,21 @@
   <td>
     <div class="flex items-start space-x-4 my-4">
       <!-- プロフィール画像 -->
-      <%= link_to user_path(current_user) do %>
-        <%= image_tag(
-          current_user&.profile_image? ? current_user.profile_image.url : asset_path("default_study_logs_image.png"),
-          class: "w-12 h-12 rounded-full object-cover"
-        ) %>
-      <% end %>
+<% comment_user = learning_comment.user %>
+<% if comment_user.present? %>
+  <%= link_to user_path(comment_user) do %>
+    <%= image_tag(
+      comment_user.profile_image? ? comment_user.profile_image.url : asset_path("default_study_logs_image.png"),
+      class: "w-12 h-12 rounded-full object-cover"
+    ) %>
+  <% end %>
+<% else %>
+  <%= image_tag(
+    asset_path("default_study_logs_image.png"),
+    class: "w-12 h-12 rounded-full object-cover"
+  ) %>
+<% end %>
+
 
       <!-- コメント吹き出し -->
       <div class="relative bg-white border border-gray-200 rounded-lg p-4 shadow-sm max-w-2xl">
