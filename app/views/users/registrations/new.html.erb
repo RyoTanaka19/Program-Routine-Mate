@@ -74,7 +74,9 @@
           </label>
           <div class="relative">
             <!-- 入力欄内のアイコンを削除 -->
-            <%= f.password_field :password, id: "user_password", class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード(6文字以上)", autocomplete: "new-password" %>
+<%= f.password_field :password, id: "user_password", name: "new-password",
+  class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
+  placeholder: "パスワード(6文字以上)", autocomplete: "new-password" %>
           </div>
           <% if resource.errors[:password].any? %>
             <div class="text-red-500 text-xs mt-1">
@@ -96,7 +98,10 @@
           </label>
           <div class="relative">
             <!-- 入力欄内のアイコンを削除 -->
-            <%= f.password_field :password_confirmation, id: "user_password_confirmation", class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
+<%= f.password_field :password_confirmation, id: "user_password_confirmation", name: "new-password",
+  class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
+  placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
+
           </div>
           <% if resource.errors[:password_confirmation].any? %>
             <div class="text-red-500 text-xs mt-1">
