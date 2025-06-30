@@ -61,33 +61,6 @@ end
 
 gem "uglifier"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 gem "omniauth-github"
 
 gem "pry-rails"
@@ -99,11 +72,6 @@ gem "rails-i18n", "~> 7.0.0"
 gem "kaminari"
 
 gem "meta-tags"
-
-
-
-
-
 
 gem "devise"
 gem "omniauth-line"

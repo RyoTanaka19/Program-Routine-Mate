@@ -65,55 +65,18 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = true
 
-# デフォルトのURLオプションを設定します。
-# これは、メールの中で生成されるURL（例えば、パスワードリセットリンクなど）に使用される基本のホスト名とポート番号を指定します。
+
 config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-
-# メール送信方法をSMTPに設定します。
-# これにより、指定したSMTPサーバーを使ってメールを送信できるようになります。
 config.action_mailer.delivery_method = :smtp
-
-# SMTPサーバーの設定を指定します。
-# ここでは、GmailのSMTPサーバーを使用しています。
-# SMTP設定を構成し、Gmailを使用してメールを送信するための設定です。
-# メール送信に必要な情報を指定しています。
-
 config.action_mailer.smtp_settings = {
-  # 使用するSMTPサーバーのアドレスを指定します。
-  # Gmailの場合、"smtp.gmail.com"を指定します。
   address: "smtp.gmail.com",
-
-  # GmailのSMTPサーバーはポート587を使用します。
-  # 587はTLS（Transport Layer Security）を利用するためのポートです。
   port: 587,
-
-  # ドメインを指定します。
-  # Gmailを利用する場合は "gmail.com" を指定します。
-  # これにより、送信するメールのドメインが正しく設定されます。
   domain: "gmail.com",
-
-  # Gmailアカウントの送信者メールアドレスを指定します。
-  # ここでは、環境変数 `MAILER_SENDER` から取得するようにしています。
-  # 環境変数を使用することで、アプリケーションのセキュリティを保ちつつ、送信者アドレスを設定できます。
   user_name: ENV["MAILER_SENDER"],
-
-  # 送信者のメールアカウントのパスワードを指定します。
-  # ここでも、環境変数 `MAILER_PASSWORD` を使用してパスワードを管理します。
-  # 環境変数で管理することで、ソースコードにパスワードをハードコーディングせず、セキュリティが向上します。
   password: ENV["MAILER_PASSWORD"],
-
-  # SMTP認証の方式を設定します。
-  # "plain"は、ユーザー名とパスワードがプレーンテキストで送信される認証方式です。
-  # これは、TLS（暗号化）を使用して安全に通信するために設定されています。
   authentication: "plain",
-
-  # STARTTLS（暗号化通信）を有効にします。
-  # これにより、SMTPサーバーとの通信が暗号化され、セキュアな送信が保証されます。
-  # STARTTLSを有効にすることで、通信経路を暗号化することができます。
   enable_starttls_auto: true
 }
-
-
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

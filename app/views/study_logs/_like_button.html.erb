@@ -1,27 +1,7 @@
 <%= turbo_frame_tag "like-button-#{study_log.id}" do %>
-  <!-- turbo_frame_tagを使って、特定の学習ログ（study_log）の「いいね」ボタン部分をラップしています。
-       各学習ログごとにユニークなID（"like-button-#{study_log.id}"）を使用して、ボタン部分のみを
-       更新できるようにしています。これにより、他の部分を再描画せずに「いいね」ボタンの状態を
-       動的に変更できます。 -->
-  
   <% if study_log.liked_users.include?(current_user) %>
-    <!-- `study_log.liked_users.include?(current_user)`は、現在のユーザーが既にこの学習ログに
-         いいねを押しているかどうかをチェックしています。
-         もし押していれば「いいね解除」のボタンを表示するようにします。 -->
-    
     <%= button_to 'いいね解除', study_log_like_path(study_log), method: :delete, class: "btn btn-danger", data: { turbo_stream: "true" } %>
-    <!-- 現在「いいね」を押している場合、「いいね解除」ボタンを表示します。
-         `method: :delete`は、いいねを解除するためにDELETEリクエストを送信することを意味します。
-         `data: { turbo_stream: "true" }`を設定することで、Turboがその部分のみを非同期に更新します。
-         `btn btn-danger`は、ボタンのデザインを指定しています。 -->
-  
   <% else %>
-    <!-- もし現在「いいね」を押していない場合、「いいね」ボタンを表示します。 -->
-    
     <%= button_to 'いいね', study_log_like_path(study_log), method: :post, class: "btn btn-primary", data: { turbo_stream: "true" } %>
-    <!-- 「いいね」ボタンを表示します。`method: :post`は、いいねを追加するためにPOSTリクエストを送信します。
-         同様に、`data: { turbo_stream: "true" }`を設定することで、Turboがボタンの状態を非同期で更新します。
-         `btn btn-primary`は、ボタンのデザインを指定しています。 -->
   <% end %>
-  
 <% end %>
