@@ -1,4 +1,6 @@
-<h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">パスワードをお忘れですか？</h2>
+<h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">
+  <span class="text-blue-600">パスワードをお忘れですか？</span>
+</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
   <!-- エラーメッセージの表示部分 -->
@@ -22,8 +24,16 @@
   </div>
 <% end %>
 
-<!-- パスワードリセット後の説明 -->
-<div class="mt-6 text-center text-sm text-gray-600">
-  <p>登録したメールアドレスにパスワードリセットの手順を送信します。</p>
+<!-- パスワードリセット後の説明（横幅を狭く） -->
+<div class="mt-8 mx-auto px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg shadow-sm text-center max-w-md">
+  <p class="text-blue-700 text-sm sm:text-base font-medium leading-relaxed flex items-center justify-center gap-2">
+    <!-- 情報アイコン -->
+    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M13 16h-1v-4h-1m1-4h.01M12 9v2m0 4v1m0 0h.01M12 17a9 9 0 110-18 9 9 0 010 18z"></path>
+    </svg>
+    登録したメールアドレスにパスワードリセットの手順を送信します。
+  </p>
 </div>
 
