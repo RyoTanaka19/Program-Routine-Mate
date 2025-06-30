@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :study_genres do
     resources :study_logs, only: %i[ index show new create edit update destroy ] do
       collection do
-        get "ranking"  # ランキングページを追加
+        get "ranking"
         get :autocomplete
       end
     end

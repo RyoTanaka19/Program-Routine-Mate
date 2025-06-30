@@ -1,18 +1,21 @@
 <!-- ヘッダー部分 -->
-<div class="flex flex-col md:flex-row items-center h-auto md:h-20 p-4 md:p-6 bg-blue-600 sticky top-0 justify-between z-50">
+<div class="flex flex-col md:flex-row items-center h-auto md:h-20 p-4 md:p-6 bg-green-600 sticky top-0 justify-between z-50">
 
   <!-- 左側：ハンバーガーメニュー + トップリンク -->
   <div class="flex items-center w-full md:w-auto mb-2 md:mb-0">
     <div class="drawer drawer-end">
       <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content">
-        <%= link_to 'ProgramRoutineMate', root_path, class: "px-4 py-2 rounded-full bg-blue-500 text-white text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
-      </div>
+<div class="drawer-content">
+  <%= link_to root_path, class: "px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 text-white text-lg sm:text-xl font-extrabold tracking-wide shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out" do %>
+    <span class="font-logo">ProgramRoutineMate</span>
+  <% end %>
+</div>
+
 
       <!-- サイドメニュー -->
       <div class="drawer-side mt-20">
         <label for="my-drawer-4" class="drawer-overlay"></label>
-        <ul class="menu p-4 w-52 bg-orange-600 text-sm">
+        <ul class="menu p-4 w-52 bg-yellow-50 text-sm">
           <li><span>メニュー</span></li>
           <% if user_signed_in? %>
             <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" } %></li>
@@ -35,11 +38,11 @@
     <!-- 各アイコンリンク -->
     <%=
       [
-        { path: usage_path, icon: "usage.png", label: "使い方" },
-        { path: study_logs_path, icon: "home.png", label: "投稿一覧", options: { data: { action: "click->loading#show" } } },
-        (current_user && { path: study_reminders_path, icon: "calendar.png", label: "学習カレンダー" }),
-        (current_user && { path: new_study_genre_path, icon: "icon.png", label: "ジャンル作成" }),
-        (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png", label: "学習記録投稿" })
+        { path: usage_path, icon: "usage.png"},
+        { path: study_logs_path, icon: "home.png", options: { data: { action: "click->loading#show" } } },
+        (current_user && { path: study_reminders_path, icon: "calendar.png"}),
+        (current_user && { path: new_study_genre_path, icon: "icon.png"}),
+        (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png" })
       ].compact.map do |link|
         link_to(link[:path], link[:options] || {}) do
           content_tag(:div, class: "flex flex-col items-center w-16") do
@@ -62,7 +65,6 @@
             0
           </div>
         </button>
-        <span class="mt-1 text-xs">通知</span>
       </div>
     <% end %>
 

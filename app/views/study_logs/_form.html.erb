@@ -1,5 +1,5 @@
 <% content_for(:title, t('.title')) %>
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
+<div class="flex items-center justify-center min-h-screen bg-yellow-50">
   <%= form_with(model: @study_log, url: @study_log.new_record? ? study_genre_study_logs_path(@study_genre) : study_genre_study_log_path(@study_genre, @study_log), method: @study_log.new_record? ? :post : :patch, local: false) do |f| %>
     <div class="max-w-4xl w-full bg-white p-6 rounded-md shadow-lg">
       <!-- エラーメッセージ -->
