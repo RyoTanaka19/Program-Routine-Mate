@@ -1,10 +1,71 @@
-<% flash.each do |message_type, message| %>
-  <div
-    id="flash-message"
-    class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 
-           <%= flash_background_color(message_type) %> 
-           text-sm md:text-base px-6 py-4 rounded-xl shadow-lg text-center font-semibold animate-fade-in transition-opacity duration-1000 ease-in-out">
-    <%= message %>
-  </div>
-<% end %>
+<div id="flash_messages_container" 
+     class="fixed top-20 right-0 z-50 w-96 max-w-full max-h-[60vh] overflow-y-auto space-y-5
+            p-4 bg-transparent"
+     role="alert" aria-live="assertive" aria-atomic="true">
+  <% flash.each_with_index do |(message_type, message), index| %>
+    <div
+      id="flash-message-<%= index %>"
+      class="<%= flash_background_color(message_type) %> 
+             text-white text-sm md:text-base px-6 py-4 
+             flex items-center justify-between space-x-4
+             slide-in-right transition-opacity duration-500 ease-in-out fade-out"
+      onmouseenter="clearTimeout(window.flashTimeout)" onmouseleave="startFlashTimeout()"
+      >
+      
+      <span class="flex-grow break-words"><%= message %></span>
+      
+      <button 
+        onclick="this.parentElement.remove();" 
+        class="ml-4 text-2xl leading-none hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white rounded"
+        aria-label="閉じる"
+      >
+        &times;
+      </button>
+    </div>
+  <% end %>
 
+  <script>
+    function startFlashTimeout() {
+      window.flashTimeout = setTimeout(() => {
+        document.querySelectorAll('#flash_messages_container .fade-out').forEach(el => {
+          el.classList.add('slide-out-right');
+          setTimeout(() => el.remove(), 500);
+        });
+      }, 5000);
+    }
+
+    startFlashTimeout();
+  </script>
+
+  <style>
+    @keyframes slideInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideOutRight {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.5s forwards;
+    }
+
+    .slide-out-right {
+      animation: slideOutRight 0.5s forwards;
+    }
+  </style>
+</div>

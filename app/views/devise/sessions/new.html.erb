@@ -4,7 +4,7 @@
   <div class="w-full sm:max-w-md md:max-w-lg bg-white shadow-lg rounded-xl p-6 sm:p-8 space-y-6">
 
     <!-- ログインページのタイトル -->
-    <h1 class="text-2xl sm:text-3xl font-bold text-center text-gray-800">ログイン</h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-center text-blue-600">ログイン</h1>
 
     <!-- フラッシュメッセージ（alert）がある場合にエラーメッセージとして表示 -->
     <% if flash[:alert].present? %>
@@ -49,6 +49,9 @@
     <!-- OAuthログイン -->
     <% if devise_mapping.omniauthable? %>
       <div class="space-y-3 mt-6">
+
+    <!-- 区切り文言 -->
+    <div class="text-center text-sm text-gray-500 font-medium">または</div>
 
         <!-- Googleログイン -->
         <%= link_to user_google_oauth2_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700" do %>
