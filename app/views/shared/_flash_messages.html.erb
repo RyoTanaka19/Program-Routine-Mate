@@ -1,5 +1,10 @@
 <% flash.each do |message_type, message| %>
-  <div class="<%= flash_background_color(message_type) %> px-4 py-2 rounded-md text-white mb-4">
+  <div
+    id="flash-message"
+    class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 
+           <%= flash_background_color(message_type) %> 
+           text-sm md:text-base px-6 py-4 rounded-xl shadow-lg text-center font-semibold animate-fade-in transition-opacity duration-1000 ease-in-out">
     <%= message %>
   </div>
 <% end %>
+

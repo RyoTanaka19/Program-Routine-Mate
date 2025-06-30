@@ -19,6 +19,30 @@
     </p>
   </div>
 
+<% if @study_genre.study_logs.pluck(:created_at).map(&:to_date).uniq.count >= 21 %>
+  <!-- ✅ LGTM画像：投稿があるときのみ中央に表示 -->
+  <div id="lgtm-container" class="flex justify-center mb-6 transition-opacity duration-1000">
+    <%= image_tag 'lgtm.png', alt: 'LGTM', class: 'w-64 h-auto rounded-xl shadow-md' %>
+  </div>
+
+  <script>
+    function fadeOutLgtm() {
+      const lgtm = document.getElementById("lgtm-container");
+      if (lgtm) {
+        setTimeout(() => {
+          lgtm.classList.add("opacity-0");
+          setTimeout(() => {
+            lgtm.remove();
+          }, 1000); // 1秒で完全に非表示
+        }, 5000); // 5秒後にフェードアウト開始
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fadeOutLgtm);
+    document.addEventListener("turbo:load", fadeOutLgtm);
+  </script>
+<% end %>
+
   <!-- 投稿情報の表示 -->
   <div class="bg-gray-50 shadow-inner rounded-2xl p-6">
     <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
@@ -27,6 +51,7 @@
       </svg>
       投稿情報
     </h2>
+    
 
     <% if @study_genre.study_logs.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-6">
@@ -35,6 +60,7 @@
           <span><%= @study_genre.study_logs.count %> 件</span>
         </div>
       </div>
+
 
       <!-- グラフの表示 -->
       <div class="h-64 sm:h-80 md:h-96 lg:h-[400px]" id="chart-container">
