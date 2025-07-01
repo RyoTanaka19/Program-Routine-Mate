@@ -26,6 +26,12 @@
         <%= form.password_field :password, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "パスワード" %>
       </div>
 
+      <!-- ✅ ログイン状態を保持するチェックボックス -->
+<div class="flex items-center space-x-2 text-sm text-gray-700">
+  <%= form.check_box :remember_me, class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+  <%= form.label :remember_me, 'ログイン状態を保持する' %>
+</div>
+
       <!-- ログインボタン -->
       <div>
         <%= form.submit "ログイン", class: "bg-blue-600 text-white font-semibold py-3 rounded-lg w-full hover:bg-blue-700 transition-colors text-sm sm:text-base" %>
