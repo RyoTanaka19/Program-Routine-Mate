@@ -311,7 +311,7 @@ Devise.setup do |config|
   config.timeout_in = 3.minutes
 
   # ログイン情報を保存する期間の設定。
-  # config.remember_for =1.weeks
+  config.remember_for =1.weeks
 
   # ==> Configuration for :registerable
 
