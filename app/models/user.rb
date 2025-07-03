@@ -6,18 +6,39 @@ class User < ApplicationRecord
   validates :uid, uniqueness: { scope: :provider }
 
 def self.from_omniauth(auth)
-  where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-    if auth.provider == "google_oauth2"
-      user.email = auth.info.email if auth.info.email.present?
-    elsif auth.provider == "line"
-      user.email = auth.info.email if auth.info.email.present?
+  # まずはproviderとuidでユーザーを検索
+  user = find_by(provider: auth.provider, uid: auth.uid)
+
+  return user if user.present?
+
+  # 次にメールアドレスでユーザーを探す（メールがあれば）
+  if auth.info.email.present?
+    user = find_by(email: auth.info.email)
+
+    if user.present?
+      # 既存ユーザーにproviderとuidをセットして更新する
+      user.update(provider: auth.provider, uid: auth.uid)
+      return user
     end
+  end
+
+  # どちらにも該当しなければ新規作成
+  create do |user|
+    user.provider = auth.provider
+    user.uid = auth.uid
+
+    if auth.info.email.present?
+      user.email = auth.info.email
+    else
+      user.email = "#{auth.uid}-#{auth.provider}@example.com"
+    end
+
     user.password = Devise.friendly_token[0, 20]
     user.password_confirmation = user.password
-    user.name = auth.info.name
-    user.save!
+    user.name = auth.info.name.presence || "No Name"
   end
 end
+
 
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
@@ -53,7 +74,8 @@ end
   has_many :study_genres
 
   validates :name, presence: true
-validates :email, presence: true, uniqueness: { case_sensitive: false }, if: -> { provider.nil? }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+
 
   validates :password, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create

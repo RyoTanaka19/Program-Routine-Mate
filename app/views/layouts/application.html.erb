@@ -6,7 +6,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQWLCDX3Q3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -44,7 +44,9 @@
     <%= render 'shared/header' %>
 
     <!-- フラッシュメッセージ -->
-    <%= render 'shared/flash_messages' %>
+    <div id="flash_messages">
+      <%= render 'shared/flash_messages' %>
+    </div>
 
     <!-- 通知 -->
     <div id="notification-area" style="position: fixed; top: 10px; right: 10px; z-index: 9999;"></div>

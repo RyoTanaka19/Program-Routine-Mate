@@ -41,9 +41,16 @@ end
   end
 
 
-  def assign_badges
-    if user.study_logs.count == 1
-      StudyBadgeService.new(user).assign_first_study_log_badge
-    end
+def assign_badges
+  service = StudyBadgeService.new(user)
+
+  if user.study_logs.count == 1
+    service.assign_first_study_log_badge
   end
+
+  service.assign_two_days_streak_badge
+  service.assign_three_days_streak_badge
+  service.assign_five_days_streak_badge       # ✅ 5日追加
+  service.assign_seven_days_streak_badge      # ✅ 7日追加
+end
 end

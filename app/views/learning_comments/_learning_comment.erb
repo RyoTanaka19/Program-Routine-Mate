@@ -2,26 +2,38 @@
   <td>
     <div class="flex items-start space-x-4 my-4">
       <!-- プロフィール画像 -->
-<% comment_user = learning_comment.user %>
-<% if comment_user.present? %>
-  <%= link_to user_path(comment_user) do %>
-    <%= image_tag(
-      comment_user.profile_image? ? comment_user.profile_image.url : asset_path("default_study_logs_image.png"),
-      class: "w-12 h-12 rounded-full object-cover"
-    ) %>
-  <% end %>
-<% else %>
-  <%= image_tag(
-    asset_path("default_study_logs_image.png"),
-    class: "w-12 h-12 rounded-full object-cover"
-  ) %>
-<% end %>
-
+      <% comment_user = learning_comment.user %>
+      <div class="flex-shrink-0">
+        <% if comment_user.present? %>
+          <%= link_to user_path(comment_user) do %>
+            <%= image_tag(
+              comment_user.profile_image? ? comment_user.profile_image.url : asset_path("default_study_logs_image.png"),
+              class: "w-12 h-12 rounded-full object-cover"
+            ) %>
+          <% end %>
+        <% else %>
+          <%= image_tag(
+            asset_path("default_study_logs_image.png"),
+            class: "w-12 h-12 rounded-full object-cover"
+          ) %>
+        <% end %>
+      </div>
 
       <!-- コメント吹き出し -->
-      <div class="relative bg-white border border-gray-200 rounded-lg p-4 shadow-sm max-w-2xl">
+      <div class="relative bg-yellow-100 border border-gray-200 rounded-lg p-4 shadow-sm w-full max-w-3xl">
         <!-- 吹き出しの三角形 -->
-        <div class="absolute -left-3 top-5 w-0 h-0 border-t-8 border-b-8 border-r-8 border-transparent border-r-white"></div>
+        <div class="absolute -left-3 top-5 w-0 h-0 border-t-8 border-b-8 border-r-8 border-transparent border-r-yellow-100"></div>
+
+        <!-- 投稿者名 -->
+        <% if comment_user.present? %>
+          <p class="text-sm font-semibold text-gray-700 mb-1">
+            <%= comment_user.name %>さん
+          </p>
+        <% else %>
+          <p class="text-sm font-semibold text-gray-500 mb-1">
+            退会したユーザー
+          </p>
+        <% end %>
 
         <!-- 投稿日 -->
         <p class="text-xs text-gray-500 mb-1">
@@ -33,9 +45,9 @@
           <%= simple_format(learning_comment.text) %>
         </p>
 
-        <!-- 編集/削除ボタン -->
+        <!-- 編集/削除ボタン（右端） -->
         <% if user_signed_in? && current_user == learning_comment.user %>
-          <div class="mt-3 flex space-x-2">
+          <div class="mt-2 flex justify-end space-x-2">
             <%= link_to edit_learning_comment_path(learning_comment),
                   class: "inline-flex items-center px-3 py-1.5 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
                   data: { turbo_stream: true },
