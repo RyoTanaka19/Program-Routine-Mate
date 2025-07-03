@@ -1,6 +1,6 @@
 <%= form_with model: @study_reminder, url: study_reminders_path, local: false, data: { controller: "redirect" }, id: 'study-reminder-form' do |f| %>
   <div class="max-w-xl mx-auto bg-white border border-blue-300 rounded-2xl shadow-lg p-8 space-y-6">
-    <h2 class="text-2xl font-bold text-blue-700 text-center border-b border-blue-100 pb-4">
+    <h2 class="text-2xl font-bold text-green-700 text-center border-b border-blue-100 pb-4">
       学習リマインダー設定
     </h2>
 
@@ -34,7 +34,7 @@
 
     <div>
       <%= f.submit "リマインダーを設定",
-          class: "w-full bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold py-3 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+          class: "w-full bg-green-600 hover:bg-green-700 text-white text-base font-semibold py-3 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
     </div>
   </div>
 <% end %>

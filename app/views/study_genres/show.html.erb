@@ -19,29 +19,29 @@
     </p>
   </div>
 
-<% if @study_genre.study_logs.pluck(:created_at).map(&:to_date).uniq.count >= 21 %>
-  <!-- ✅ LGTM画像：投稿があるときのみ中央に表示 -->
-  <div id="lgtm-container" class="flex justify-center mb-6 transition-opacity duration-1000">
-    <%= image_tag 'lgtm.png', alt: 'LGTM', class: 'w-64 h-auto rounded-xl shadow-md' %>
-  </div>
+  <% if @study_genre.study_logs.pluck(:created_at).map(&:to_date).uniq.count >= 21 %>
+    <!-- ✅ LGTM画像：投稿があるときのみ中央に表示 -->
+    <div id="lgtm-container" class="flex justify-center mb-6 transition-opacity duration-1000">
+      <%= image_tag 'lgtm.png', alt: 'LGTM', class: 'w-64 h-auto rounded-xl shadow-md' %>
+    </div>
 
-  <script>
-    function fadeOutLgtm() {
-      const lgtm = document.getElementById("lgtm-container");
-      if (lgtm) {
-        setTimeout(() => {
-          lgtm.classList.add("opacity-0");
+    <script>
+      function fadeOutLgtm() {
+        const lgtm = document.getElementById("lgtm-container");
+        if (lgtm) {
           setTimeout(() => {
-            lgtm.remove();
-          }, 1000); // 1秒で完全に非表示
-        }, 5000); // 5秒後にフェードアウト開始
+            lgtm.classList.add("opacity-0");
+            setTimeout(() => {
+              lgtm.remove();
+            }, 1000); // 1秒で完全に非表示
+          }, 5000); // 5秒後にフェードアウト開始
+        }
       }
-    }
 
-    document.addEventListener("DOMContentLoaded", fadeOutLgtm);
-    document.addEventListener("turbo:load", fadeOutLgtm);
-  </script>
-<% end %>
+      document.addEventListener("DOMContentLoaded", fadeOutLgtm);
+      document.addEventListener("turbo:load", fadeOutLgtm);
+    </script>
+  <% end %>
 
   <!-- 投稿情報の表示 -->
   <div class="bg-gray-50 shadow-inner rounded-2xl p-6">
@@ -52,7 +52,6 @@
       投稿情報
     </h2>
     
-
     <% if @study_genre.study_logs.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-6">
         <div class="flex items-center">
@@ -60,7 +59,6 @@
           <span><%= @study_genre.study_logs.count %> 件</span>
         </div>
       </div>
-
 
       <!-- グラフの表示 -->
       <div class="h-64 sm:h-80 md:h-96 lg:h-[400px]" id="chart-container">
@@ -93,17 +91,19 @@
           }
 
           chartInstance = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
               labels: labels,
               datasets: [{
                 label: '日付ごとの投稿数',
                 data: counts,
-                backgroundColor: '#4CAF50',
-                borderColor: '#388E3C',
-                borderWidth: 1,
-                // 棒グラフの幅を設定
-                barThickness: 80 // 必要に応じて調整（デフォルトより狭くする）
+                borderColor: '#4CAF50',                   // 線の色（緑）
+                backgroundColor: 'rgba(76, 175, 80, 0.2)', // 線下の薄緑塗りつぶし
+                fill: true,                               // 塗りつぶしを有効化
+                tension: 0.3,                             // 線の滑らかさ
+                pointRadius: 5,                           // データポイントの大きさ
+                pointHoverRadius: 7,                      // ホバー時のポイント大きさ
+                borderWidth: 3                            // 線の太さ
               }]
             },
             options: {
@@ -113,17 +113,17 @@
                 x: {
                   ticks: {
                     autoSkip: true,
-                    maxRotation: 0,  // ラベルの角度を0度に設定（横並び）
-                    minRotation: 0,  // ラベルの角度を0度に設定
+                    maxRotation: 0,
+                    minRotation: 0,
                   },
                   title: {
                     display: true,
                     text: '日付',
                     color: '#666'
                   },
-                  // ラベルの間隔調整
                   grid: {
-                    offset: true
+                    offset: true,
+                    display: false
                   }
                 },
                 y: {

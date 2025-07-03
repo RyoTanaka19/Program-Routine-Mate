@@ -1,15 +1,35 @@
 class StudyGenre < ApplicationRecord
-  # ===============================
-  # 定数：登録できるジャンルの一覧
-  # ===============================
-  GENRES = [
-    "Ruby", "Ruby on Rails", "SQL", "PHP", "Laravel", "CakePHP", "Web",
-    "ITパスポート", "基本情報技術者試験", "応用技術者試験", "アルゴリズム",
-    "Java", "データベース設計", "C", "C#", "C++", "VBA", "VB", "Git",
-    "Docker", "AWS", "JavaScript",  "React", "TypeScript", "Next.js", "Python", "HTML CSS",
-     "Go",
-    "Swift", "Kotlin"
-  ]
+GENRES = [
+  "Ruby",
+  "Ruby_on_Rails",
+  "SQL",
+  "PHP_(プログラミング言語)",
+  "Laravel",
+  "CakePHP",
+  "Web",
+  "ITパスポート試験",
+  "基本情報技術者試験",
+  "応用情報技術者試験",
+  "アルゴリズム",
+  "Java",
+  "データベース設計",
+  "C言語",
+  "VBA",
+  "Visual_Basic_for_Applications",
+  "Git",
+  "Docker",
+  "Amazon_Web_Services",
+  "JavaScript",
+  "React",
+  "TypeScript",
+  "Next.js",
+  "Python",
+  "HyperText_Markup_Language",
+  "Cascading Style Sheets",
+  "Go (プログラミング言語)",
+  "Swift (プログラミング言語)",
+  "Kotlin"
+]
   def self.ransackable_attributes(auth_object = nil)
     [ "name" ]  # 検索対象として許可するカラムを指定
   end

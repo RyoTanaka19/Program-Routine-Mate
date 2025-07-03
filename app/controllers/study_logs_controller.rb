@@ -110,21 +110,27 @@ class StudyLogsController < ApplicationController
   end
 
 
-  def prepare_meta_tags(study_log)
-    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
-    set_meta_tags og: {
-                        site_name: "ProgramRoutineMate",
-                        title: study_log.content,
-                        description: "プログラミング学習記録の投稿",
-                        type: "website",
-                        url: "https://program-routine-mate.com/",
-                        image: image_url,
-                        locale: "ja-JP"
-                      },
-                      twitter: {
-                        card: "summary_large_image",
-                        site: "@58a_tanaka_ryo",
-                        image: image_url
-                      }
-  end
+def prepare_meta_tags(study_log)
+  image_url =
+    if study_log.image.present?
+      study_log.image.url.to_s
+    else
+      "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
+    end
+
+  set_meta_tags og: {
+                  site_name: "ProgramRoutineMate",
+                  title: study_log.content,
+                  description: "プログラミング学習記録の投稿",
+                  type: "website",
+                  url: "https://program-routine-mate.com/",
+                  image: image_url,
+                  locale: "ja-JP"
+                },
+                twitter: {
+                  card: "summary_large_image",
+                  site: "@58a_tanaka_ryo",
+                  image: image_url
+                }
+end
 end

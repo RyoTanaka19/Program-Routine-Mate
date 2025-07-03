@@ -3,6 +3,7 @@
     <!-- コメントフォーム全体をTurbo Frameで囲むことで、部分的な更新が可能に -->
     <div class="row mb-3" id="learning_comments-form">
       <div class="col-lg-8 offset-lg-2">
+      
         <%= form_with model: learning_comment, 
                       url: (learning_comment.new_record? ? study_log_learning_comments_path(study_log) : learning_comment_path(learning_comment)), 
                       method: (learning_comment.new_record? ? :post : :patch) do |form| %>
