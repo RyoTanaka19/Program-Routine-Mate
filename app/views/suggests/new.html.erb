@@ -4,12 +4,13 @@
   <!-- カード形式のコンテンツを作成。背景白、影、丸みを付けて、最大幅を設定 -->
   <div class="card bg-white shadow-lg rounded-xl px-4 sm:px-6 md:px-8 pt-6 pb-8 mb-8 relative max-w-full sm:max-w-2xl md:max-w-3xl mx-auto">
     
-    <!-- 見出しを作成。AIのアイコンと「AIに相談する」のテキストを中央に配置 -->
-    <h2 class="text-2xl sm:text-3xl font-semibold text-primary text-center flex items-center justify-center mb-6">
-      <%# アイコン画像を表示。AIに関連するセクションであることを示す %>
-      <%= image_tag 'ai_suggests.png', alt: "AI", class: "w-12 h-12 sm:w-14 sm:h-14 mr-4" %>
-      AIに相談する
-    </h2>
+<!-- 見出しを作成。AIのアイコンと「AIに相談する」のテキストを中央に配置 -->
+<h2 class="text-2xl sm:text-3xl font-semibold text-center flex items-center justify-center mb-6">
+  <%# アイコン画像を表示。AIに関連するセクションであることを示す %>
+  <%= image_tag 'ai_suggests.png', alt: "AI", class: "w-12 h-12 sm:w-14 sm:h-14 mr-4" %>
+  <span class="text-green-500">AIコーチに相談する</span>
+</h2>
+
     
     <!-- 説明文を表示。AIに相談する前に簡単な案内文を表示 -->
     <p class="text-center text-gray-600 mb-6 text-base sm:text-lg">
@@ -29,10 +30,13 @@
                         required: true %>
       </div>
       
-      <!-- 提案を受けるための送信ボタン -->
-      <div class="form-control mb-6 flex justify-center">
-        <%= f.submit "提案を受ける！", class: "btn btn-primary text-base-100 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all py-3 px-6 sm:px-8 rounded-xl" %>
-      </div>
+<!-- 提案を受けるための送信ボタン -->
+<div class="form-control mb-6 flex justify-center">
+  <%= f.submit "提案を受ける！",
+    class: "bg-green-500 hover:bg-green-600 text-white text-base w-full sm:w-auto shadow-lg hover:shadow-xl transition-all py-3 px-6 sm:px-8 rounded-xl",
+    data: { action: "click->loading#show" } %>
+</div>
+
     <% end %>
     
     <!-- 提案一覧ページへのリンク -->

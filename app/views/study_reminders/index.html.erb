@@ -1,128 +1,143 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>学習セッションカレンダー</title>
 
   <!-- FullCalendar CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
   <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
   <!-- FullCalendar JS -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
 
   <style>
-    /* カレンダーの全体的な高さを調整 */
     #calendar {
-      height: 600px;  /* カレンダー全体の高さを設定 */
+      height: 600px;
     }
-
-    /* カレンダーの日付枠の高さを調整 */
     .fc-daygrid-day {
-      height: 80px;  /* 日付枠の高さを指定 */
+      height: 80px;
     }
-
     .fc-daygrid-day-number {
-      font-size: 16px;  /* 日付の数字のフォントサイズを調整 */
+      font-size: 16px;
     }
-
     .fc-daygrid-day-events {
-      padding: 3px; /* イベントリストのパディングを調整 */
+      padding: 3px;
     }
-
     .fc-daygrid-day:hover {
-      background-color: #f3f4f6; /* ホバー時に背景色を変更 */
+      background-color: #f3f4f6;
     }
   </style>
 </head>
 
 <body class="bg-gray-100 font-sans min-h-screen">
 
-  <!-- ヘッダー -->
   <header class="bg-green-300 p-4">
     <h1 class="text-3xl font-bold text-white text-center">学習カレンダー</h1>
   </header>
 
-  <!-- カレンダーコンテナ -->
   <div class="max-w-7xl mx-auto px-4 py-6">
     <div id="calendar" class="bg-white rounded-lg shadow-md p-4 min-h-[600px]"></div>
   </div>
 
-  <!-- カレンダーの初期化 -->
   <script>
-  let calendarInstance = null;  // 1度だけ宣言
+    let calendarInstance = null;
 
-  // カレンダーの初期化処理
-  function initializeCalendar() {
-    const calendarEl = document.getElementById('calendar');
-    if (!calendarEl) return;
+    function initializeCalendar() {
+      const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) return;
 
-    // すでにカレンダーインスタンスが存在する場合は破棄する
-    if (calendarInstance) {
-      calendarInstance.destroy();  // 古いインスタンスを破棄
+      if (calendarInstance) {
+        calendarInstance.destroy();
+      }
+
+ calendarInstance = new FullCalendar.Calendar(calendarEl, {
+  locale: 'ja',
+  initialView: 'dayGridMonth',
+  height: 'auto',
+  events: [
+    <% @study_reminders.each do |reminder| %>
+      {
+        start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+        end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+        title: '<%= j reminder.title.presence || "" %>',  // タイトルのみ
+        extendedProps: {
+          startTime: '<%= reminder.start_time.strftime("%H:%M") %>',
+          endTime: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%H:%M") : reminder.start_time.strftime("%H:%M") %>'
+        },
+        color: '#4CAF50',
+        allDay: false
+      },
+    <% end %>
+    <% @study_logs.each do |log| %>
+      {
+        start: '<%= log.date.strftime("%Y-%m-%d") %>',
+        display: 'background',
+        color: '#FB8C00',
+        allDay: true
+      },
+    <% end %>
+  ],
+
+  eventContent: function(arg) {
+    // 学習リマインダーイベントだけカスタム表示
+    if (arg.event.extendedProps.startTime && arg.event.extendedProps.endTime) {
+      return {
+        html:
+          `<div class="text-xs font-semibold text-green-900">
+            ${arg.event.extendedProps.startTime} - ${arg.event.extendedProps.endTime}
+          </div>
+          <div class="text-sm truncate" title="${arg.event.title}">
+            ${arg.event.title}
+          </div>`
+      }
+    } else {
+      // それ以外はデフォルトタイトル表示
+      return { html: `<div>${arg.event.title}</div>` }
+    }
+  },
+
+  eventClick: function(info) {
+    alert('イベント名 学習開始時間 - 学習終了時間: ' + info.event.title);
+  },
+
+  dateClick: function(info) {
+    const selectedDate = new Date(info.dateStr);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      alert('過去の日付には学習リマインダーを追加できません。');
+      return;
     }
 
-    // 新たにインスタンスを作成
-    calendarInstance = new FullCalendar.Calendar(calendarEl, {
-      locale: 'ja',  // 日本語ロケール設定
-      initialView: 'dayGridMonth',  // 初期表示ビュー
-      height: 'auto',  // レスポンシブ対応
-      events: [
-        <% @study_reminders.each do |reminder| %>
-          {
-            start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
-            end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',  <!-- 終了時刻がnilの場合は開始時間と同じ -->
-            title: '<%= reminder.start_time.strftime("%H:%M") %> - <%= reminder.end_time.present? ? reminder.end_time.strftime("%H:%M") : reminder.start_time.strftime("%H:%M") %>',  <!-- タイトルに時間を表示 -->
-            color: '#4CAF50',  <!-- 緑色に設定 -->
-            description: '学習セッション',  // 任意で追加情報
-            allDay: true   // 時間指定イベント
-          },
-        <% end %>
-      ],
-
-       eventClick: function (info) {
-            alert('イベント名 学習開始時間 - 学習終了時間: ' + info.event.title);
-          },
-      
-dateClick: function(info) {
-  const selectedDate = new Date(info.dateStr);  // クリックされた日付
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);  // 今日の0:00にリセットして比較
-
-  if (selectedDate < today) {
-    alert('過去の日付には学習リマインダーを追加できません。');
-    return;  // 過去なら処理終了（遷移しない）
+    const now = new Date();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    window.location.href = "<%= new_study_reminder_path %>?date=" + info.dateStr +
+                           "&hour=" + hour + "&minute=" + minute;
   }
+});
 
-  const now = new Date();
-  const hour = now.getHours();
-  const minute = now.getMinutes();
-  window.location.href = "<%= new_study_reminder_path %>?date=" + info.dateStr +
-                         "&hour=" + hour + "&minute=" + minute;
-}
-    });
 
-    try {
-      calendarInstance.render();  // カレンダーをレンダリング
-    } catch (error) {
-      console.error("カレンダーのレンダリングに失敗しました:", error);
+      try {
+        calendarInstance.render();
+      } catch (error) {
+        console.error("カレンダーのレンダリングに失敗しました:", error);
+      }
     }
-  }
 
-  // 初期化処理を遅延させて確実にカレンダーが表示されるようにする
-  function setupCalendar() {
-    setTimeout(initializeCalendar, 100);  // 100ms後にカレンダーを初期化
-  }
+    function setupCalendar() {
+      setTimeout(initializeCalendar, 100);
+    }
 
-  // イベントリスナーの追加
-  document.addEventListener('DOMContentLoaded', setupCalendar);  // ページ読み込み時に初期化
-  document.addEventListener('turbo:load', setupCalendar);  // turbo:loadで初期化
-  document.addEventListener('turbo:frame-load', setupCalendar);  // turbo:frame-loadで初期化
-</script>
+    document.addEventListener('DOMContentLoaded', setupCalendar);
+    document.addEventListener('turbo:load', setupCalendar);
+    document.addEventListener('turbo:frame-load', setupCalendar);
+  </script>
 
 </body>
 </html>
-
