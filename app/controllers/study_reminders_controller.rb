@@ -3,15 +3,17 @@ class StudyRemindersController < ApplicationController
 
   def index
     @study_reminders = current_user.study_reminders
+    @study_logs = current_user.study_logs.where.not(date: nil)
   end
 
   def new
     @study_reminder = StudyReminder.new
 
-    if params[:date]
-      @study_reminder.start_time = Date.parse(params[:date]).to_time
-      @study_reminder.end_time = @study_reminder.start_time
-    end
+if params[:date]
+  date = Date.parse(params[:date])
+  @study_reminder.start_time = Time.zone.local(date.year, date.month, date.day, 0, 0, 0)
+  @study_reminder.end_time = @study_reminder.start_time
+end
   end
 
   def create
@@ -33,6 +35,6 @@ class StudyRemindersController < ApplicationController
   private
 
   def study_reminder_params
-    params.require(:study_reminder).permit(:start_time, :end_time)
+    params.require(:study_reminder).permit(:start_time, :end_time, :title)
   end
 end

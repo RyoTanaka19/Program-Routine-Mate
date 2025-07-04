@@ -20,7 +20,8 @@
             <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" }, class: "text-green-600" %></li>
             <li><%= link_to "マイページ", user_path(current_user), class: "text-green-600" %></li>
             <li><%= link_to "学習バッジ", user_badges_path(current_user), class: "text-green-600" %></li>
-            <li><%= link_to 'ジャンル一覧', study_genres_path, class: "text-green-600" %></li>
+            <li><%= link_to 'ジャンル一覧', study_genres_path, class: "text-green-600", data: { action: "click->loading#show" } %></li>
+
           <li><%= link_to "投稿日数ランキング", ranking_study_logs_path, class: "text-green-600" %></li>
           <li><%= link_to 'AIコーチに(学習継続)の相談', new_suggest_path, class: "text-green-600" %></li>
         <% else %>
@@ -39,7 +40,7 @@
       [
         { path: usage_path, icon: "usage.png"},
         { path: study_logs_path, icon: "home.png", options: { data: { action: "click->loading#show" } } },
-        (current_user && { path: study_reminders_path, icon: "calendar.png"}),
+        (current_user && { path: study_reminders_path, icon: "calendar.png", options: { data: { action: "click->loading#show" } }}),
         (current_user && { path: new_study_genre_path, icon: "icon.png"}),
         (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png" })
       ].compact.map do |link|

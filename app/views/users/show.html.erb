@@ -40,7 +40,7 @@
     <!-- プロフィール編集リンク（現在のユーザーのみ表示） -->
     <% if user_signed_in? && current_user == @user %>
       <div class="text-center mt-8">
-        <%= link_to "プロフィールの編集", edit_user_registration_path, class: "text-blue-500 hover:underline font-semibold" %>
+        <%= link_to "プロフィールの編集", edit_user_registration_path, class: "text-green-500 hover:underline font-semibold" %>
       </div>
     <% end %>
   </div>
@@ -54,7 +54,7 @@
         <ul class="space-y-4">
           <% @study_logs.each do |study_log| %>
             <li class="bg-gray-100 p-4 rounded-md shadow-sm hover:bg-gray-200 transition">
-              <%= link_to study_log.content, study_log_path(study_log), class: "text-blue-600 font-semibold hover:underline" %>
+              <%= link_to study_log.content, study_log_path(study_log), class: "text-green-600 font-semibold hover:underline" %>
             </li>
           <% end %>
         </ul>

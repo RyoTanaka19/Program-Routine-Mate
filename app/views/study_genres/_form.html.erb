@@ -8,7 +8,8 @@
       <!-- 4. 学習記録が存在する場合、青い背景のボックスでジャンル情報を表示 -->
       <div class="bg-blue-50 p-4 rounded-md shadow-md mb-4 md:max-w-md mx-auto">
         <!-- 5. ジャンル名をクリックして、そのジャンルのページにリンク -->
-        <%= link_to "#{genre.name}", study_genre_path(genre), class: "text-blue-600 hover:underline" %>の学習記録があります。
+<%= link_to genre.name, study_genre_path(genre), class: "text-blue-600 hover:underline", data: { action: "click->loading#show" } %>の学習記録があります。
+
         <p class="text-gray-600">このジャンルはすでに設定されています。</p>
         
         <!-- 6. 学習記録の件数を表示 -->

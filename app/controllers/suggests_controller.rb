@@ -17,7 +17,7 @@ class SuggestsController < ApplicationController
 
       @suggest.update(response: suggest_response)
 
-      redirect_to @suggest, notice: "AI(プログラミング)コーチから提案を受けました。"
+      redirect_to @suggest, notice: "AIコーチから提案を受けました。"
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class SuggestsController < ApplicationController
   def destroy
     @suggest = current_user.suggests.find(params[:id])
     @suggest.destroy!
-    redirect_to suggests_path, notice: "AI(プログラミング)コーチからの提案を削除しました。"
+    redirect_to suggests_path, notice: "AIコーチからの提案を削除しました。"
   end
 
   private
