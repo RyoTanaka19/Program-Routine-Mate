@@ -274,6 +274,8 @@ Devise.setup do |config|
 
   config.omniauth :google_oauth2, ENV["GOOGLE_CLIENT_ID"], ENV["GOOGLE_CLIENT_SECRET"]
   config.omniauth :line, ENV["LINE_KEY"], ENV["LINE_SECRET"]
+  config.omniauth :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"], scope: "user:email"
+
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
