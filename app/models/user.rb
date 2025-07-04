@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 line ]
+         :omniauthable, omniauth_providers: %i[google_oauth2 line github]
 
   validates :uid, uniqueness: { scope: :provider }
 
@@ -82,9 +82,9 @@ end
   validates :password, confirmation: { message: "が一致しません" }, on: :create, unless: :from_oauth?
   validates :password, confirmation: true
 
-  def from_oauth?
-    from_google_oauth? || from_line_oauth?
-  end
+def from_oauth?
+  from_google_oauth? || from_line_oauth? || from_github_oauth?
+end
 
   def from_google_oauth?
     provider == "google_oauth2"
@@ -93,6 +93,10 @@ end
   def from_line_oauth?
     provider == "line"
   end
+
+  def from_github_oauth?
+  provider == "github"
+end
 
   def own?(object)
     id == object&.user_id

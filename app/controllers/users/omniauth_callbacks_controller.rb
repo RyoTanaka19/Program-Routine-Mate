@@ -9,6 +9,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     callback_for(:line)
   end
 
+  def github
+    callback_for(:github)
+  end
+
   private
 
   def callback_for(provider)
