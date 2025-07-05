@@ -103,6 +103,21 @@ class StudyLogsController < ApplicationController
     prepare_meta_tags(@study_log)
   end
 
+  def logs_by_date
+  date = Date.parse(params[:date]) rescue nil
+
+  if date.nil?
+    render json: { error: "無効な日付です" }, status: :bad_request and return
+  end
+
+  study_logs = current_user.study_logs.where(date: date).includes(:study_genre).order(created_at: :asc)
+
+  render json: study_logs.as_json(
+    only: [ :id, :content, :text, :created_at ],
+    include: { study_genre: { only: :name } }
+  )
+end
+
   private
 
   def study_log_params

@@ -13,79 +13,120 @@
   // ヒートマップを初期化する関数を即時に実行
   set_heatmap(); 
 
-  function set_heatmap() {
-    // ヒートマップ開始日を2ヶ月前に設定
-    let startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 2); // 2ヶ月前から表示を開始
-    console.log(startDate); // デバッグ用：開始日をコンソールに表示
+function set_heatmap() {
+  let startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - 2);
+  console.log(startDate);
 
-    // サーバーサイドから渡されたstudy_logsのデータを受け取る（Railsで変数がJSONとして埋め込まれている）
-    let data = <%= @study_logs_for_js.to_json.html_safe %>;
+  let data = <%= @study_logs_for_js.to_json.html_safe %>;
 
-    // サーバーから取得したデータの形式を整える
-    data = data.map(item => ({
-      // 各ログの「date」をISO形式の日付文字列に変換
-      date: new Date(item.date).toISOString(),
-      // 各ログの「total」をそのまま保持
-      total: item.total
-    }));
+  data = data.map(item => ({
+    date: new Date(item.date).toISOString(),
+    total: item.total
+  }));
 
-    // CalHeatmapのインスタンスを作成
-    const cal = new CalHeatmap();
+  const cal = new CalHeatmap();
 
-    // CalHeatmapの設定と描画
-    cal.paint({
-      // ヒートマップを描画する対象のDOM要素（idが"cal-heatmap"の要素）を指定
-      itemSelector: '#cal-heatmap',
-      
-      // ドメイン（年・月など）の設定
-      domain: {
-        type: 'month', // ドメインタイプを月に設定
-        gutter: 4, // 月と月の間の隙間
-        label: { 
-          text: 'MMM', // 月のラベル形式（例: Jan, Feb, Mar...）
-          textAlign: 'start', // ラベルの位置を左寄せ
-          position: 'top', // ラベルを上部に表示
-        },
+  cal.paint({
+    itemSelector: '#cal-heatmap',
+    domain: {
+      type: 'month',
+      gutter: 4,
+      label: { 
+        text: 'MMM',
+        textAlign: 'start',
+        position: 'top',
       },
-      
-      // サブドメイン（1日のグリッド）設定
-      subDomain: {
-        type: 'ghDay', // ghDay（GitHubスタイルの日）の形式
-        radius: 2, // グリッドの半径
-        width: 11, // 1日のグリッドの幅
-        height: 11, // 1日のグリッドの高さ
-        gutter: 4, // グリッドの間隔
+    },
+    subDomain: {
+      type: 'ghDay',
+      radius: 2,
+      width: 11,
+      height: 11,
+      gutter: 4,
+    },
+    date: { start: startDate },
+    range: 12,
+    data: { 
+      source: data,
+      x: 'date',
+      y: 'total'
+    },
+    type: 'json',
+    scale: {
+      color: {
+        type: 'linear',
+        range: ['#ff4d4d', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
+        domain: [0, 0.1, 1, 2, 3],
       },
+    },
+  });
 
-      // ヒートマップの開始日を設定
-      date: { start: startDate },
+  // クリックイベントの登録は paint() の直後にする
+cal.on('click', (event, timestamp, value) => {
+  if (!timestamp) {
+    console.log('クリックしたセルに日付がありません');
+    return;
+  }
+  const clickedDate = new Date(timestamp).toISOString().slice(0, 10);
+  console.log('クリックした日付:', clickedDate);
+  fetchStudyLogsByDate(clickedDate);
+});
+}
 
-      // 表示する月数（範囲）を設定
-      range: 12, // 12ヶ月分を表示
 
-      // ヒートマップに使用するデータの設定
-      data: { 
-        source: data, // データのソース
-        x: 'date', // x軸には「date」フィールドを使用
-        y: 'total' // y軸には「total」フィールドを使用
-      },
-      type: 'json', // データタイプをJSONとして設定
-
-      // 色のスケール設定（値に基づいて色が変わる）
-      scale: {
-        color: {
-          type: 'linear', // 色の変化を線形に設定
-          range: ['#ff4d4d', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'], // 色の範囲
-          domain: [0, 0.1, 1, 2, 3], // 0（赤色）から3（緑色）までの値に対応
-        },
-      },
+  // ★ サーバーから日付の学習ログを取得しモーダル表示 ★
+  function fetchStudyLogsByDate(date) {
+    fetch(`/study_logs/logs_by_date?date=${date}`, {
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("サーバーエラー");
+      return response.json();
+    })
+    .then(data => {
+      showLogsModal(date, data);
+    })
+    .catch(error => {
+      alert("データ取得失敗: " + error.message);
     });
+  }
+
+  // ★ モーダル表示 ★
+  function showLogsModal(date, logs) {
+    const modal = document.getElementById("logs-modal");
+    const list = document.getElementById("logs-list");
+    const title = document.getElementById("modal-title");
+
+    title.textContent = `${date} の学習記録`;
+    list.innerHTML = "";
+
+    if (logs.length === 0) {
+      list.innerHTML = "<li>この日の投稿はありません。</li>";
+    } else {
+      logs.forEach(log => {
+        const item = document.createElement("li");
+        item.innerHTML = `
+          <div class="p-3 border rounded shadow-sm bg-gray-50">
+            <div class="font-bold">${log.study_genre?.name || '未分類'}: ${log.content}</div>
+            <div class="text-sm text-gray-600 mt-1">${log.text || ''}</div>
+            <div class="text-xs text-gray-400 mt-1">投稿日: ${new Date(log.created_at).toLocaleString()}</div>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    modal.classList.remove("hidden");
+  }
+
+  // ★ モーダル非表示 ★
+  function closeModal() {
+    document.getElementById("logs-modal").classList.add("hidden");
   }
 </script>
 
 <br>
-
 
 <!-- 投稿一覧セクション -->
 <div class="flex flex-wrap gap-4 justify-center">
@@ -127,3 +168,12 @@
 </div>
 
 <%= paginate @study_logs %>
+
+<!-- ★ モーダルのHTML ★ -->
+<div id="logs-modal" class="fixed z-50 inset-0 bg-black bg-opacity-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl mx-auto mt-20">
+    <h2 class="text-lg font-semibold mb-4" id="modal-title"></h2>
+    <ul id="logs-list" class="space-y-2 text-gray-700 max-h-[50vh] overflow-y-auto"></ul>
+    <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">閉じる</button>
+  </div>
+</div>
