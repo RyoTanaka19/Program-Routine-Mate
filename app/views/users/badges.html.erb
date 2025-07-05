@@ -25,7 +25,7 @@
           <!-- 取得日 -->
           <% earned = badge.user_study_badges.find_by(user: current_user)&.earned_at %>
           <% if earned.present? %>
-            <div class="text-xs text-gray-500 mt-1">
+            <div class="text-xs text-yellow-800 mt-1">
               <%= earned.strftime('%m/%d') %>獲得
             </div>
           <% end %>

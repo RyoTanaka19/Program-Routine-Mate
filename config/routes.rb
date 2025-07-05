@@ -48,12 +48,21 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :study_logs do
-     collection do
-      get :autocomplete
-      get "ranking"
-     end
-      resources :learning_comments, only: %i[ create destroy edit update ], shallow: true
-      resource :like, only: %i[ create destroy ]
+resources :study_logs do
+  collection do
+    get :autocomplete
+    get "ranking"
+  end
+  resources :study_challenges, only: [ :new, :create, :show ] do
+    member do
+      get :answer
+      post :submit_answer
+      get :result
     end
+  end
+
+  resources :learning_comments, only: %i[ create destroy edit update ], shallow: true
+  resource :like, only: %i[ create destroy ]
+end
+    resources :study_challenges, only: [ :show ]
 end
