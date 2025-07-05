@@ -52,6 +52,7 @@ resources :study_logs do
   collection do
     get :autocomplete
     get "ranking"
+    get :logs_by_date
   end
   resources :study_challenges, only: [ :new, :create, :show ] do
     member do
