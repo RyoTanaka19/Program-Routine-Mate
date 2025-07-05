@@ -62,9 +62,9 @@
         </div>
 
 <!-- パスワード -->
+
 <div>
   <label for="user_password" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-    <!-- 鍵アイコン（ラベル内に1つだけ残す） -->
     <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -74,9 +74,16 @@
   </label>
   <div class="relative">
     <%= f.password_field :password, id: "user_password",
-      class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
-      placeholder: "パスワード(6文字以上)", autocomplete: "new-password" %>
+      class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
+      placeholder: "パスワード(6文字以上)", autocomplete: "new-password", oninput: "checkPasswordStrength(this.value)" %>
+    <button type="button"
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
+      onclick="togglePasswordVisibility('user_password', this)">👀</button>
   </div>
+
+  <!-- パスワード強度表示 -->
+  <div id="password-strength" class="text-sm mt-1 font-semibold"></div>
+
   <% if resource.errors[:password].any? %>
     <div class="text-red-500 text-xs mt-1">
       <%= resource.errors[:password].join(", ") %>
@@ -87,7 +94,6 @@
 <!-- パスワード確認 -->
 <div>
   <label for="user_password_confirmation" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-    <!-- 鍵アイコン（ラベル内に1つだけ残す） -->
     <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -95,17 +101,23 @@
     パスワード確認
     <span class="text-red-500 ml-1">（必須）</span>
   </label>
-  <div class="relative">
-    <%= f.password_field :password_confirmation, id: "user_password_confirmation",
-      class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
-      placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
-  </div>
+<div class="relative">
+  <%= f.password_field :password_confirmation, id: "user_password_confirmation",
+    class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
+    placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
+  <button type="button"
+    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
+    onclick="togglePasswordVisibility('user_password_confirmation', this)">👀</button>
+</div>
+
   <% if resource.errors[:password_confirmation].any? %>
     <div class="text-red-500 text-xs mt-1">
       <%= resource.errors[:password_confirmation].join(", ") %>
     </div>
   <% end %>
 </div>
+
+
 
         <!-- 送信ボタン -->
         <div>
@@ -121,3 +133,44 @@
   </div>
 </div>
 
+<script>
+  function togglePasswordVisibility(fieldId, button) {
+    const input = document.getElementById(fieldId);
+    if (input.type === "password") {
+      input.type = "text";
+      button.textContent = "🙈";
+    } else {
+      input.type = "password";
+      button.textContent = "👀";
+    }
+  }
+</script>
+
+<script>
+  function checkPasswordStrength(password) {
+    const strengthText = document.getElementById("password-strength");
+
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++; // 記号も加点
+
+    let strength = "";
+    let color = "";
+
+    if (score <= 1) {
+      strength = "弱い";
+      color = "text-red-500";
+    } else if (score === 2 || score === 3) {
+      strength = "普通";
+      color = "text-yellow-500";
+    } else {
+      strength = "強い";
+      color = "text-green-500";
+    }
+
+    strengthText.textContent = `強度：${strength}`;
+    strengthText.className = `text-sm mt-1 font-semibold ${color}`;
+  }
+</script>

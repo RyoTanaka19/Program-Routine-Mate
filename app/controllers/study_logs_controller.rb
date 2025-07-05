@@ -31,10 +31,10 @@ class StudyLogsController < ApplicationController
     if @study_log.save
       notice = "学習記録が作成されました！"
       notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total.nil?
-      redirect_to study_logs_path, notice: notice
+      redirect_to new_study_log_study_challenge_path(@study_log), notice: notice
     else
-      flash.now[:alert] = "学習記録の作成に失敗しました。"
-      render :new, status: :unprocessable_entity
+       flash.now[:alert] = "学習記録の作成に失敗しました。"
+        render :new, status: :unprocessable_entity
     end
   end
 
@@ -110,27 +110,21 @@ class StudyLogsController < ApplicationController
   end
 
 
-def prepare_meta_tags(study_log)
-  image_url =
-    if study_log.image.present?
-      study_log.image.url.to_s
-    else
-      "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
-    end
-
-  set_meta_tags og: {
-                  site_name: "ProgramRoutineMate",
-                  title: study_log.content,
-                  description: "プログラミング学習記録の投稿",
-                  type: "website",
-                  url: "https://program-routine-mate.com/",
-                  image: image_url,
-                  locale: "ja-JP"
-                },
-                twitter: {
-                  card: "summary_large_image",
-                  site: "@58a_tanaka_ryo",
-                  image: image_url
-                }
-end
+  def prepare_meta_tags(study_log)
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
+    set_meta_tags og: {
+                        site_name: "ProgramRoutineMate",
+                        title: study_log.content,
+                        description: "プログラミング学習記録の投稿",
+                        type: "website",
+                        url: "https://program-routine-mate.com/",
+                        image: image_url,
+                        locale: "ja-JP"
+                      },
+                      twitter: {
+                        card: "summary_large_image",
+                        site: "@58a_tanaka_ryo",
+                        image: image_url
+                      }
+  end
 end

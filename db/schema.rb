@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_03_233609) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_05_091836) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,12 +34,33 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_03_233609) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "study_answers", force: :cascade do |t|
+    t.bigint "study_challenge_id", null: false
+    t.string "user_answer"
+    t.string "correct_answer"
+    t.text "explanation"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_challenge_id"], name: "index_study_answers_on_study_challenge_id"
+    t.index ["user_id"], name: "index_study_answers_on_user_id"
+  end
+
   create_table "study_badges", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
     t.string "icon", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "study_challenges", force: :cascade do |t|
+    t.bigint "study_log_id", null: false
+    t.text "prompt"
+    t.text "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_log_id"], name: "index_study_challenges_on_study_log_id"
   end
 
   create_table "study_genres", force: :cascade do |t|
@@ -137,6 +158,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_03_233609) do
   add_foreign_key "learning_comments", "users"
   add_foreign_key "likes", "study_logs"
   add_foreign_key "likes", "users"
+  add_foreign_key "study_answers", "study_challenges"
+  add_foreign_key "study_answers", "users"
+  add_foreign_key "study_challenges", "study_logs"
   add_foreign_key "study_genres", "users"
   add_foreign_key "study_logs", "study_genres"
   add_foreign_key "study_logs", "study_reminders"

@@ -42,8 +42,8 @@
             datasets: [{
               label: '投稿したユーザー数',
               data: userCounts,
-              backgroundColor: 'rgba(54, 162, 235, 0.7)',
-              borderColor: 'rgba(54, 162, 235, 1)',
+              backgroundColor: 'rgba(34, 197, 94)',
+              borderColor: 'rgba(34, 197, 94, 1)',
               borderWidth: 2,
               barThickness: 60
             }]
@@ -56,7 +56,7 @@
                 text: 'ジャンル別 投稿ユーザー数',
                 font: { size: 24, weight: 'bold' },
                 padding: { top: 20, bottom: 20 },
-                color: '#333'
+                color: '#4ade80'
               },
               datalabels: {
                 anchor: 'end',
@@ -117,6 +117,6 @@
       });
     </script>
   <% else %>
-    <p class="text-center text-gray-600 text-lg">まだ、誰も投稿してません</p>
+    <p class="text-center text-blue-600 text-lg">まだ、誰も投稿してません</p>
   <% end %>
 </div>
