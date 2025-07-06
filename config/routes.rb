@@ -6,7 +6,13 @@ Rails.application.routes.draw do
     registrations: "users/registrations",
     passwords: "users/passwords"
   }
-  resources :users, only: [ :show ]
+  resources :users, only: [ :show, :destroy ] do
+    member do
+      get "confirm_withdrawal"   # 退会理由入力画面
+      patch "withdraw"            # 退会処理（理由保存＋削除）
+     end
+   end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
