@@ -32,9 +32,9 @@ class UsersController < ApplicationController
       # 退会（物理削除）
       current_user.destroy
       reset_session
-      redirect_to root_path, notice: '退会が完了しました。ご利用ありがとうございました。'
+      redirect_to root_path, notice: "退会が完了しました。ご利用ありがとうございました。"
     else
-      flash.now[:alert] = '退会理由の入力に問題があります'
+      flash.now[:alert] = "退会理由の入力に問題があります"
       render :confirm_withdrawal
     end
   end

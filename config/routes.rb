@@ -6,10 +6,10 @@ Rails.application.routes.draw do
     registrations: "users/registrations",
     passwords: "users/passwords"
   }
-  resources :users, only: [:show, :destroy] do
+  resources :users, only: [ :show, :destroy ] do
     member do
-      get 'confirm_withdrawal'   # 退会理由入力画面
-      patch 'withdraw'            # 退会処理（理由保存＋削除）
+      get "confirm_withdrawal"   # 退会理由入力画面
+      patch "withdraw"            # 退会処理（理由保存＋削除）
      end
    end
 
