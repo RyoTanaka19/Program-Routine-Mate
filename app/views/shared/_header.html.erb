@@ -23,10 +23,8 @@
             <li><%= link_to 'ジャンル一覧', study_genres_path, class: "text-green-600", data: { action: "click->loading#show" } %></li>
 
           <li><%= link_to "投稿日数ランキング", ranking_study_logs_path, class: "text-green-600" %></li>
-          <li><%= link_to 'AIコーチに(学習継続)の相談', new_suggest_path, class: "text-green-600" %></li>
           <li>
             <%= link_to "退会する", confirm_withdrawal_user_path(current_user), class: "text-green-600 hover:text-green-800" %>
-
           </li>
 
         <% else %>
