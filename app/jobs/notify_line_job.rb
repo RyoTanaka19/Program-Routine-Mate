@@ -1,29 +1,19 @@
 class NotifyLineJob < ApplicationJob
   queue_as :default
 
-  def perform(study_reminder_id = nil, time_type = nil, badge_id = nil, user_id = nil)
+  def perform(study_reminder_id = nil, time_type = nil, badge_id = nil, user_id = nil, learning_comment_id = nil)
     if badge_id.present? && user_id.present?
-
       badge = StudyBadge.find(badge_id)
-      user  = User.find(user_id)
-
-
+      user = User.find(user_id)
       message = "🎉 #{user.name}さんが「#{badge.name}」バッジを獲得しました！"
 
-
       send_line_notification(message, user)
-
-
-      broadcast_browser_notification(user_id, message)
-
+      broadcast_browser_notification(user.id, message)
 
     elsif study_reminder_id.present? && time_type.present?
-
       study_reminder = StudyReminder.find(study_reminder_id)
 
-
       wait_until_time(study_reminder, time_type)
-
 
       message = case time_type
       when :start_time
@@ -36,6 +26,17 @@ class NotifyLineJob < ApplicationJob
 
       send_line_notification(message, user)
       broadcast_browser_notification(user.id, message)
+
+    elsif learning_comment_id.present?
+      # コメント通知を送信
+      learning_comment = LearningComment.find(learning_comment_id)
+      study_log = learning_comment.study_log
+      user = learning_comment.user
+
+      message = "#{user.name}さんがあなたの学習記録「#{study_log.content}」にコメントしました！"
+
+      send_line_notification(message, study_log.user)
+      broadcast_browser_notification(study_log.user.id, message)
     end
   end
 
@@ -43,14 +44,12 @@ class NotifyLineJob < ApplicationJob
 
   def wait_until_time(study_reminder, time_type)
     target_time = time_type == :start_time ? study_reminder.start_time : study_reminder.end_time
-
     sleep_time = target_time - Time.current
     sleep(sleep_time) if sleep_time > 0
   end
 
   def send_line_notification(message, user)
     client = LINE_BOT_API
-
     client.push_message(user.uid, { type: "text", text: message })
   end
 
