@@ -83,7 +83,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_05_223511) do
     t.bigint "study_genre_id"
     t.integer "count"
     t.integer "study_reminder_id"
-    t.string "grass_color"
     t.index ["study_genre_id"], name: "index_study_logs_on_study_genre_id"
     t.index ["study_reminder_id"], name: "index_study_logs_on_study_reminder_id"
     t.index ["user_id"], name: "index_study_logs_on_user_id"
