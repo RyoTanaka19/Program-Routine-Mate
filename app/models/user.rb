@@ -67,11 +67,11 @@ end
   has_many :likes, dependent: :destroy
   has_many :liked_study_logs, through: :likes, source: :study_log
   has_many :study_logs, dependent: :destroy
-  has_many :study_reminders
-  has_many :user_study_badges
+  has_many :study_reminders, dependent: :destroy
+  has_many :user_study_badges, dependent: :destroy
   has_many :study_badges, through: :user_study_badges
   has_many :learning_comments, dependent: :destroy
-  has_many :study_genres
+  has_many :study_genres, dependent: :destroy
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
