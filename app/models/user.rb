@@ -62,8 +62,6 @@ end
   end
 
   mount_uploader :profile_image, ProfileImageUploader
-
-  has_many :suggests
   has_many :likes, dependent: :destroy
   has_many :liked_study_logs, through: :likes, source: :study_log
   has_many :study_logs, dependent: :destroy

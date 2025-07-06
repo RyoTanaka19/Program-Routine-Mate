@@ -44,7 +44,6 @@ Rails.application.routes.draw do
     get "form", to: "static_pages#form"
     get "usage", to: "static_pages#usage"
 
-    resources :suggests, only: %i[ new create show index destroy ]
     mount Sidekiq::Web => "/sidekiq"
     mount ActionCable.server => "/cable"
 

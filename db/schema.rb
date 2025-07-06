@@ -108,15 +108,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_05_223511) do
     t.index ["user_id"], name: "index_study_schedules_on_user_id"
   end
 
-  create_table "suggests", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.text "input"
-    t.text "response"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_suggests_on_user_id"
-  end
-
   create_table "user_study_badges", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "study_badge_id", null: false
@@ -168,7 +159,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_05_223511) do
   add_foreign_key "study_logs", "users"
   add_foreign_key "study_reminders", "users"
   add_foreign_key "study_schedules", "users"
-  add_foreign_key "suggests", "users"
   add_foreign_key "user_study_badges", "study_badges"
   add_foreign_key "user_study_badges", "users"
   add_foreign_key "user_study_genres", "study_genres"
