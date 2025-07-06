@@ -7,6 +7,14 @@ class LearningCommentsController < ApplicationController
     @learning_comment.study_log = @study_log
 
     if @learning_comment.save
+
+      if @learning_comment.user != @study_log.user
+
+       NotifyLineJob.perform_later(
+         nil, nil, nil, @study_log.user.id, @learning_comment.id
+        )
+      end
+
       render turbo_stream: [
         turbo_stream.replace(
           "learning_comments-form",
