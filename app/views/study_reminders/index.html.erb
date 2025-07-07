@@ -100,9 +100,17 @@
     }
   },
 
-  eventClick: function(info) {
-    alert('イベント名 学習開始時間 - 学習終了時間: ' + info.event.title);
-  },
+eventClick: function(info) {
+  const event = info.event;
+
+  // タイトルまたは開始時間が設定されていない場合、何もしない
+  if (!event.title || !event.extendedProps.startTime || !event.extendedProps.endTime) {
+    return;
+  }
+
+  // 設定されている場合のみアラートを表示
+  alert('イベント名 学習開始時間 - 学習終了時間: ' + event.title + ' ' + event.extendedProps.startTime + ' - ' + event.extendedProps.endTime);
+},
 
   dateClick: function(info) {
     const selectedDate = new Date(info.dateStr);

@@ -39,37 +39,39 @@
   <div class="flex flex-wrap justify-center md:justify-end items-center gap-4 w-full md:w-auto">
 
     <!-- 各アイコンリンク -->
-    <%=
-      [
-        { path: usage_path, icon: "usage.png"},
-        { path: study_logs_path, icon: "home.png", options: { data: { action: "click->loading#show" } } },
-        (current_user && { path: study_reminders_path, icon: "calendar.png", options: { data: { action: "click->loading#show" } }}),
-        (current_user && { path: new_study_genre_path, icon: "icon.png"}),
-        (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png" })
-      ].compact.map do |link|
-        link_to(link[:path], link[:options] || {}) do
-          content_tag(:div, class: "flex flex-col items-center w-16") do
-            image_tag(link[:icon], class: "rounded-full w-12 h-12 shadow hover:shadow-md") +
-            content_tag(:span, link[:label], class: "mt-1 text-xs text-white text-center")
-          end
-        end
-      end.join.html_safe
-    %>
+<%= 
+  [
+    { path: usage_path, icon: "usage.png", label: "使い方" },
+    { path: study_logs_path, icon: "home.png", options: { data: { action: "click->loading#show" } }, label: "投稿一覧" },
+    (current_user && { path: study_reminders_path, icon: "calendar.png", options: { data: { action: "click->loading#show" } }, label: "カレンダー" }),
+    (current_user && { path: new_study_genre_path, icon: "icon.png", label: "ジャンル" }),
+    (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png", label: "投稿" })
+  ].compact.map do |link|
+    link_to(link[:path], link[:options] || {}) do
+      content_tag(:div, class: "flex flex-col items-center w-16") do
+        image_tag(link[:icon], class: "rounded-full w-12 h-12 shadow hover:shadow-md") +
+        content_tag(:span, link[:label], class: "mt-1 text-xs text-white text-center")
+      end
+    end
+  end.join.html_safe
+%>
 
     <!-- 通知アイコン -->
-    <% if current_user %>
-      <div class="relative flex flex-col items-center text-white w-14">
-        <button id="notification-icon" class="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-8 w-8">
-            <path fill="none" d="M0 0h24v24H0z"/>
-            <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
-          </svg>
-          <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
-            0
-          </div>
-        </button>
+ <% if current_user %>
+  <div class="relative flex flex-col items-center text-white w-14">
+    <button id="notification-icon" class="relative">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-8 w-8">
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path d="M12 2C9.243 2 7 4.243 7 7v5H5v9h14v-9h-2V7c0-2.757-2.243-5-5-5z"/>
+      </svg>
+      <div id="notification-count" class="absolute top-0 right-0 rounded-full bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center">
+        0
       </div>
-    <% end %>
+    </button>
+    <span class="mt-1 text-xs">通知</span> <!-- Added the label here -->
+  </div>
+<% end %>
+
 
     <!-- プロフィール or ログイン -->
     <div class="flex flex-col items-center w-14">

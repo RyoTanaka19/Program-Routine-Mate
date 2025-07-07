@@ -10,15 +10,13 @@
       <% if @study_log.new_record? %>
       <!-- 学習ジャンル（新規作成時のみ表示） -->
       <div class="mb-4">
-        <%= f.label :study_genre_id, "学習ジャンル", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "block text-sm font-medium text-blue-500" %>
         <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
         <%= f.select :study_genre_id, 
           options_for_select(
             StudyGenre.where(user_id: current_user.id).pluck(:name, :id), 
             selected: @study_log.study_genre_id
-          ), 
-          { include_blank: "ジャンルを選択" }, 
-          class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+          )
         %>
       </div>
     <% else %>
@@ -28,14 +26,14 @@
       </div>
 
       <!-- 学習内容 -->
-      <div class="mb-4">
-        <%= f.label :content, "学習内容:", class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :content, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2" %>
-      </div>
+<div class="mb-4">
+  <%= f.label :content, "学習内容(必須):", class: "block text-sm font-medium text-red-500" %>
+  <%= f.text_field :content, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2" %>
+</div>
 
       <!-- 画像 -->
       <div class="mb-4">
-      <%= f.label :image, "画像:", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.label :image, "画像(任意):", class: "block text-sm font-medium text-gray-700" %>
       <%= f.file_field :image, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", onchange: 'previewImage()', accept: 'image/*' %>
       <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png", width: 300, height: 200, class: "mt-2 rounded-circle mt-3", id: "preview") %>
       <%= f.hidden_field :image_cache %>
@@ -61,15 +59,14 @@
 
       <!-- 感想 -->
       <div class="mb-4">
-        <%= f.label :text, "感想など:", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.label :text, "感想など(任意):", class: "block text-sm font-medium text-gray-700" %>
         <%= f.text_area :text, class: "mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
       </div>
 
-      <!-- 日付 -->
-      <div class="form-group mb-4">
-        <%= f.label :date, "日付", class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :date, value: Date.today.to_s, readonly: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm" %>
-      </div>
+<div class="form-group mb-4">
+  <%= f.label :date, "日付(自動)", class: "block text-sm font-medium text-green-500" %>
+  <%= f.text_field :date, value: Date.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
+</div>
 
       <!-- 送信ボタン -->
       <div class="mt-6">

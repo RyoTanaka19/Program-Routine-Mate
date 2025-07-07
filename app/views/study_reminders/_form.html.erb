@@ -51,5 +51,74 @@
       <%= f.submit "リマインダーを設定",
           class: "w-full bg-green-600 hover:bg-green-700 text-white text-base font-semibold py-3 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
     </div>
+
+    <div class="mt-6 text-center">
+  <!-- 友だち追加ボタン -->
+  <button
+    id="friend-toggle-button"
+    onclick="toggleFriendImage()"
+    class="inline-block border-2 border-[#00C300] text-[#00C300] hover:bg-[#00C300] hover:text-white font-bold py-2 px-6 rounded-full transition duration-300"
+  >
+    友だち追加
+  </button>
+
+  <!-- 非表示のLINE画像とメッセージ -->
+  <div id="friend-image-container" class="mt-4 hidden">
+    <%= image_tag("line_friend.png", alt: "LINE友だち追加QRコード", class: "mx-auto max-w-xs") %>
+
+    <!-- メッセージ（最初は非表示） -->
+    <div id="thank-you-message" class="mt-4 text-[#00C300] text-lg font-semibold hidden animate-fade-in">
+      友だち申請ありがとう!!
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  /* 文字色を緑に強制指定 */
+  button {
+    color: #00C300;
+  }
+  #thank-you-message {
+    color: #00C300;
+  }
+</style>
+
+<script>
+  function toggleFriendImage() {
+    const container = document.getElementById("friend-image-container");
+    const message = document.getElementById("thank-you-message");
+    const button = document.getElementById("friend-toggle-button");
+
+    if (container.classList.contains("hidden")) {
+      container.classList.remove("hidden");
+
+      // メッセージ表示＆アニメーション
+      message.classList.remove("hidden");
+      message.classList.remove("animate-fade-in");
+      void message.offsetWidth;
+      message.classList.add("animate-fade-in");
+
+      // ボタンの文言を「閉じる」に変更
+      button.textContent = "閉じる";
+    } else {
+      container.classList.add("hidden");
+
+      // メッセージも非表示に
+      message.classList.add("hidden");
+
+      // ボタンの文言を「友だち追加」に戻す
+      button.textContent = "友だち追加";
+    }
+  }
+</script>
   </div>
 <% end %>
