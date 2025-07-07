@@ -134,6 +134,7 @@
 
 <br>
 
+
 <!-- 投稿一覧セクション -->
 <div class="flex flex-wrap gap-4 justify-center">
   <% @study_logs.each do |study_log| %>
@@ -168,10 +169,18 @@
             <span style="color: red;">❌ 未ログイン</span>
           <% end %>
         </div>
+
+        <!-- ユーザー名 (右下に表示) -->
+        <div class="mt-auto text-xs text-right text-blue-600">
+          <p><strong>ユーザー:</strong> <%= study_log.user.name %></p>
+        </div>
+
       <% end %>
     </div>
   <% end %>
 </div>
+
+
 
 <%= paginate @study_logs %>
 

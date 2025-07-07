@@ -1,27 +1,10 @@
-<% content_for(:title, @study_log.content) %>
 <div class="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-4xl p-4 sm:p-6 mx-auto bg-white border border-gray-300 rounded-md shadow-md">
-    <%= render 'shared/error_messages', object: @learning_comment %>
-
-    <!-- 投稿者のプロフィール画像 -->
-    <div class="flex flex-col sm:flex-row sm:items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
-      <%= link_to user_path(@study_log.user), class: "flex items-center" do %>
-        <%= image_tag(@study_log.user.profile_image? ? @study_log.user.profile_image_url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover") %>
-        <p class="text-lg font-semibold text-gray-700 sm:ml-4"><%= @study_log.user&.name || "ユーザー情報なし" %></p>
-      <% end %>
-    </div>
-
-    <!-- 学習内容 -->
-    <div class="mb-6">
-      <p class="text-lg font-semibold text-gray-800">学習内容:</p>
-      <p class="border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm break-words whitespace-pre-wrap"><%= @study_log.content %></p>
-    </div>
-
-
-    <!-- 投稿日と学習時間 -->
-    <div class="mb-6 space-y-2">
+    
+    <!-- 投稿日と投稿時間を右端に配置 -->
+    <div class="flex justify-end space-x-4 mb-6">
       <p><strong>投稿日:</strong> <%= @study_log.date %></p>
-      <p><strong>学習時間:</strong>
+      <p><strong>投稿時間:</strong>
       <% if @study_log.total.present? %>
         <% minutes = @study_log.total / 60 %>
         <% seconds = @study_log.total % 60 %>
@@ -33,7 +16,24 @@
       <% else %>
         未設定
       <% end %>
-    </p>
+      </p>
+    </div>
+
+    <!-- 投稿者のプロフィール画像 -->
+    <div class="flex flex-col sm:flex-row sm:items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
+      <%= link_to user_path(@study_log.user), class: "flex items-center" do %>
+        <%= image_tag(@study_log.user.profile_image? ? @study_log.user.profile_image_url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover") %>
+        <p class="text-lg font-semibold text-gray-700 sm:ml-4"><%= @study_log.user&.name || "ユーザー情報なし" %></p>
+      <% end %>
+    </div>
+
+    <!-- 学習ジャンル -->
+    <p class="mb-6"><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
+
+    <!-- 学習内容 -->
+    <div class="mb-6">
+      <p class="text-lg font-semibold text-gray-800">学習内容:</p>
+      <p class="border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm break-words whitespace-pre-wrap"><%= @study_log.content %></p>
     </div>
 
     <!-- 画像 -->
@@ -50,14 +50,11 @@
       <p class="border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm break-words whitespace-pre-wrap"><%= @study_log.text %></p>
     </div>
 
-    <!-- 学習ジャンル -->
-    <p class="mb-6"><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
-
     <!-- 編集・削除・シェアボタン (ユーザー本人のみ) -->
     <% if user_signed_in? && @study_log.user == current_user %>
       <div class="mt-6 flex flex-col space-y-3">
         <!-- 編集ボタン -->
-        <%= link_to edit_study_log_path(@study_log), class: "inline-flex items-center justify-center px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600" do %>
+        <%= link_to edit_study_log_path(@study_log), class: "inline-flex items-center justify-center px-6 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600" do %>
           <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> 編集
         <% end %>
     
@@ -67,15 +64,16 @@
         <% end %>
     
         <!-- シェアボタン -->
-        <div class="w-full flex justify-center text-gray-600">
-        <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}" %>
-        <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
-          <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
-        <% end %>
-      </div>
+       <div class="w-full flex justify-center text-gray-600">
+  <% tweet_text = "#{@study_log.user&.name || 'ユーザー'} さんの学習記録：#{@study_log.text.to_s.truncate(80)}" %>
+  <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}&text=#{CGI.escape(tweet_text)}" %>
+  
+  <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
+    <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
+  <% end %>
+</div>
       </div>
     <% end %>
-
     <!-- コメントフォーム -->
     <div class="mt-6">
       <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
@@ -88,7 +86,6 @@
       </div>
     <% end %>
 
- 
     <!-- コメント一覧 -->
     <div class="mt-6">
       <h2 class="text-xl sm:text-2xl font-semibold text-center mb-4">コメント一覧</h2>

@@ -33,7 +33,7 @@
 
         <% is_current_user = current_user && current_user.id == user.id %>
 
-        <tr class="<%= is_current_user ? 'bg-green-500 font-bold' : (index.even? ? 'bg-white' : 'bg-gray-50') %> hover:bg-blue-50 transition">
+        <tr class="<%= is_current_user ? 'bg-green-50 font-bold' : (index.even? ? 'bg-white' : 'bg-gray-50') %> hover:bg-blue-50 transition">
           <td class="px-2 py-2 md:px-4 md:py-3 text-blue-800 whitespace-nowrap">
             <%= crown_icon %> <%= rank %>位
           </td>

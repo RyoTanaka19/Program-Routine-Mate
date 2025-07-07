@@ -10,7 +10,8 @@
         <%= link_to "#{genre.name}", study_genre_path(genre), class: "text-green-600 hover:text-green-600 hover:underline font-semibold" %>の学習記録があります。
         
         <p class="text-blue-600 mt-1">このジャンルはすでに設定されています。</p>
-        <p class="text-blue-600 mt-1">学習記録の投稿数: <%= genre.study_logs.count %> 件</p>
+        <p class="text-yellow-600 mt-1">学習記録の投稿数: <%= genre.study_logs.count %> 件</p>
+
 
         <h4 class="text-lg font-semibold text-blue-600 mt-4">ジャンルを編集</h4>
         

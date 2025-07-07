@@ -2,6 +2,6 @@
   <% if study_log.liked_users.include?(current_user) %>
     <%= button_to 'いいね解除', study_log_like_path(study_log), method: :delete, class: "btn btn-danger", data: { turbo_stream: "true" } %>
   <% else %>
-    <%= button_to 'いいね', study_log_like_path(study_log), method: :post, class: "btn btn-primary", data: { turbo_stream: "true" } %>
+    <%= button_to 'いいね', study_log_like_path(study_log), method: :post, class: "btn bg-green-500 text-white hover:bg-green-700", data: { turbo_stream: "true" } %>
   <% end %>
 <% end %>

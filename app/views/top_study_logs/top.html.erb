@@ -29,15 +29,17 @@
   <% selected_image = images.sample %>
 
   <div class="relative flex flex-col items-center">
-    <%= image_tag selected_image, class: "w-[30rem] h-auto opacity-90" %>
+    <%= image_tag selected_image, class: "w-[80rem] h-auto opacity-90" %>
   </div>
+
+  <!-- テキストを大きくし、中央揃えに変更 -->
+  <p class="mt-6 text-green-500 text-4xl font-semibold text-center">
+    👨‍💻学習習慣を共有するサービスです
+  </p>
 </div>
 
 
-<!-- フローティングテキスト -->
-<div class="floating-text">
-  👨‍💻一緒に学習習慣をつけよう！
-</div>
+
 
 <!-- スタイル -->
 <style>
