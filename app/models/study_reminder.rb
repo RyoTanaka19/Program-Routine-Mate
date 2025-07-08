@@ -18,7 +18,7 @@ class StudyReminder < ApplicationRecord
   end
 
   def end_time_must_be_after_start_time
-    if end_time.present? && end_time <= start_time
+    if start_time.present? && end_time.present? && end_time <= start_time
       errors.add(:end_time, "終了時間は開始時間より後に設定してください")
     end
   end
