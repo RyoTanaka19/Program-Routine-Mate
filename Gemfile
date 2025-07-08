@@ -94,4 +94,3 @@ gem "googleauth"
 gem "rspec-rails"
 gem "simplecov", require: false
 gem "factory_bot_rails"
-
