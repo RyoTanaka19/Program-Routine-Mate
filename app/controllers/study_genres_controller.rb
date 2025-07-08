@@ -154,9 +154,6 @@ def update
   end
 end
 
-
-
-
   def show
     @study_genre = StudyGenre.find_by(id: params[:id])
 

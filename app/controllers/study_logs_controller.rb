@@ -1,43 +1,48 @@
 class StudyLogsController < ApplicationController
   before_action :authenticate_user!, except: [ :show, :index, :autocomplete ]
 
-  def new
-    @study_log = StudyLog.new
-    @study_genre = current_user.study_genres.last
+ def new
+  @study_genre = current_user.study_genres.last
+  @study_reminder = current_user.study_reminders.last
+
+  if @study_genre.nil?
+    flash[:alert] = "ジャンルを先に設定してください"
+    redirect_to new_study_genre_path and return
+  end
+
+  @study_log = StudyLog.new(
+    study_genre_id: @study_genre.id,
+    study_reminder_id: @study_reminder&.id
+  )
+end
+
+
+def create
+  @study_genre = StudyGenre.find_by(id: params.dig(:study_log, :study_genre_id)) || current_user.study_genres.last
+
+  if @study_genre.nil?
+    flash.now[:alert] = "指定された学習ジャンルが見つかりませんでした。"
+    @study_log = current_user.study_logs.new(study_log_params) # 再初期化
     @study_reminder = current_user.study_reminders.last
-
-
-    if @study_genre.nil?
-      flash[:alert] = "ジャンルを先に設定してください"
-      redirect_to new_study_genre_path
-    else
-      @study_log.study_genre_id = @study_genre.id
-    end
+    render :new, status: :unprocessable_entity and return
   end
 
+  @study_log = current_user.study_logs.new(study_log_params)
+  @study_log.study_genre_id ||= @study_genre.id # 念のため fallback
+  @study_reminder = current_user.study_reminders.last
 
-  def create
-    @study_log = current_user.study_logs.new(study_log_params)
-    @study_genre = StudyGenre.find_by(id: params[:study_log][:study_genre_id]) || current_user.study_genres.last
+  # 中間テーブル登録
+  UserStudyGenre.find_or_create_by(user: current_user, study_genre: @study_genre)
 
-    if @study_genre.nil?
-      flash.now[:alert] = "指定された学習ジャンルが見つかりませんでした。"
-      render :new, status: :unprocessable_entity and return
-    end
-
-
-    user_study_genre = UserStudyGenre.find_or_create_by(user: current_user, study_genre: @study_genre)
-
-    if @study_log.save
-      notice = "学習記録が作成されました！"
-      notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total.nil?
-      redirect_to new_study_log_study_challenge_path(@study_log), notice: notice
-    else
-       flash.now[:alert] = "学習記録の作成に失敗しました。"
-        render :new, status: :unprocessable_entity
-    end
+  if @study_log.save
+    notice = "学習記録が作成されました！"
+    notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total.nil?
+    redirect_to new_study_log_study_challenge_path(@study_log), notice: notice
+  else
+    flash.now[:alert] = "学習記録の作成に失敗しました。"
+    render :new, status: :unprocessable_entity
   end
-
+end
 
   def edit
     @study_log = current_user.study_logs.find(params[:id])
