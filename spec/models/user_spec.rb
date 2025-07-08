@@ -37,7 +37,6 @@ it 'パスワードと確認が一致しないと無効' do
   # 部分一致でメッセージをチェックする方法
   expect(user.errors[:password_confirmation].join).to include("一致しません")
 end
-
   end
 
   describe '.from_omniauth' do
