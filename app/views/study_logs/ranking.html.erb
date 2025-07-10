@@ -38,7 +38,7 @@
             <%= crown_icon %> <%= rank %>位
           </td>
           <td class="px-2 py-2 md:px-4 md:py-3 text-gray-800 whitespace-nowrap">
-            <%= user.name %>
+            <%= link_to user.name, user_path(user), class: "text-blue-600 hover:underline" %>
           </td>
           <td class="px-2 py-2 md:px-4 md:py-3 text-gray-600 whitespace-nowrap">
             <%= ranking[:posted_days_count] %> 日

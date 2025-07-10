@@ -23,7 +23,7 @@ ja:
             second:
               blank: '学習時間(秒)を入力してください'
             text:
-              blank: '感想などを入力してください'
+              blank: '学習内容から学んだこと'
 
         learning_comment:
           attributes:

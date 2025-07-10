@@ -32,6 +32,13 @@
         <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", class: "w-full h-full object-cover rounded-md shadow-md", id: "preview") %>
       </div>
 
+      <div class="mt-4">
+    <label class="inline-flex items-center">
+      <%= f.check_box :remove_profile_image %>
+      <span class="ml-2 text-sm text-gray-700">画像を削除する</span>
+    </label>
+  </div>
+
       <%= f.hidden_field :profile_image_cache %>
     </div>
 

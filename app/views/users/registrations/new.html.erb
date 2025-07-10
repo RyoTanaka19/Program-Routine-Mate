@@ -134,6 +134,7 @@
 </div>
 
 <script>
+  // 👁 パスワード表示・非表示
   function togglePasswordVisibility(fieldId, button) {
     const input = document.getElementById(fieldId);
     if (input.type === "password") {
@@ -144,33 +145,56 @@
       button.textContent = "👀";
     }
   }
-</script>
 
-<script>
+  // 💪 パスワード強度チェック
   function checkPasswordStrength(password) {
     const strengthText = document.getElementById("password-strength");
-
     let score = 0;
     if (password.length >= 8) score++;
     if (/[A-Z]/.test(password)) score++;
     if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++; // 記号も加点
+    if (/[^A-Za-z0-9]/.test(password)) score++;
 
-    let strength = "";
-    let color = "";
-
+    let strength = "", color = "";
     if (score <= 1) {
-      strength = "弱い";
-      color = "text-red-500";
+      strength = "弱い"; color = "text-red-500";
     } else if (score === 2 || score === 3) {
-      strength = "普通";
-      color = "text-yellow-500";
+      strength = "普通"; color = "text-yellow-500";
     } else {
-      strength = "強い";
-      color = "text-green-500";
+      strength = "強い"; color = "text-green-500";
     }
 
     strengthText.textContent = `強度：${strength}`;
     strengthText.className = `text-sm mt-1 font-semibold ${color}`;
   }
+
+  // ✅ DOMが読み込まれてから起動する処理
+  document.addEventListener("DOMContentLoaded", () => {
+    // 📧 メール形式チェック
+    const emailInput = document.getElementById("user_email");
+    const emailError = document.createElement("div");
+    emailError.className = "text-red-500 text-xs mt-1";
+    emailInput.parentNode.appendChild(emailError);
+
+    emailInput.addEventListener("input", () => {
+      const value = emailInput.value;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      emailError.textContent = (value && !regex.test(value)) ? "有効なメールアドレス形式で入力してください" : "";
+    });
+
+    // 🔁 パスワード一致チェック
+    const password = document.getElementById("user_password");
+    const confirmation = document.getElementById("user_password_confirmation");
+    const matchError = document.createElement("div");
+    matchError.className = "text-red-500 text-xs mt-1";
+    confirmation.parentNode.appendChild(matchError);
+
+    function checkPasswordMatch() {
+      matchError.textContent = (confirmation.value && password.value !== confirmation.value)
+        ? "パスワードが一致していません" : "";
+    }
+
+    password.addEventListener("input", checkPasswordMatch);
+    confirmation.addEventListener("input", checkPasswordMatch);
+  });
 </script>
