@@ -19,8 +19,8 @@ end
   def create
     @study_reminder = current_user.study_reminders.new(study_reminder_params)
     if @study_reminder.save
-      NotifyLineJob.perform_later(@study_reminder.id, :start_time)
-      NotifyLineJob.perform_later(@study_reminder.id, :end_time)
+      NotifyUserJob.perform_later(@study_reminder.id, :start_time)
+      NotifyUserJob.perform_later(@study_reminder.id, :end_time)
       flash[:notice] = "学習開始時間と学習終了時間が設定されました"
       redirect_to study_reminders_path, status: :see_other
     else

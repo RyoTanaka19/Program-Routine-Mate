@@ -72,7 +72,7 @@ class StudyBadgeService
 
     unless @user.study_badges.exists?(badge.id)
       @user.user_study_badges.create(study_badge: badge, earned_at: Time.current)
-      NotifyLineJob.perform_later(nil, nil, badge.id, @user.id)
+      NotifyUserJob.perform_later(nil, nil, badge.id, @user.id)
     end
   end
 end

@@ -191,7 +191,12 @@
 
 
 
-<%= paginate @study_logs %>
+<div data-controller="loading">
+  <!-- `a` タグをクリックしたら loading#show が呼ばれる -->
+  <div data-action="click->loading#show">
+    <%= paginate @study_logs %>
+  </div>
+</div>
 
 <!-- ★ モーダルのHTML ★ -->
 <div id="logs-modal" class="fixed z-50 inset-0 bg-black bg-opacity-50 hidden">
