@@ -139,7 +139,7 @@
 <div class="flex flex-wrap gap-4 justify-center">
   <% @study_logs.each do |study_log| %>
     <div class="w-80 mb-4 flex flex-col border p-4 rounded-lg shadow-md bg-white hover:bg-gray-100">
-      <%= link_to study_log_path(study_log), class: "block flex flex-col h-full" , data: { action: "click->loading#show" } do %>
+      <%= link_to study_log_path(study_log), class: "block flex flex-col h-full", data: { action: "click->loading#show" } do %>
 
         <!-- 投稿日時と学習時間 -->
         <div class="text-sm text-gray-600 mb-2">
@@ -155,11 +155,19 @@
         <!-- 投稿画像 -->
         <%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", class: "w-full h-auto rounded-md mb-2") %>
 
-        <!-- いいね -->
-        <div class="flex items-center gap-1 text-gray-700 text-lg mt-2">
-          <span class="text-xl">👍</span>
-          <span><%= study_log.likes.count %></span>
-        </div>
+        <!-- ✅ いいね機能 -->
+
+  <div class="flex items-center space-x-2 mt-2">
+    <%= render 'study_logs/like_button', study_log: study_log %>
+    
+    <!-- いいね数だけ数字を表示 -->
+    <%= turbo_frame_tag "like-count-#{study_log.id}" do %>
+      <span class="text-lg text-gray-700"><%= study_log.likes.count %></span>
+    <% end %>
+  </div>
+
+
+
 
         <!-- ログイン状態 -->
         <div class="text-xs mt-2">
@@ -179,6 +187,7 @@
     </div>
   <% end %>
 </div>
+
 
 
 
