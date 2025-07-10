@@ -1,4 +1,4 @@
-class NotifyLineJob < ApplicationJob
+class NotifyUserJob < ApplicationJob
   queue_as :default
 
   def perform(study_reminder_id = nil, time_type = nil, badge_id = nil, user_id = nil, learning_comment_id = nil)
