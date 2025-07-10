@@ -23,7 +23,8 @@ class ApplicationController < ActionController::Base
         :self_introduction,
         :studying_continuation_systematization,
         :profile_image,
-        :profile_image_cache
+        :profile_image_cache,
+        :remove_profile_image
       ]
     )
   end
