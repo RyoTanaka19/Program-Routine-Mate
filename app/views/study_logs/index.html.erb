@@ -18,7 +18,7 @@
     startDate.setMonth(startDate.getMonth() - 2);
     console.log(startDate);
 
-    let data = <%= @study_logs_for_js.to_json.html_safe %>;
+    let data = <%= @contribution_graph.to_json.html_safe %>;
 
     data = data.map(item => ({
       date: new Date(item.date).toISOString(),
@@ -139,7 +139,7 @@
 <div class="flex flex-wrap gap-4 justify-center">
   <% @study_logs.each do |study_log| %>
     <div class="w-80 mb-4 flex flex-col border p-4 rounded-lg shadow-md bg-white hover:bg-gray-100">
-      <%= link_to study_log_path(study_log), class: "block flex flex-col h-full" do %>
+      <%= link_to study_log_path(study_log), class: "block flex flex-col h-full" , data: { action: "click->loading#show" } do %>
 
         <!-- 投稿日時と学習時間 -->
         <div class="text-sm text-gray-600 mb-2">

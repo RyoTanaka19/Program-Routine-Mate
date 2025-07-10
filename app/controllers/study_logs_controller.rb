@@ -74,7 +74,7 @@ end
    @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present?
    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
 
-    @study_logs_for_js = current_user ? current_user.study_logs.where.not(date: nil).map { |log| { date: log.date.to_date, total: log.try(:total) || 0 } } : []
+    @contribution_graph= current_user ? current_user.study_logs.where.not(date: nil).map { |log| { date: log.date.to_date, total: log.try(:total) || 0 } } : []
 
     @study_genres = StudyGenre.all
   end
@@ -130,21 +130,26 @@ end
   end
 
 
-  def prepare_meta_tags(study_log)
-    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
-    set_meta_tags og: {
-                        site_name: "ProgramRoutineMate",
-                        title: study_log.content,
-                        description: "プログラミング学習記録の投稿",
-                        type: "website",
-                        url: "https://program-routine-mate.com/",
-                        image: image_url,
-                        locale: "ja-JP"
-                      },
-                      twitter: {
-                        card: "summary_large_image",
-                        site: "@58a_tanaka_ryo",
-                        image: image_url
-                      }
+def prepare_meta_tags(study_log)
+  image_url = if study_log.image.present?
+                study_log.image.url.to_s
+  else
+                "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
   end
+
+  set_meta_tags og: {
+                  site_name: "ProgramRoutineMate",
+                  title: study_log.content,
+                  description: "プログラミング学習記録の投稿",
+                  type: "website",
+                  url: request.original_url,
+                  image: image_url,
+                  locale: "ja-JP"
+                },
+                twitter: {
+                  card: "summary_large_image",
+                  site: "@58a_tanaka_ryo",
+                  image: image_url
+                }
+end
 end

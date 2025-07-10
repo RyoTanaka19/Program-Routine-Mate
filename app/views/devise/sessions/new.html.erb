@@ -34,7 +34,7 @@
 
       <!-- ログインボタン -->
       <div>
-        <%= form.submit "ログイン", class: "bg-blue-600 text-white font-semibold py-3 rounded-lg w-full hover:bg-blue-700 transition-colors text-sm sm:text-base" %>
+        <%= form.submit "ログイン", class: "bg-blue-600 text-white font-semibold py-3 rounded-lg w-full hover:bg-blue-700 transition-colors text-sm sm:text-base" , data: { action: "click->loading#show" } %>
       </div>
 
     <% end %>
@@ -49,7 +49,7 @@
     <!-- サインアップリンク -->
     <p class="text-sm text-center text-gray-600">
       アカウントをお持ちでない場合は
-      <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 font-medium hover:underline" %>
+      <%= link_to "サインアップ", new_user_registration_path, class: "text-blue-500 font-medium hover:underline", data: { action: "click->loading#show" }  %>
     </p>
 
     <!-- OAuthログイン -->
@@ -60,19 +60,19 @@
     <div class="text-center text-sm text-gray-500 font-medium">または</div>
 
         <!-- Googleログイン -->
-        <%= link_to user_google_oauth2_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700" do %>
+        <%= link_to user_google_oauth2_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700" , data: { action: "click->loading#show" } do %>
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google logo">
           <span>Googleでログイン</span>
         <% end %>
 
         <!-- LINEログイン -->
-        <%= link_to user_line_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm font-medium" do %>
+        <%= link_to user_line_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm font-medium" , data: { action: "click->loading#show" } do %>
           <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="w-5 h-5" alt="LINE logo">
           <span>LINEでログイン</span>
         <% end %>
 
 <!-- GitHubログイン -->
-<%= link_to user_github_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition text-sm font-medium" do %>
+<%= link_to user_github_omniauth_authorize_path, class: "flex items-center justify-center w-full gap-2 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition text-sm font-medium" , data: { action: "click->loading#show" } do %>
   <span class="flex items-center justify-center bg-black rounded-full w-6 h-6">
     <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub logo" class="w-4 h-4" />
   </span>
