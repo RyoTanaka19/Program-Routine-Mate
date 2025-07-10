@@ -44,7 +44,7 @@
     { path: usage_path, icon: "usage.png", label: "使い方" },
     { path: study_logs_path, icon: "home.png", options: { data: { action: "click->loading#show" } }, label: "投稿一覧" },
     (current_user && { path: study_reminders_path, icon: "calendar.png", options: { data: { action: "click->loading#show" } }, label: "カレンダー" }),
-    (current_user && { path: new_study_genre_path, icon: "icon.png", label: "ジャンル" }),
+    (current_user && { path: new_study_genre_path, icon: "icon.png", options: { data: { action: "click->loading#show" } }, label: "ジャンル" }),
     (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png", label: "投稿" })
   ].compact.map do |link|
     link_to(link[:path], link[:options] || {}) do

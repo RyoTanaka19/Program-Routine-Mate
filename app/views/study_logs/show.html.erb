@@ -64,8 +64,8 @@
         <% end %>
     
         <!-- シェアボタン -->
-       <div class="w-full flex justify-center text-gray-600">
-  <% tweet_text = "#{@study_log.user&.name || 'ユーザー'} さんの学習記録：#{@study_log.text.to_s.truncate(80)}" %>
+<div class="w-full flex justify-center text-gray-600">
+  <% tweet_text = "#{@study_log.user&.name || 'ユーザー'} さんの学習記録：#{@study_log.content}を投稿しました。" %>
   <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}&text=#{CGI.escape(tweet_text)}" %>
   
   <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
