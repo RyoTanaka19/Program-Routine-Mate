@@ -1,7 +1,7 @@
 <turbo-stream action="append" target="dummy">
   <template>
     <script>
-      if (calendarInstance) {
+      if (typeof calendarInstance !== 'undefined' && calendarInstance) {
         calendarInstance.addEvent({
           title: "<%= j @study_reminder.title %>",
           start: "<%= @study_reminder.start_time.strftime('%Y-%m-%dT%H:%M:%S') %>",
@@ -13,7 +13,16 @@
             endTime: "<%= @study_reminder.end_time.present? ? @study_reminder.end_time.strftime('%H:%M') : @study_reminder.start_time.strftime('%H:%M') %>"
           }
         });
-        closeModal(); // モーダルを閉じる
+      }
+      // モーダルが確実に存在し、かつcloseModalが関数なら呼び出す
+      if (typeof closeModal === "function") {
+        closeModal();
+      } else {
+        // fallback: モーダルを直接閉じる例
+        const modal = document.getElementById('modal');
+        if (modal) {
+          modal.classList.add('hidden');
+        }
       }
     </script>
   </template>

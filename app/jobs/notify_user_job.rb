@@ -16,11 +16,11 @@ class NotifyUserJob < ApplicationJob
       wait_until_time(study_reminder, time_type)
 
       message = case time_type
-                when :start_time
+      when :start_time
                   "学習が開始されました！開始時間: #{study_reminder.start_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                when :end_time
+      when :end_time
                   "学習が終了しました！終了時間: #{study_reminder.end_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                end
+      end
 
       user = study_reminder.user
 
