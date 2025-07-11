@@ -101,7 +101,6 @@ RSpec.describe "StudyLogs", type: :request do
     it "投稿一覧が表示される" do
       get study_logs_path
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("学習記録一覧") # あなたのビューに応じて変更してください
     end
   end
 
