@@ -10,6 +10,12 @@ def create
     # コメントが保存できたらフラッシュメッセージを表示
     flash[:notice] = "コメントを投稿しました"
 
+    if @learning_comment.study_log.user != current_user
+    NotifyUserJob.perform_later(
+      nil, nil, nil, nil, @learning_comment.id # ← learning_comment_idのみ渡す
+    )
+    end
+
     render turbo_stream: [
       turbo_stream.replace(
         "learning_comments-form",
