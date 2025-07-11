@@ -55,7 +55,7 @@ class NotifyUserJob < ApplicationJob
 
   def broadcast_browser_notification(user_id, message)
     ActionCable.server.broadcast(
-      "study_reminder_channel_#{user_id}",
+      "notification_channel_#{user_id}",
       { message: message }
     )
   end

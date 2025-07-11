@@ -1,15 +1,15 @@
 import consumer from './consumer';
 
 // 'StudyReminderChannel' に接続して、リアルタイム通知を受け取るための設定
-consumer.subscriptions.create('StudyReminderChannel', {
+consumer.subscriptions.create('NotificationChannel', {
   // チャンネルへの接続が成功したときに呼ばれるメソッド
   connected() {
-    console.log('Connected to StudyReminderChannel');
+    console.log('Connected to NotificationChannel');
   },
 
   // チャンネルから切断されたときに呼ばれるメソッド
   disconnected() {
-    console.log('Disconnected from StudyReminderChannel');
+    console.log('Disconnected from NotificationChannel');
   },
 
   // チャンネルから受信したデータを処理するメソッド

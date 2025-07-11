@@ -1,2 +1,2 @@
 // app/javascript/channels/index.js
-import './study_reminder_channel';
+import './notification_channel';
