@@ -34,13 +34,22 @@
 </head>
 
 <body class="bg-gray-100 font-sans min-h-screen">
-
   <header class="bg-green-300 p-4">
     <h1 class="text-3xl font-bold text-white text-center">学習カレンダー</h1>
   </header>
 
   <div class="max-w-7xl mx-auto px-4 py-6">
     <div id="calendar" class="bg-white rounded-lg shadow-md p-4 min-h-[600px]"></div>
+  </div>
+
+  <div id="dummy"></div>
+
+  <!-- ✅ モーダル -->
+  <div id="study-reminder-modal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
+      <button onclick="closeModal()" class="absolute top-3 right-4 text-gray-600 hover:text-gray-900 text-2xl">&times;</button>
+      <%= render partial: 'form', locals: { study_reminder: StudyReminder.new } %>
+    </div>
   </div>
 
   <script>
@@ -54,88 +63,114 @@
         calendarInstance.destroy();
       }
 
- calendarInstance = new FullCalendar.Calendar(calendarEl, {
-  locale: 'ja',
-  initialView: 'dayGridMonth',
-  height: 'auto',
-  events: [
-    <% @study_reminders.each do |reminder| %>
-      {
-        start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
-        end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
-        title: '<%= j reminder.title.presence || "" %>',  // タイトルのみ
-        extendedProps: {
-          startTime: '<%= reminder.start_time.strftime("%H:%M") %>',
-          endTime: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%H:%M") : reminder.start_time.strftime("%H:%M") %>'
+      calendarInstance = new FullCalendar.Calendar(calendarEl, {
+        locale: 'ja',
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        events: [
+          <% @study_reminders.each do |reminder| %>
+            {
+              start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+              end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+              title: '<%= j reminder.title.presence || "" %>',
+              extendedProps: {
+                startTime: '<%= reminder.start_time.strftime("%H:%M") %>',
+                endTime: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%H:%M") : reminder.start_time.strftime("%H:%M") %>'
+              },
+              color: '#4CAF50',
+              allDay: false
+            },
+          <% end %>
+          <% @study_logs.each do |log| %>
+            {
+              start: '<%= log.date.strftime("%Y-%m-%d") %>',
+              display: 'background',
+              color: '#FB8C00',
+              allDay: true
+            },
+          <% end %>
+        ],
+
+        eventContent: function(arg) {
+          if (arg.event.extendedProps.startTime && arg.event.extendedProps.endTime) {
+            return {
+              html: `
+                <div class="text-xs font-semibold text-green-900">
+                  ${arg.event.extendedProps.startTime} - ${arg.event.extendedProps.endTime}
+                </div>
+                <div class="text-sm truncate" title="${arg.event.title}">
+                  ${arg.event.title}
+                </div>`
+            };
+          } else {
+            return { html: `<div>${arg.event.title}</div>` };
+          }
         },
-        color: '#4CAF50',
-        allDay: false
-      },
-    <% end %>
-    <% @study_logs.each do |log| %>
-      {
-        start: '<%= log.date.strftime("%Y-%m-%d") %>',
-        display: 'background',
-        color: '#FB8C00',
-        allDay: true
-      },
-    <% end %>
-  ],
 
-  eventContent: function(arg) {
-    // 学習リマインダーイベントだけカスタム表示
-    if (arg.event.extendedProps.startTime && arg.event.extendedProps.endTime) {
-      return {
-        html:
-          `<div class="text-xs font-semibold text-green-900">
-            ${arg.event.extendedProps.startTime} - ${arg.event.extendedProps.endTime}
-          </div>
-          <div class="text-sm truncate" title="${arg.event.title}">
-            ${arg.event.title}
-          </div>`
-      }
-    } else {
-      // それ以外はデフォルトタイトル表示
-      return { html: `<div>${arg.event.title}</div>` }
-    }
-  },
+        eventClick: function(info) {
+          const event = info.event;
+          if (!event.title || !event.extendedProps.startTime || !event.extendedProps.endTime) return;
+          alert('イベント名 学習開始時間 - 学習終了時間: ' + event.title + ' ' + event.extendedProps.startTime + ' - ' + event.extendedProps.endTime);
+        },
 
-eventClick: function(info) {
-  const event = info.event;
+dateClick: function(info) {
+  const selectedDate = new Date(info.dateStr);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  selectedDate.setHours(0, 0, 0, 0);
 
-  // タイトルまたは開始時間が設定されていない場合、何もしない
-  if (!event.title || !event.extendedProps.startTime || !event.extendedProps.endTime) {
+  if (selectedDate < today) {
+    alert('過去の日付には学習リマインダーを追加できません。');
     return;
   }
 
-  // 設定されている場合のみアラートを表示
-  alert('イベント名 学習開始時間 - 学習終了時間: ' + event.title + ' ' + event.extendedProps.startTime + ' - ' + event.extendedProps.endTime);
-},
+  // ✅ モーダル表示
+  const modal = document.getElementById('study-reminder-modal');
+  modal.classList.remove('hidden');
 
-  dateClick: function(info) {
-    const selectedDate = new Date(info.dateStr);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  // ✅ フォーム初期化（タイトル・時間）
+  const titleInput = document.getElementById('study_reminder_title');
+  const startInput = document.getElementById('study_reminder_start_time');
+  const endInput = document.getElementById('study_reminder_end_time');
 
-    if (selectedDate < today) {
-      alert('過去の日付には学習リマインダーを追加できません。');
-      return;
-    }
+  if (titleInput) titleInput.value = "";
 
+  let startTimeStr, endTimeStr;
+
+  if (selectedDate.getTime() === today.getTime()) {
     const now = new Date();
-    const hour = now.getHours();
-    const minute = now.getMinutes();
-    window.location.href = "<%= new_study_reminder_path %>?date=" + info.dateStr +
-                           "&hour=" + hour + "&minute=" + minute;
-  }
-});
+    now.setMinutes(now.getMinutes() + 1);
+    const end = new Date(now.getTime() + 60 * 1000); // 終了は +1分
 
+    const h = (d) => String(d.getHours()).padStart(2, '0');
+    const m = (d) => String(d.getMinutes()).padStart(2, '0');
+
+    startTimeStr = `${info.dateStr}T${h(now)}:${m(now)}`;
+    endTimeStr = `${info.dateStr}T${h(end)}:${m(end)}`;
+  } else {
+    startTimeStr = `${info.dateStr}T00:00`;
+    endTimeStr = `${info.dateStr}T00:01`;
+  }
+
+  if (startInput) startInput.value = startTimeStr;
+  if (endInput) endInput.value = endTimeStr;
+}
+
+
+
+
+      });
 
       try {
         calendarInstance.render();
       } catch (error) {
         console.error("カレンダーのレンダリングに失敗しました:", error);
       }
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('study-reminder-modal');
+      modal.classList.add('hidden');
     }
 
     function setupCalendar() {
@@ -146,6 +181,5 @@ eventClick: function(info) {
     document.addEventListener('turbo:load', setupCalendar);
     document.addEventListener('turbo:frame-load', setupCalendar);
   </script>
-
 </body>
 </html>
