@@ -1,77 +1,88 @@
 <% content_for(:title, t('.title')) %>
-<div class="flex items-center justify-center min-h-screen bg-yellow-50">
+
+<div class="flex items-center justify-center min-h-screen bg-yellow-50 p-4">
   <% if @study_genre.present? %>
-    <%= form_with(model: @study_log, url: @study_log.new_record? ? study_genre_study_logs_path(@study_genre) : study_genre_study_log_path(@study_genre, @study_log), method: @study_log.new_record? ? :post : :patch, local: false) do |f| %>
-      <div class="max-w-4xl w-full bg-white p-6 rounded-md shadow-lg">
-        <!-- エラーメッセージ -->
-        <%= render 'shared/error_messages', object: f.object %>
+    <%= form_with(model: @study_log, url: @study_log.new_record? ? study_genre_study_logs_path(@study_genre) : study_genre_study_log_path(@study_genre, @study_log), method: @study_log.new_record? ? :post : :patch, local: false, html: {class: "w-full max-w-4xl bg-white p-8 rounded-md shadow-lg"}) do |f| %>
+      
+      <!-- エラーメッセージ -->
+      <%= render 'shared/error_messages', object: f.object %>
 
-        <!-- 学習ジャンル -->
-<div class="mb-4">
-  <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "block text-sm font-medium text-blue-500" %>
+      <!-- 学習ジャンル -->
+      <section class="mb-8">
+        <h2 class="text-lg font-semibold text-blue-600 mb-2">学習ジャンル（設定済み）</h2>
+        <p class="text-gray-900 text-base mb-1">
+          <%= StudyGenre::GENRES.key(@study_log.study_genre.name) || @study_log.study_genre.name %>
+        </p>
+        <%= f.hidden_field :study_genre_id, value: @study_log.study_genre_id %>
+        <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
+      </section>
 
-  <p class="mt-1 text-gray-800">
-    <%= StudyGenre::GENRES.key(@study_log.study_genre.name) || @study_log.study_genre.name %>
-  </p>
+      <!-- 学習内容 -->
+      <section class="mb-8">
+        <%= f.label :content, "学習内容（必須）", class: "block mb-1 text-red-600 font-semibold" %>
+        <%= f.text_field :content,
+          placeholder: "この学習内容をもとにAIが問題を自動生成します。",
+          class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </section>
 
-  <%= f.hidden_field :study_genre_id, value: @study_log.study_genre_id %>
-  <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
-</div>
-
-
-
-        <!-- 学習内容 -->
-        <div class="mb-4">
-          <%= f.label :content, "学習内容(必須):", class: "block text-sm font-medium text-red-500" %>
-          <%= f.text_field :content, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2" %>
+      <!-- 画像 -->
+      <section class="mb-8">
+        <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
+        <%= f.file_field :image,
+          class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          onchange: 'previewImage()',
+          accept: 'image/*' %>
+        <div class="mt-4 flex justify-center">
+          <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
+            width: 300, height: 200,
+            class: "rounded-md shadow-md",
+            id: "preview") %>
         </div>
+        <%= f.hidden_field :image_cache %>
+      </section>
 
-        <!-- 画像 -->
-        <div class="mb-4">
-          <%= f.label :image, "画像(任意):", class: "block text-sm font-medium text-gray-700" %>
-          <%= f.file_field :image, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", onchange: 'previewImage()', accept: 'image/*' %>
-          <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png", width: 300, height: 200, class: "mt-2 rounded-circle mt-3", id: "preview") %>
-          <%= f.hidden_field :image_cache %>
-        </div>
+      <!-- 学習内容から学んだこと -->
+      <section class="mb-8">
+        <%= f.label :text, "学習内容から学んだこと（必須）", class: "block mb-1 text-red-600 font-semibold" %>
+        <%= f.text_area :text,
+            rows: 6,
+            placeholder: "学習内容から学んだことを基にAIが問題を生成するので、詳しくお書き下さい。",
+            class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y" %>
+      </section>
 
-        <script>
-          function previewImage() {
-            const fileInput = document.querySelector('input[type="file"][name="study_log[image]"]');
-            const preview = document.getElementById('preview');
-        
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-        
-            reader.onloadend = function () {
-              preview.src = reader.result;
-            };
-        
-            if (file) {
-              reader.readAsDataURL(file);
-            }
-          }
-        </script>
-
-        <!-- 学習内容から学んだこと -->
-        <div class="mb-4">
-          <%= f.label :text, "学習内容から学んだこと(必須):", class: "block text-sm font-medium text-red-500" %>
-          <%= f.text_area :text, class: "mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
-        </div>
-
-        <div class="form-group mb-4">
+           <div class="form-group mb-4">
           <%= f.label :date, "日付(自動)", class: "block text-sm font-medium text-green-500" %>
           <%= f.text_field :date, value: Date.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
         </div>
 
-        <!-- 送信ボタン -->
-        <div class="mt-6">
-          <%= f.submit @study_log.new_record? ? "投稿" : "更新", class: "w-full py-2 px-4 bg-green-500 text-white rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-        </div>
+      <!-- 送信ボタン -->
+      <div class="mb-2">
+        <%= f.submit @study_log.new_record? ? "投稿" : "更新",
+            class: "w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md shadow focus:outline-none focus:ring-4 focus:ring-green-500" %>
       </div>
+
     <% end %>
   <% else %>
-    <div class="text-red-500 font-bold p-6">
+    <div class="text-red-600 font-bold p-6 text-center">
       学習ジャンルが指定されていないため、投稿フォームを表示できません。
     </div>
   <% end %>
 </div>
+
+<script>
+  function previewImage() {
+    const fileInput = document.querySelector('input[type="file"][name="study_log[image]"]');
+    const preview = document.getElementById('preview');
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+      preview.src = reader.result;
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+</script>

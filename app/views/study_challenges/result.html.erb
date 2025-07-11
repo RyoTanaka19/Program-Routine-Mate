@@ -47,8 +47,17 @@
 </div>
 
 <div class="mb-6 text-center">
-  <h2 class="text-xl font-semibold text-blue-600">あなたの回答</h2>
-  <p class="text-lg font-semibold text-blue-600"><%= @user_answer %></p>
+  <h2 class="text-xl font-semibold <%= @user_answer == @correct_answer ? 'text-green-600' : 'text-red-600' %>">
+    あなたの回答
+    <% if @user_answer.present? && @correct_answer.present? %>
+      <span class="ml-2 text-2xl">
+        <%= @user_answer == @correct_answer ? "⭕️" : "❌" %>
+      </span>
+    <% end %>
+  </h2>
+  <p class="text-lg font-semibold <%= @user_answer == @correct_answer ? 'text-green-600' : 'text-red-600' %>">
+    <%= @user_answer %>
+  </p>
 </div>
 
 <div class="mb-6 text-center animate-fade-in">
@@ -63,9 +72,11 @@
 </div>
 
 <div class="text-center flex justify-center gap-4">
-  <%= link_to "別の問題に挑戦する", new_study_log_study_challenge_path(@study_log),
-      data: { action: "click->loading#show" },
-      class: "mt-4 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition" %>
+  <%= form_with url: study_log_study_challenges_path(@study_log), method: :post do %>
+    <%= submit_tag "別の問題に挑戦する",
+        data: { action: "click->loading#show" },
+        class: "mt-4 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition" %>
+  <% end %>
 
   <%= link_to "学習記録一覧へ", study_logs_path,
       data: { action: "click->loading#show" },
