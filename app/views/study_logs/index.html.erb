@@ -10,13 +10,27 @@
 </div>
 
 <script>
-  // ヒートマップを初期化する関数を即時に実行
-  set_heatmap(); 
+  let cal = null; // グローバルに保持する CalHeatmap インスタンス
+
+  // DOM 読み込み後（通常のページ + Turbo 対応）
+  document.addEventListener("turbo:load", initHeatmap); // Turbo対応
+  document.addEventListener("DOMContentLoaded", initHeatmap); // 通常遷移対応
+
+  function initHeatmap() {
+    // #cal-heatmap が存在しないページでは何もしない
+    if (!document.getElementById("cal-heatmap")) return;
+
+    set_heatmap();
+  }
 
   function set_heatmap() {
+    // すでに存在する場合は削除して再描画
+    if (cal !== null) {
+      cal.destroy();
+    }
+
     let startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 2);
-    console.log(startDate);
 
     let data = <%= @contribution_graph.to_json.html_safe %>;
 
@@ -25,14 +39,14 @@
       total: item.total
     }));
 
-    const cal = new CalHeatmap();
+    cal = new CalHeatmap();
 
     cal.paint({
       itemSelector: '#cal-heatmap',
       domain: {
         type: 'month',
         gutter: 4,
-        label: { 
+        label: {
           text: 'MMM',
           textAlign: 'start',
           position: 'top',
@@ -47,7 +61,7 @@
       },
       date: { start: startDate },
       range: 12,
-      data: { 
+      data: {
         source: data,
         x: 'date',
         y: 'total'
@@ -62,19 +76,16 @@
       },
     });
 
-    // クリックイベントの登録
     cal.on('click', (event, timestamp, value) => {
       if (!timestamp) {
         console.log('クリックしたセルに日付がありません');
         return;
       }
       const clickedDate = new Date(timestamp).toISOString().slice(0, 10);
-      console.log('クリックした日付:', clickedDate);
       fetchStudyLogsByDate(clickedDate);
     });
   }
 
-  // ★ サーバーから日付の学習ログを取得しモーダル表示 ★
   function fetchStudyLogsByDate(date) {
     fetch(`/study_logs/logs_by_date?date=${date}`, {
       headers: { 'Accept': 'application/json' }
@@ -97,7 +108,6 @@
     });
   }
 
-  // ★ モーダル表示 ★
   function showLogsModal(date, logs) {
     const modal = document.getElementById("logs-modal");
     const list = document.getElementById("logs-list");
@@ -125,11 +135,12 @@
     modal.classList.remove("hidden");
   }
 
-  // ★ モーダル非表示 ★
   function closeModal() {
     document.getElementById("logs-modal").classList.add("hidden");
   }
 </script>
+
+
 
 
 <br>
