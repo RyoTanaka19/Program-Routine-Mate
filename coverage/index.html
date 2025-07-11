@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2025-07-12T01:16:54+09:00">2025-07-12T01:16:54+09:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2025-07-12T03:39:29+09:00">2025-07-12T03:39:29+09:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -490,7 +490,7 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#c65edc97ea5db35855343ee02cca118c34bdd771" class="src_link" title="app/services/open_ai_service.rb">app/services/open_ai_service.rb</a></td>
             <td class="red strong cell--number t-file__coverage">0.00 %</td>
-            <td class="cell--number">98</td>
+            <td class="cell--number">99</td>
             <td class="cell--number">76</td>
             <td class="cell--number">0</td>
             <td class="cell--number">76</td>
@@ -1428,7 +1428,7 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#c65edc97ea5db35855343ee02cca118c34bdd771" class="src_link" title="app/services/open_ai_service.rb">app/services/open_ai_service.rb</a></td>
             <td class="red strong cell--number t-file__coverage">0.00 %</td>
-            <td class="cell--number">98</td>
+            <td class="cell--number">99</td>
             <td class="cell--number">76</td>
             <td class="cell--number">0</td>
             <td class="cell--number">76</td>
@@ -18402,7 +18402,7 @@
 
             
 
-            <code class="ruby">  client = OpenAI::Client.new(access_token: ENV[&quot;OPENAI_API_KEY&quot;])</code>
+            <code class="ruby">    client = OpenAI::Client.new(access_token: ENV[&quot;OPENAI_API_KEY&quot;])</code>
           </li>
         </div>
       
@@ -18422,7 +18422,7 @@
 
             
 
-            <code class="ruby">  prompt = case type</code>
+            <code class="ruby">    prompt = case type</code>
           </li>
         </div>
       
@@ -18432,7 +18432,7 @@
 
             
 
-            <code class="ruby">  when :written</code>
+            <code class="ruby">    when :written</code>
           </li>
         </div>
       
@@ -18442,7 +18442,7 @@
 
             
 
-            <code class="ruby">    &lt;&lt;~PROMPT</code>
+            <code class="ruby">      &lt;&lt;~PROMPT</code>
           </li>
         </div>
       
@@ -18452,7 +18452,7 @@
 
             
 
-            <code class="ruby">      あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。</code>
+            <code class="ruby">        あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。</code>
           </li>
         </div>
       
@@ -18462,7 +18462,7 @@
 
             
 
-            <code class="ruby">      学習内容と感想を元に、理解度を深めるための具体的な記述式のプログラミング問題を1つ作成してください。</code>
+            <code class="ruby">        学習内容と感想を元に、理解度を深めるための具体的な記述式のプログラミング問題を1つ作成してください。</code>
           </li>
         </div>
       
@@ -18472,7 +18472,7 @@
 
             
 
-            <code class="ruby">      ・300字以内</code>
+            <code class="ruby">        ・300字以内</code>
           </li>
         </div>
       
@@ -18482,7 +18482,7 @@
 
             
 
-            <code class="ruby">      ・問題文のみを出力してください（選択肢や解説は不要です）。</code>
+            <code class="ruby">        ・問題文のみを出力してください（選択肢や解説は不要です）。</code>
           </li>
         </div>
       
@@ -18492,7 +18492,7 @@
 
             
 
-            <code class="ruby">      ・初心者にもわかりやすく、簡潔に作成してください。</code>
+            <code class="ruby">        ・初心者にもわかりやすく、簡潔に作成してください。</code>
           </li>
         </div>
       
@@ -18512,7 +18512,7 @@
 
             
 
-            <code class="ruby">      学習内容と感想:</code>
+            <code class="ruby">        学習内容と感想:</code>
           </li>
         </div>
       
@@ -18522,7 +18522,7 @@
 
             
 
-            <code class="ruby">      #{content}</code>
+            <code class="ruby">        #{content}</code>
           </li>
         </div>
       
@@ -18542,7 +18542,7 @@
 
             
 
-            <code class="ruby">      問題:</code>
+            <code class="ruby">        問題:</code>
           </li>
         </div>
       
@@ -18552,17 +18552,17 @@
 
             
 
-            <code class="ruby">    PROMPT</code>
+            <code class="ruby">      PROMPT</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="19">
+          <li class="never" data-hits="" data-linenumber="19">
             
 
             
 
-            <code class="ruby">  when :multiple_choice</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -18572,7 +18572,7 @@
 
             
 
-            <code class="ruby">    &lt;&lt;~PROMPT</code>
+            <code class="ruby">    when :multiple_choice</code>
           </li>
         </div>
       
@@ -18582,7 +18582,7 @@
 
             
 
-            <code class="ruby">      あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。</code>
+            <code class="ruby">      &lt;&lt;~PROMPT</code>
           </li>
         </div>
       
@@ -18592,27 +18592,27 @@
 
             
 
-            <code class="ruby">      学習内容と感想を元に、理解度を深めるためのマルチプルチョイス形式のプログラミング問題を1つ作成してください。</code>
+            <code class="ruby">        あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="23">
+          <li class="missed" data-hits="0" data-linenumber="23">
+            
+
+            
+
+            <code class="ruby">        学習内容と感想を元に、理解度を深めるためのマルチプルチョイス形式のプログラミング問題を1つ作成してください。</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="24">
             
 
             
 
             <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="24">
-            
-
-            
-
-            <code class="ruby">      - 問題文と、選択肢A〜Dを含めてください（形式例：A. 〜、B. 〜）。</code>
           </li>
         </div>
       
@@ -18622,7 +18622,7 @@
 
             
 
-            <code class="ruby">      - 正解は「正解: A」のように、最後に A〜D で明示してください（選択肢の文や内容ではなくラベルで指定）。</code>
+            <code class="ruby">        - 問題文と、選択肢A〜Dを含めてください（形式例：A. 〜、B. 〜）。</code>
           </li>
         </div>
       
@@ -18632,7 +18632,7 @@
 
             
 
-            <code class="ruby">      - 出力は問題・選択肢・正解のみとし、それ以外は出力しないでください。</code>
+            <code class="ruby">        - 正解は「正解: A〜D」のいずれかをランダムに指定してください。</code>
           </li>
         </div>
       
@@ -18642,12 +18642,22 @@
 
             
 
-            <code class="ruby">      - 全体で300字以内におさめ、初心者でも理解できるようわかりやすく書いてください。</code>
+            <code class="ruby">        - 出力は問題・選択肢・正解のみとし、それ以外は出力しないでください。</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="28">
+          <li class="missed" data-hits="0" data-linenumber="28">
+            
+
+            
+
+            <code class="ruby">        - 全体で300字以内におさめ、初心者でも理解できるようわかりやすく書いてください。</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="29">
             
 
             
@@ -18657,22 +18667,12 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="29">
+          <li class="missed" data-hits="0" data-linenumber="30">
             
 
             
 
-            <code class="ruby">      学習内容と感想:</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="30">
-            
-
-            
-
-            <code class="ruby">      #{content}</code>
+            <code class="ruby">        学習内容と感想:</code>
           </li>
         </div>
       
@@ -18682,17 +18682,17 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">        #{content}</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="32">
+          <li class="never" data-hits="" data-linenumber="32">
             
 
             
 
-            <code class="ruby">      出力形式:</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -18702,7 +18702,7 @@
 
             
 
-            <code class="ruby">      問題文</code>
+            <code class="ruby">        出力形式:</code>
           </li>
         </div>
       
@@ -18712,7 +18712,7 @@
 
             
 
-            <code class="ruby">      A. ○○○</code>
+            <code class="ruby">        問題文</code>
           </li>
         </div>
       
@@ -18722,7 +18722,7 @@
 
             
 
-            <code class="ruby">      B. ○○○</code>
+            <code class="ruby">        A. ○○○</code>
           </li>
         </div>
       
@@ -18732,7 +18732,7 @@
 
             
 
-            <code class="ruby">      C. ○○○</code>
+            <code class="ruby">        B. ○○○</code>
           </li>
         </div>
       
@@ -18742,7 +18742,7 @@
 
             
 
-            <code class="ruby">      D. ○○○</code>
+            <code class="ruby">        C. ○○○</code>
           </li>
         </div>
       
@@ -18752,27 +18752,27 @@
 
             
 
-            <code class="ruby">      正解: A</code>
+            <code class="ruby">        D. ○○○</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="39">
+          <li class="missed" data-hits="0" data-linenumber="39">
+            
+
+            
+
+            <code class="ruby">        正解: B</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="40">
             
 
             
 
             <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="40">
-            
-
-            
-
-            <code class="ruby">      問題:</code>
           </li>
         </div>
       
@@ -18782,7 +18782,7 @@
 
             
 
-            <code class="ruby">    PROMPT</code>
+            <code class="ruby">        問題:</code>
           </li>
         </div>
       
@@ -18792,17 +18792,17 @@
 
             
 
-            <code class="ruby">  else</code>
+            <code class="ruby">      PROMPT</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="43">
+          <li class="never" data-hits="" data-linenumber="43">
             
 
             
 
-            <code class="ruby">    raise ArgumentError, &quot;Unsupported question type: #{type}&quot;</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -18812,17 +18812,17 @@
 
             
 
-            <code class="ruby">  end</code>
+            <code class="ruby">    else</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="45">
+          <li class="missed" data-hits="0" data-linenumber="45">
             
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      raise ArgumentError, &quot;Unsupported question type: #{type}&quot;</code>
           </li>
         </div>
       
@@ -18832,17 +18832,17 @@
 
             
 
-            <code class="ruby">  response = client.chat(</code>
+            <code class="ruby">    end</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="47">
+          <li class="never" data-hits="" data-linenumber="47">
             
 
             
 
-            <code class="ruby">    parameters: {</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -18852,7 +18852,7 @@
 
             
 
-            <code class="ruby">      model: &quot;gpt-4o-mini&quot;,</code>
+            <code class="ruby">    response = client.chat(</code>
           </li>
         </div>
       
@@ -18862,7 +18862,7 @@
 
             
 
-            <code class="ruby">      messages: [</code>
+            <code class="ruby">      parameters: {</code>
           </li>
         </div>
       
@@ -18872,7 +18872,7 @@
 
             
 
-            <code class="ruby">        { role: &quot;system&quot;, content: &quot;あなたは初心者向けプログラミング講師です。わかりやすく、丁寧に作成してください。&quot; },</code>
+            <code class="ruby">        model: &quot;gpt-4o-mini&quot;,</code>
           </li>
         </div>
       
@@ -18882,7 +18882,7 @@
 
             
 
-            <code class="ruby">        { role: &quot;user&quot;, content: prompt }</code>
+            <code class="ruby">        messages: [</code>
           </li>
         </div>
       
@@ -18892,7 +18892,7 @@
 
             
 
-            <code class="ruby">      ],</code>
+            <code class="ruby">          { role: &quot;system&quot;, content: &quot;あなたは初心者向けプログラミング講師です。わかりやすく、丁寧に作成してください。&quot; },</code>
           </li>
         </div>
       
@@ -18902,7 +18902,7 @@
 
             
 
-            <code class="ruby">      max_tokens: 300,</code>
+            <code class="ruby">          { role: &quot;user&quot;, content: prompt }</code>
           </li>
         </div>
       
@@ -18912,7 +18912,7 @@
 
             
 
-            <code class="ruby">      temperature: 0.7</code>
+            <code class="ruby">        ],</code>
           </li>
         </div>
       
@@ -18922,7 +18922,7 @@
 
             
 
-            <code class="ruby">    }</code>
+            <code class="ruby">        max_tokens: 300,</code>
           </li>
         </div>
       
@@ -18932,342 +18932,12 @@
 
             
 
-            <code class="ruby">  )</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="57">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="58">
-            
-
-            
-
-            <code class="ruby">  response.dig(&quot;choices&quot;, 0, &quot;message&quot;, &quot;content&quot;)&amp;.strip</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="59">
-            
-
-            
-
-            <code class="ruby">rescue =&gt; e</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="60">
-            
-
-            
-
-            <code class="ruby">  Rails.logger.error(&quot;OpenAIエラー: #{e.message}&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="61">
-            
-
-            
-
-            <code class="ruby">  nil</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="62">
-            
-
-            
-
-            <code class="ruby">end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="63">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="64">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="65">
-            
-
-            
-
-            <code class="ruby">  # 回答と問題文から正誤判定・解説を生成</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="66">
-            
-
-            
-
-            <code class="ruby">  def self.explain_answer(question_text, user_answer)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="67">
-            
-
-            
-
-            <code class="ruby">    client = OpenAI::Client.new(access_token: ENV[&quot;OPENAI_API_KEY&quot;])</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="68">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="69">
-            
-
-            
-
-            <code class="ruby">    prompt = &lt;&lt;~PROMPT</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="70">
-            
-
-            
-
-            <code class="ruby">      以下の問題文と選択肢があります。ユーザーの回答が正しいかどうか判定し、正解・不正解の結果と理由、解説を300字以内でわかりやすく教えてください。</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="71">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="72">
-            
-
-            
-
-            <code class="ruby">      問題と選択肢:</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="73">
-            
-
-            
-
-            <code class="ruby">      #{question_text}</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="74">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="75">
-            
-
-            
-
-            <code class="ruby">      ユーザーの回答:</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="76">
-            
-
-            
-
-            <code class="ruby">      #{user_answer}</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="77">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="78">
-            
-
-            
-
-            <code class="ruby">      結果と解説:</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="79">
-            
-
-            
-
-            <code class="ruby">    PROMPT</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="80">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="81">
-            
-
-            
-
-            <code class="ruby">    response = client.chat(</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="82">
-            
-
-            
-
-            <code class="ruby">      parameters: {</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="83">
-            
-
-            
-
-            <code class="ruby">        model: &quot;gpt-4o-mini&quot;,</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="84">
-            
-
-            
-
-            <code class="ruby">        messages: [</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="85">
-            
-
-            
-
-            <code class="ruby">          { role: &quot;system&quot;, content: &quot;あなたは教育者です。正誤判定とわかりやすい解説を作成してください。&quot; },</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="86">
-            
-
-            
-
-            <code class="ruby">          { role: &quot;user&quot;, content: prompt }</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="87">
-            
-
-            
-
-            <code class="ruby">        ],</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="88">
-            
-
-            
-
-            <code class="ruby">        max_tokens: 300,</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="89">
-            
-
-            
-
             <code class="ruby">        temperature: 0.7</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="90">
+          <li class="missed" data-hits="0" data-linenumber="57">
             
 
             
@@ -19277,7 +18947,7 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="91">
+          <li class="missed" data-hits="0" data-linenumber="58">
             
 
             
@@ -19287,7 +18957,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="92">
+          <li class="never" data-hits="" data-linenumber="59">
             
 
             
@@ -19297,7 +18967,7 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="93">
+          <li class="missed" data-hits="0" data-linenumber="60">
             
 
             
@@ -19307,7 +18977,7 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="94">
+          <li class="missed" data-hits="0" data-linenumber="61">
             
 
             
@@ -19317,7 +18987,7 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="95">
+          <li class="missed" data-hits="0" data-linenumber="62">
             
 
             
@@ -19327,7 +18997,7 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="96">
+          <li class="missed" data-hits="0" data-linenumber="63">
             
 
             
@@ -19337,7 +19007,7 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="97">
+          <li class="missed" data-hits="0" data-linenumber="64">
             
 
             
@@ -19347,7 +19017,347 @@
         </div>
       
         <div>
+          <li class="never" data-hits="" data-linenumber="65">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="66">
+            
+
+            
+
+            <code class="ruby">  # explain_answerメソッドはそのままでOKです</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="67">
+            
+
+            
+
+            <code class="ruby">  def self.explain_answer(question_text, user_answer)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="68">
+            
+
+            
+
+            <code class="ruby">    client = OpenAI::Client.new(access_token: ENV[&quot;OPENAI_API_KEY&quot;])</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="69">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="70">
+            
+
+            
+
+            <code class="ruby">    prompt = &lt;&lt;~PROMPT</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="71">
+            
+
+            
+
+            <code class="ruby">      以下の問題文と選択肢があります。ユーザーの回答が正しいかどうか判定し、正解・不正解の結果と理由、解説を300字以内でわかりやすく教えてください。</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="72">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="73">
+            
+
+            
+
+            <code class="ruby">      問題と選択肢:</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="74">
+            
+
+            
+
+            <code class="ruby">      #{question_text}</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="75">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="76">
+            
+
+            
+
+            <code class="ruby">      ユーザーの回答:</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="77">
+            
+
+            
+
+            <code class="ruby">      #{user_answer}</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="78">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="79">
+            
+
+            
+
+            <code class="ruby">      結果と解説:</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="80">
+            
+
+            
+
+            <code class="ruby">    PROMPT</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="81">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="82">
+            
+
+            
+
+            <code class="ruby">    response = client.chat(</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="83">
+            
+
+            
+
+            <code class="ruby">      parameters: {</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="84">
+            
+
+            
+
+            <code class="ruby">        model: &quot;gpt-4o-mini&quot;,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="85">
+            
+
+            
+
+            <code class="ruby">        messages: [</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="86">
+            
+
+            
+
+            <code class="ruby">          { role: &quot;system&quot;, content: &quot;あなたは教育者です。正誤判定とわかりやすい解説を作成してください。&quot; },</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="87">
+            
+
+            
+
+            <code class="ruby">          { role: &quot;user&quot;, content: prompt }</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="88">
+            
+
+            
+
+            <code class="ruby">        ],</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="89">
+            
+
+            
+
+            <code class="ruby">        max_tokens: 300,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="90">
+            
+
+            
+
+            <code class="ruby">        temperature: 0.7</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="91">
+            
+
+            
+
+            <code class="ruby">      }</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="92">
+            
+
+            
+
+            <code class="ruby">    )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="93">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="94">
+            
+
+            
+
+            <code class="ruby">    response.dig(&quot;choices&quot;, 0, &quot;message&quot;, &quot;content&quot;)&amp;.strip</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="95">
+            
+
+            
+
+            <code class="ruby">  rescue =&gt; e</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="96">
+            
+
+            
+
+            <code class="ruby">    Rails.logger.error(&quot;OpenAIエラー: #{e.message}&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="97">
+            
+
+            
+
+            <code class="ruby">    nil</code>
+          </li>
+        </div>
+      
+        <div>
           <li class="missed" data-hits="0" data-linenumber="98">
+            
+
+            
+
+            <code class="ruby">  end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="99">
             
 
             

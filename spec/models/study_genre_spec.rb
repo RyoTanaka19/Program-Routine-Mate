@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe StudyGenre, type: :model do
   let(:user) { create(:user) }
+  let(:valid_name) { StudyGenre::GENRES.values.first } # ← 安定して使える値を定義
 
   describe 'バリデーション' do
     it '有効なファクトリを持つこと' do
@@ -16,16 +17,16 @@ RSpec.describe StudyGenre, type: :model do
     end
 
     it '名前が重複していたら無効（同一ユーザー）' do
-      create(:study_genre, name: "Ruby", user: user)
-      duplicate = build(:study_genre, name: "Ruby", user: user)
+      create(:study_genre, name: valid_name, user: user)
+      duplicate = build(:study_genre, name: valid_name, user: user)
       expect(duplicate).to be_invalid
       expect(duplicate.errors[:name]).to include("はすでに登録されています。")
     end
 
     it '同じ名前でも別ユーザーなら有効' do
-      create(:study_genre, name: "Ruby", user: user)
+      create(:study_genre, name: valid_name, user: user)
       other_user = create(:user)
-      genre = build(:study_genre, name: "Ruby", user: other_user)
+      genre = build(:study_genre, name: valid_name, user: other_user)
       expect(genre).to be_valid
     end
 

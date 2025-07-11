@@ -4,7 +4,7 @@ RSpec.describe "StudyGenres", type: :request do
   let(:user) { create(:user) }                     # ログインユーザー用
   let(:other_user) { create(:user) }               # 別ユーザー用
   let!(:study_genre) { create(:study_genre, user: user, name: "Ruby") }
-  let!(:other_study_genre) { create(:study_genre, user: other_user, name: "Rails") }
+  let!(:other_study_genre) { create(:study_genre, user: other_user, name: "プログラミング") }
 
   describe "GET /index" do
     it "正常にレスポンスが返ること" do
