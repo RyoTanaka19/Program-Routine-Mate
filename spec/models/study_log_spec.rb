@@ -21,7 +21,7 @@ RSpec.describe StudyLog, type: :model do
     it 'textがなければ無効' do
       log = build(:study_log, text: nil, user: user, study_genre: study_genre)
       log.validate
-      expect(log.errors[:text]).to include("感想などを入力してください")
+      expect(log.errors[:text]).to include("学習内容から学んだこと")
     end
 
     it 'dateがなければ無効' do
