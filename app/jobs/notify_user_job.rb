@@ -1,7 +1,7 @@
 class NotifyUserJob < ApplicationJob
   queue_as :default
 
-  def perform(study_reminder_id = nil, time_type = nil, badge_id = nil, user_id = nil, learning_comment_id = nil)
+  def perform(study_reminder_id = nil, time_type = nil, badge_id = nil, user_id = nil, learning_comment_id = nil, study_log_id = nil)
     if badge_id.present? && user_id.present?
       badge = StudyBadge.find(badge_id)
       user = User.find(user_id)
@@ -16,11 +16,11 @@ class NotifyUserJob < ApplicationJob
       wait_until_time(study_reminder, time_type)
 
       message = case time_type
-      when :start_time
+                when :start_time
                   "学習が開始されました！開始時間: #{study_reminder.start_time.strftime('%Y-%m-%d %H:%M:%S')}"
-      when :end_time
+                when :end_time
                   "学習が終了しました！終了時間: #{study_reminder.end_time.strftime('%Y-%m-%d %H:%M:%S')}"
-      end
+                end
 
       user = study_reminder.user
 
@@ -28,7 +28,7 @@ class NotifyUserJob < ApplicationJob
       broadcast_browser_notification(user.id, message)
 
     elsif learning_comment_id.present?
-      # コメント通知を送信
+      # コメント通知
       learning_comment = LearningComment.find(learning_comment_id)
       study_log = learning_comment.study_log
       user = learning_comment.user
@@ -37,6 +37,19 @@ class NotifyUserJob < ApplicationJob
 
       send_line_notification(message, study_log.user)
       broadcast_browser_notification(study_log.user.id, message)
+
+    elsif study_log_id.present? && user_id.present?
+      # いいね通知
+      study_log = StudyLog.find(study_log_id)
+      liker = User.find(user_id)
+      owner = study_log.user
+
+      return if liker.id == owner.id  # 自分の投稿にいいねした場合は通知しない
+
+      message = "#{liker.name}さんがあなたの学習記録「#{study_log.content.truncate(20)}」にいいねしました！"
+
+      send_line_notification(message, owner)
+      broadcast_browser_notification(owner.id, message)
     end
   end
 
