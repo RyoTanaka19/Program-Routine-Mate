@@ -9,7 +9,7 @@ class StudyChallengesController < ApplicationController
   def create
     challenge = @study_log.study_challenges.build
 
-    prompt = "#{@study_log.content}\n#{@study_log.text}"
+    prompt = "#{@study_log.study_genre}#{@study_log.content}\n#{@study_log.text}"
     response_text = OpenAiService.generate_question(prompt, type: :multiple_choice)
 
     if response_text.present?

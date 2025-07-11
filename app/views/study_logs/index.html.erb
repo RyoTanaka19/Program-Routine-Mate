@@ -147,7 +147,10 @@
         </div>
 
         <!-- ジャンル -->
-        <p class="text-sm text-gray-600"><strong>ジャンル:</strong> <%= study_log.study_genre.present? ? study_log.study_genre.name : "未設定" %></p>
+ <p class="text-sm text-gray-600">
+  <strong>ジャンル:</strong>
+  <%= study_log.study_genre.present? ? study_log.study_genre.display_name : "未設定(変更のため)" %>
+</p>
 
         <!-- 学習内容 -->
         <p class="text-sm mb-2">学習内容: <%= study_log.content %></p>

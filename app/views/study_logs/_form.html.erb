@@ -7,24 +7,18 @@
         <%= render 'shared/error_messages', object: f.object %>
 
         <!-- 学習ジャンル -->
-        <div class="mb-4">
-          <% if @study_log.new_record? %>
-            <!-- 学習ジャンル（新規作成時のみ表示） -->
-            <div class="mb-4">
-              <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "block text-sm font-medium text-blue-500" %>
-              <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
-              <%= f.select :study_genre_id, 
-                options_for_select(
-                  StudyGenre.where(user_id: current_user.id).pluck(:name, :id), 
-                  selected: @study_log.study_genre_id
-                )
-              %>
-            </div>
-          <% else %>
-            <%= f.hidden_field :study_genre_id %>
-            <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
-          <% end %>
-        </div>
+<div class="mb-4">
+  <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "block text-sm font-medium text-blue-500" %>
+
+  <p class="mt-1 text-gray-800">
+    <%= StudyGenre::GENRES.key(@study_log.study_genre.name) || @study_log.study_genre.name %>
+  </p>
+
+  <%= f.hidden_field :study_genre_id, value: @study_log.study_genre_id %>
+  <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
+</div>
+
+
 
         <!-- 学習内容 -->
         <div class="mb-4">

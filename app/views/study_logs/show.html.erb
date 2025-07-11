@@ -28,7 +28,10 @@
     </div>
 
     <!-- 学習ジャンル -->
-    <p class="mb-6"><strong>学習ジャンル:</strong> <%= @study_log.study_genre ? @study_log.study_genre.name : "未選択" %></p>
+ <p class="mb-6">
+  <strong>学習ジャンル:</strong>
+  <%= @study_log.study_genre ? @study_log.study_genre.display_name : "未選択(変更のため)" %>
+</p>
 
     <!-- 学習内容 -->
     <div class="mb-6">
