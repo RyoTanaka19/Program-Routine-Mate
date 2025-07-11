@@ -1,0 +1,20 @@
+<turbo-stream action="append" target="dummy">
+  <template>
+    <script>
+      if (calendarInstance) {
+        calendarInstance.addEvent({
+          title: "<%= j @study_reminder.title %>",
+          start: "<%= @study_reminder.start_time.strftime('%Y-%m-%dT%H:%M:%S') %>",
+          end: "<%= @study_reminder.end_time&.strftime('%Y-%m-%dT%H:%M:%S') || @study_reminder.start_time.strftime('%Y-%m-%dT%H:%M:%S') %>",
+          allDay: false,
+          color: "#4CAF50",
+          extendedProps: {
+            startTime: "<%= @study_reminder.start_time.strftime('%H:%M') %>",
+            endTime: "<%= @study_reminder.end_time.present? ? @study_reminder.end_time.strftime('%H:%M') : @study_reminder.start_time.strftime('%H:%M') %>"
+          }
+        });
+        closeModal(); // モーダルを閉じる
+      }
+    </script>
+  </template>
+</turbo-stream>
