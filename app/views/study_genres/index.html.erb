@@ -13,6 +13,9 @@
     </div>
 
     <script>
+      // RailsのGENRESの逆転版（内部名 => 表示名）をJSに渡す
+      const GENRES = <%= raw StudyGenre::GENRES.invert.to_json %>;
+
       // グラフ初期化処理
       function initializeChart() {
         const genreStats = <%= raw @genre_stats.to_json %>;
@@ -28,7 +31,8 @@
           return;
         }
 
-        const labels = genreStats.map(stat => stat.name);
+        // 内部名を表示名に変換
+        const labels = genreStats.map(stat => GENRES[stat.name] || stat.name);
         const userCounts = genreStats.map(stat => stat.user_count);
 
         if (window.genreChartInstance) {
@@ -103,7 +107,6 @@
         });
       });
 
-      // Turbo対応
       document.addEventListener('turbo:load', () => {
         requestAnimationFrame(() => {
           initializeChart();

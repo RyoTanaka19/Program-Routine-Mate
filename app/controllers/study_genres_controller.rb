@@ -9,13 +9,19 @@ def index
   grouped = raw_stats.group_by { |entry| entry[:name] }
 
   @genre_stats = grouped.map do |name, entries|
+    display_name = case name
+    when "PHP_(プログラミング言語)" then "PHP"
+    else name
+    end
+
     {
-      name: name,
+      name: display_name,
       post_count: entries.count,
       user_count: entries.map { |e| e[:user_id] }.uniq.count
     }
   end.sort_by { |stat| -stat[:user_count] }
 end
+
 
 
 
