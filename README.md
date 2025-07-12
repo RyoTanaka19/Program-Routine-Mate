@@ -83,6 +83,7 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 プログラミングスクールに通っていて、
 初学者が多いのでそこからユーザー獲得
 
+
 ## ▪️ サービスの差別化ポイント・推しポイント
 
 - 3 週間(21 日)ごとに新しい取り組み(ジャンル)を追加できる。
@@ -92,10 +93,35 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 - バッジ獲得、ランキング戦、AI からの問題にチャレンジ
   ただ、学習記録を投稿し続けるだけでなく、　上記のような多様なゲーム要素を入れて、楽しくプログラミング学習をすることがで来ます。
 
-- 通知
 - カレンダーから学習開始時間と学習終了時間を設定することができ、
   設定した時間が、このサービス内から確認できたり、LINE ログインしている場合、
   LINE 通知からでも確認可能であり、時間を意識しながら学習できます。
+
+
+
+
+
+## ■ 機能紹介
+| 会員登録・ログイン | 投稿一覧 |
+|---|-----------------|
+| <img width="1916" height="991" alt="read_me_login" src="https://github.com/user-attachments/assets/ddc8c805-296b-43ab-b04a-166740d33141" />| <img width="1912" height="991" alt="read_me_study_log" src="https://github.com/user-attachments/assets/73c35747-336f-4efe-a9f7-5b84e374e72b" />|
+| **devise**を用いて、標準的なメールアドレス/パスワード認証に加え、GoogleログインとLINEログインとGitHubログイン機能を実装しました。 | 投稿した学習記録は、一覧に表示されます。**ransackとオートコンプリート機能かつマルチ検索**で検索機能を実装しており、学習ジャンルと学習内容で絞って検索できます。|
+
+| ジャンル・記録| 学習カレンダー |
+|---|-----------------|
+|![study_genres_logs](https://github.com/user-attachments/assets/6315d6d6-b5a1-4acc-9ac1-7705fe33d0e7)|![study_reminder3](https://github.com/user-attachments/assets/af8f71e9-98dd-4f3c-a8dd-4a8430533ead) |
+| 学習ジャンルを設定して、21日間そのジャンルに応じた学習記録を投稿します。投稿したタイミング学習記録に基づき、AIが問題を作成してくれます。|学習カレンダーの日付をクリックするとその日に学習開始時間と学習終了時間を設定して、アプリ内でリアルタイムで通知メッセージが来ます。LINEログインで友達追加している場合、LINE通知も可能です。 |
+
+| ジャンル詳細 | ジャンル一覧 |
+|---|-----------------|
+| ![study_genre_detail](https://github.com/user-attachments/assets/4bd5dc20-c49f-4275-aafd-5ed61e88c6be) | <img width="1920" height="991" alt="user_study_genre" src="https://github.com/user-attachments/assets/0121a634-4a57-4d28-934c-399c4cdd156b" />
+| 設定しているジャンルをWikiPediaで詳細に確認できたり、投稿記録を確認できます。 | ジャンル一覧では、　ユーザーが何のジャンルの学習をしているか把握することができ、何を学習すべきか困った時に参考できます。 |
+
+| バッジ獲得 | ランキング戦 |
+|---|-----------------|
+| <img width="1920" height="992" alt="study_batge" src="https://github.com/user-attachments/assets/9d65efb1-7711-4930-97e5-acc8d8bc9c00" />| <img width="1913" height="983" alt="study_ranking" src="https://github.com/user-attachments/assets/acbc201f-ad2f-488b-8b10-e45d8cd3b20f" /> |
+| 継続的に学習記録を投稿するとバッジが獲得できます。 |学習継続によるランキング戦で他のユーザーと学習継続の競い合いができます。|
+
 
 ## ▪️ 機能候補
 
@@ -107,7 +133,7 @@ Mattermost や Discode というコミュニケーションサービスを使っ
   - ログアウト機能
 - 投稿の CRUD（登録・参照・更新・削除）機能
 
-  - 画像アップロード (carriewave0
+  - 画像アップロード (carriewave)
   - コメント機能（非 ajax）
 
 - フラッシュメッセージの実装
@@ -136,16 +162,12 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 
   - S3 の実装
 
-- ContriButionGraph の実装
-
-  - CalHeat-map.js
+- ContriButionGraph(CalHeat-map.js)の実装
 
 - バッジ獲得できる機能実装
 - 学習継続によるランキング機能の実装
 
-- 学習カレンダーの実装
-
-  - FullCallender.js
+- 学習カレンダーの実装(FullCallender.js)
   - 学習開始時間と学習終了時間の設定・カレンダーに反映
 
 - 通知機能の実装
@@ -167,9 +189,7 @@ Mattermost や Discode というコミュニケーションサービスを使っ
   - コメント追加・削除((ajax 化)
   - コメント編集(ajax)
 
-- 学習継続相談
-
-  - OpenAPI
+- 学習継続相談(OpenApi)
   - AI に学習継続の相談(本リリース後に削除 → 学習記録から AI の問題作成に変更)
 
 - 使い方
