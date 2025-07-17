@@ -1,58 +1,28 @@
 class StudyLogsImageUploader < CarrierWave::Uploader::Base
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick  # 画像処理にMiniMagickを使用
 
-  # Choose what kinstorage :file
-
+  # 環境によって保存方法を切り替え
   if Rails.env.production?
-    storage :fog
+    storage :fog   # 本番環境はクラウドストレージに保存
   else
-    storage :file
+    storage :file  # 開発・テスト環境はローカル保存
   end
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
+  # ファイルの保存ディレクトリを指定
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  # 画像がアップロードされていない場合のデフォルト画像のURLを返す
   def default_url(*args)
     "/images/fallback/" + [ version_name, "default_study_logs_image.png" ].compact.join("_")
   end
 
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  # def default_url(*args)
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-  # end
-
-  # Process files as they are uploaded:
-  # process scale: [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
-
-
+  # アップロード可能な拡張子の制限
   def extension_allowlist
     %w[jpg jpeg gif png]
   end
 
+  # アップロード画像の最大サイズを300x200に制限（縦横比維持）
   process resize_to_limit: [ 300, 200 ]
-  # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process resize_to_fit: [50, 50]
-  # end
-
-  # Add an allowlist of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg" if original_filename
-  # end
 end

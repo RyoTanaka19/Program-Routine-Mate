@@ -11,9 +11,7 @@ def create
     flash[:notice] = "コメントを投稿しました"
 
     if @learning_comment.study_log.user != current_user
-    NotifyUserJob.perform_later(
-      nil, nil, nil, nil, @learning_comment.id # ← learning_comment_idのみ渡す
-    )
+      CommentNotificationJob.perform_later(@learning_comment.id)
     end
 
     render turbo_stream: [

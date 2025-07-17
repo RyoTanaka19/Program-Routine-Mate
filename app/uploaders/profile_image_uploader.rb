@@ -1,54 +1,33 @@
 class ProfileImageUploader < CarrierWave::Uploader::Base
-  include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick  # 画像処理にMiniMagickを使用
 
-if Rails.env.production?
-  storage :fog
-else
-  storage :file
-end
+  # 環境によって保存方法を切り替え
+  if Rails.env.production?
+    storage :fog   # 本番はクラウドストレージ（例: AWS S3）
+  else
+    storage :file  # 開発・テストはローカル保存
+  end
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
-
+  # アップロードファイルの保存ディレクトリを指定
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  # アップロードがない場合のデフォルト画像のURLを返す
   def default_url(*args)
     "/images/fallback/" + [ version_name, "default_study_logs_image.png" ].compact.join("_")
   end
 
-
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  # def default_url(*args)
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-  # end
-
-  # Process files as they are uploaded:
-  # process scale: [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
-
+  # 許可するファイル拡張子のリスト
   def extension_allowlist
     %w[jpg jpeg gif png]
   end
 
-  # Create different versions of your uploaded files:
+  # アップロード画像を最大800x800にリサイズ
+  process resize_to_limit: [ 800, 800 ]
+
+  # サムネイル画像（40x40）を作成
   version :thumb do
     process resize_to_fill: [ 40, 40 ]
   end
-
-  # Add an allowlist of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg"
-  # end
 end

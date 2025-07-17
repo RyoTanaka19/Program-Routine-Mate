@@ -23,11 +23,18 @@ def create
   @study_reminder = current_user.study_reminders.new(study_reminder_params)
 
   if @study_reminder.save
-    NotifyUserJob.perform_later(@study_reminder.id, :start_time)
-    NotifyUserJob.perform_later(@study_reminder.id, :end_time)
+    # start_timeに通知を予約（開始時間ちょうどに実行）
+    if @study_reminder.start_time.future?
+      ReminderNotificationJob.set(wait_until: @study_reminder.start_time).perform_later(@study_reminder.id, :start_time)
+    end
+
+    # end_timeに通知を予約（終了時間ちょうどに実行）
+    if @study_reminder.end_time.future?
+      ReminderNotificationJob.set(wait_until: @study_reminder.end_time).perform_later(@study_reminder.id, :end_time)
+    end
 
     respond_to do |format|
-      format.turbo_stream # 👈 create.turbo_stream.erb を返す
+      format.turbo_stream
       format.html do
         flash[:notice] = "学習開始時間と学習終了時間が設定されました"
         redirect_to study_reminders_path, status: :see_other
@@ -41,6 +48,7 @@ def create
     ), status: :unprocessable_entity
   end
 end
+
 
 
   private
