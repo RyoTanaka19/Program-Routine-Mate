@@ -44,6 +44,7 @@ class StudyGenre < ApplicationRecord
   has_many :study_logs, dependent: :destroy
   has_many :user_study_genres, dependent: :destroy
 
+
   validates :name, presence: true
   validates :name, uniqueness: { scope: :user_id, message: "はすでに登録されています。" }
   validates :name, inclusion: { in: GENRES.values }
