@@ -78,7 +78,7 @@ gem "omniauth-line"
 gem "omniauth-rails_csrf_protection"
 gem "line-bot-api"
 
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.4"
 
 gem "ruby-openai"
 gem "ransack"
