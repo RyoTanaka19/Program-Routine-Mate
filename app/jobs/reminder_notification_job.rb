@@ -7,21 +7,21 @@ class ReminderNotificationJob < ApplicationJob
 
     # 本人への通知メッセージ
     personal_message = case time_type.to_sym
-                       when :start_time
+    when :start_time
                          "学習が開始されました！開始時間: #{study_reminder.start_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                       when :end_time
+    when :end_time
                          "学習が終了しました！終了時間: #{study_reminder.end_time.strftime('%Y-%m-%d %H:%M:%S')}"
-                       else
+    else
                          return
-                       end
+    end
 
     # 他ユーザー向け通知メッセージ
     broadcast_message = case time_type.to_sym
-                        when :start_time
+    when :start_time
                           "#{user.name}さんが学習を開始しました！"
-                        when :end_time
+    when :end_time
                           "#{user.name}さんが学習を終了しました！"
-                        end
+    end
 
     # 本人に通知
     send_line_notification(personal_message, user)
