@@ -70,14 +70,25 @@ end
   end
 
   def index
-    @q = StudyLog.ransack(params[:q])
-   @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present?
-   @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
+  @q = StudyLog.ransack(params[:q])
+  @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present?
 
-    @contribution_graph= current_user ? current_user.study_logs.where.not(date: nil).map { |log| { date: log.date.to_date, total: log.try(:total) || 0 } } : []
+  @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
 
-    @study_genres = StudyGenre.all
+  @contribution_graph = if current_user
+    current_user.study_logs.where.not(date: nil).map do |log|
+      {
+        date: log.date.to_date,
+        total: log.total.to_f # ← ここを修正
+      }
+    end
+  else
+    []
   end
+
+  @study_genres = StudyGenre.all
+end
+
 
   def autocomplete
     @q = StudyLog.ransack(params[:q])

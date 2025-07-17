@@ -18,34 +18,86 @@
     #calendar {
       height: 600px;
     }
+
     .fc-daygrid-day {
       height: 80px;
     }
+
     .fc-daygrid-day-number {
       font-size: 16px;
+      font-weight: 600;
+      padding-left: 6px;
+      padding-top: 4px;
     }
+
     .fc-daygrid-day-events {
-      padding: 3px;
+      padding: 4px 6px;
     }
+
+    .fc-daygrid-event {
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .fc-daygrid-day:hover {
-      background-color: #f3f4f6;
+      background-color: #f9fafb;
+    }
+
+    .calendar-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    header {
+      background-color: #22c55e; /* Tailwind green-500 */
+      padding: 1.25rem 1rem;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    }
+
+    header h1 {
+      color: white;
+      font-weight: 700;
+      font-size: 1.875rem;
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+
+    #study-reminder-modal {
+      background-color: rgba(0, 0, 0, 0.55);
+    }
+
+    #study-reminder-modal button {
+      color: #4b5563;
+      transition: color 0.3s ease;
+    }
+
+    #study-reminder-modal button:hover {
+      color: #111827;
     }
   </style>
 </head>
 
 <body class="bg-gray-100 font-sans min-h-screen">
-  <header class="bg-green-300 p-4">
-    <h1 class="text-3xl font-bold text-white text-center">学習カレンダー</h1>
+  <header>
+    <h1>学習カレンダー</h1>
   </header>
 
-  <div class="max-w-7xl mx-auto px-4 py-6">
-    <div id="calendar" class="bg-white rounded-lg shadow-md p-4 min-h-[600px]"></div>
-  </div>
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <div class="calendar-wrapper">
+      <div id="calendar" class="bg-white rounded-lg shadow-md p-4 min-h-[600px]"></div>
+    </div>
+  </main>
 
   <div id="dummy"></div>
 
   <!-- ✅ モーダル -->
-  <div id="study-reminder-modal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+  <div id="study-reminder-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
       <button onclick="closeModal()" class="absolute top-3 right-4 text-gray-600 hover:text-gray-900 text-2xl">&times;</button>
       <%= render partial: 'form', locals: { study_reminder: StudyReminder.new } %>
@@ -66,7 +118,7 @@
       calendarInstance = new FullCalendar.Calendar(calendarEl, {
         locale: 'ja',
         initialView: 'dayGridMonth',
-        height: 'auto',
+        height: 600, // 固定値に変更
         events: [
           <% @study_reminders.each do |reminder| %>
             {
@@ -113,52 +165,48 @@
           alert('イベント名 学習開始時間 - 学習終了時間: ' + event.title + ' ' + event.extendedProps.startTime + ' - ' + event.extendedProps.endTime);
         },
 
-dateClick: function(info) {
-  const selectedDate = new Date(info.dateStr);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  selectedDate.setHours(0, 0, 0, 0);
+        dateClick: function(info) {
+          const selectedDate = new Date(info.dateStr);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          selectedDate.setHours(0, 0, 0, 0);
 
-  if (selectedDate < today) {
-    alert('過去の日付には学習リマインダーを追加できません。');
-    return;
-  }
+          if (selectedDate < today) {
+            alert('過去の日付には学習リマインダーを追加できません。');
+            return;
+          }
 
-  // ✅ モーダル表示
-  const modal = document.getElementById('study-reminder-modal');
-  modal.classList.remove('hidden');
+          // ✅ モーダル表示
+          const modal = document.getElementById('study-reminder-modal');
+          modal.classList.remove('hidden');
 
-  // ✅ フォーム初期化（タイトル・時間）
-  const titleInput = document.getElementById('study_reminder_title');
-  const startInput = document.getElementById('study_reminder_start_time');
-  const endInput = document.getElementById('study_reminder_end_time');
+          // ✅ フォーム初期化（タイトル・時間）
+          const titleInput = document.getElementById('study_reminder_title');
+          const startInput = document.getElementById('study_reminder_start_time');
+          const endInput = document.getElementById('study_reminder_end_time');
 
-  if (titleInput) titleInput.value = "";
+          if (titleInput) titleInput.value = "";
 
-  let startTimeStr, endTimeStr;
+          let startTimeStr, endTimeStr;
 
-  if (selectedDate.getTime() === today.getTime()) {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() + 1);
-    const end = new Date(now.getTime() + 60 * 1000); // 終了は +1分
+          if (selectedDate.getTime() === today.getTime()) {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 1);
+            const end = new Date(now.getTime() + 60 * 1000); // 終了は +1分
 
-    const h = (d) => String(d.getHours()).padStart(2, '0');
-    const m = (d) => String(d.getMinutes()).padStart(2, '0');
+            const h = (d) => String(d.getHours()).padStart(2, '0');
+            const m = (d) => String(d.getMinutes()).padStart(2, '0');
 
-    startTimeStr = `${info.dateStr}T${h(now)}:${m(now)}`;
-    endTimeStr = `${info.dateStr}T${h(end)}:${m(end)}`;
-  } else {
-    startTimeStr = `${info.dateStr}T00:00`;
-    endTimeStr = `${info.dateStr}T00:01`;
-  }
+            startTimeStr = `${info.dateStr}T${h(now)}:${m(now)}`;
+            endTimeStr = `${info.dateStr}T${h(end)}:${m(end)}`;
+          } else {
+            startTimeStr = `${info.dateStr}T00:00`;
+            endTimeStr = `${info.dateStr}T00:01`;
+          }
 
-  if (startInput) startInput.value = startTimeStr;
-  if (endInput) endInput.value = endTimeStr;
-}
-
-
-
-
+          if (startInput) startInput.value = startTimeStr;
+          if (endInput) endInput.value = endTimeStr;
+        }
       });
 
       try {
