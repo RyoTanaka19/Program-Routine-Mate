@@ -54,6 +54,11 @@ end
   def update
     @study_log = current_user.study_logs.find(params[:id])
 
+    # 画像削除処理
+    if params[:study_log][:remove_image] == "1"
+      @study_log.remove_image! # CarrierWaveで画像削除
+    end
+
     if @study_log.update(study_log_params)
       redirect_to study_logs_path, notice: "学習記録の変更をしました。"
     else
@@ -61,6 +66,7 @@ end
       render :edit, status: :unprocessable_entity
     end
   end
+
 
 
   def destroy
@@ -137,7 +143,7 @@ end
   private
 
   def study_log_params
-    params.require(:study_log).permit(:content, :text, :image, :image_cache, :date, :study_genre_id, :study_reminder_id, :count)
+    params.require(:study_log).permit(:content, :text, :image, :image_cache, :date, :study_genre_id, :study_reminder_id, :count, :remove_image)
   end
 
 

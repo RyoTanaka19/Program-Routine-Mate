@@ -15,15 +15,15 @@
         <%= render 'shared/error_messages', object: f.object %>
       </div>
 
-      <!-- 学習ジャンル -->
-      <section class="mb-8">
-        <h2 class="text-lg font-semibold text-blue-600 mb-2">学習ジャンル（設定済み）</h2>
-        <p class="text-gray-900 text-base mb-1">
-          <%= StudyGenre::GENRES.key(@study_log.study_genre.name) || @study_log.study_genre.name %>
-        </p>
-        <%= f.hidden_field :study_genre_id, value: @study_log.study_genre_id %>
-        <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
-      </section>
+ <!-- 学習ジャンル -->
+<section class="mb-8">
+  
+  <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "text-blue-600 text-base mb-1" %>
+  <%= f.select :study_genre_id, StudyGenre.all.collect { |genre| [genre.name, genre.id] }, class: "form-select text-blue-600 border-blue-300 focus:ring-2 focus:ring-blue-500" %>
+  
+  <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
+</section>
+
 
       <!-- 学習内容 -->
       <section class="mb-8">
@@ -33,21 +33,32 @@
           class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       </section>
 
-      <!-- 画像 -->
-      <section class="mb-8">
-        <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
-        <%= f.file_field :image,
-          class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-          onchange: 'previewImage()',
-          accept: 'image/*' %>
-        <div class="mt-4 flex justify-center">
-          <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
-            width: 300, height: 200,
-            class: "rounded-md shadow-md",
-            id: "preview") %>
-        </div>
-        <%= f.hidden_field :image_cache %>
-      </section>
+<!-- 画像 -->
+<section class="mb-8">
+  <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
+  <%= f.file_field :image,
+    class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+    onchange: 'previewImage()',
+    accept: 'image/*' %>
+  
+  <div class="mt-4 flex justify-center">
+    <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
+      width: 300, height: 200,
+      class: "rounded-md shadow-md",
+      id: "preview") %>
+  </div>
+
+  <!-- チェックボックス: 画像を削除する -->
+  <% if @study_log.image? %>
+    <div class="mt-4 flex justify-center">
+      <%= f.check_box :remove_image, class: "mr-2" %>
+      <%= f.label :remove_image, "画像を削除する", class: "text-red-600 font-medium" %>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :image_cache %>
+</section>
+
 
       <!-- 学んだこと -->
       <section class="mb-8">
