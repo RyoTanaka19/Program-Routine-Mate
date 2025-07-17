@@ -5,33 +5,26 @@
   学習ジャンルごとのユーザー数
 </h1>
 
-<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-200">
+<div class="max-w-full md:max-w-4xl mx-auto p-4 sm:p-6 bg-white shadow-lg rounded-lg border border-gray-200 overflow-x-auto">
   <% if @genre_stats.present? %>
-    <%# グラフ描画用の canvas 要素 %>
     <div class="mb-6">
-      <canvas id="genreChart" class="w-full h-64 md:h-96"></canvas>
+      <!-- canvasの高さをデバイス幅に応じて調整 -->
+      <div class="relative w-full" style="height: auto; min-height: 300px;">
+        <canvas id="genreChart" class="w-full h-full"></canvas>
+      </div>
     </div>
 
     <script>
-      // RailsのGENRESの逆転版（内部名 => 表示名）をJSに渡す
       const GENRES = <%= raw StudyGenre::GENRES.invert.to_json %>;
 
-      // グラフ初期化処理
       function initializeChart() {
         const genreStats = <%= raw @genre_stats.to_json %>;
 
-        if (!genreStats || genreStats.length === 0) {
-          console.error("No genre stats data available");
-          return;
-        }
+        if (!genreStats || genreStats.length === 0) return;
 
         const ctx = document.getElementById('genreChart');
-        if (!ctx) {
-          console.error("Canvas element not found.");
-          return;
-        }
+        if (!ctx) return;
 
-        // 内部名を表示名に変換
         const labels = genreStats.map(stat => GENRES[stat.name] || stat.name);
         const userCounts = genreStats.map(stat => stat.user_count);
 
@@ -46,29 +39,37 @@
             datasets: [{
               label: '投稿したユーザー数',
               data: userCounts,
-              backgroundColor: 'rgba(34, 197, 94)',
+              backgroundColor: 'rgba(34, 197, 94, 0.8)',
               borderColor: 'rgba(34, 197, 94, 1)',
               borderWidth: 2,
-              barThickness: 60
+              // モバイルとデスクトップで棒の太さを柔軟に
+              barThickness: window.innerWidth < 640 ? 30 : 50
             }]
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               title: {
                 display: true,
                 text: 'ジャンル別 投稿ユーザー数',
-                font: { size: 24, weight: 'bold' },
+                font: {
+                  size: window.innerWidth < 640 ? 18 : 24,
+                  weight: 'bold'
+                },
                 padding: { top: 20, bottom: 20 },
                 color: '#4ade80'
               },
               datalabels: {
                 anchor: 'end',
                 align: 'start',
-                formatter: (value) => `${value}人`,
-                font: { weight: 'bold', size: 16 },
-                color: 'black',
-                offset: 10
+                formatter: value => `${value}人`,
+                font: {
+                  weight: 'bold',
+                  size: window.innerWidth < 640 ? 12 : 16
+                },
+                color: '#000',
+                offset: 8
               }
             },
             indexAxis: 'y',
@@ -78,19 +79,36 @@
                 title: {
                   display: true,
                   text: 'ユーザー数',
-                  font: { size: 16, weight: 'bold' },
+                  font: {
+                    size: window.innerWidth < 640 ? 12 : 16,
+                    weight: 'bold'
+                  },
                   color: '#666'
                 },
-                ticks: { stepSize: 5, min: 0, font: { size: 14, weight: 'bold' } }
+                ticks: {
+                  stepSize: 5,
+                  min: 0,
+                  font: {
+                    size: window.innerWidth < 640 ? 10 : 14,
+                    weight: 'bold'
+                  }
+                }
               },
               y: {
                 title: {
                   display: true,
                   text: '学習ジャンル',
-                  font: { size: 16, weight: 'bold' },
+                  font: {
+                    size: window.innerWidth < 640 ? 12 : 16,
+                    weight: 'bold'
+                  },
                   color: '#666'
                 },
-                ticks: { font: { size: 14 } }
+                ticks: {
+                  font: {
+                    size: window.innerWidth < 640 ? 10 : 14
+                  }
+                }
               }
             }
           },
@@ -100,26 +118,20 @@
         window.genreChartInstance = chart;
       }
 
-      // Turboイベントに合わせてグラフを初期化
       document.addEventListener('DOMContentLoaded', () => {
-        requestAnimationFrame(() => {
-          initializeChart();
-        });
+        requestAnimationFrame(initializeChart);
       });
 
       document.addEventListener('turbo:load', () => {
-        requestAnimationFrame(() => {
-          initializeChart();
-        });
+        requestAnimationFrame(initializeChart);
       });
 
       document.addEventListener('turbo:frame-load', () => {
-        requestAnimationFrame(() => {
-          initializeChart();
-        });
+        requestAnimationFrame(initializeChart);
       });
     </script>
   <% else %>
     <p class="text-center text-blue-600 text-lg">まだ、誰も投稿してません</p>
   <% end %>
 </div>
+
