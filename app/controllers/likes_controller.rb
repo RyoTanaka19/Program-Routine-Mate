@@ -5,11 +5,7 @@ class LikesController < ApplicationController
 
     if @like.save
       # いいね成功時に通知を送信
-      NotifyUserJob.perform_later(
-        learning_comment_id: nil,  # コメントではないのでnil
-        study_log_id: @study_log.id,  # 学習記録のID
-        user_id: @study_log.user.id # 学習記録の所有者ID
-      )
+      LikeNotificationJob.perform_later(@study_log.id, current_user.id)
 
       respond_to do |format|
         format.html do

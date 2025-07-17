@@ -86,6 +86,65 @@
     });
   }
 
+
+  function updateHeatmap(contributionData) {
+    if (cal) cal.destroy(); // 既存のCalHeatmap削除
+
+    // 日付と値を整形
+    const data = Object.entries(contributionData).map(([date, total]) => ({
+      date: new Date(date).toISOString(),
+      total: total
+    }));
+
+    cal = new CalHeatmap();
+
+    let startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 2);
+
+    cal.paint({
+      itemSelector: '#cal-heatmap',
+      domain: {
+        type: 'month',
+        gutter: 4,
+        label: {
+          text: 'MMM',
+          textAlign: 'start',
+          position: 'top',
+        },
+      },
+      subDomain: {
+        type: 'ghDay',
+        radius: 2,
+        width: 11,
+        height: 11,
+        gutter: 4,
+      },
+      date: { start: startDate },
+      range: 12,
+      data: {
+        source: data,
+        x: 'date',
+        y: 'total'
+      },
+      type: 'json',
+      scale: {
+        color: {
+          type: 'linear',
+          range: ['#ff4d4d', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
+          domain: [0, 0.1, 1, 2, 3],
+        },
+      },
+    });
+
+    // クリック時のログ表示処理も維持
+    cal.on('click', (event, timestamp, value) => {
+      if (!timestamp) return;
+      const clickedDate = new Date(timestamp).toISOString().slice(0, 10);
+      fetchStudyLogsByDate(clickedDate);
+    });
+  }
+
+
   function fetchStudyLogsByDate(date) {
     fetch(`/study_logs/logs_by_date?date=${date}`, {
       headers: { 'Accept': 'application/json' }
@@ -107,6 +166,7 @@
       alert("データ取得失敗: " + error.message);
     });
   }
+
 
   function showLogsModal(date, logs) {
     const modal = document.getElementById("logs-modal");
