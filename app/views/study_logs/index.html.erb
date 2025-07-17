@@ -41,40 +41,40 @@
 
     cal = new CalHeatmap();
 
-    cal.paint({
-      itemSelector: '#cal-heatmap',
-      domain: {
-        type: 'month',
-        gutter: 4,
-        label: {
-          text: 'MMM',
-          textAlign: 'start',
-          position: 'top',
-        },
-      },
-      subDomain: {
-        type: 'ghDay',
-        radius: 2,
-        width: 11,
-        height: 11,
-        gutter: 4,
-      },
-      date: { start: startDate },
-      range: 12,
-      data: {
-        source: data,
-        x: 'date',
-        y: 'total'
-      },
-      type: 'json',
-      scale: {
-        color: {
-          type: 'linear',
-          range: ['#ff4d4d', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
-          domain: [0, 0.1, 1, 2, 3],
-        },
-      },
-    });
+cal.paint({
+  itemSelector: '#cal-heatmap',
+  domain: {
+    type: 'month',
+    gutter: 4,
+    label: {
+      text: 'MMM',
+      textAlign: 'start',
+      position: 'top',
+    },
+  },
+  subDomain: {
+    type: 'ghDay',
+    radius: 2,
+    width: 11,
+    height: 11,
+    gutter: 4,
+  },
+  date: { start: startDate },
+  range: 12,
+  data: {
+    source: data,
+    x: 'date',
+    y: 'total'
+  },
+  type: 'json',
+  scale: {
+    color: {
+      type: 'linear',
+      range: ['#d0f0c0', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
+      domain: [0, 0.5, 1, 2, 4],
+    },
+  },
+});
 
     cal.on('click', (event, timestamp, value) => {
       if (!timestamp) {
@@ -101,40 +101,40 @@
     let startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 2);
 
-    cal.paint({
-      itemSelector: '#cal-heatmap',
-      domain: {
-        type: 'month',
-        gutter: 4,
-        label: {
-          text: 'MMM',
-          textAlign: 'start',
-          position: 'top',
-        },
-      },
-      subDomain: {
-        type: 'ghDay',
-        radius: 2,
-        width: 11,
-        height: 11,
-        gutter: 4,
-      },
-      date: { start: startDate },
-      range: 12,
-      data: {
-        source: data,
-        x: 'date',
-        y: 'total'
-      },
-      type: 'json',
-      scale: {
-        color: {
-          type: 'linear',
-          range: ['#ff4d4d', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
-          domain: [0, 0.1, 1, 2, 3],
-        },
-      },
-    });
+ cal.paint({
+  itemSelector: '#cal-heatmap',
+  domain: {
+    type: 'month',
+    gutter: 4,
+    label: {
+      text: 'MMM',
+      textAlign: 'start',
+      position: 'top',
+    },
+  },
+  subDomain: {
+    type: 'ghDay',
+    radius: 2,
+    width: 11,
+    height: 11,
+    gutter: 4,
+  },
+  date: { start: startDate },
+  range: 12,
+  data: {
+    source: data,
+    x: 'date',
+    y: 'total'
+  },
+  type: 'json',
+  scale: {
+    color: {
+      type: 'linear',
+      range: ['#d0f0c0', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
+      domain: [0, 0.5, 1, 2, 4],
+    },
+  },
+});
 
     // クリック時のログ表示処理も維持
     cal.on('click', (event, timestamp, value) => {
