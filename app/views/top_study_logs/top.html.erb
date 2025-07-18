@@ -60,7 +60,7 @@
         {
           img: "ai.png",
           title: "AIなどで楽しく続けたい初学者の人へ",
-          text: "学習記録からAIが最適な問題を出題。<br>バッジやランキング機能で、楽しみながら継続できます！",
+          text: "学習記録からAIが最適な問題を出題。<br>他にもバッジやランキング機能で、楽しみながら継続できます！",
           delay: 700
         }
       ] %>
@@ -93,7 +93,7 @@
   <!-- あなたも今日から仲間に!! -->
   <div class="mt-20 mb-6 text-center" data-aos="fade-up" data-aos-delay="800" data-aos-duration="800" data-aos-once="true">
     <h2 class="text-green-600 text-2xl md:text-3xl font-bold tracking-wide">
-      あなたも今日から仲間に!!
+      あなたも今日から学習仲間に!!
     </h2>
   </div>
 
@@ -106,47 +106,52 @@
   </div>
 
   <!-- 横スクロールメニュー -->
-  <% menu_items = [
-    {
-      path: study_logs_path,
-      icon: "home.png",
-      label: "学習投稿記録一覧",
-      description: "他の仲間の学習記録を見てみよう!",
-      options: { data: { action: "click->loading#show" } }
-    },
-    {
-      path: current_user ? study_reminders_path : new_user_session_path,
-      icon: "calendar.png",
-      label: "学習カレンダー",
-      description: "学習時間を設定しよう!"
-    },
-    {
-      path: current_user ? new_study_genre_path : new_user_session_path,
-      icon: "icon.png",
-      label: "学習ジャンル作成",
-      description: "続けたいジャンルを設定しよう!"
-    },
-    {
-      path: current_user ? new_study_genre_study_log_path(current_user.study_genres) : new_user_session_path,
-      icon: "study_logs.png",
-      label: "学習記録投稿",
-      description: "学習記録を投稿しよう!"
-    }
-  ] %>
+<% menu_items = [
+  {
+    path: study_logs_path,
+    icon: "home.png",
+    label: "学習投稿記録一覧",
+    description: "他の仲間の学習記録を見てみよう!",
+    options: { data: { action: "click->loading#show" } }
+  },
+  {
+    path: current_user ? study_reminders_path : new_user_session_path,
+    icon: "calendar.png",
+    label: "学習カレンダー",
+    description: "学習時間を設定しよう!"
+  },
+  {
+    path: current_user ? new_study_genre_path : new_user_session_path,
+    icon: "icon.png",
+    label: "学習ジャンル作成",
+    description: "続けたいジャンルを設定しよう!"
+  },
+  {
+    path: current_user ? new_study_genre_study_log_path(current_user.study_genres) : new_user_session_path,
+    icon: "study_logs.png",
+    label: "学習記録投稿",
+    description: "学習記録を投稿しよう!"
+  }
+] %>
 
-  <div class="mt-12 w-full px-6 py-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 flex justify-center">
-    <div class="flex flex-row space-x-6 justify-start max-w-full">
+<!-- 横スクロールメニュー -->
+<div class="mt-12 w-full px-4 md:px-6 py-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+  <div class="flex justify-center">
+    <div class="flex flex-row space-x-4 md:space-x-6 min-w-fit">
       <% menu_items.each_with_index do |item, index| %>
-        <div class="bg-white rounded-lg shadow-md p-4 min-w-[180px] hover:bg-green-50 transition duration-200"
+        <div class="bg-white rounded-2xl shadow-md p-4 min-w-[160px] md:min-w-[200px] hover:bg-green-50 hover:shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
           data-aos="fade-up"
-          data-aos-delay="<%= 1000 + (index * 100) %>"
-          data-aos-duration="800">
+          data-aos-delay="<%= 300 + (index * 100) %>"
+          data-aos-duration="700">
+          
           <%= link_to item[:path], item[:options] || {}, class: "flex flex-col items-center text-center space-y-2" do %>
-            <%= image_tag item[:icon], class: "w-10 h-10" %>
-            <div class="text-gray-900 font-semibold text-sm">
+            <%= image_tag item[:icon], class: "w-10 h-10 md:w-12 md:h-12" %>
+
+            <div class="text-green-800 font-bold text-sm md:text-base">
               <%= item[:label] %>
             </div>
-            <div class="text-gray-500 text-xs leading-snug">
+
+            <div class="text-gray-500 text-xs md:text-sm leading-snug">
               <%= item[:description] %>
             </div>
           <% end %>
@@ -154,4 +159,6 @@
       <% end %>
     </div>
   </div>
+</div>
+
 </div>

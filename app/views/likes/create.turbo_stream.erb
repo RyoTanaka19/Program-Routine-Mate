@@ -1,7 +1,16 @@
-<%= turbo_stream.replace "like-button-#{@study_log.id}" do %>
-  <%= button_to 'いいね解除', study_log_like_path(@study_log), method: :delete, class: "btn btn-danger", data: { turbo_stream: "true" } %>
-<% end %>
+<%= turbo_stream.replace(
+      "like-button-#{@study_log.id}",
+      partial: "likes/like_button",
+      locals: { study_log: @study_log }
+    ) %>
 
-<%= turbo_stream.update "like-count-#{@study_log.id}" do %>
-  <p>いいねの数: <%= @study_log.likes.count %></p>
-<% end %>
+<%= turbo_stream.replace(
+      "like-count-#{@study_log.id}",
+      partial: "likes/like_count",
+      locals: { study_log: @study_log }
+    ) %>
+
+<%= turbo_stream.replace(
+      "flash_messages",
+      partial: "shared/flash_messages"
+    ) %>

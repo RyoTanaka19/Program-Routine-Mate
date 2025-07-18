@@ -48,12 +48,15 @@
     </ul>
 
     <div class="text-center mt-4">
-      <% if @study_logs.any? %>
-        <p class="text-green-600 font-semibold">検索結果: <%= @study_logs.count %> 件</p>
-      <% else %>
-        <p class="text-red-500 font-semibold">検索結果がありません</p>
-      <% end %>
-    </div>
+  <% if params[:q].present? %>
+    <% if @study_logs.any? %>
+      <p class="text-green-600 font-semibold">検索結果: <%= @study_logs.count %> 件</p>
+    <% else %>
+      <p class="text-red-500 font-semibold">検索結果がありません</p>
+    <% end %>
+  <% end %>
+</div>
 
   <% end %>
 </div>
+

@@ -1,0 +1,3 @@
+<%= turbo_stream.replace("learning_comment_#{@learning_comment.id}", partial: "learning_comments/learning_comment", locals: { learning_comment: @learning_comment }) %>
+
+<%= turbo_stream.replace("flash_messages", partial: "shared/flash_messages") %>

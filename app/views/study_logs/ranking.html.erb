@@ -6,17 +6,18 @@
   <table class="min-w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden text-sm md:text-base">
     <thead>
       <tr class="bg-green-500 text-green-900">
-        <th class="px-2 py-3 md:px-4 text-left whitespace-nowrap">順位</th>
-        <th class="px-2 py-3 md:px-4 text-left whitespace-nowrap">ユーザー名</th>
-        <th class="px-2 py-3 md:px-4 text-left whitespace-nowrap">学習した日数</th>
+        <th scope="col" class="px-2 py-3 md:px-4 text-left whitespace-nowrap">順位</th>
+        <th scope="col" class="px-2 py-3 md:px-4 text-left whitespace-nowrap">ユーザー名</th>
+        <th scope="col" class="px-2 py-3 md:px-4 text-left whitespace-nowrap">学習した日数</th>
       </tr>
     </thead>
     <tbody>
       <% users = User.where(id: @ranking.map { |r| r[:user_id] }).index_by(&:id) %>
       
-      <!-- 初期化 -->
       <% previous_posted_days_count = nil %>
       <% rank = 0 %>
+
+      <% crown_icons = { 1 => "👑", 2 => "🥈", 3 => "🥉" } %>
 
       <% @ranking.each_with_index do |ranking, index| %>
         <% user = users[ranking[:user_id]] %>
@@ -24,14 +25,13 @@
           <% rank = index + 1 %>
         <% end %>
 
-        <% crown_icons = { 1 => "👑", 2 => "🥈", 3 => "🥉" } %>
         <% crown_icon = crown_icons[rank] || "🎖️" %>
         <% is_current_user = current_user&.id == user.id %>
         <% row_class = is_current_user ? 'bg-green-50 font-bold' : (index.even? ? 'bg-white' : 'bg-gray-50') %>
 
         <tr class="<%= row_class %> hover:bg-blue-50 transition">
           <td class="px-2 py-2 md:px-4 md:py-3 text-blue-800 whitespace-nowrap">
-            <%= crown_icon %> <%= rank %>位
+            <%= crown_icon %><span class="ml-1"><%= rank %>位</span>
           </td>
           <td class="px-2 py-2 md:px-4 md:py-3 text-gray-800 whitespace-nowrap">
             <%= link_to user.name, user_path(user), class: "text-blue-600 hover:underline" %>

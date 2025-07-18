@@ -57,6 +57,7 @@ def create
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
+        format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
       end
       return
     end
@@ -69,6 +70,7 @@ def create
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
+        format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
       end
       return
     end
@@ -78,16 +80,24 @@ def create
     respond_to do |format|
       format.html { render :new, status: :unprocessable_entity }
       format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
+      format.json { render json: { success: false, errors: [ "新しいジャンルを設定する条件が満たされていません。" ] }, status: :unprocessable_entity }
     end
     return
   end
 
   if @study_genre.save
-    redirect_to new_study_log_path(study_genre_id: @study_genre.id), notice: "ジャンルが設定されました。"
+    respond_to do |format|
+      format.html { redirect_to new_study_log_path(study_genre_id: @study_genre.id), notice: "ジャンルが設定されました。" }
+      format.json { render json: { success: true, study_genre_id: @study_genre.id } }
+    end
   else
-    render :new
+    respond_to do |format|
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: { success: false, errors: @study_genre.errors.full_messages }, status: :unprocessable_entity }
+    end
   end
 end
+
 
 
 
