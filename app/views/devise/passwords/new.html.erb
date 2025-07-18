@@ -13,15 +13,27 @@
   </div>
 
   <!-- メールアドレスの入力フィールド -->
-  <div class="mb-6">
-    <%= f.label :email, class: "block text-lg font-medium text-gray-700" %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" %>
-  </div>
+<div class="mb-6">
+  <%= f.label :email, class: "block text-lg font-medium text-gray-700 flex items-center space-x-2" do %>
+    <span>メールアドレス</span>
+    <span class="text-red-600 font-semibold">(必須)</span>
+  <% end %>
 
-  <!-- 送信ボタン -->
-  <div class="actions text-center">
-    <%= f.submit "パスワードリセットを申請する", class: "bg-blue-500 text-white px-6 py-3 rounded-md w-full hover:bg-blue-600 focus:outline-none transition-all" %>
-  </div>
+  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" %>
+</div>
+
+ <!-- 送信ボタン -->
+<!-- 送信ボタン -->
+<div class="actions text-center">
+  <%= f.submit "パスワードリセットを申請する", class: "bg-blue-500 text-white px-6 py-3 rounded-md w-full hover:bg-blue-600 focus:outline-none transition-all" %>
+</div>
+
+<!-- ログイン画面に戻るリンクボタン -->
+<div class="mt-4">
+  <%= link_to "ログイン画面に戻る", new_user_session_path, class: "block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-md w-full hover:bg-gray-300 transition-all" %>
+</div>
+
+
 <% end %>
 
 <!-- パスワードリセット後の説明（横幅を狭く） -->

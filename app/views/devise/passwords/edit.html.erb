@@ -14,21 +14,26 @@
   <%= f.hidden_field :reset_password_token %>
 
   <!-- 新しいパスワードの入力フィールド -->
-  <div class="mb-6">
-    <%= f.label :password, "新しいパスワード", class: "block text-lg font-medium text-gray-700" %>
-    <% if @minimum_password_length %>
-      <p class="text-sm text-gray-500">
-        (<%= @minimum_password_length %>文字以上)
-      </p>
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
-  </div>
+<div class="mb-6">
+  <%= f.label :password, class: "block text-lg font-medium text-gray-700" do %>
+    新しいパスワード
+    <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
+  <% end %>
+  <% if @minimum_password_length %>
+    <p class="text-sm text-gray-500">
+      (<%= @minimum_password_length %>文字以上)
+    </p>
+  <% end %>
+  <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
+</div>
 
-  <!-- パスワード確認用フィールド -->
-  <div class="mb-6">
-    <%= f.label :password_confirmation, "新しいパスワードの確認", class: "block text-lg font-medium text-gray-700" %>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
-  </div>
+<div class="mb-6">
+  <%= f.label :password_confirmation, class: "block text-lg font-medium text-gray-700" do %>
+    新しいパスワードの確認
+    <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
+  <% end %>
+  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
+</div>
 
   <!-- 送信ボタン -->
   <div class="mt-6">
@@ -37,6 +42,7 @@
 <% end %>
 
 <!-- 変更後の説明（オプション） -->
-<div class="mt-6 text-center text-sm text-gray-600">
-  <p>新しいパスワードを入力し、確認用フィールドにも同じパスワードを入力してください。</p>
+<div class="mt-6 text-center text-sm text-green-600 bg-green-50 p-4 rounded-md">
+  <p>✅ 新しいパスワードと確認用フィールドには、同じパスワードを入力してください。</p>
 </div>
+

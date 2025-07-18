@@ -16,15 +16,18 @@
     <!-- Deviseのセッション用ログインフォーム -->
     <%= form_with model: @user, url: user_session_path, class: "space-y-4" do |form| %>
 
-      <!-- メールアドレスの入力欄 -->
-      <div>
-        <%= form.email_field :email, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "メールアドレス" %>
-      </div>
+<!-- メールアドレスの入力欄 -->
+<div>
+  <label for="user_email" class="block mb-1 text-sm font-medium text-gray-700">メールアドレス<span class="text-red-500">(必須)</span></label>
+  <%= form.email_field :email, id: "user_email", class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "メールアドレスを入力してください" %>
+</div>
 
-      <!-- パスワードの入力欄 -->
-      <div>
-        <%= form.password_field :password, class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "パスワード" %>
-      </div>
+<!-- パスワードの入力欄 -->
+<div>
+  <label for="user_password" class="block mb-1 text-sm font-medium text-gray-700">パスワード<span class="text-red-500">(必須)</span></label>
+  <%= form.password_field :password, id: "user_password", class: "border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base", placeholder: "パスワードを入力してください" %>
+  <p class="mt-1 text-xs text-gray-500">(6文字以上)</p>
+</div>
 
       <!-- ✅ ログイン状態を保持するチェックボックス -->
       <div class="flex items-center space-x-2 text-sm text-gray-700">
