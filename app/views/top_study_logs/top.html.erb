@@ -1,40 +1,111 @@
-<!-- 中央のランダム画像と説明 -->
+<!-- 中央画像と説明 -->
 <div class="flex flex-col items-center justify-center min-h-screen px-4 text-center">
   <% images = ["ogp.png", "ProgramRoutineMate.png", "mate.png"] %>
   <% selected_image = images.sample %>
 
+  <!-- 中央画像 -->
   <div class="relative flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300">
     <%= image_tag selected_image, class: "w-[80rem] max-w-full h-auto opacity-90" %>
   </div>
 
- <!-- 🔽 スクロール誘導アニメーション -->
-<div class="mt-4 flex flex-col items-center" data-aos="fade-down" data-aos-delay="1000">
-  <span class="mb-1 text-green-500 font-semibold text-sm animate-pulse">scroll</span>
-  <div class="bounce-infinite">
-    <i class="fa-solid fa-angles-down text-green-400 text-3xl"></i>
+  <!-- スクロール誘導 -->
+  <div class="mt-6 flex flex-col items-center" data-aos="fade-down" data-aos-delay="1000">
+    <span class="mb-1 text-green-500 font-semibold text-sm animate-pulse">scroll</span>
+    <div class="bounce-infinite">
+      <i class="fa-solid fa-angles-down text-green-400 text-3xl"></i>
+    </div>
   </div>
-</div>
 
+  <!-- 説明文 -->
+  <div
+    id="scroll-description"
+    class="mt-8 text-green-600 font-semibold text-lg max-w-xl text-center leading-relaxed"
+    data-aos="fade-up"
+    data-aos-delay="200"
+    data-aos-duration="800"
+    data-aos-once="true"
+  >
+    プログラミング学習、続けたいけどなかなか難しい…<br>
+    そんなあなたのために、仲間と一緒に学べる場所を作りました。<br>
+    一歩ずつ、一緒に成長していきましょう！
+  </div>
 
+  <!-- 「こんな方におすすめ!!」タイトル -->
+  <div class="mt-20 mb-6 text-center" data-aos="fade-up" data-aos-delay="400" data-aos-once="true">
+    <h2 class="text-green-600 text-2xl md:text-3xl font-bold tracking-wide">
+      こんな方におすすめ!!
+    </h2>
+  </div>
 
-  <!-- 横並びメニュー（画像の下に配置） -->
+  <!-- おすすめ3つ -->
+  <div class="mt-12 px-4 w-full max-w-screen-lg mx-auto">
+    <div class="flex flex-col md:flex-row justify-center items-stretch gap-6">
+
+      <!-- 仲間と学習 -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex-1" data-aos="fade-up" data-aos-delay="600">
+        <%= image_tag "mate2.png", class: "w-full h-auto rounded-md mb-4" %>
+        <div class="text-green-600 font-bold text-lg mb-2">仲間と学習したい初学者の人へ</div>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          1人では、なかなか学習が続かない…。<br>
+          そんなあなたに、仲間と一緒に学べる環境を提供します。<br>
+          みんなで一歩ずつ、学習を継続していきましょう。
+        </p>
+      </div>
+
+      <!-- 習慣化 -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex-1" data-aos="fade-up" data-aos-delay="800">
+        <%= image_tag "one.png", class: "w-full h-auto rounded-md mb-4" %>
+        <div class="text-green-600 font-bold text-lg mb-2">手を広げすぎて続かないあなたへ</div>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Ruby、SQL、Rails…。学ぶことが多すぎて、1つ1つが疎かに。<br>
+          このサービスでは、まずは21日間、1つのテーマに集中して学習習慣を身につけられます。
+        </p>
+      </div>
+
+      <!-- AI活用 -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex-1" data-aos="fade-up" data-aos-delay="1000">
+        <%= image_tag "ai.png", class: "w-full h-auto rounded-md mb-4" %>
+        <div class="text-green-600 font-bold text-lg mb-2">AIで楽しく続けたいあなたへ</div>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          学習記録をもとにAIがあなたに合った問題を出題！<br>
+          学習継続によるバッジ獲得やランキング戦など、楽しみながら続けられる仕組みが満載です！
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 再スクロール誘導 -->
+  <div class="mt-10 flex flex-col items-center" data-aos="fade-down" data-aos-delay="1200">
+    <span class="mb-1 text-green-500 font-semibold text-sm animate-pulse">scroll</span>
+    <div class="bounce-infinite">
+      <i class="fa-solid fa-angles-down text-green-400 text-3xl"></i>
+    </div>
+  </div>
+
+  <!-- 横スクロールメニュー -->
   <% menu_items = [
     { path: study_logs_path, icon: "home.png", label: "学習投稿記録一覧", description: "他の仲間の学習記録を見てみよう!", options: { data: { action: "click->loading#show" } } },
     (current_user && { path: study_reminders_path, icon: "calendar.png", label: "学習カレンダー", description: "学習時間を設定しよう!" }),
-    (current_user && { path: new_study_genre_path, icon: "icon.png", label: "学習ジャンル作成", description: "自分が続けたいジャンルの学習を設定しよう!" }),
+    (current_user && { path: new_study_genre_path, icon: "icon.png", label: "学習ジャンル作成", description: "続けたいジャンルを設定しよう!" }),
     (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png", label: "学習記録投稿", description: "学習記録を投稿しよう!" })
   ].compact %>
 
-  <div class="mt-10 w-full max-w-[90vw] bg-white px-6 py-4 rounded-lg shadow-lg overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-    <div class="flex space-x-6 justify-center">
+  <div class="mt-12 w-full px-6 py-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 flex justify-center">
+    <div class="flex flex-row space-x-6 justify-start max-w-full">
       <% menu_items.each_with_index do |item, index| %>
-        <div data-aos="fade-up" data-aos-delay="<%= 700 + (index * 100) %>">
-          <%= link_to item[:path], item[:options] || {}, class: "flex flex-col items-center min-w-[140px] hover:bg-green-50 rounded-md p-3 transition duration-200" do %>
-            <%= image_tag item[:icon], class: "w-10 h-10 mb-2" %>
-            <div class="text-gray-900 font-semibold text-center text-sm mb-1">
+        <div
+          class="bg-white rounded-lg shadow-md p-4 min-w-[180px] hover:bg-green-50 transition duration-200"
+          data-aos="fade-up"
+          data-aos-delay="<%= 1400 + (index * 200) %>"
+          data-aos-duration="600"
+        >
+          <%= link_to item[:path], item[:options] || {}, class: "flex flex-col items-center text-center space-y-2" do %>
+            <%= image_tag item[:icon], class: "w-10 h-10" %>
+            <div class="text-gray-900 font-semibold text-sm">
               <%= item[:label] %>
             </div>
-            <div class="text-gray-500 text-xs text-center leading-snug">
+            <div class="text-gray-500 text-xs leading-snug">
               <%= item[:description] %>
             </div>
           <% end %>
@@ -42,15 +113,5 @@
       <% end %>
     </div>
   </div>
+
 </div>
-
-<style>
-@keyframes infiniteBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-.bounce-infinite {
-  animation: infiniteBounce 1s infinite;
-}
-</style>
-
