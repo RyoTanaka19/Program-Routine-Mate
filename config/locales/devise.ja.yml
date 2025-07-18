@@ -62,6 +62,8 @@ ja:
       reset_password_instructions:
         action: パスワード変更
         greeting: '%{recipient}様'
+        thanks: この度は、ProgramRoutineMateをご利用いただきありがとうございます。
+        link_expiration: ※リンクの有効期限は送信後6時間です。有効期限を過ぎた場合は、再度お手続きをお願いいたします。
         instruction: パスワード再設定の依頼を受けたため、メールを送信しています。下のリンクからパスワードの再設定ができます。
         instruction_2: パスワード再設定の依頼をしていない場合、このメールを無視してください。
         instruction_3: パスワードの再設定は、上のリンクから新しいパスワードを登録するまで完了しません。
@@ -81,6 +83,7 @@ ja:
         change_your_password: パスワードを変更
         confirm_new_password: 確認用新しいパスワード
         new_password: 新しいパスワード
+        thanks: 'この度は、ProgramRoutineMateをご利用いただきありがとうございます。'
       new:
         forgot_your_password: パスワードを忘れましたか?
         send_me_reset_password_instructions: パスワードの再設定方法を送信する

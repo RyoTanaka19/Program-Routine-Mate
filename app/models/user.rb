@@ -50,8 +50,8 @@ end
   attr_accessor :skip_password_validation
   validates :password, presence: true, on: :create, unless: :skip_password_validation
   validates :password_confirmation, presence: true, on: :create, unless: :skip_password_validation
-  validates :password, confirmation: { message: "が一致しません" }, on: :create, unless: :skip_password_validation
-
+  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
+  validates :password_confirmation, presence: true, on: [ :create, :update ], unless: :skip_password_validation
 
 def from_oauth?
   from_google_oauth? || from_line_oauth? || from_github_oauth?
