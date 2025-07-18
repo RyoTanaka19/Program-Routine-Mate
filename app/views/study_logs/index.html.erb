@@ -41,40 +41,40 @@
 
     cal = new CalHeatmap();
 
-cal.paint({
-  itemSelector: '#cal-heatmap',
-  domain: {
-    type: 'month',
-    gutter: 4,
-    label: {
-      text: 'MMM',
-      textAlign: 'start',
-      position: 'top',
-    },
-  },
-  subDomain: {
-    type: 'ghDay',
-    radius: 2,
-    width: 11,
-    height: 11,
-    gutter: 4,
-  },
-  date: { start: startDate },
-  range: 12,
-  data: {
-    source: data,
-    x: 'date',
-    y: 'total'
-  },
-  type: 'json',
-  scale: {
-    color: {
-      type: 'linear',
-      range: ['#d0f0c0', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
-      domain: [0, 0.5, 1, 2, 4],
-    },
-  },
-});
+    cal.paint({
+      itemSelector: '#cal-heatmap',
+      domain: {
+        type: 'month',
+        gutter: 4,
+        label: {
+          text: 'MMM',
+          textAlign: 'start',
+          position: 'top',
+        },
+      },
+      subDomain: {
+        type: 'ghDay',
+        radius: 2,
+        width: 11,
+        height: 11,
+        gutter: 4,
+      },
+      date: { start: startDate },
+      range: 12,
+      data: {
+        source: data,
+        x: 'date',
+        y: 'total'
+      },
+      type: 'json',
+      scale: {
+        color: {
+          type: 'linear',
+          range: ['#d0f0c0', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
+          domain: [0, 0.5, 1, 2, 4],
+        },
+      },
+    });
 
     cal.on('click', (event, timestamp, value) => {
       if (!timestamp) {
@@ -85,65 +85,6 @@ cal.paint({
       fetchStudyLogsByDate(clickedDate);
     });
   }
-
-
-  function updateHeatmap(contributionData) {
-    if (cal) cal.destroy(); // 既存のCalHeatmap削除
-
-    // 日付と値を整形
-    const data = Object.entries(contributionData).map(([date, total]) => ({
-      date: new Date(date).toISOString(),
-      total: total
-    }));
-
-    cal = new CalHeatmap();
-
-    let startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 2);
-
- cal.paint({
-  itemSelector: '#cal-heatmap',
-  domain: {
-    type: 'month',
-    gutter: 4,
-    label: {
-      text: 'MMM',
-      textAlign: 'start',
-      position: 'top',
-    },
-  },
-  subDomain: {
-    type: 'ghDay',
-    radius: 2,
-    width: 11,
-    height: 11,
-    gutter: 4,
-  },
-  date: { start: startDate },
-  range: 12,
-  data: {
-    source: data,
-    x: 'date',
-    y: 'total'
-  },
-  type: 'json',
-  scale: {
-    color: {
-      type: 'linear',
-      range: ['#d0f0c0', '#a8e6a2', '#6abf4f', '#337d2b', '#175e17'],
-      domain: [0, 0.5, 1, 2, 4],
-    },
-  },
-});
-
-    // クリック時のログ表示処理も維持
-    cal.on('click', (event, timestamp, value) => {
-      if (!timestamp) return;
-      const clickedDate = new Date(timestamp).toISOString().slice(0, 10);
-      fetchStudyLogsByDate(clickedDate);
-    });
-  }
-
 
   function fetchStudyLogsByDate(date) {
     fetch(`/study_logs/logs_by_date?date=${date}`, {
@@ -166,7 +107,6 @@ cal.paint({
       alert("データ取得失敗: " + error.message);
     });
   }
-
 
   function showLogsModal(date, logs) {
     const modal = document.getElementById("logs-modal");
@@ -199,6 +139,9 @@ cal.paint({
     document.getElementById("logs-modal").classList.add("hidden");
   }
 </script>
+
+
+
 
 
 
@@ -259,10 +202,15 @@ cal.paint({
 
 
         <!-- ユーザー名（下部固定） -->
-        <div class="text-[11px] text-right text-blue-600">
-          <p><strong>ユーザー:</strong> <%= study_log.user.name %></p>
-        </div>
-
+        <div class="flex items-center justify-end space-x-1 mt-2 text-[11px] text-blue-600">
+  <%= link_to user_path(study_log.user), class: "flex items-center space-x-1" do %>
+    <%= image_tag(
+      study_log.user.profile_image? ? study_log.user.profile_image_url : "default_study_logs_image.png",
+      class: "w-5 h-5 rounded-full object-cover border border-blue-400"
+    ) %>
+    <span><%= study_log.user.name %></span>
+  <% end %>
+</div>
       <% end %>
     </div>
   <% end %>

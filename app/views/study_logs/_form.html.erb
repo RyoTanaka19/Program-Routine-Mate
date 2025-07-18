@@ -1,139 +1,81 @@
 <% content_for(:title, t('.title')) %>
 
 <div class="flex items-center justify-center min-h-screen bg-yellow-50 p-4">
-  <% if @study_genre.present? %>
-    <%= form_with(
-          model: @study_log,
-          url: @study_log.new_record? ? study_genre_study_logs_path(@study_genre) : study_genre_study_log_path(@study_genre, @study_log),
-          method: @study_log.new_record? ? :post : :patch,
-          data: { turbo: false },
-          html: { id: "study-log-form", class: "w-full max-w-4xl bg-white p-8 rounded-md shadow-lg" }
-        ) do |f| %>
+  <%= form_with(
+        model: @study_log,
+        url: @study_log.new_record? ? study_genre_study_logs_path(@study_genre) : study_genre_study_log_path(@study_genre, @study_log),
+        method: @study_log.new_record? ? :post : :patch,
+        data: { turbo: false },
+        html: { id: "study-log-form", class: "w-full max-w-4xl bg-white p-8 rounded-md shadow-lg" }
+      ) do |f| %>
 
-      <!-- エラーメッセージ -->
-      <div id="form-errors">
-        <%= render 'shared/error_messages', object: f.object %>
-      </div>
-
-      <!-- 学習ジャンル -->
-      <section class="mb-8">
-        <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "text-blue-600 text-base mb-1" %>
-        <%= f.select :study_genre_id, current_user.study_genres.collect { |genre| [genre.name, genre.id] }, class: "form-select text-blue-600 border-blue-300 focus:ring-2 focus:ring-blue-500" %>
-      </section>
-
-      <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
-
-      <!-- 学習内容 -->
-      <section class="mb-8">
-        <%= f.label :content, "学習内容（必須）", class: "block mb-1 text-red-600 font-semibold" %>
-        <%= f.text_field :content,
-          placeholder: "この学習内容をもとにAIが問題を自動生成します。",
-          class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-      </section>
-
-      <!-- 画像 -->
-      <section class="mb-8">
-        <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
-        <%= f.file_field :image,
-          class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-          onchange: 'previewImage()',
-          accept: 'image/*' %>
-        
-        <div class="mt-4 flex justify-center">
-          <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
-            width: 300, height: 200,
-            class: "rounded-md shadow-md",
-            id: "preview") %>
-        </div>
-
-        <!-- チェックボックス: 画像を削除する -->
-        <% if @study_log.image? %>
-          <div class="mt-4 flex justify-center">
-            <%= f.check_box :remove_image, class: "mr-2" %>
-            <%= f.label :remove_image, "画像を削除する", class: "text-red-600 font-medium" %>
-          </div>
-        <% end %>
-
-        <%= f.hidden_field :image_cache %>
-      </section>
-
-      <!-- 学んだこと -->
-      <section class="mb-8">
-        <%= f.label :text, "学習内容から学んだこと（必須）", class: "block mb-1 text-red-600 font-semibold" %>
-        <%= f.text_area :text,
-            rows: 6,
-            placeholder: "学習内容から学んだことを基にAIが問題を生成するので、詳しくお書き下さい。",
-            class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y" %>
-      </section>
-
-      <div class="form-group mb-4">
-        <%= f.label :date, "日付(自動)", class: "block text-sm font-medium text-green-500" %>
-        <%= f.text_field :date, value: Date.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
-      </div>
-
-      <!-- 送信 -->
-      <div class="mb-2">
-        <%= f.submit @study_log.new_record? ? "投稿" : "更新",
-            class: "w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md shadow focus:outline-none focus:ring-4 focus:ring-green-500" %>
-      </div>
-
-    <% end %>
-  <% else %>
-    <div class="text-red-600 font-bold p-6 text-center">
-      学習ジャンルが指定されていないため、投稿フォームを表示できません。
+    <!-- エラーメッセージ -->
+    <div id="form-errors">
+      <%= render 'shared/error_messages', object: f.object %>
     </div>
+
+    <!-- 学習ジャンル -->
+    <section class="mb-8">
+      <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "text-blue-600 text-base mb-1" %>
+      <%= f.select :study_genre_id, current_user.study_genres.collect { |genre| [genre.name, genre.id] }, class: "form-select text-blue-600 border-blue-300 focus:ring-2 focus:ring-blue-500" %>
+    </section>
+
+    <%= f.hidden_field :study_reminder_id, value: @study_reminder&.id %>
+
+    <!-- 学習内容 -->
+    <section class="mb-8">
+      <%= f.label :content, "学習内容（必須）", class: "block mb-1 text-red-600 font-semibold" %>
+      <%= f.text_field :content,
+        placeholder: "この学習内容をもとにAIが問題を自動生成します。",
+        class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </section>
+
+    <!-- 画像 -->
+    <section class="mb-8">
+      <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
+      <%= f.file_field :image,
+        class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+        onchange: 'previewImage()',
+        accept: 'image/*' %>
+
+      <div class="mt-4 flex justify-center">
+        <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
+          width: 300, height: 200,
+          class: "rounded-md shadow-md",
+          id: "preview") %>
+      </div>
+
+      <!-- チェックボックス: 画像を削除する -->
+      <% if @study_log.image? %>
+        <div class="mt-4 flex justify-center">
+          <%= f.check_box :remove_image, class: "mr-2" %>
+          <%= f.label :remove_image, "画像を削除する", class: "text-red-600 font-medium" %>
+        </div>
+      <% end %>
+
+      <%= f.hidden_field :image_cache %>
+    </section>
+
+    <!-- 学んだこと -->
+    <section class="mb-8">
+      <%= f.label :text, "学習内容から学んだこと（必須）", class: "block mb-1 text-red-600 font-semibold" %>
+      <%= f.text_area :text,
+          rows: 6,
+          placeholder: "学習内容から学んだことを基にAIが問題を生成するので、詳しくお書き下さい。",
+          class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y" %>
+    </section>
+
+    <div class="form-group mb-4">
+      <%= f.label :date, "日付(自動)", class: "block text-sm font-medium text-green-500" %>
+      <%= f.text_field :date, value: Date.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
+    </div>
+
+    <!-- 送信 -->
+    <div class="mb-2">
+      <%= f.submit @study_log.new_record? ? "投稿" : "更新",
+          class: "w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md shadow focus:outline-none focus:ring-4 focus:ring-green-500" %>
+    </div>
+
   <% end %>
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("study-log-form");
-    if (!form) return;
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const formData = new FormData(form);
-
-      fetch(form.action, {
-        method: form.method.toUpperCase(),
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-          'Accept': 'application/json'
-        },
-        body: formData
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            updateHeatmap(data.contribution_graph);
-            form.reset();
-            document.getElementById("preview").src = "/assets/default_study_logs_image.png";
-            alert("学習記録を投稿しました！");
-            document.getElementById("form-errors").innerHTML = "";
-          } else {
-            const errors = data.errors || [data.error] || ["不明なエラー"];
-            document.getElementById("form-errors").innerHTML =
-              `<div class="bg-red-100 text-red-800 p-2 rounded mb-4">${errors.join("<br>")}</div>`;
-          }
-        })
-        .catch(err => {
-          alert("通信エラー: " + err.message);
-        });
-    });
-  });
-
-  function previewImage() {
-    const fileInput = document.querySelector('input[type="file"][name="study_log[image]"]');
-    const preview = document.getElementById('preview');
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = function () {
-      preview.src = reader.result;
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-</script>
