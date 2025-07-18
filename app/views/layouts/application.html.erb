@@ -6,35 +6,42 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQWLCDX3Q3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-KQWLCDX3Q3');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQWLCDX3Q3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KQWLCDX3Q3');
+    </script>
 
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-      <%= favicon_link_tag('mate.png') %>
+    <%= favicon_link_tag('mate.png') %>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- ✅ AOS（Animate On Scroll） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Stylesheets & JavaScript -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+
     <%= action_cable_meta_tag %>
     <%= display_meta_tags(default_meta_tags) %>
     <title><%= page_title(yield(:title)) %></title>
 
+    <!-- jQuery, Chart.js -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- d3.jsライブラリの読み込み（データ可視化用） -->
+
+    <!-- D3.js & Cal-Heatmap -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!-- Cal-Heatmapライブラリの読み込み（ヒートマップ描画用） -->
     <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
-    <!-- Cal-Heatmapのスタイルシート -->
     <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
   </head>
 
@@ -57,6 +64,17 @@
 
     <!-- フッター -->
     <%= render 'shared/footer' %>
+
+    <!-- ✅ AOS 初期化（Turbo対応） -->
+    <script>
+      document.addEventListener('turbo:load', () => {
+        AOS.init({
+          once: true,       // 一度だけアニメーション
+          duration: 800,    // アニメーションの長さ（ms）
+          delay: 100        // 全体の遅延
+        });
+      });
+    </script>
 
     <!-- ローディングスピナー -->
     <div data-loading-target="spinner" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">

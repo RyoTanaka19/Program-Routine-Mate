@@ -207,53 +207,59 @@ cal.paint({
 
 
 <!-- 投稿一覧セクション -->
-<div class="flex flex-wrap gap-4 justify-center">
+<div class="flex flex-wrap gap-3 justify-center">
   <% @study_logs.each do |study_log| %>
-    <div class="w-80 mb-4 flex flex-col border p-4 rounded-lg shadow-md bg-white hover:bg-gray-100">
-      <%= link_to study_log_path(study_log), class: "block flex flex-col h-full", data: { action: "click->loading#show" } do %>
+    <div class="w-64 h-[340px] mb-3 flex flex-col border p-2 rounded-md shadow bg-white hover:bg-gray-100">
+      <%= link_to study_log_path(study_log), class: "flex flex-col h-full justify-between", data: { action: "click->loading#show" } do %>
 
-        <!-- 投稿日時と学習時間 -->
-        <div class="text-sm text-gray-600 mb-2">
-          <p><strong>投稿日:</strong> <%= study_log.date %></p>
-        </div>
+        <!-- 中央寄せする中身全体を囲む -->
+        <!-- 中央寄せする中身全体を囲む（少し下に寄せ） -->
+<div class="flex-1 flex flex-col justify-end mt-1">
+  <!-- 画像（サイズ拡大 + 間隔調整）-->
+  <div class="mb-1 overflow-hidden rounded-md">
+    <%= image_tag(
+      study_log.image? ? study_log.image_url : "default_study_logs_image.png",
+      class: "w-full h-32 object-cover rounded"
+    ) %>
+  </div>
 
-        <!-- ジャンル -->
- <p class="text-sm text-gray-600">
-  <strong>ジャンル:</strong>
-  <%= study_log.study_genre.present? ? study_log.study_genre.display_name : "未設定(変更のため)" %>
-</p>
+  <!-- 学習内容 -->
+  <p class="text-[12px] font-medium text-gray-800 mb-2 line-clamp-2">
+    学習内容: <%= study_log.content %>
+  </p>
 
-        <!-- 学習内容 -->
-        <p class="text-sm mb-2">学習内容: <%= study_log.content %></p>
+  <!-- ジャンル -->
+  <p class="text-[11px] text-gray-600 leading-tight mb-1">
+    📚 <strong>ジャンル:</strong>
+    <%= study_log.study_genre&.display_name || "未設定" %>
+  </p>
 
-        <!-- 投稿画像 -->
-        <%= image_tag(study_log.image? ? study_log.image_url : "default_study_logs_image.png", class: "w-full h-auto rounded-md mb-2") %>
+  <!-- 投稿日 -->
+  <p class="text-[11px] text-gray-600 leading-tight mb-2">
+    🗓️ <strong>日:</strong> <%= study_log.date %>
+  </p>
 
-        <!-- ✅ いいね機能 -->
-
-  <div class="flex items-center space-x-2 mt-2">
+  <!-- いいね -->
+  <div class="flex items-center space-x-1 text-[11px] mb-2">
     <%= render 'study_logs/like_button', study_log: study_log %>
-    
-    <!-- いいね数だけ数字を表示 -->
     <%= turbo_frame_tag "like-count-#{study_log.id}" do %>
-      <span class="text-lg text-gray-700"><%= study_log.likes.count %></span>
+      <span class="text-gray-700"><%= study_log.likes.count %></span>
     <% end %>
   </div>
 
+  <!-- ログイン状態 -->
+  <div class="text-[10px] text-gray-500 leading-none mb-1">
+    <% if user_signed_in? && current_user == study_log.user %>
+      ✅ <span class="text-green-600">ログイン中</span>
+    <% else %>
+      ❌ <span class="text-red-500">未ログイン</span>
+    <% end %>
+  </div>
+</div>
 
 
-
-        <!-- ログイン状態 -->
-        <div class="text-xs mt-2">
-          <% if user_signed_in? && current_user == study_log.user %>
-            <span style="color: green;">✅ ログイン中</span>
-          <% else %>
-            <span style="color: red;">❌ 未ログイン</span>
-          <% end %>
-        </div>
-
-        <!-- ユーザー名 (右下に表示) -->
-        <div class="mt-auto text-xs text-right text-blue-600">
+        <!-- ユーザー名（下部固定） -->
+        <div class="text-[11px] text-right text-blue-600">
           <p><strong>ユーザー:</strong> <%= study_log.user.name %></p>
         </div>
 
@@ -261,6 +267,8 @@ cal.paint({
     </div>
   <% end %>
 </div>
+
+
 
 
 
