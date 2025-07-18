@@ -30,7 +30,7 @@ def create
         render :new, status: :unprocessable_entity
       end
       format.json do
-        render json: { success: false, errors: ["指定された学習ジャンルが見つかりませんでした。"] }, status: :unprocessable_entity
+        render json: { success: false, errors: [ "指定された学習ジャンルが見つかりませんでした。" ] }, status: :unprocessable_entity
       end
     end
     return
@@ -73,19 +73,13 @@ def update
   @study_log = current_user.study_logs.find(params[:id])
   @study_genre = @study_log.study_genre
 
-  # 画像削除処理（CarrierWaveならsaveが必要）
-  if params.dig(:study_log, :remove_image) == "1"
-    @study_log.remove_image!
-    @study_log.image = nil
-  end
+  # 画像削除処理
+  @study_log.remove_image! if params.dig(:study_log, :remove_image) == "1"
 
   respond_to do |format|
     if @study_log.update(study_log_params)
       format.html { redirect_to study_logs_path, notice: "学習記録の変更をしました。" }
-      format.json do
-        # もし必要ならここでヒートマップ用のデータを返す
-        render json: { success: true, contribution_graph: [] }
-      end
+      format.json { render json: { success: true, contribution_graph: [] } }
     else
       format.html do
         flash.now[:alert] = "学習記録の変更に失敗しました。"
@@ -101,16 +95,17 @@ end
 
 
 
-
   def destroy
     study_log = current_user.study_logs.find(params[:id])
     study_log.destroy
     redirect_to study_logs_path, notice: "学習記録の削除をしました。"
   end
 
-  def index
+def index
+  params[:q] ||= {}
+  params[:q][:study_genre_id_eq] = params[:study_genre_id] if params[:study_genre_id].present?
+
   @q = StudyLog.ransack(params[:q])
-  @q.study_genre_id_eq = params[:study_genre_id] if params[:study_genre_id].present?
 
   @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
 
@@ -118,7 +113,7 @@ end
     current_user.study_logs.where.not(date: nil).map do |log|
       {
         date: log.date.to_date,
-        total: log.total.to_f # ← ここを修正
+        total: log.total.to_f
       }
     end
   else
@@ -129,22 +124,20 @@ end
 end
 
 
-  def autocomplete
-    @q = StudyLog.ransack(params[:q])
 
-    if params.dig(:q, :study_genre_name_eq).present?
-      @q.study_genre_name_eq = params.dig(:q, :study_genre_name_eq)
-    end
+def autocomplete
+  return render json: [] if params[:q].blank?
 
-    begin
-      @study_logs = @q.result(distinct: true).limit(10)
+  @q = StudyLog.ransack(params[:q])
 
-      render json: @study_logs.as_json(only: [ :content ])
-
-    rescue => e
-      render json: { error: "検索中にエラーが発生しました: #{e.message}" }, status: 500
-    end
+  begin
+    @study_logs = @q.result(distinct: true).limit(10)
+    render json: @study_logs.as_json(only: [ :content ])
+  rescue => e
+    Rails.logger.error "[AutocompleteError] #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
+    render json: { error: "検索中にエラーが発生しました。" }, status: 500
   end
+end
 
   def ranking
     @ranking = User.studied_logs_days_ranking

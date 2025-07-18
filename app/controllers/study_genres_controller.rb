@@ -57,7 +57,7 @@ def create
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-        format.json { render json: { success: false, errors: ["すでに設定しているジャンルは設定できません。"] }, status: :unprocessable_entity }
+        format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
       end
       return
     end
@@ -70,7 +70,7 @@ def create
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-        format.json { render json: { success: false, errors: ["すでに設定しているジャンルは設定できません。"] }, status: :unprocessable_entity }
+        format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
       end
       return
     end
@@ -80,7 +80,7 @@ def create
     respond_to do |format|
       format.html { render :new, status: :unprocessable_entity }
       format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-      format.json { render json: { success: false, errors: ["新しいジャンルを設定する条件が満たされていません。"] }, status: :unprocessable_entity }
+      format.json { render json: { success: false, errors: [ "新しいジャンルを設定する条件が満たされていません。" ] }, status: :unprocessable_entity }
     end
     return
   end

@@ -22,7 +22,6 @@
   <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" %>
 </div>
 
- <!-- 送信ボタン -->
 <!-- 送信ボタン -->
 <div class="actions text-center">
   <%= f.submit "パスワードリセットを申請する", class: "bg-blue-500 text-white px-6 py-3 rounded-md w-full hover:bg-blue-600 focus:outline-none transition-all" %>
@@ -35,17 +34,5 @@
 
 
 <% end %>
-
-<!-- パスワードリセット後の説明（横幅を狭く） -->
-<div class="mt-8 mx-auto px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg shadow-sm text-center max-w-md">
-  <p class="text-blue-700 text-sm sm:text-base font-medium leading-relaxed flex items-center justify-center gap-2">
-    <!-- 情報アイコン -->
-    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
-         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round"
-            d="M13 16h-1v-4h-1m1-4h.01M12 9v2m0 4v1m0 0h.01M12 17a9 9 0 110-18 9 9 0 010 18z"></path>
-    </svg>
-    登録したメールアドレスにパスワードリセットの手順を送信します。
-  </p>
 </div>
 

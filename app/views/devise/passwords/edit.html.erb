@@ -3,36 +3,54 @@
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "max-w-md mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
   <!-- エラーメッセージの表示部分 -->
   <div class="mb-6">
-  <% if flash[:alert] %>
-    <div class="alert alert-danger text-red-500 bg-red-100 p-4 rounded-md">
-      <%= flash[:alert] %>
-    </div>
-  <% end %>
-</div>
+    <% if flash[:alert] %>
+      <div class="alert alert-danger text-red-500 bg-red-100 p-4 rounded-md">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+  </div>
 
   <!-- パスワードリセットトークンの隠しフィールド -->
   <%= f.hidden_field :reset_password_token %>
 
   <!-- 新しいパスワードの入力フィールド -->
-<div class="mb-6">
-  <%= f.label :password, class: "block text-lg font-medium text-gray-700" do %>
-    新しいパスワード
-    <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
-  <% end %>
-  <% if @minimum_password_length %>
-    <p class="text-sm text-gray-500">
-      (<%= @minimum_password_length %>文字以上)
-    </p>
-  <% end %>
-  <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
-</div>
+  <div class="mb-6">
+    <%= f.label :password, class: "block text-lg font-medium text-gray-700" do %>
+      新しいパスワード
+      <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
+    <% end %>
+    <% if @minimum_password_length %>
+      <p class="text-sm text-gray-500">
+        (<%= @minimum_password_length %>文字以上)
+      </p>
+    <% end %>
+    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", id: "pass", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
 
+    <!-- パスワード表示切替チェックボックス -->
+    <label class="inline-flex items-center mt-2 cursor-pointer select-none text-gray-700">
+      <input type="checkbox" 
+             class="mr-2" 
+             onchange="document.getElementById('pass').type = this.checked ? 'text' : 'password';">
+      パスワードを表示する
+    </label>
+  </div>
+
+
+ <!-- パスワード確認フィールド -->
 <div class="mb-6">
   <%= f.label :password_confirmation, class: "block text-lg font-medium text-gray-700" do %>
     新しいパスワードの確認
     <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
   <% end %>
-  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
+  <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "pass_confirmation", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
+
+  <!-- パスワード確認表示切替チェックボックス -->
+  <label class="inline-flex items-center mt-2 cursor-pointer select-none text-gray-700">
+    <input type="checkbox" 
+           class="mr-2" 
+           onchange="document.getElementById('pass_confirmation').type = this.checked ? 'text' : 'password';">
+    パスワードを表示する
+  </label>
 </div>
 
   <!-- 送信ボタン -->
@@ -40,9 +58,3 @@
     <%= f.submit "パスワードを変更する", class: "w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" %>
   </div>
 <% end %>
-
-<!-- 変更後の説明（オプション） -->
-<div class="mt-6 text-center text-sm text-green-600 bg-green-50 p-4 rounded-md">
-  <p>✅ 新しいパスワードと確認用フィールドには、同じパスワードを入力してください。</p>
-</div>
-
