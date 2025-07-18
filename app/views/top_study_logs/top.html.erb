@@ -1,95 +1,56 @@
-<% menu_items = [
-  { path: study_logs_path, icon: "home.png", label: "学習投稿記録一覧", description: "他の仲間の学習記録を見てみよう!", options: { data: { action: "click->loading#show" } } },
-  (current_user && { path: study_reminders_path, icon: "calendar.png", label: "学習カレンダー", description: "学習時間を設定しよう!" }),
-  (current_user && { path: new_study_genre_path, icon: "icon.png", label: "学習ジャンル作成", description: "自分が続けたいジャンルの学習を設定しよう!" }),
-  (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png", label: "学習記録投稿", description: "学習記録を投稿しよう!" })
-].compact %>
-
-<!-- メニュー項目 -->
-<div class="relative z-20 mt-24 mx-auto px-4 flex flex-wrap justify-center gap-4 max-w-5xl">
-  <% menu_items.each_with_index do |item, index| %>
-    <%= link_to item[:path], item[:options] || {} do %>
-      <div
-        class="w-full sm:w-44 md:w-48 lg:w-52 min-h-[96px] p-3 bg-white shadow rounded-lg flex flex-col items-start justify-center opacity-0 animate-fade-in-up"
-        style="animation-delay: <%= index * 0.15 %>s;"
-      >
-        <div class="flex items-center mb-1">
-          <%= image_tag item[:icon], class: "w-6 h-6 mr-3" %>
-          <span class="text-gray-800 font-semibold text-base sm:text-sm md:text-base lg:text-lg"><%= item[:label] %></span>
-        </div>
-        <small class="text-gray-600 text-xs sm:text-sm leading-tight"><%= item[:description] %></small>
-      </div>
-    <% end %>
-  <% end %>
-</div>
-
-<!-- 中央にランダム画像を表示 -->
-<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 overflow-hidden px-4">
+<!-- 中央のランダム画像と説明 -->
+<div class="flex flex-col items-center justify-center min-h-screen px-4 text-center">
   <% images = ["ogp.png", "ProgramRoutineMate.png", "mate.png"] %>
   <% selected_image = images.sample %>
 
-  <div class="relative flex flex-col items-center">
-    <%= image_tag selected_image, class: "w-[80rem] h-auto opacity-90" %>
+  <div class="relative flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300">
+    <%= image_tag selected_image, class: "w-[80rem] max-w-full h-auto opacity-90" %>
   </div>
 
-  <!-- テキストを大きくし、中央揃えに変更 -->
-  <p class="mt-6 text-green-500 text-4xl font-semibold text-center">
-    👨‍💻学習習慣を共有するサービスです
-  </p>
+ <!-- 🔽 スクロール誘導アニメーション -->
+<div class="mt-4 flex flex-col items-center" data-aos="fade-down" data-aos-delay="1000">
+  <span class="mb-1 text-green-500 font-semibold text-sm animate-pulse">scroll</span>
+  <div class="bounce-infinite">
+    <i class="fa-solid fa-angles-down text-green-400 text-3xl"></i>
+  </div>
 </div>
 
 
 
+  <!-- 横並びメニュー（画像の下に配置） -->
+  <% menu_items = [
+    { path: study_logs_path, icon: "home.png", label: "学習投稿記録一覧", description: "他の仲間の学習記録を見てみよう!", options: { data: { action: "click->loading#show" } } },
+    (current_user && { path: study_reminders_path, icon: "calendar.png", label: "学習カレンダー", description: "学習時間を設定しよう!" }),
+    (current_user && { path: new_study_genre_path, icon: "icon.png", label: "学習ジャンル作成", description: "自分が続けたいジャンルの学習を設定しよう!" }),
+    (current_user && { path: new_study_genre_study_log_path(current_user.study_genres), icon: "study_logs.png", label: "学習記録投稿", description: "学習記録を投稿しよう!" })
+  ].compact %>
 
-<!-- スタイル -->
+  <div class="mt-10 w-full max-w-[90vw] bg-white px-6 py-4 rounded-lg shadow-lg overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+    <div class="flex space-x-6 justify-center">
+      <% menu_items.each_with_index do |item, index| %>
+        <div data-aos="fade-up" data-aos-delay="<%= 700 + (index * 100) %>">
+          <%= link_to item[:path], item[:options] || {}, class: "flex flex-col items-center min-w-[140px] hover:bg-green-50 rounded-md p-3 transition duration-200" do %>
+            <%= image_tag item[:icon], class: "w-10 h-10 mb-2" %>
+            <div class="text-gray-900 font-semibold text-center text-sm mb-1">
+              <%= item[:label] %>
+            </div>
+            <div class="text-gray-500 text-xs text-center leading-snug">
+              <%= item[:description] %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <style>
-@keyframes sway {
-  0%   { transform: translateY(0) rotate(0deg); }
-  25%  { transform: translateY(-4px) rotate(-2deg); }
-  50%  { transform: translateY(0) rotate(0deg); }
-  75%  { transform: translateY(4px) rotate(2deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+@keyframes infiniteBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
-
-.floating-text {
-  position: fixed;
-  top: 60%;
-  right: 1rem;
-  transform: translateY(-50%);
-  background-color: #d1fae5;
-  border: 2px solid #10b981;
-  border-radius: 1rem;
-  padding: 0.5rem 1rem;
-  color: #047857;
-  font-weight: 700;
-  font-size: 0.875rem;
-  animation: sway 2.5s ease-in-out infinite;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  white-space: nowrap;
-}
-
-@media (min-width: 640px) {
-  .floating-text {
-    right: 3rem;
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .floating-text {
-    right: 6rem;
-    font-size: 1.125rem;
-  }
-}
-
-.floating-text::before {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  right: 20px;
-  border-width: 10px 10px 0;
-  border-style: solid;
-  border-color: #d1fae5 transparent transparent transparent;
+.bounce-infinite {
+  animation: infiniteBounce 1s infinite;
 }
 </style>
+
