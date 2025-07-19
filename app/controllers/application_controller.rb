@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
       keys: [
         :name,
         :self_introduction,
-        :studying_continuation_systematization,
         :profile_image,
         :profile_image_cache,
         :remove_profile_image
