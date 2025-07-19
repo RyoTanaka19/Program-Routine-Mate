@@ -1,30 +1,26 @@
 class StudyGenresController < ApplicationController
-def index
-  raw_stats = StudyGenre.includes(:study_logs).flat_map do |genre|
-    genre.study_logs.map do |log|
-      { name: genre.name, user_id: log.user_id }
+  def index
+    raw_stats = StudyGenre.includes(:study_logs).flat_map do |genre|
+      genre.study_logs.map do |log|
+        { name: genre.name, user_id: log.user_id }
+      end
     end
+
+    grouped = raw_stats.group_by { |entry| entry[:name] }
+
+    @genre_stats = grouped.map do |name, entries|
+      display_name = case name
+      when "PHP_(プログラミング言語)" then "PHP"
+      else name
+      end
+
+      {
+        name: display_name,
+        post_count: entries.count,
+        user_count: entries.map { |e| e[:user_id] }.uniq.count
+      }
+    end.sort_by { |stat| -stat[:user_count] }
   end
-
-  grouped = raw_stats.group_by { |entry| entry[:name] }
-
-  @genre_stats = grouped.map do |name, entries|
-    display_name = case name
-    when "PHP_(プログラミング言語)" then "PHP"
-    else name
-    end
-
-    {
-      name: display_name,
-      post_count: entries.count,
-      user_count: entries.map { |e| e[:user_id] }.uniq.count
-    }
-  end.sort_by { |stat| -stat[:user_count] }
-end
-
-
-
-
 
   def new
     if current_user.nil?
@@ -39,98 +35,77 @@ end
     @last_genre = @study_genres.first
 
     @has_21_days_of_logs = current_user.study_logs
-  .pluck(:created_at)
-  .map(&:to_date)
-  .uniq
-  .count >= 21
+      .pluck(:created_at)
+      .map(&:to_date)
+      .uniq
+      .count >= 21
   end
 
+  def create
+    last_genre = current_user.study_genres.order(created_at: :desc).first
 
-def create
-  last_genre = current_user.study_genres.order(created_at: :desc).first
+    if current_user.study_genres.empty?
+      @study_genre = current_user.study_genres.new(study_genre_params)
 
-  if current_user.study_genres.empty?
-    @study_genre = current_user.study_genres.new(study_genre_params)
+      if current_user.study_genres.exists?(name: @study_genre.name)
+        flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
+        respond_to do |format|
+          format.html { render :new, status: :unprocessable_entity }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
+          format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
+        end
+        return
+      end
 
-    if current_user.study_genres.exists?(name: @study_genre.name)
-      flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
+    elsif last_genre.present? && has_21_days_of_logs?(last_genre)
+      @study_genre = current_user.study_genres.new(study_genre_params)
+
+      if current_user.study_genres.exists?(name: @study_genre.name)
+        flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
+        respond_to do |format|
+          format.html { render :new, status: :unprocessable_entity }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
+          format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
+        end
+        return
+      end
+
+    else
+      flash.now[:alert] = "新しいジャンルを設定する条件が満たされていません。"
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-        format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
+        format.json { render json: { success: false, errors: [ "新しいジャンルを設定する条件が満たされていません。" ] }, status: :unprocessable_entity }
       end
       return
     end
 
-  elsif last_genre.present? && has_21_days_of_logs?(last_genre)
-    @study_genre = current_user.study_genres.new(study_genre_params)
-
-    if current_user.study_genres.exists?(name: @study_genre.name)
-      flash.now[:alert] = "すでに設定しているジャンルは設定できません。"
+    if @study_genre.save
+      respond_to do |format|
+        format.html { redirect_to new_study_log_path(study_genre_id: @study_genre.id), notice: "ジャンルが設定されました。" }
+        format.json { render json: { success: true, study_genre_id: @study_genre.id } }
+      end
+    else
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-        format.json { render json: { success: false, errors: [ "すでに設定しているジャンルは設定できません。" ] }, status: :unprocessable_entity }
+        format.json { render json: { success: false, errors: @study_genre.errors.full_messages }, status: :unprocessable_entity }
       end
-      return
-    end
-
-  else
-    flash.now[:alert] = "新しいジャンルを設定する条件が満たされていません。"
-    respond_to do |format|
-      format.html { render :new, status: :unprocessable_entity }
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-      format.json { render json: { success: false, errors: [ "新しいジャンルを設定する条件が満たされていません。" ] }, status: :unprocessable_entity }
-    end
-    return
-  end
-
-  if @study_genre.save
-    respond_to do |format|
-      format.html { redirect_to new_study_log_path(study_genre_id: @study_genre.id), notice: "ジャンルが設定されました。" }
-      format.json { render json: { success: true, study_genre_id: @study_genre.id } }
-    end
-  else
-    respond_to do |format|
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: { success: false, errors: @study_genre.errors.full_messages }, status: :unprocessable_entity }
     end
   end
-end
-
-
-
 
   def edit
     @study_genre = StudyGenre.find(params[:id])
-
-    if @study_genre.user != current_user
-      flash[:alert] = "アクセス権限がありません。"
-      redirect_to study_genres_path
-    end
   end
-
 
 def update
   @study_genre = StudyGenre.find(params[:id])
-
-  if @study_genre.user != current_user
-    flash[:alert] = "アクセス権限がありません。"
-    redirect_to study_genres_path and return
-  end
-
   new_name = params[:study_genre][:name]
 
   if current_user.study_genres.exists?(name: new_name) && @study_genre.name != new_name
     flash.now[:alert] = "他で設定しているジャンルと同じ名前は設定できません。"
     respond_to do |format|
       format.html { render :edit, status: :unprocessable_entity }
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.replace("study_genre_form", partial: "study_genres/form", locals: { study_genre: @study_genre }),
-          turbo_stream.replace("flash_messages", partial: "shared/flash_messages")
-        ]
-      end
+      format.turbo_stream { render "study_genres/update_turbo_stream" }
     end
     return
   end
@@ -139,12 +114,7 @@ def update
     flash.now[:alert] = "現在のジャンルでの更新はできません。"
     respond_to do |format|
       format.html { render :edit, status: :unprocessable_entity }
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.replace("study_genre_form", partial: "study_genres/form", locals: { study_genre: @study_genre }),
-          turbo_stream.replace("flash_messages", partial: "shared/flash_messages")
-        ]
-      end
+      format.turbo_stream { render "study_genres/update_turbo_stream" }
     end
     return
   end
@@ -160,15 +130,11 @@ def update
     flash.now[:alert] = "ジャンルの更新に失敗しました。"
     respond_to do |format|
       format.html { render :edit, status: :unprocessable_entity }
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.replace("study_genre_form", partial: "study_genres/form", locals: { study_genre: @study_genre }),
-          turbo_stream.replace("flash_messages", partial: "shared/flash_messages")
-        ]
-      end
+      format.turbo_stream { render "study_genres/update_turbo_stream" }
     end
   end
 end
+
 
   def show
     @study_genre = StudyGenre.find_by(id: params[:id])
@@ -179,15 +145,7 @@ end
       return
     end
 
-    if @study_genre.user != current_user
-      flash[:alert] = "アクセス権限がありません。"
-      render :index
-      return
-    end
-
     @wikipedia_summary = WikipediaFetcher.fetch_summary(@study_genre.name)
-
-
 
     respond_to do |format|
       format.html
@@ -207,14 +165,12 @@ end
   private
 
   def has_21_days_of_logs?(genre)
-  return false if genre.study_logs.empty?
+    return false if genre.study_logs.empty?
 
-  # 記録された学習日（created_atの日付部分）をユニークに取得
-  study_days = genre.study_logs.pluck(:created_at).map(&:to_date).uniq
+    study_days = genre.study_logs.pluck(:created_at).map(&:to_date).uniq
 
-  # 21日分の異なる日があればOK
-  study_days.count >= 21
-end
+    study_days.count >= 21
+  end
 
   def study_genre_params
     params.require(:study_genre).permit(:name)

@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "study_genre_form" do %>
+  <%= render partial: "study_genres/form", locals: { study_genre: @study_genre } %>
+<% end %>
+
+<%= turbo_stream.replace "flash_messages" do %>
+  <%= render partial: "shared/flash_messages" %>
+<% end %>

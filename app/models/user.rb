@@ -6,32 +6,34 @@ class User < ApplicationRecord
   validates :uid, uniqueness: { scope: :provider, message: "このアカウントはすでに登録されています。" }
 
 
-  # OAuth認証情報からユーザーを作成または更新
-  def self.from_omniauth(auth)
-    user = find_by(provider: auth.provider, uid: auth.uid)
 
-    return user if user.present?
+ def self.from_omniauth(auth)
+  # providerとuidで既存ユーザーを探す
+  user = find_by(provider: auth.provider, uid: auth.uid)
 
-    if auth.info.email.present?
-      user = find_by(email: auth.info.email)
+  return user if user.present?
 
-      if user.present?
-        user.update(provider: auth.provider, uid: auth.uid)
-        return user
-      end
+  # メールアドレスが提供されている場合、メールアドレスでユーザーを探す
+  if auth.info.email.present?
+    user = find_by(email: auth.info.email)
+
+    if user.present?
+      # メールアドレスが一致した場合、同じユーザーを返す
+      return user
     end
-
-    # 新規ユーザー作成
-    user = create do |u|
-      u.provider = auth.provider
-      u.uid = auth.uid
-      u.email = auth.info.email.presence || "#{auth.uid}-#{auth.provider}@example.com"
-      u.password = Devise.friendly_token[0, 20]
-      u.password_confirmation = u.password
-      u.name = auth.info.name.presence || "Guest"
-    end
-    user
   end
+
+  # メールアドレスが異なる場合、uidとproviderが一致する別のユーザーがいない場合のみ新規作成
+  user = create do |u|
+    u.provider = auth.provider
+    u.uid = auth.uid
+    u.email = auth.info.email.presence || "#{auth.uid}-#{auth.provider}@example.com"
+    u.password = Devise.friendly_token[0, 20]
+    u.password_confirmation = u.password
+    u.name = auth.info.name.presence || "Guest"
+  end
+  user
+end
 
   mount_uploader :profile_image, ProfileImageUploader
 

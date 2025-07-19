@@ -1,6 +1,3 @@
-<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chart.js" %>
-<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels" %>
-
 <h1 class="text-3xl font-semibold text-center text-green-500 mb-8">
   学習ジャンルごとのユーザー数
 </h1>
@@ -9,7 +6,7 @@
   <% if @genre_stats.present? %>
     <div class="mb-6">
       <!-- canvasの高さをデバイス幅に応じて調整 -->
-      <div class="relative w-full" style="height: auto; min-height: 300px;">
+      <div class="relative w-full chart-container">
         <canvas id="genreChart" class="w-full h-full"></canvas>
       </div>
     </div>
@@ -17,7 +14,8 @@
     <script>
       const GENRES = <%= raw StudyGenre::GENRES.invert.to_json %>;
 
-      function initializeChart() {
+      // Chartインスタンスの作成処理
+      function createChart() {
         const genreStats = <%= raw @genre_stats.to_json %>;
 
         if (!genreStats || genreStats.length === 0) return;
@@ -28,11 +26,12 @@
         const labels = genreStats.map(stat => GENRES[stat.name] || stat.name);
         const userCounts = genreStats.map(stat => stat.user_count);
 
+        // 既存のグラフインスタンスがあれば破棄
         if (window.genreChartInstance) {
           window.genreChartInstance.destroy();
         }
 
-        const chart = new Chart(ctx.getContext('2d'), {
+        window.genreChartInstance = new Chart(ctx.getContext('2d'), {
           type: 'bar',
           data: {
             labels: labels,
@@ -42,7 +41,6 @@
               backgroundColor: 'rgba(34, 197, 94, 0.8)',
               borderColor: 'rgba(34, 197, 94, 1)',
               borderWidth: 2,
-              // モバイルとデスクトップで棒の太さを柔軟に
               barThickness: window.innerWidth < 640 ? 30 : 50
             }]
           },
@@ -114,10 +112,18 @@
           },
           plugins: [ChartDataLabels]
         });
-
-        window.genreChartInstance = chart;
       }
 
+      // グラフを初期化する関数
+      function initializeChart() {
+        try {
+          createChart();
+        } catch (error) {
+          console.error('グラフの描画に失敗しました:', error);
+        }
+      }
+
+      // イベントリスナーの設定
       document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(initializeChart);
       });
@@ -129,9 +135,15 @@
       document.addEventListener('turbo:frame-load', () => {
         requestAnimationFrame(initializeChart);
       });
+
+      // リサイズイベントの処理
+      window.addEventListener('resize', function() {
+        if (window.genreChartInstance) {
+          window.genreChartInstance.resize();
+        }
+      });
     </script>
   <% else %>
     <p class="text-center text-blue-600 text-lg">まだ、誰も投稿してません</p>
   <% end %>
 </div>
-
