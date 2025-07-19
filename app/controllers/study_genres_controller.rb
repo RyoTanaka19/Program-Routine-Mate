@@ -105,7 +105,7 @@ def update
     flash.now[:alert] = "他で設定しているジャンルと同じ名前は設定できません。"
     respond_to do |format|
       format.html { render :edit, status: :unprocessable_entity }
-      format.turbo_stream { render "study_genres/update_turbo_stream" }
+      format.turbo_stream { render "study_genres/update" }
     end
     return
   end
@@ -114,7 +114,7 @@ def update
     flash.now[:alert] = "現在のジャンルでの更新はできません。"
     respond_to do |format|
       format.html { render :edit, status: :unprocessable_entity }
-      format.turbo_stream { render "study_genres/update_turbo_stream" }
+      format.turbo_stream { render "study_genres/update" }
     end
     return
   end
@@ -130,7 +130,7 @@ def update
     flash.now[:alert] = "ジャンルの更新に失敗しました。"
     respond_to do |format|
       format.html { render :edit, status: :unprocessable_entity }
-      format.turbo_stream { render "study_genres/update_turbo_stream" }
+      format.turbo_stream { render "study_genres/update" }
     end
   end
 end
