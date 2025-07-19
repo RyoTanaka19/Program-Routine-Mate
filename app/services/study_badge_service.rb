@@ -30,7 +30,7 @@ class StudyBadgeService
 
   # ストリークに応じたバッジを付与
   def assign_streak_badges
-    [1, 2, 3, 5, 7].each do |streak|
+    [ 1, 2, 3, 5, 7 ].each do |streak|
       assign_streak_badge(streak)
     end
   end

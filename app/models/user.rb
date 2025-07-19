@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 line github]
+         :omniauthable, omniauth_providers: %i[ google_oauth2 line github ]
 
   validates :uid, uniqueness: { scope: :provider, message: "このアカウントはすでに登録されています。" }
 
@@ -51,8 +51,8 @@ class User < ApplicationRecord
   attr_accessor :skip_password_validation
   validates :password, presence: true, on: :create, unless: :skip_password_validation
   validates :password_confirmation, presence: true, on: :create, unless: :skip_password_validation
-  validates :password, confirmation: { message: "が一致しません" }, on: [:create, :update], unless: :skip_password_validation
-  validates :password_confirmation, presence: true, on: [:create], unless: :skip_password_validation
+  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
+  validates :password_confirmation, presence: true, on: [ :create ], unless: :skip_password_validation
 
   # OAuth認証元を判別
   def from_oauth?
