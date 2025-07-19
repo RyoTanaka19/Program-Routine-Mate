@@ -3,18 +3,30 @@
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true, class: "space-y-8" }) do |f| %>
 
+<% if resource.errors.any? %>
+  <div class="alert alert-danger mb-4">
+    <h4 class="text-red-600 text-lg font-semibold">入力に誤りがあります。再度ご確認ください:</h4>
+    <ul class="list-inside list-disc pl-4 mt-2">
+      <% resource.errors.full_messages.each do |message| %>
+        <li class="text-red-500">
+          <%= message.gsub('Email', 'メールアドレス').gsub('Uid', 'UID').gsub('is already taken', 'は既に使われています') %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<!-- 名前 -->
-<div>
-  <%= f.label :name, "名前", class: "block text-lg font-semibold text-gray-700 mb-2" %>
-  <%= f.text_field :name, autofocus: true, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-</div>
+    <!-- 名前 -->
+    <div>
+      <%= f.label :name, "名前", class: "block text-lg font-semibold text-gray-700 mb-2" %>
+      <%= f.text_field :name, autofocus: true, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
 
-<!-- メールアドレス -->
-<div>
-  <%= f.label :email, "メールアドレス", class: "block text-lg font-semibold text-gray-700 mb-2" %>
-  <%= f.email_field :email, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-</div>
+    <!-- メールアドレス -->
+    <div>
+      <%= f.label :email, "メールアドレス", class: "block text-lg font-semibold text-gray-700 mb-2" %>
+      <%= f.email_field :email, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
 
     <!-- 自己紹介 -->
     <div>
@@ -35,16 +47,15 @@
 
       <p class="mt-2 text-sm text-gray-600">現在の画像：</p>
       <div class="mt-2 border border-gray-200 p-2 rounded-md inline-block shadow-sm">
-        <!-- 画像を枠いっぱいに表示するために、widthとheightを削除し、object-fitを追加 -->
         <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", class: "w-full h-full object-cover rounded-md shadow-md", id: "preview") %>
       </div>
 
       <div class="mt-4">
-    <label class="inline-flex items-center">
-      <%= f.check_box :remove_profile_image %>
-      <span class="ml-2 text-sm text-gray-700">画像を削除する</span>
-    </label>
-  </div>
+        <label class="inline-flex items-center">
+          <%= f.check_box :remove_profile_image %>
+          <span class="ml-2 text-sm text-gray-700">画像を削除する</span>
+        </label>
+      </div>
 
       <%= f.hidden_field :profile_image_cache %>
     </div>
