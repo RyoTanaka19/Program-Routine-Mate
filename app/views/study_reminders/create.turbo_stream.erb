@@ -1,29 +1,22 @@
 <turbo-stream action="append" target="dummy">
   <template>
     <script>
-      if (typeof calendarInstance !== 'undefined' && calendarInstance) {
-        calendarInstance.addEvent({
-          title: "<%= j @study_reminder.title %>",
-          start: "<%= @study_reminder.start_time.strftime('%Y-%m-%dT%H:%M:%S') %>",
-          end: "<%= @study_reminder.end_time&.strftime('%Y-%m-%dT%H:%M:%S') || @study_reminder.start_time.strftime('%Y-%m-%dT%H:%M:%S') %>",
-          allDay: false,
-          color: "#4CAF50",
-          extendedProps: {
-            startTime: "<%= @study_reminder.start_time.strftime('%H:%M') %>",
-            endTime: "<%= @study_reminder.end_time.present? ? @study_reminder.end_time.strftime('%H:%M') : @study_reminder.start_time.strftime('%H:%M') %>"
-          }
-        });
-      }
-      // モーダルが確実に存在し、かつcloseModalが関数なら呼び出す
-      if (typeof closeModal === "function") {
-        closeModal();
-      } else {
-        // fallback: モーダルを直接閉じる例
-        const modal = document.getElementById('modal');
-        if (modal) {
-          modal.classList.add('hidden');
+      (() => {
+        const eventData = <%= raw @study_reminder.calendar_event_data.to_json %>;
+        if (typeof calendarInstance !== 'undefined' && calendarInstance) {
+          calendarInstance.addEvent(eventData);
         }
-      }
+        if (typeof closeModal === "function") {
+          closeModal();
+        } else {
+          const modal = document.getElementById('modal');
+          if (modal) modal.classList.add('hidden');
+        }
+      })();
     </script>
   </template>
 </turbo-stream>
+
+<%= turbo_stream.replace "flash_messages_container" do %>
+  <%= render partial: "shared/flash_messages" %>
+<% end %>

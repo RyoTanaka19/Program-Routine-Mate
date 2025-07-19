@@ -8,6 +8,20 @@ class StudyReminder < ApplicationRecord
 
   validate :start_and_end_time_must_be_different
 
+    def calendar_event_data
+    {
+      title: title,
+      start: start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+      end: (end_time || start_time).strftime("%Y-%m-%dT%H:%M:%S"),
+      allDay: false,
+      color: "#4CAF50",
+      extendedProps: {
+        startTime: start_time.strftime("%H:%M"),
+        endTime: (end_time || start_time).strftime("%H:%M")
+      }
+    }
+  end
+
   private
 
 
