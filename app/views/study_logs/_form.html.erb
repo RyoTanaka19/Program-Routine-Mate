@@ -2,12 +2,14 @@
 
 <div class="flex items-center justify-center min-h-screen bg-yellow-50 p-4">
   <%= form_with(
-        model: @study_log,
-        url: @study_log.new_record? ? study_genre_study_logs_path(@study_genre) : study_genre_study_log_path(@study_genre, @study_log),
-        method: @study_log.new_record? ? :post : :patch,
-        data: { turbo: false },
-        html: { id: "study-log-form", class: "w-full max-w-4xl bg-white p-8 rounded-md shadow-lg" }
-      ) do |f| %>
+      model: @study_log,
+      url: @study_log.new_record? ? 
+           study_genre_study_logs_path(@study_genre) : 
+           study_genre_study_log_path(@study_genre || @study_log.study_genre, @study_log),
+      method: @study_log.new_record? ? :post : :patch,
+      data: { turbo: false },
+      html: { id: "study-log-form", class: "w-full max-w-4xl bg-white p-8 rounded-md shadow-lg" }
+    ) do |f| %>
 
     <!-- エラーメッセージ -->
     <div id="form-errors">
