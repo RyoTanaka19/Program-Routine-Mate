@@ -20,7 +20,6 @@
         <!-- メールアドレス -->
         <div>
           <label for="user_email" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-            <!-- メールアイコン（ラベル内に1つだけ残す） -->
             <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
               <path d="M4 4h16v16H4z"></path>
               <polyline points="22,6 12,13 2,6"></polyline>
@@ -29,7 +28,6 @@
             <span class="text-red-500 ml-1">（必須）</span>
           </label>
           <div class="relative">
-            <!-- 入力欄内のアイコンを削除 -->
             <%= f.email_field :email, id: "user_email", class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "メールアドレス" %>
           </div>
           <% if resource.errors[:email].any? %>
@@ -42,7 +40,6 @@
         <!-- ユーザー名 -->
         <div>
           <label for="user_name" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-            <!-- ユーザーアイコン（ラベル内に1つだけ残す） -->
             <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
               <circle cx="12" cy="7" r="4"></circle>
               <path d="M5.5 21a7 7 0 0 1 13 0"></path>
@@ -51,7 +48,6 @@
             <span class="text-red-500 ml-1">（必須）</span>
           </label>
           <div class="relative">
-            <!-- 入力欄内のアイコンを削除 -->
             <%= f.text_field :name, id: "user_name", class: "border-2 border-gray-300 rounded-md p-3 pl-3 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "ユーザー名" %>
           </div>
           <% if resource.errors[:name].any? %>
@@ -61,63 +57,47 @@
           <% end %>
         </div>
 
-<!-- パスワード -->
+        <!-- パスワード -->
+        <div>
+          <label for="user_password" class="flex items-center text-sm font-medium text-gray-600 mb-1">
+            <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            パスワード
+            <span class="text-red-500 ml-1">（必須）</span>
+          </label>
+          <div class="relative">
+            <%= f.password_field :password, id: "user_password", class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード(6文字以上)", autocomplete: "new-password" %>
+          </div>
 
-<div>
-  <label for="user_password" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-    <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
-    パスワード
-    <span class="text-red-500 ml-1">（必須）</span>
-  </label>
-  <div class="relative">
-    <%= f.password_field :password, id: "user_password",
-      class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
-      placeholder: "パスワード(6文字以上)", autocomplete: "new-password", oninput: "checkPasswordStrength(this.value)" %>
-    <button type="button"
-      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
-      onclick="togglePasswordVisibility('user_password', this)">👀</button>
-  </div>
+          <% if resource.errors[:password].any? %>
+            <div class="text-red-500 text-xs mt-1">
+              <%= resource.errors[:password].join(", ") %>
+            </div>
+          <% end %>
+        </div>
 
-  <!-- パスワード強度表示 -->
-  <div id="password-strength" class="text-sm mt-1 font-semibold"></div>
+        <!-- パスワード確認 -->
+        <div>
+          <label for="user_password_confirmation" class="flex items-center text-sm font-medium text-gray-600 mb-1">
+            <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            パスワード確認
+            <span class="text-red-500 ml-1">（必須）</span>
+          </label>
+          <div class="relative">
+            <%= f.password_field :password_confirmation, id: "user_password_confirmation", class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
+          </div>
 
-  <% if resource.errors[:password].any? %>
-    <div class="text-red-500 text-xs mt-1">
-      <%= resource.errors[:password].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- パスワード確認 -->
-<div>
-  <label for="user_password_confirmation" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-    <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
-    パスワード確認
-    <span class="text-red-500 ml-1">（必須）</span>
-  </label>
-<div class="relative">
-  <%= f.password_field :password_confirmation, id: "user_password_confirmation",
-    class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500",
-    placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
-  <button type="button"
-    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
-    onclick="togglePasswordVisibility('user_password_confirmation', this)">👀</button>
-</div>
-
-  <% if resource.errors[:password_confirmation].any? %>
-    <div class="text-red-500 text-xs mt-1">
-      <%= resource.errors[:password_confirmation].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-
+          <% if resource.errors[:password_confirmation].any? %>
+            <div class="text-red-500 text-xs mt-1">
+              <%= resource.errors[:password_confirmation].join(", ") %>
+            </div>
+          <% end %>
+        </div>
 
         <!-- 送信ボタン -->
         <div>
@@ -132,69 +112,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  // 👁 パスワード表示・非表示
-  function togglePasswordVisibility(fieldId, button) {
-    const input = document.getElementById(fieldId);
-    if (input.type === "password") {
-      input.type = "text";
-      button.textContent = "🙈";
-    } else {
-      input.type = "password";
-      button.textContent = "👀";
-    }
-  }
-
-  // 💪 パスワード強度チェック
-  function checkPasswordStrength(password) {
-    const strengthText = document.getElementById("password-strength");
-    let score = 0;
-    if (password.length >= 8) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++;
-
-    let strength = "", color = "";
-    if (score <= 1) {
-      strength = "弱い"; color = "text-red-500";
-    } else if (score === 2 || score === 3) {
-      strength = "普通"; color = "text-yellow-500";
-    } else {
-      strength = "強い"; color = "text-green-500";
-    }
-
-    strengthText.textContent = `強度：${strength}`;
-    strengthText.className = `text-sm mt-1 font-semibold ${color}`;
-  }
-
-  // ✅ DOMが読み込まれてから起動する処理
-  document.addEventListener("DOMContentLoaded", () => {
-    // 📧 メール形式チェック
-    const emailInput = document.getElementById("user_email");
-    const emailError = document.createElement("div");
-    emailError.className = "text-red-500 text-xs mt-1";
-    emailInput.parentNode.appendChild(emailError);
-
-    emailInput.addEventListener("input", () => {
-      const value = emailInput.value;
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      emailError.textContent = (value && !regex.test(value)) ? "有効なメールアドレス形式で入力してください" : "";
-    });
-
-    // 🔁 パスワード一致チェック
-    const password = document.getElementById("user_password");
-    const confirmation = document.getElementById("user_password_confirmation");
-    const matchError = document.createElement("div");
-    matchError.className = "text-red-500 text-xs mt-1";
-    confirmation.parentNode.appendChild(matchError);
-
-    function checkPasswordMatch() {
-      matchError.textContent = (confirmation.value && password.value !== confirmation.value)
-        ? "パスワードが一致していません" : "";
-    }
-
-    password.addEventListener("input", checkPasswordMatch);
-    confirmation.addEventListener("input", checkPasswordMatch);
-  });
-</script>

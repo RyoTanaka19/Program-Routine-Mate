@@ -3,38 +3,38 @@ class User < ApplicationRecord
          :recoverable, :rememberable,
          :omniauthable, omniauth_providers: %i[google_oauth2 line github]
 
-  validates :uid, uniqueness: { scope: :provider }
-
-def self.from_omniauth(auth)
-  user = find_by(provider: auth.provider, uid: auth.uid)
-
-  return user if user.present?
+  validates :uid, uniqueness: { scope: :provider, message: "このアカウントはすでに登録されています。" }
 
 
-  if auth.info.email.present?
-    user = find_by(email: auth.info.email)
+  # OAuth認証情報からユーザーを作成または更新
+  def self.from_omniauth(auth)
+    user = find_by(provider: auth.provider, uid: auth.uid)
 
-    if user.present?
+    return user if user.present?
 
-      user.update(provider: auth.provider, uid: auth.uid)
-      return user
+    if auth.info.email.present?
+      user = find_by(email: auth.info.email)
+
+      if user.present?
+        user.update(provider: auth.provider, uid: auth.uid)
+        return user
+      end
     end
+
+    # 新規ユーザー作成
+    user = create do |u|
+      u.provider = auth.provider
+      u.uid = auth.uid
+      u.email = auth.info.email.presence || "#{auth.uid}-#{auth.provider}@example.com"
+      u.password = Devise.friendly_token[0, 20]
+      u.password_confirmation = u.password
+      u.name = auth.info.name.presence || "Guest"
+    end
+    user
   end
-
-
-create do |user|
-  user.provider = auth.provider
-  user.uid = auth.uid
-  user.email = auth.info.email.presence || "#{auth.uid}-#{auth.provider}@example.com"
-  user.password = Devise.friendly_token[0, 20]
-  user.password_confirmation = user.password
-  user.name = auth.info.name.presence || "Guest"
-  end
-end
-
-
 
   mount_uploader :profile_image, ProfileImageUploader
+
   has_many :likes, dependent: :destroy
   has_many :liked_study_logs, through: :likes, source: :study_log
   has_many :study_logs, dependent: :destroy
@@ -47,15 +47,17 @@ end
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
+  # パスワードバリデーションをスキップするためのアクセサ
   attr_accessor :skip_password_validation
   validates :password, presence: true, on: :create, unless: :skip_password_validation
   validates :password_confirmation, presence: true, on: :create, unless: :skip_password_validation
-  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
-  validates :password_confirmation, presence: true, on: [ :create, :update ], unless: :skip_password_validation
+  validates :password, confirmation: { message: "が一致しません" }, on: [:create, :update], unless: :skip_password_validation
+  validates :password_confirmation, presence: true, on: [:create], unless: :skip_password_validation
 
-def from_oauth?
-  from_google_oauth? || from_line_oauth? || from_github_oauth?
-end
+  # OAuth認証元を判別
+  def from_oauth?
+    from_google_oauth? || from_line_oauth? || from_github_oauth?
+  end
 
   def from_google_oauth?
     provider == "google_oauth2"
@@ -66,17 +68,20 @@ end
   end
 
   def from_github_oauth?
-  provider == "github"
-end
+    provider == "github"
+  end
 
+  # オブジェクトが自身かどうかを確認
   def own?(object)
     id == object&.user_id
   end
 
+  # 新しいジャンルが追加可能かどうか
   def can_add_new_genre?
     study_settings.count < 3 && study_settings.any?(&:completed_21_days?)
   end
 
+  # ユーザー別学習ログの日数ランキング
   def self.studied_logs_days_ranking
     StudyLog
       .select(Arel.sql("user_id, COUNT(DISTINCT DATE(date)) AS posted_days_count"))
@@ -84,11 +89,12 @@ end
       .order(Arel.sql("posted_days_count DESC"))
   end
 
+  # 学習ログの日付ごとの貢献データを取得
   def reload_contribution_graph_data
-  study_logs
-    .group("DATE(created_at)")
-    .order("DATE(created_at)")
-    .count
-    .map { |date, total| { date: date.to_s, total: total } }
+    study_logs
+      .group("DATE(created_at)")
+      .order("DATE(created_at)")
+      .count
+      .map { |date, total| { date: date.to_s, total: total } }
   end
 end

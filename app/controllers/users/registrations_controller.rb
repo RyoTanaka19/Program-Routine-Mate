@@ -1,18 +1,21 @@
-# frozen_string_literal: true
-
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :authenticate_user!, only: [ :edit, :update ]
-   protected
+  before_action :authenticate_user!, only: [:edit, :update]
 
-   def after_sign_up_path_for(resource)
-     study_logs_path
-   end
+  protected
 
-   def update_resource(resource, params)
-     resource.update_without_password(params)
-   end
+  # サインアップ後のリダイレクト先
+  def after_sign_up_path_for(resource)
+    study_logs_path
+  end
 
-   def after_update_path_for(resource)
-     user_path(current_user.id)
-   end
+  # ユーザー情報更新時にパスワードなしで更新
+  def update_resource(resource, params)
+    # パスワードなしでプロフィール更新
+    resource.update_without_password(params)
+  end
+
+  # 更新後のリダイレクト先
+  def after_update_path_for(resource)
+    user_path(current_user.id)
+  end
 end
