@@ -4,10 +4,10 @@
     <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-green-500">問題</h2>
 
     <pre class="bg-green-50 p-4 rounded text-left whitespace-pre-wrap text-sm sm:text-base overflow-y-auto max-h-96 leading-relaxed font-mono">
-<%= @study_challenge.response.gsub(/^正解:.*$/, '') %>
+      <%= @study_challenge.user_response.gsub(/^正解:.*$/, '') %>
     </pre>
 
-    <%= link_to answer_study_log_study_challenge_path(@study_log, @study_challenge),data: { action: "click->loading#show" },
+    <%= link_to answer_study_log_study_challenge_path(@study_log, @study_challenge), data: { action: "click->loading#show" },
       class: "inline-block mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-center gap-2" do %>
       <i class="fas fa-pen"></i>
       問題に挑戦する

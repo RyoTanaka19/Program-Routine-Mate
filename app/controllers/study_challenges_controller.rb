@@ -9,12 +9,12 @@ class StudyChallengesController < ApplicationController
   def create
     challenge = @study_log.study_challenges.build
 
-    prompt = "#{@study_log.study_genre}#{@study_log.content}\n#{@study_log.text}"
-    response_text = OpenAiService.generate_question(prompt, type: :multiple_choice)
+    ai_question = "#{@study_log.study_genre}#{@study_log.content}\n#{@study_log.text}"
+    user_response_text = OpenAiService.generate_question(ai_question, type: :multiple_choice)
 
-    if response_text.present?
-      challenge.prompt = prompt
-      challenge.response = response_text
+    if user_response_text.present?
+      challenge.ai_question = ai_question
+      challenge.user_response = user_response_text
       challenge.save!
       redirect_to study_challenge_path(challenge), notice: "あなたに合った問題を出題しました！"
     else
@@ -25,7 +25,7 @@ class StudyChallengesController < ApplicationController
   def show
     @study_challenge = StudyChallenge.find(params[:id])
     @study_log = @study_challenge.study_log
-    @question_only = extract_question(@study_challenge.response)
+    @question_only = extract_question(@study_challenge.user_response)
   end
 
   def answer
@@ -39,8 +39,8 @@ class StudyChallengesController < ApplicationController
     @study_log = @study_challenge.study_log
     user_answer = params[:user_answer]
 
-    explanation = OpenAiService.explain_answer(@study_challenge.response, user_answer)
-    correct_answer = extract_correct_answer(@study_challenge.response)
+    explanation = OpenAiService.explain_answer(@study_challenge.user_response, user_answer)
+    correct_answer = extract_correct_answer(@study_challenge.user_response)
 
     unless explanation.present? && correct_answer.present?
       redirect_to answer_study_log_study_challenge_path(@study_log, @study_challenge),
@@ -70,7 +70,7 @@ class StudyChallengesController < ApplicationController
     @study_answer = @study_challenge.study_answers.where(user: current_user).order(created_at: :desc).first
 
     unless @study_answer
-      redirect_to answer_study_log_study_challenge_path(@study_challenge), alert: "回答が見つかりません。"
+      redirect_to answer_study_log_study_challenge_path(@study_log, @study_challenge), alert: "回答が見つかりません。"
       return
     end
 

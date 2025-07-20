@@ -42,7 +42,7 @@
 <div class="mb-4 text-center">
   <h2 class="text-xl font-semibold text-green-600 mb-2">問題</h2>
   <pre class="bg-green-50 p-4 rounded inline-block text-left whitespace-pre-wrap break-words font-mono leading-relaxed max-w-full mx-auto">
-<%= @study_challenge.response.gsub(/^正解:.*$/, "").strip %>
+<%= @study_challenge.user_response.gsub(/^正解:.*$/, "").strip %>
   </pre>
 </div>
 

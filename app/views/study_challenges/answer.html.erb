@@ -3,7 +3,7 @@
   <div class="text-center w-full max-w-md">
     <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-green-500">問題に回答してください</h2>
 
-<% problem_only = @study_challenge.response.gsub(/^正解:.*$/, "").strip %>
+<% problem_only = @study_challenge.user_response.gsub(/^正解:.*$/, "").strip %>
 <div
   class="bg-green-50 p-4 rounded text-left whitespace-pre-wrap break-words overflow-auto mb-4 text-sm sm:text-base font-mono w-full leading-relaxed"
 ><%= problem_only %>
