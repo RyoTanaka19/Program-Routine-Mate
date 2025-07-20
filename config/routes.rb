@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  root "top_study_logs#top"
+  root "static_pages#top"
   resources :study_genres do
     resources :study_logs, only: %i[ index show new create edit update destroy ] do
       collection do
