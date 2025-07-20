@@ -5,7 +5,7 @@ class StudyLog < ApplicationRecord
   belongs_to :study_reminder, optional: true
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
-  has_many :learning_comments, dependent: :destroy
+  has_many :study_comments, dependent: :destroy
   has_many :study_challenges, dependent: :destroy
 
   validates :content, presence: true

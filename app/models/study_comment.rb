@@ -1,5 +1,5 @@
-# app/models/learning_comment.rb
-class LearningComment < ApplicationRecord
+# app/models/study_comment.rb
+class StudyComment < ApplicationRecord
   belongs_to :user
   belongs_to :study_log
 

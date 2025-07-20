@@ -144,12 +144,12 @@ end
   end
 
 
-  def show
-    @study_log = StudyLog.find(params[:id])
-    @learning_comment = LearningComment.new
-    @learning_comments = @study_log.learning_comments.includes(:user).order(created_at: :desc)
-    prepare_meta_tags(@study_log)
-  end
+def show
+  @study_log = StudyLog.find(params[:id])
+  @study_comment = StudyComment.new
+  @study_comments = @study_log.study_comments.includes(:user).order(created_at: :desc)
+  prepare_meta_tags(@study_log)
+end
 
   def logs_by_date
   date = Date.parse(params[:date]) rescue nil

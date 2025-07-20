@@ -28,10 +28,10 @@
     </div>
 
     <!-- 学習ジャンル -->
- <p class="mb-6">
-  <strong>学習ジャンル:</strong>
-  <%= @study_log.study_genre ? @study_log.study_genre.display_name : "未選択(変更のため)" %>
-</p>
+    <p class="mb-6">
+      <strong>学習ジャンル:</strong>
+      <%= @study_log.study_genre ? @study_log.study_genre.display_name : "未選択(変更のため)" %>
+    </p>
 
     <!-- 学習内容 -->
     <div class="mb-6">
@@ -67,47 +67,44 @@
         <% end %>
     
         <!-- シェアボタン -->
-<div class="w-full flex justify-center text-gray-600">
-  <% tweet_text = "#{@study_log.user&.name || 'ユーザー'} さんの学習記録：#{@study_log.content}を投稿しました。" %>
-  <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}&text=#{CGI.escape(tweet_text)}" %>
-  
-  <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
-    <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
-  <% end %>
-</div>
+        <div class="w-full flex justify-center text-gray-600">
+          <% tweet_text = "#{@study_log.user&.name || 'ユーザー'} さんの学習記録：#{@study_log.content}を投稿しました。" %>
+          <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}&text=#{CGI.escape(tweet_text)}" %>
+          
+          <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
+            <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
+          <% end %>
+        </div>
       </div>
     <% end %>
+
     <!-- コメントフォーム -->
     <div class="mt-6">
-      <%= render 'learning_comments/form', learning_comment: @learning_comment, study_log: @study_log %>
+      <%= render 'study_comments/form', study_comment: @study_comment, study_log: @study_log %>
     </div>
 
- 
-<!-- いいねボタン -->
-<%= render 'likes/like_button', study_log: @study_log %>
+    <!-- いいねボタン -->
+    <%= render 'likes/like_button', study_log: @study_log %>
 
-
-
-<% unless user_signed_in? %>
-  <div class="mt-6 bg-green-100 border-l-4 border-green-400 p-4 rounded-md text-center shadow-sm">
-    <p class="text-green-800 text-base sm:text-lg font-semibold">
-      コメントを投稿するには、
-      <%= link_to "ログインしてください", new_user_session_path, class: "underline text-blue-600 hover:text-blue-800" %>。
-    </p>
-    <p class="text-sm text-gray-700 mt-1">
-      ログイン後に他のユーザーと交流できます！
-    </p>
-  </div>
-<% end %>
-
+    <% unless user_signed_in? %>
+      <div class="mt-6 bg-green-100 border-l-4 border-green-400 p-4 rounded-md text-center shadow-sm">
+        <p class="text-green-800 text-base sm:text-lg font-semibold">
+          コメントを投稿するには、
+          <%= link_to "ログインしてください", new_user_session_path, class: "underline text-blue-600 hover:text-blue-800" %>。
+        </p>
+        <p class="text-sm text-gray-700 mt-1">
+          ログイン後に他のユーザーと交流できます！
+        </p>
+      </div>
+    <% end %>
 
     <!-- コメント一覧 -->
     <div class="mt-6">
       <h2 class="text-xl sm:text-2xl font-semibold text-center mb-4">コメント一覧</h2>
       <div class="border border-gray-300 rounded-md shadow-sm p-4 bg-white overflow-x-auto">
         <table class="w-full border-collapse text-sm sm:text-base">
-          <tbody id="learning_comments-list">
-            <%= render @learning_comments %>
+          <tbody id="study_comments-list">
+            <%= render @study_comments %>
           </tbody>
         </table>
       </div>

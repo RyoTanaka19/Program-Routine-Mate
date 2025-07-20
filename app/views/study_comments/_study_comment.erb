@@ -1,8 +1,8 @@
-<tr id="learning_comment_<%= learning_comment.id %>">
+<tr id="study_comment_<%= study_comment.id %>">
   <td>
     <div class="flex items-start space-x-4 my-4">
       <!-- プロフィール画像 -->
-      <% comment_user = learning_comment.user %>
+      <% comment_user = study_comment.user %>
       <div class="flex-shrink-0">
         <% if comment_user.present? %>
           <%= link_to user_path(comment_user) do %>
@@ -37,28 +37,28 @@
 
         <!-- 投稿日 -->
         <p class="text-xs text-gray-500 mb-1">
-          投稿日: <%= learning_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+          投稿日: <%= study_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %>
         </p>
 
         <!-- コメント本文 -->
         <p class="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
-          <%= simple_format(learning_comment.text) %>
+          <%= simple_format(study_comment.text) %>
         </p>
 
         <!-- 編集/削除ボタン（右端） -->
-        <% if user_signed_in? && current_user == learning_comment.user %>
+        <% if user_signed_in? && current_user == study_comment.user %>
           <div class="mt-2 flex justify-end space-x-2">
-            <%= link_to edit_learning_comment_path(learning_comment),
+            <%= link_to edit_study_comment_path(study_comment),
                   class: "inline-flex items-center px-3 py-1.5 text-sm bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
                   data: { turbo_stream: true },
-                  id: "button-edit-#{learning_comment.id}" do %>
+                  id: "button-edit-#{study_comment.id}" do %>
               <i class="fas fa-pencil-alt mr-1"></i> 編集
             <% end %>
 
-            <%= link_to learning_comment_path(learning_comment),
+            <%= link_to study_comment_path(study_comment),
                   class: "inline-flex items-center px-3 py-1.5 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300",
                   data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
-                  id: "button-delete-#{learning_comment.id}" do %>
+                  id: "button-delete-#{study_comment.id}" do %>
               <i class="fas fa-trash mr-1"></i> 削除
             <% end %>
           </div>

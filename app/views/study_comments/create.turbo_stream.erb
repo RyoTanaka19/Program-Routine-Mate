@@ -1,0 +1,5 @@
+<%= turbo_stream.replace("study_comments-form", partial: "study_comments/form", locals: { study_comment: StudyComment.new, study_log: @study_log }) %>
+
+<%= turbo_stream.prepend("study_comments-list", partial: "study_comments/study_comment", locals: { study_comment: @study_comment }) %>
+
+<%= turbo_stream.replace("flash_messages", partial: "shared/flash_messages") %>
