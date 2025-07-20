@@ -66,6 +66,7 @@ resources :study_logs do
         get :answer
         post :submit_answer
         get :result
+        get :history
       end
     end
   end
