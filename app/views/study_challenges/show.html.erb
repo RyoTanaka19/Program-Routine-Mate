@@ -1,16 +1,15 @@
 <!-- 問題表示画面 -->
-<div class="flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-  <div class="text-center w-full max-w-md">
-    <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-green-500">問題</h2>
+<div class="flex items-center justify-center min-h-screen px-6 sm:px-10 lg:px-16 bg-yello-50">
+  <div class="text-center w-full max-w-lg bg-white rounded-lg shadow-md p-8">
+    <h2 class="text-3xl font-extrabold mb-6 text-green-700 tracking-wide">問題</h2>
 
-    <pre class="bg-green-50 p-4 rounded text-left whitespace-pre-wrap text-sm sm:text-base overflow-y-auto max-h-96 leading-relaxed font-mono">
-      <%= @study_challenge.user_response.gsub(/^正解:.*$/, '') %>
+    <pre class="bg-green-50 p-6 rounded-md text-left whitespace-pre-wrap text-base sm:text-lg overflow-y-auto max-h-[24rem] leading-relaxed font-mono shadow-inner border border-green-200">
+<%= @study_challenge.user_response.gsub(/^正解:.*$/, '') %>
     </pre>
 
-    <%= link_to answer_study_log_study_challenge_path(@study_log, @study_challenge), data: { action: "click->loading#show" },
-      class: "inline-block mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-center gap-2" do %>
-      <i class="fas fa-pen"></i>
-      問題に挑戦する
+    <%= link_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
+                class: "inline-block mt-8 bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 text-white font-semibold px-8 py-3 rounded-md transition" do %>
+      問題を回答する
     <% end %>
   </div>
 </div>

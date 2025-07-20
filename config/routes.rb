@@ -59,16 +59,19 @@ resources :study_logs do
     get "ranking"
     get :logs_by_date
   end
-  resources :study_challenges, only: [ :new, :create, :show ] do
-    member do
-      get :answer
-      post :submit_answer
-      get :result
+
+  resources :study_challenges, only: [:new, :create, :show] do
+    resources :study_answers, only: [] do
+      collection do
+        get :answer
+        post :submit_answer
+        get :result
+      end
     end
   end
 
-  resources :study_comments, only: %i[ create destroy edit update ], shallow: true
-  resource :study_like, only: %i[ create destroy ]
+  resources :study_comments, only: %i[create destroy edit update], shallow: true
+  resource :study_like, only: %i[create destroy]
 end
     resources :study_challenges, only: [ :show ]
 end
