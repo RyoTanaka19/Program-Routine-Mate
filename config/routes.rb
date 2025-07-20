@@ -60,7 +60,7 @@ resources :study_logs do
     get :logs_by_date
   end
 
-  resources :study_challenges, only: [:new, :create, :show] do
+  resources :study_challenges, only: [ :new, :create, :show ] do
     resources :study_answers, only: [] do
       collection do
         get :answer
