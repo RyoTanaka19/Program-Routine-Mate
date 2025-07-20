@@ -10,9 +10,9 @@ class StaticPagesController < ApplicationController
   def form
   end
 
-  def friend
+  def usage
   end
 
-  def usage
+  def friend
   end
 end
