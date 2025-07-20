@@ -1,10 +1,10 @@
 class CommentNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(learning_comment_id)
-    learning_comment = LearningComment.find(learning_comment_id)
-    study_log = learning_comment.study_log
-    commenter = learning_comment.user
+  def perform(study_comment_id)
+    study_comment = StudyComment.find(study_comment_id)
+    study_log = study_comment.study_log
+    commenter = study_comment.user
 
     message = "#{commenter.name}さんがあなたの学習記録「#{study_log.content}」にコメントしました！"
 

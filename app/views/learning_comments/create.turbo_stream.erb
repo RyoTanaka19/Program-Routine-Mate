@@ -1,5 +1,0 @@
-<%= turbo_stream.replace("learning_comments-form", partial: "learning_comments/form", locals: { learning_comment: LearningComment.new, study_log: @study_log }) %>
-
-<%= turbo_stream.prepend("learning_comments-list", partial: "learning_comments/learning_comment", locals: { learning_comment: @learning_comment }) %>
-
-<%= turbo_stream.replace("flash_messages", partial: "shared/flash_messages") %>

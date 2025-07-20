@@ -10,19 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_19_223253) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_19_235033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "learning_comments", force: :cascade do |t|
-    t.bigint "study_log_id"
-    t.text "text", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["study_log_id"], name: "index_learning_comments_on_study_log_id"
-    t.index ["user_id"], name: "index_learning_comments_on_user_id"
-  end
 
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -61,6 +51,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_19_223253) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["study_log_id"], name: "index_study_challenges_on_study_log_id"
+  end
+
+  create_table "study_comments", force: :cascade do |t|
+    t.bigint "study_log_id"
+    t.text "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["study_log_id"], name: "index_study_comments_on_study_log_id"
+    t.index ["user_id"], name: "index_study_comments_on_user_id"
   end
 
   create_table "study_genres", force: :cascade do |t|
@@ -135,13 +135,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_19_223253) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "learning_comments", "study_logs"
-  add_foreign_key "learning_comments", "users"
   add_foreign_key "likes", "study_logs"
   add_foreign_key "likes", "users"
   add_foreign_key "study_answers", "study_challenges"
   add_foreign_key "study_answers", "users"
   add_foreign_key "study_challenges", "study_logs"
+  add_foreign_key "study_comments", "study_logs"
+  add_foreign_key "study_comments", "users"
   add_foreign_key "study_genres", "users"
   add_foreign_key "study_logs", "study_genres"
   add_foreign_key "study_logs", "study_reminders"

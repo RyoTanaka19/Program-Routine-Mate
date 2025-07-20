@@ -1,12 +1,12 @@
 <% if user_signed_in? %>
-  <%= turbo_frame_tag "learning_comment_#{learning_comment.id}" do %>
+  <%= turbo_frame_tag "study_comment_#{study_comment.id}" do %>
     <!-- コメントフォーム全体をTurbo Frameで囲むことで、部分的な更新が可能に -->
-    <div class="row mb-3" id="learning_comments-form">
+    <div class="row mb-3" id="study_comments-form">
       <div class="col-lg-8 offset-lg-2">
       
-        <%= form_with model: learning_comment, 
-                      url: (learning_comment.new_record? ? study_log_learning_comments_path(study_log) : learning_comment_path(learning_comment)), 
-                      method: (learning_comment.new_record? ? :post : :patch) do |form| %>
+        <%= form_with model: study_comment, 
+                      url: (study_comment.new_record? ? study_log_study_comments_path(study_log) : study_comment_path(study_comment)), 
+                      method: (study_comment.new_record? ? :post : :patch) do |form| %>
 
           <!-- バリデーションエラーがあれば共通部品から表示 -->
           <%= render 'shared/error_messages', object: form.object %>
@@ -17,15 +17,15 @@
           <!-- コメント本文の入力フィールド -->
           <%= form.text_area :text, 
                 class: "w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500",
-                autofocus: learning_comment.new_record? %>
+                autofocus: study_comment.new_record? %>
 
           <!-- 対象の学習記録IDを隠しフィールドで送信（サーバー側でも紐付けに使用） -->
-          <%= form.hidden_field :study_log_id, value: @learning_comment.study_log_id %>
+          <%= form.hidden_field :study_log_id, value: study_comment.study_log_id %>
 
           <br>
 
           <!-- コメント送信ボタン。新規作成と編集で共通 -->
-          <%= form.submit (learning_comment.new_record? ? "送信" : "変更"), class: "bg-green-500 text-white hover:bg-green-600 rounded-md px-4 py-2" %>
+          <%= form.submit (study_comment.new_record? ? "送信" : "変更"), class: "bg-green-500 text-white hover:bg-green-600 rounded-md px-4 py-2" %>
 
         <% end %>
       </div>

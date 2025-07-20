@@ -43,7 +43,7 @@ end
   has_many :study_reminders, dependent: :destroy
   has_many :user_study_badges, dependent: :destroy
   has_many :study_badges, through: :user_study_badges
-  has_many :learning_comments, dependent: :destroy
+  has_many :study_comments, dependent: :destroy
   has_many :study_genres, dependent: :destroy
 
   validates :name, presence: true

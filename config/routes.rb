@@ -67,7 +67,7 @@ resources :study_logs do
     end
   end
 
-  resources :learning_comments, only: %i[ create destroy edit update ], shallow: true
+  resources :study_comments, only: %i[ create destroy edit update ], shallow: true
   resource :like, only: %i[ create destroy ]
 end
     resources :study_challenges, only: [ :show ]
