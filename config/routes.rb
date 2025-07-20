@@ -74,4 +74,5 @@ resources :study_logs do
   resource :study_like, only: %i[create destroy]
 end
     resources :study_challenges, only: [ :show ]
+    resources :study_badges, only: [ :index ]
 end
