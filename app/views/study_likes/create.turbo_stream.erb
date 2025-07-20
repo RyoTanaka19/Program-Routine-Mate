@@ -1,12 +1,12 @@
 <%= turbo_stream.replace(
       "like-button-#{@study_log.id}",
-      partial: "likes/like_button",
+      partial: "study_likes/like_button",
       locals: { study_log: @study_log }
     ) %>
 
 <%= turbo_stream.replace(
       "like-count-#{@study_log.id}",
-      partial: "likes/like_count",
+      partial: "study_likes/like_count",
       locals: { study_log: @study_log }
     ) %>
 

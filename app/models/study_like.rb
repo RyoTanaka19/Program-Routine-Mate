@@ -1,4 +1,4 @@
-class Like < ApplicationRecord
+class StudyLike < ApplicationRecord
   belongs_to :user
   belongs_to :study_log
 
