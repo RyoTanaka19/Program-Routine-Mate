@@ -10,10 +10,6 @@ def show
   @study_logs = @user.study_logs
 end
 
-  def badges
-    @study_badges = current_user.study_badges
-  end
-
   # 退会理由入力フォームの表示
   def confirm_withdrawal
     # 特に何もしなくてOK（ビューが表示される）
