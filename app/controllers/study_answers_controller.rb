@@ -55,6 +55,11 @@ class StudyAnswersController < ApplicationController
     @total = all_challenges.count
   end
 
+   def history
+    # current_userが過去に回答した全StudyAnswerを、作成日時の降順で取得
+    @study_answers = current_user.study_answers.includes(:study_challenge).order(created_at: :desc)
+  end
+
   private
 
   def set_study_challenge_and_log
