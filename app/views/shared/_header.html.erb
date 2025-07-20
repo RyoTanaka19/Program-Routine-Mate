@@ -34,13 +34,7 @@
   <!-- 右側：通知 + ユーザーアイコン + 友だち追加 -->
   <div class="flex flex-wrap justify-center md:justify-end items-center gap-4 w-full md:w-auto">
 
-    <!-- 友だち追加ボタン -->
-    <div class="flex flex-col items-center w-16">
-      <button id="friend-image" class="relative">
-        <%= image_tag("friend.png", alt: "友だち追加", class: "cursor-pointer mx-auto w-12 h-12") %>
-      </button>
-      <span class="mt-1 text-xs text-white text-center">友だち追加</span>
-    </div>
+ 
 
     <!-- 各アイコンリンク -->
     <%= 
@@ -99,46 +93,6 @@
   <!-- 通知がここに表示される -->
 </div>
 
-<!-- 友だち追加の画像とメッセージ -->
-<div class="mt-6 text-center">
-  <div id="friend-image-container" class="mt-4 hidden">
-    <!-- QRコードのサイズを調整 -->
-    <%= image_tag("line_friend.png", alt: "LINE友だち追加QRコード", class: "mx-auto w-32 h-32") %>
-    <div id="thank-you-message" class="mt-4 text-[#00C300] text-lg font-semibold hidden animate-fade-in">
-      友だち申請ありがとう!!
-    </div>
-  </div>
-</div>
 
-<style>
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-  }
 
-  #thank-you-message { color: #00C300; }
-</style>
-
-<script>
-  // 友だち追加画像をクリックしたときの処理
-  document.getElementById("friend-image").addEventListener("click", function() {
-    const container = document.getElementById("friend-image-container");
-    const message = document.getElementById("thank-you-message");
-
-    // すでに表示されている場合は非表示にする
-    if (!container.classList.contains("hidden")) {
-      container.classList.add("hidden");
-      message.classList.add("hidden");
-    } else {
-      container.classList.remove("hidden");
-      message.classList.remove("hidden");
-      message.classList.remove("animate-fade-in");
-      void message.offsetWidth;  // アニメーションのリセット
-      message.classList.add("animate-fade-in");
-    }
-  });
-</script>
