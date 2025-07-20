@@ -1,6 +1,6 @@
 class StudyCommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_study_comment, only: [:edit, :update, :destroy]
+  before_action :set_study_comment, only: [ :edit, :update, :destroy ]
 
   def create
     @study_log = StudyLog.find(params[:study_log_id])
