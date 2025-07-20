@@ -84,7 +84,7 @@
     </div>
 
     <!-- いいねボタン -->
-    <%= render 'likes/like_button', study_log: @study_log %>
+    <%= render 'study_likes/like_button', study_log: @study_log %>
 
     <% unless user_signed_in? %>
       <div class="mt-6 bg-green-100 border-l-4 border-green-400 p-4 rounded-md text-center shadow-sm">

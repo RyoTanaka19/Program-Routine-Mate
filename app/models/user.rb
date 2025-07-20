@@ -37,8 +37,8 @@ end
 
   mount_uploader :profile_image, ProfileImageUploader
 
-  has_many :likes, dependent: :destroy
-  has_many :liked_study_logs, through: :likes, source: :study_log
+  has_many :study_likes, dependent: :destroy
+  has_many :study_liked_study_logs, through: :study_likes, source: :study_log
   has_many :study_logs, dependent: :destroy
   has_many :study_reminders, dependent: :destroy
   has_many :user_study_badges, dependent: :destroy

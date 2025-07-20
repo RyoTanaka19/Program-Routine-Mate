@@ -180,9 +180,9 @@
 
  <!-- いいね -->
 <div class="flex items-center space-x-1 text-[11px] mb-2">
-  <%= render 'likes/like_button', study_log: study_log %>
+  <%= render 'study_likes/like_button', study_log: study_log %>
   <%= turbo_frame_tag "like-count-#{study_log.id}" do %>
-    <span class="text-gray-700"><%= study_log.likes.count %></span>
+    <span class="text-gray-700"><%= study_log.study_likes.count %></span>
   <% end %>
 </div>
 

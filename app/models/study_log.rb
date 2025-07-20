@@ -3,8 +3,8 @@ class StudyLog < ApplicationRecord
   belongs_to :user
   belongs_to :study_genre
   belongs_to :study_reminder, optional: true
-  has_many :likes, dependent: :destroy
-  has_many :liked_users, through: :likes, source: :user
+  has_many :study_likes, dependent: :destroy
+  has_many :study_liked_users, through: :study_likes, source: :user
   has_many :study_comments, dependent: :destroy
   has_many :study_challenges, dependent: :destroy
 

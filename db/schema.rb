@@ -10,19 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_19_235033) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_20_005022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "likes", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "study_log_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["study_log_id"], name: "index_likes_on_study_log_id"
-    t.index ["user_id", "study_log_id"], name: "index_likes_on_user_id_and_study_log_id", unique: true
-    t.index ["user_id"], name: "index_likes_on_user_id"
-  end
 
   create_table "study_answers", force: :cascade do |t|
     t.bigint "study_challenge_id", null: false
@@ -69,6 +59,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_19_235033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_study_genres_on_user_id"
+  end
+
+  create_table "study_likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "study_log_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_log_id"], name: "index_study_likes_on_study_log_id"
+    t.index ["user_id", "study_log_id"], name: "index_study_likes_on_user_id_and_study_log_id", unique: true
+    t.index ["user_id"], name: "index_study_likes_on_user_id"
   end
 
   create_table "study_logs", force: :cascade do |t|
@@ -135,14 +135,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_19_235033) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "likes", "study_logs"
-  add_foreign_key "likes", "users"
   add_foreign_key "study_answers", "study_challenges"
   add_foreign_key "study_answers", "users"
   add_foreign_key "study_challenges", "study_logs"
   add_foreign_key "study_comments", "study_logs"
   add_foreign_key "study_comments", "users"
   add_foreign_key "study_genres", "users"
+  add_foreign_key "study_likes", "study_logs"
+  add_foreign_key "study_likes", "users"
   add_foreign_key "study_logs", "study_genres"
   add_foreign_key "study_logs", "study_reminders"
   add_foreign_key "study_logs", "users"
