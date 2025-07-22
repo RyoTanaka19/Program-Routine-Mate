@@ -106,10 +106,10 @@ def index
 
   @study_logs = @q.result(distinct: true)
                   .includes(:user)
-                  .order(created_at: :desc) 
+                  .order(created_at: :desc)
                   .page(params[:page])
 
-  @contribution_graph = current_user&.contribution_graph_data || [] 
+  @contribution_graph = current_user&.contribution_graph_data || []
 
   @study_genres = StudyGenre.all
 end

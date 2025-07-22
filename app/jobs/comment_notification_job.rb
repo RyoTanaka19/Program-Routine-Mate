@@ -13,7 +13,6 @@ class CommentNotificationJob < ApplicationJob
     broadcast_browser_notification(study_log.user.id, message)
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.warn "CommentNotificationJob failed: #{e.message}"
-
   end
 
   private
