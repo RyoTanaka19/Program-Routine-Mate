@@ -7,7 +7,7 @@ Rails.application.configure do
   config.enable_reloading = false
   config.hosts << "program-routine-mate.com"
   config.hosts << "www.program-routine-mate.com"
-  config.hosts << "program-routine-mate.onrender.com"
+
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
