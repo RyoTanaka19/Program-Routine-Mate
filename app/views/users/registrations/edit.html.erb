@@ -3,18 +3,18 @@
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true, class: "space-y-8" }) do |f| %>
 
-<% if resource.errors.any? %>
-  <div class="alert alert-danger mb-4">
-    <h4 class="text-red-600 text-lg font-semibold">入力に誤りがあります。再度ご確認ください:</h4>
-    <ul class="list-inside list-disc pl-4 mt-2">
-      <% resource.errors.full_messages.each do |message| %>
-        <li class="text-red-500">
-          <%= message.gsub('Email', 'メールアドレス').gsub('Uid', 'UID').gsub('is already taken', 'は既に使われています') %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+    <% if resource.errors.any? %>
+      <div class="alert alert-danger mb-4">
+        <h4 class="text-red-600 text-lg font-semibold">入力に誤りがあります。再度ご確認ください:</h4>
+        <ul class="list-inside list-disc pl-4 mt-2">
+          <% resource.errors.full_messages.each do |message| %>
+            <li class="text-red-500">
+              <%= message.gsub('Email', 'メールアドレス').gsub('Uid', 'UID').gsub('is already taken', 'は既に使われています') %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
     <!-- 名前 -->
     <div>
@@ -34,16 +34,15 @@
       <%= f.text_area :self_introduction, rows: 5, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
     </div>
 
-
-
     <!-- プロフィール画像 -->
     <div>
       <%= f.label :profile_image, "プロフィール画像", class: "block text-lg font-semibold text-gray-700 mb-2" %>
-      <%= f.file_field :profile_image, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500", onchange: 'previewImage()', accept: 'image/*' %>
+      <!-- onchangeを削除 -->
+      <%= f.file_field :profile_image, class: "w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
 
       <p class="mt-2 text-sm text-gray-600">現在の画像：</p>
       <div class="mt-2 border border-gray-200 p-2 rounded-md inline-block shadow-sm">
-        <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", class: "w-full h-full object-cover rounded-md shadow-md", id: "preview") %>
+        <%= image_tag(resource.profile_image.present? ? resource.profile_image.url : "default_study_logs_image.png", class: "w-full h-full object-cover rounded-md shadow-md", id: "profile_image_preview") %>
       </div>
 
       <div class="mt-4">
@@ -64,21 +63,3 @@
 
   <% end %>
 </div>
-
-<script>
-  function previewImage() {
-    const fileInput = document.querySelector('input[type="file"][name="user[profile_image]"]');
-    const preview = document.getElementById('preview');
-
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = function () {
-      preview.src = reader.result;
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-</script>

@@ -32,31 +32,32 @@
         class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
     </section>
 
-    <!-- 画像 -->
-    <section class="mb-8">
-      <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
-      <%= f.file_field :image,
-        class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-        onchange: 'previewImage()',
-        accept: 'image/*' %>
+ <!-- 画像 -->
+<section class="mb-8">
+  <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
+  <%= f.file_field :image,
+    class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+    accept: 'image/*' %>
 
-      <div class="mt-4 flex justify-center">
-        <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
-          width: 300, height: 200,
-          class: "rounded-md shadow-md",
-          id: "preview") %>
-      </div>
+  <div class="mt-4 flex justify-center">
+    <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
+      width: 300, height: 200,
+      class: "rounded-md shadow-md",
+      id: "study_log_preview") %> <!-- ✅ 修正 -->
+  </div>
 
-      <!-- チェックボックス: 画像を削除する -->
-      <% if @study_log.image? %>
-        <div class="mt-4 flex justify-center">
-          <%= f.check_box :remove_image, class: "mr-2" %>
-          <%= f.label :remove_image, "画像を削除する", class: "text-red-600 font-medium" %>
-        </div>
-      <% end %>
+  <!-- チェックボックス: 画像を削除する -->
+  <% if @study_log.image? %>
+    <div class="mt-4 flex justify-center items-center">
+      <%= f.check_box :remove_image, class: "mr-2" %>
+      <%= f.label :remove_image, "画像を削除する", class: "text-red-600 font-medium" %>
+    </div>
+  <% end %>
 
-      <%= f.hidden_field :image_cache %>
-    </section>
+  <%= f.hidden_field :image_cache %>
+</section>
+
+
 
     <!-- 学んだこと -->
     <section class="mb-8">

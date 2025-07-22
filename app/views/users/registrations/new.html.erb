@@ -57,47 +57,52 @@
           <% end %>
         </div>
 
-        <!-- パスワード -->
-        <div>
-          <label for="user_password" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-            <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            パスワード
-            <span class="text-red-500 ml-1">（必須）</span>
-          </label>
-          <div class="relative">
-            <%= f.password_field :password, id: "user_password", class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード(6文字以上)", autocomplete: "new-password" %>
-          </div>
+<!-- パスワード -->
+  <div>
+    <label for="user_password" class="flex items-center text-sm font-medium text-gray-600 mb-1">
+     <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+     </svg>
+     パスワード
+     <span class="text-red-500 ml-1">（必須）</span>
+   </label>
+    <div class="relative">
+     <%= f.password_field :password, id: "pass", class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード(6文字以上)", autocomplete: "new-password" %>
+   </div>
+    <div class="mt-1 text-sm text-gray-600">
+     <label><input type="checkbox" onchange="document.getElementById('pass').type = this.checked ? 'text' : 'password';"> 表示</label>
+  </div>
+    <% if resource.errors[:password].any? %>
+     <div class="text-red-500 text-xs mt-1">
+       <%= resource.errors[:password].join(", ") %>
+     </div>
+   <% end %>
+  </div>
 
-          <% if resource.errors[:password].any? %>
-            <div class="text-red-500 text-xs mt-1">
-              <%= resource.errors[:password].join(", ") %>
-            </div>
-          <% end %>
-        </div>
+  <!-- パスワード確認 -->
+  <div>
+    <label for="user_password_confirmation" class="flex items-center text-sm font-medium text-gray-600 mb-1">
+      <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+     パスワード確認
+     <span class="text-red-500 ml-1">（必須）</span>
+   </label>
+    <div class="relative">
+     <%= f.password_field :password_confirmation, id: "pass_confirmation", class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
+   </div>
+    <div class="mt-1 text-sm text-gray-600">
+     <label><input type="checkbox" onchange="document.getElementById('pass_confirmation').type = this.checked ? 'text' : 'password';"> 表示</label>
+   </div>
+    <% if resource.errors[:password_confirmation].any? %>
+      <div class="text-red-500 text-xs mt-1">
+        <%= resource.errors[:password_confirmation].join(", ") %>
+     </div>
+   <% end %>
+  </div>
 
-        <!-- パスワード確認 -->
-        <div>
-          <label for="user_password_confirmation" class="flex items-center text-sm font-medium text-gray-600 mb-1">
-            <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            パスワード確認
-            <span class="text-red-500 ml-1">（必須）</span>
-          </label>
-          <div class="relative">
-            <%= f.password_field :password_confirmation, id: "user_password_confirmation", class: "border-2 border-gray-300 rounded-md p-3 pr-12 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-red-500", placeholder: "パスワード確認(6文字以上)", autocomplete: "new-password" %>
-          </div>
-
-          <% if resource.errors[:password_confirmation].any? %>
-            <div class="text-red-500 text-xs mt-1">
-              <%= resource.errors[:password_confirmation].join(", ") %>
-            </div>
-          <% end %>
-        </div>
 
         <!-- 送信ボタン -->
         <div>
