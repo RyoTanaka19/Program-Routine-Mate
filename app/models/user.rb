@@ -8,14 +8,25 @@ class User < ApplicationRecord
 
 
 def self.from_omniauth(auth)
-  # provider + uidで検索（絶対に優先）
+  # ① provider + uidで探す
   user = find_by(provider: auth.provider, uid: auth.uid)
   return user if user.present?
 
-  # メールアドレスだけで既存ユーザーを検索しない
-  # 代わりに新規作成するか、ユーザーに紐付け確認を求める
+  # ② メールアドレスでユーザーを探す
+  if auth.info.email.present?
+    user = find_by(email: auth.info.email)
 
-  user = create do |u|
+    if user.present?
+      # provider と uid が登録されていなければ更新して保存する
+      if user.provider != auth.provider || user.uid != auth.uid
+        user.update(provider: auth.provider, uid: auth.uid)
+      end
+      return user
+    end
+  end
+
+  # ③ 新規作成
+  create do |u|
     u.provider = auth.provider
     u.uid = auth.uid
     u.email = auth.info.email.presence || "#{auth.uid}-#{auth.provider}@example.com"
@@ -23,8 +34,8 @@ def self.from_omniauth(auth)
     u.password_confirmation = u.password
     u.name = auth.info.name.presence || "Guest"
   end
-  user
 end
+
 
   mount_uploader :profile_image, ProfileImageUploader
 
@@ -44,9 +55,9 @@ end
   # パスワードバリデーションをスキップするためのアクセサ
   attr_accessor :skip_password_validation
   validates :password, presence: true, on: :create, unless: :skip_password_validation
-  validates :password_confirmation, presence: true, on: :create, unless: :skip_password_validation
-  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
 
+  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
+  validates :password_confirmation, presence: true, on: [ :create ], unless: :skip_password_validation
 
   # OAuth認証元を判別
   def from_oauth?
@@ -70,7 +81,10 @@ end
     id == object&.user_id
   end
 
-
+  # 新しいジャンルが追加可能かどうか
+  def can_add_new_genre?
+    study_settings.count < 3 && study_settings.any?(&:completed_21_days?)
+  end
 
   # ユーザー別学習ログの日数ランキング
   def self.studied_logs_days_ranking
