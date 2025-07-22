@@ -3,9 +3,13 @@
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "max-w-md mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
   <!-- エラーメッセージの表示部分 -->
   <div class="mb-6">
-    <% if flash[:alert] %>
-      <div class="alert alert-danger text-red-500 bg-red-100 p-4 rounded-md">
-        <%= flash[:alert] %>
+    <% if resource.errors.any? %>
+      <div class="mb-6 text-red-600 bg-red-100 p-4 rounded-md">
+        <ul>
+          <% resource.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
   </div>
@@ -35,23 +39,22 @@
     </label>
   </div>
 
+  <!-- パスワード確認フィールド -->
+  <div class="mb-6">
+    <%= f.label :password_confirmation, class: "block text-lg font-medium text-gray-700" do %>
+      新しいパスワードの確認
+      <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
+    <% end %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "pass_confirmation", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
 
- <!-- パスワード確認フィールド -->
-<div class="mb-6">
-  <%= f.label :password_confirmation, class: "block text-lg font-medium text-gray-700" do %>
-    新しいパスワードの確認
-    <span class="text-red-500 text-sm font-semibold ml-2">必須</span>
-  <% end %>
-  <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "pass_confirmation", class: "mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm" %>
-
-  <!-- パスワード確認表示切替チェックボックス -->
-  <label class="inline-flex items-center mt-2 cursor-pointer select-none text-gray-700">
-    <input type="checkbox" 
-           class="mr-2" 
-           onchange="document.getElementById('pass_confirmation').type = this.checked ? 'text' : 'password';">
-    パスワードを表示する
-  </label>
-</div>
+    <!-- パスワード確認表示切替チェックボックス -->
+    <label class="inline-flex items-center mt-2 cursor-pointer select-none text-gray-700">
+      <input type="checkbox" 
+             class="mr-2" 
+             onchange="document.getElementById('pass_confirmation').type = this.checked ? 'text' : 'password';">
+      パスワードを表示する
+    </label>
+  </div>
 
   <!-- 送信ボタン -->
   <div class="mt-6">

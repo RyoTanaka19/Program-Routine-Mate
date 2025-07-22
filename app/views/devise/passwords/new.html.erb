@@ -4,35 +4,34 @@
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
   <!-- エラーメッセージの表示部分 -->
-  <div class="mb-6">
-    <% if flash[:alert] %>
-      <div class="alert alert-danger text-red-500 bg-red-100 p-4 rounded-md">
-        <%= flash[:alert] %>
+    <% if resource.errors.any? %>
+      <div class="text-red-500 bg-red-100 p-4 rounded-md">
+        <ul class="list-disc pl-5">
+          <% resource.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
   </div>
 
   <!-- メールアドレスの入力フィールド -->
-<div class="mb-6">
-  <%= f.label :email, class: "block text-lg font-medium text-gray-700 flex items-center space-x-2" do %>
-    <span>メールアドレス</span>
-    <span class="text-red-600 font-semibold">(必須)</span>
-  <% end %>
+  <div class="mb-6">
+    <%= f.label :email, class: "block text-lg font-medium text-gray-700 flex items-center space-x-2" do %>
+      <span>メールアドレス</span>
+      <span class="text-red-600 font-semibold">(必須)</span>
+    <% end %>
 
-  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" %>
-</div>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" %>
+  </div>
 
-<!-- 送信ボタン -->
-<div class="actions text-center">
-  <%= f.submit "パスワードリセットを申請する", class: "bg-blue-500 text-white px-6 py-3 rounded-md w-full hover:bg-blue-600 focus:outline-none transition-all" %>
-</div>
+  <!-- 送信ボタン -->
+  <div class="actions text-center">
+    <%= f.submit "パスワードリセットを申請する", class: "bg-blue-500 text-white px-6 py-3 rounded-md w-full hover:bg-blue-600 focus:outline-none transition-all" %>
+  </div>
 
-<!-- ログイン画面に戻るリンクボタン -->
-<div class="mt-4">
-  <%= link_to "ログイン画面に戻る", new_user_session_path, class: "block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-md w-full hover:bg-gray-300 transition-all" %>
-</div>
-
-
+  <!-- ログイン画面に戻るリンクボタン -->
+  <div class="mt-4">
+    <%= link_to "ログイン画面に戻る", new_user_session_path, class: "block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-md w-full hover:bg-gray-300 transition-all" %>
+  </div>
 <% end %>
-</div>
-
