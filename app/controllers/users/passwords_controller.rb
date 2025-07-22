@@ -34,9 +34,9 @@ class Users::PasswordsController < Devise::PasswordsController
       sign_in(resource_name, resource)
       respond_with resource, location: after_sign_in_path_for(resource)
     else
-      # バリデーションエラーをログ出力 & 表示
+      # バリデーションエラーをログ出力
       Rails.logger.debug("Validation Errors: #{resource.errors.full_messages}")
-      flash[:alert] = resource.errors.full_messages.join("、") if is_navigational_format?
+      # flash[:alert] は削除して、ビューで resource.errors を表示させる
       respond_with resource
     end
   end

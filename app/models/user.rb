@@ -79,11 +79,6 @@ end
     id == object&.user_id
   end
 
-  # 新しいジャンルが追加可能かどうか
-  def can_add_new_genre?
-    study_settings.count < 3 && study_settings.any?(&:completed_21_days?)
-  end
-
   # ユーザー別学習ログの日数ランキング
   def self.studied_logs_days_ranking
     StudyLog
