@@ -21,7 +21,7 @@
             <li><%= link_to "マイページ", user_path(current_user), class: "text-green-600" %></li>
             <li><%= link_to "学習バッジ", study_badges_path, class: "text-green-600" %></li>
             <li><%= link_to 'ジャンル一覧', study_genres_path, class: "text-green-600", data: { action: "click->loading#show" } %></li>
-            <li><%= link_to "投稿日数ランキング", ranking_study_logs_path, class: "text-green-600" %></li>
+            <li><%= link_to "投稿日数ランキング", ranking_users_path, class: "text-green-600" %></li>
             <li><%= link_to "退会", confirm_withdrawal_user_path(current_user), class: "text-green-600 hover:text-green-800" %></li>
           <% else %>
             <li><%= link_to "ログイン", new_user_session_path, class: "text-lg text-green-600 no-underline" %></li>

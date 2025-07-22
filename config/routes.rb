@@ -6,12 +6,17 @@ Rails.application.routes.draw do
     registrations: "users/registrations",
     passwords: "users/passwords"
   }
-  resources :users, only: [ :show, :destroy ] do
-    member do
-      get "confirm_withdrawal"
-      patch "withdraw"
-     end
-   end
+resources :users, only: [ :show, :destroy ] do
+  member do
+    get "confirm_withdrawal"
+    patch "withdraw"
+  end
+
+  collection do
+    get "ranking"  # ← これを追加！
+  end
+end
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -29,7 +34,6 @@ Rails.application.routes.draw do
   resources :study_genres do
     resources :study_logs, only: %i[ index show new create edit update destroy ] do
       collection do
-        get "ranking"
         get :autocomplete
       end
     end

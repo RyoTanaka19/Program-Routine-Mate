@@ -10,6 +10,10 @@ def show
   @study_logs = @user.study_logs
 end
 
+def ranking
+  @ranking = User.studied_logs_days_ranking
+end
+
   # 退会理由入力フォームの表示
   def confirm_withdrawal
     # 特に何もしなくてOK（ビューが表示される）
