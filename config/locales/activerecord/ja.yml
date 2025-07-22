@@ -7,7 +7,7 @@ ja:
         minute: ''
         second: ''
         text: ''
-      learning_comment:
+      study_comment:
         text: ''
 
     errors:
@@ -25,7 +25,7 @@ ja:
             text:
               blank: '学習内容から学んだことを入力してください'
 
-        learning_comment:
+        study_comment:
           attributes:
             text:
               blank: 'コメント内容を入力してください'

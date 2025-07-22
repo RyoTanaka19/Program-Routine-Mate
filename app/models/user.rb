@@ -88,7 +88,7 @@ end
   end
 
   # 学習ログの日付ごとの貢献データを取得
-  def reload_contribution_graph_data
+  def contribution_graph_data
     study_logs
       .group("DATE(created_at)")
       .order("DATE(created_at)")

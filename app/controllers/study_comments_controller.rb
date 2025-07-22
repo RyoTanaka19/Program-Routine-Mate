@@ -1,10 +1,10 @@
 class StudyCommentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_study_log, only: [ :create ]
   before_action :set_study_comment, only: [ :edit, :update, :destroy ]
 
   def create
-    @study_log = StudyLog.find(params[:study_log_id])
-    @study_comment = current_user.study_comments.build(study_comment_params)
+    @study_comment = current_user.study_comments.build(create_params)
     @study_comment.study_log = @study_log
 
     if @study_comment.save
@@ -18,7 +18,10 @@ class StudyCommentsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream { render :create_error }
-        format.html { redirect_to @study_log, alert: "コメントの投稿に失敗しました" }
+        format.html {
+          @study_comments = @study_log.study_comments.includes(:user)
+          render "study_logs/show", status: :unprocessable_entity
+        }
       end
     end
   end
@@ -47,7 +50,7 @@ class StudyCommentsController < ApplicationController
   end
 
   def update
-    if @study_comment.update(study_comment_params.except(:study_log_id))
+    if @study_comment.update(update_params)
       flash[:notice] = "コメントを編集しました"
       respond_to do |format|
         format.turbo_stream { render :update }
@@ -56,18 +59,33 @@ class StudyCommentsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream { render :update_error }
-        format.html { redirect_to @study_comment.study_log, alert: "コメントの編集に失敗しました" }
+        format.html {
+          # 編集失敗時は編集フォームを再表示
+          render :edit, status: :unprocessable_entity
+        }
       end
     end
   end
 
   private
 
-  def set_study_comment
-    @study_comment = current_user.study_comments.find(params[:id])
+  def set_study_log
+    @study_log = StudyLog.find(params[:study_log_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_back fallback_location: root_path, alert: "投稿が見つかりません"
   end
 
-  def study_comment_params
+  def set_study_comment
+    @study_comment = current_user.study_comments.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_back fallback_location: root_path, alert: "コメントが見つかりません"
+  end
+
+  def create_params
     params.require(:study_comment).permit(:text, :study_log_id)
+  end
+
+  def update_params
+    params.require(:study_comment).permit(:text)
   end
 end

@@ -1,5 +1,3 @@
-// tailwind.config.js
-
 module.exports = {
   content: [
     './app/views/**/*.html.erb',
@@ -20,9 +18,14 @@ module.exports = {
             color: '#22c55e',
           },
         },
+        slideOutRight: {
+          '0%': { opacity: '1', transform: 'translateX(0)' },
+          '100%': { opacity: '0', transform: 'translateX(100%)' },
+        },
       },
       animation: {
         'glow-animation': 'glow 1.5s ease-in-out infinite',
+        'slide-out-right': 'slideOutRight 0.5s forwards',
       },
     },
   },
