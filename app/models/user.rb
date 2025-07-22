@@ -7,26 +7,24 @@ class User < ApplicationRecord
 
 
 
-def self.from_omniauth(auth)
-  # ① provider + uidで探す
+ def self.from_omniauth(auth)
+  # providerとuidで既存ユーザーを探す
   user = find_by(provider: auth.provider, uid: auth.uid)
+
   return user if user.present?
 
-  # ② メールアドレスでユーザーを探す
+  # メールアドレスが提供されている場合、メールアドレスでユーザーを探す
   if auth.info.email.present?
     user = find_by(email: auth.info.email)
 
     if user.present?
-      # provider と uid が登録されていなければ更新して保存する
-      if user.provider != auth.provider || user.uid != auth.uid
-        user.update(provider: auth.provider, uid: auth.uid)
-      end
+      # メールアドレスが一致した場合、同じユーザーを返す
       return user
     end
   end
 
-  # ③ 新規作成
-  create do |u|
+  # メールアドレスが異なる場合、uidとproviderが一致する別のユーザーがいない場合のみ新規作成
+  user = create do |u|
     u.provider = auth.provider
     u.uid = auth.uid
     u.email = auth.info.email.presence || "#{auth.uid}-#{auth.provider}@example.com"
@@ -34,8 +32,8 @@ def self.from_omniauth(auth)
     u.password_confirmation = u.password
     u.name = auth.info.name.presence || "Guest"
   end
+  user
 end
-
 
   mount_uploader :profile_image, ProfileImageUploader
 
