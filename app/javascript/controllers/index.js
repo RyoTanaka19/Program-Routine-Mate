@@ -12,3 +12,6 @@ application.register('hello', HelloController);
 
 import LoadingController from './loading_controller';
 application.register('loading', LoadingController);
+
+import FriendAddModalController from './friend_add_modal_controller';
+application.register('friend-add-modal', FriendAddModalController);
