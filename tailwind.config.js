@@ -8,6 +8,10 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         glow: {
           '0%, 100%': {
             boxShadow: '0 0 8px #22c55e',
@@ -24,6 +28,7 @@ module.exports = {
         },
       },
       animation: {
+        'fade-in': 'fadeIn 0.8s ease-out forwards',
         'glow-animation': 'glow 1.5s ease-in-out infinite',
         'slide-out-right': 'slideOutRight 0.5s forwards',
       },
