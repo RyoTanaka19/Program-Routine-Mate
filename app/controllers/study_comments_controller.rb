@@ -1,7 +1,7 @@
 class StudyCommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_study_log, only: [:create]
-  before_action :set_study_comment, only: [:edit, :update, :destroy]
+  before_action :set_study_log, only: [ :create ]
+  before_action :set_study_comment, only: [ :edit, :update, :destroy ]
 
   def create
     @study_comment = current_user.study_comments.build(create_params)
@@ -18,10 +18,9 @@ class StudyCommentsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream { render :create_error }
-        format.html { 
-          # エラー時は投稿詳細のコメントフォームを再表示（エラーメッセージも表示可能）
-          @study_comments = @study_log.study_comments.includes(:user) # 例：コメント一覧も読み込みたい場合
-          render 'study_logs/show', status: :unprocessable_entity 
+        format.html {
+          @study_comments = @study_log.study_comments.includes(:user)
+          render "study_logs/show", status: :unprocessable_entity
         }
       end
     end
@@ -60,7 +59,7 @@ class StudyCommentsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream { render :update_error }
-        format.html { 
+        format.html {
           # 編集失敗時は編集フォームを再表示
           render :edit, status: :unprocessable_entity
         }

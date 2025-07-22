@@ -1,7 +1,7 @@
 class StudyLikesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_study_log
-  before_action :set_study_like, only: [:destroy]
+  before_action :set_study_like, only: [ :destroy ]
 
   def create
     # 既にいいね済みか確認（あれば早期リダイレクト）

@@ -22,7 +22,7 @@ class BadgeNotificationJob < ApplicationJob
   private
 
   def send_line_notification(message, user)
-    return if user.uid.blank? 
+    return if user.uid.blank?
 
     client = LINE_BOT_API
     client.push_message(user.uid, { type: "text", text: message })
