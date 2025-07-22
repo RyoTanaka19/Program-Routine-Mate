@@ -101,27 +101,18 @@ class StudyLogsController < ApplicationController
     redirect_to study_logs_path, notice: "学習記録の削除をしました。"
   end
 
-  def index
-    params[:q] ||= {}
-    params[:q][:study_genre_id_eq] = params[:study_genre_id] if params[:study_genre_id].present?
+def index
+  @q = StudyLog.ransack(build_search_params)
 
-    @q = StudyLog.ransack(params[:q])
+  @study_logs = @q.result(distinct: true)
+                  .includes(:user)
+                  .order(created_at: :desc) 
+                  .page(params[:page])
 
-    @study_logs = @q.result(distinct: true).includes(:user).order(created_at: :asc).page(params[:page])
+  @contribution_graph = current_user&.contribution_graph_data || [] 
 
-    @contribution_graph = if current_user
-      current_user.study_logs.where.not(date: nil).map do |log|
-        {
-         date: log.date.to_date,
-          total: log.total.to_f
-        }
-      end
-    else
-    []
-    end
-
-   @study_genres = StudyGenre.all
-  end
+  @study_genres = StudyGenre.all
+end
 
 
 
@@ -167,6 +158,14 @@ class StudyLogsController < ApplicationController
   end
 
   private
+
+  def build_search_params
+  search_params = params[:q] || {}
+    if params[:study_genre_id].present?
+      search_params[:study_genre_id_eq] = params[:study_genre_id]
+    end
+    search_params
+  end
 
   def study_log_params
     params.require(:study_log).permit(:content, :text, :image, :image_cache, :date, :study_genre_id, :study_reminder_id, :count, :remove_image)

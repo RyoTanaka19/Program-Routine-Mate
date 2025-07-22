@@ -6,15 +6,17 @@ class CommentNotificationJob < ApplicationJob
     study_log = study_comment.study_log
     commenter = study_comment.user
 
-    message = "#{commenter.name}さんがあなたの学習記録「#{study_log.content}」にコメントしました！"
 
-    # LINE通知は削除しました
+    safe_content = ActionController::Base.helpers.strip_tags(study_log.content).truncate(30)
+    message = "#{commenter.name}さんがあなたの学習記録「#{safe_content}」にコメントしました！"
+
     broadcast_browser_notification(study_log.user.id, message)
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.warn "CommentNotificationJob failed: #{e.message}"
+
   end
 
   private
-
-  # send_line_notification メソッド自体も削除しました
 
   def broadcast_browser_notification(user_id, message)
     ActionCable.server.broadcast("notification_channel_#{user_id}", { message: message })
