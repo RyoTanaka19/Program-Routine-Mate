@@ -8,16 +8,13 @@ class CommentNotificationJob < ApplicationJob
 
     message = "#{commenter.name}さんがあなたの学習記録「#{study_log.content}」にコメントしました！"
 
-    send_line_notification(message, study_log.user)
+    # LINE通知は削除しました
     broadcast_browser_notification(study_log.user.id, message)
   end
 
   private
 
-  def send_line_notification(message, user)
-    client = LINE_BOT_API
-    client.push_message(user.uid, { type: "text", text: message })
-  end
+  # send_line_notification メソッド自体も削除しました
 
   def broadcast_browser_notification(user_id, message)
     ActionCable.server.broadcast("notification_channel_#{user_id}", { message: message })

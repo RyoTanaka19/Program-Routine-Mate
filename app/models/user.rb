@@ -7,14 +7,23 @@ class User < ApplicationRecord
 
 
 
-def self.from_omniauth(auth)
-  # provider + uidで検索（絶対に優先）
+ def self.from_omniauth(auth)
+  # providerとuidで既存ユーザーを探す
   user = find_by(provider: auth.provider, uid: auth.uid)
+
   return user if user.present?
 
-  # メールアドレスだけで既存ユーザーを検索しない
-  # 代わりに新規作成するか、ユーザーに紐付け確認を求める
+  # メールアドレスが提供されている場合、メールアドレスでユーザーを探す
+  if auth.info.email.present?
+    user = find_by(email: auth.info.email)
 
+    if user.present?
+      # メールアドレスが一致した場合、同じユーザーを返す
+      return user
+    end
+  end
+
+  # メールアドレスが異なる場合、uidとproviderが一致する別のユーザーがいない場合のみ新規作成
   user = create do |u|
     u.provider = auth.provider
     u.uid = auth.uid
@@ -44,9 +53,9 @@ end
   # パスワードバリデーションをスキップするためのアクセサ
   attr_accessor :skip_password_validation
   validates :password, presence: true, on: :create, unless: :skip_password_validation
-  validates :password_confirmation, presence: true, on: :create, unless: :skip_password_validation
-  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
 
+  validates :password, confirmation: { message: "が一致しません" }, on: [ :create, :update ], unless: :skip_password_validation
+  validates :password_confirmation, presence: true, on: [ :create ], unless: :skip_password_validation
 
   # OAuth認証元を判別
   def from_oauth?
@@ -70,7 +79,10 @@ end
     id == object&.user_id
   end
 
-
+  # 新しいジャンルが追加可能かどうか
+  def can_add_new_genre?
+    study_settings.count < 3 && study_settings.any?(&:completed_21_days?)
+  end
 
   # ユーザー別学習ログの日数ランキング
   def self.studied_logs_days_ranking
