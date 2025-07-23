@@ -39,7 +39,6 @@ class StudyBadgeService
 
   private
 
-  # 初回学習記録のバッジを付与
   def assign_first_study_log_badge
     # 投稿が1件以上ある場合のみ処理
     return unless @user.study_logs.exists?
