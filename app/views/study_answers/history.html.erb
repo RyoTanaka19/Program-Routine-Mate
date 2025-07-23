@@ -16,9 +16,9 @@
     <tbody class="bg-white divide-y divide-gray-200">
       <% @study_answers.each do |answer| %>
         <tr class="hover:bg-green-50">
-          <td class="px-4 py-3 max-w-xs whitespace-normal">
-            <%= link_to truncate(answer.study_challenge.user_response.gsub(/^正解:.*$/, '').strip, length: 40), study_log_study_challenge_path(answer.study_challenge.study_log, answer.study_challenge), class: "text-green-600 hover:underline" %>
-          </td>
+ <td class="px-4 py-3 max-w-xs whitespace-normal">
+  <%= link_to truncate(answer.study_challenge.question_text, length: 40), study_log_study_challenge_path(answer.study_challenge.study_log, answer.study_challenge), class: "text-green-600 hover:underline" %>
+</td>
           <td class="px-4 py-3 whitespace-nowrap font-mono"><%= answer.user_answer %></td>
           <td class="px-4 py-3 whitespace-nowrap font-mono"><%= answer.correct_answer %></td>
           <td class="px-4 py-3 max-w-xs whitespace-normal text-gray-700">

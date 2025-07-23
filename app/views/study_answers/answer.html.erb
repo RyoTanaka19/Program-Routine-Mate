@@ -1,32 +1,41 @@
+
 <!-- 回答画面 -->
-<div class="flex items-center justify-center min-h-screen px-6 sm:px-10 lg:px-16 bg-yello-50">
+<div class="flex items-center justify-center min-h-screen px-6 sm:px-10 lg:px-16 bg-yellow-50">
   <div class="text-center w-full max-w-lg bg-white rounded-lg shadow-md p-8">
     <h2 class="text-3xl font-extrabold mb-6 text-green-700 tracking-wide">
       問題に回答してください
     </h2>
 
-    <% problem_only = @study_challenge.user_response.gsub(/^正解:.*$/, "").strip %>
+    <!-- 問題文 -->
     <div class="bg-green-50 p-6 rounded-md text-left whitespace-pre-wrap break-words overflow-auto mb-8 text-base sm:text-lg font-mono leading-relaxed max-h-[28rem] shadow-inner border border-green-200">
-      <%= problem_only %>
+      <%= @study_challenge.question_text %>
     </div>
 
-    <%= form_with url: submit_answer_study_log_study_challenge_study_answers_path(@study_challenge.study_log, @study_challenge), method: :post, local: true do |f| %>
+    <%= form_with model: @study_answer, url: submit_answer_study_log_study_challenge_study_answers_path(@study_challenge.study_log, @study_challenge), method: :post, local: true do |f| %>
+
+      
+
+      <!-- エラーメッセージ表示 -->
+      <% if @study_answer.errors.any? %>
+        <div class="text-red-600 mb-4">
+          <ul>
+            <% @study_answer.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- 回答選択エリア -->
       <div class="text-center">
         <p class="font-semibold mb-4 text-lg text-green-600">
           あなたの回答を選んでください
         </p>
 
-        <div class="flex flex-col items-start gap-4 max-w-xs mx-auto">
-          <% choices = {
-            "A" => "1つ目の選択肢の説明",
-            "B" => "2つ目の選択肢の説明",
-            "C" => "3つ目の選択肢の説明",
-            "D" => "4つ目の選択肢の説明"
-          } %>
-
-          <% choices.each do |key, description| %>
-            <label class="flex items-center gap-3 cursor-pointer select-none">
-              <%= f.radio_button :user_answer, key, required: true, class: "accent-green-500 w-5 h-5" %>
+        <div class="flex flex-col items-start gap-4 max-w-xs mx-auto <%= 'border border-red-500 p-2 rounded' if @study_answer.errors[:user_answer].any? %>">
+          <% @study_challenge.choices.each do |key, description| %>
+            <label class="flex items-center gap-3 cursor-pointer select-none" for="user_answer_<%= key %>">
+              <%= f.radio_button :user_answer, key, class: "accent-green-500 w-5 h-5", id: "user_answer_#{key}" %>
               <span class="text-base sm:text-lg">
                 <strong><%= key %>.</strong> <%= description %>
               </span>
@@ -35,6 +44,7 @@
         </div>
       </div>
 
+      <!-- 送信ボタン -->
       <%= f.submit "回答を送信",
           data: { action: "click->loading#show" },
           class: "mt-8 w-full sm:w-auto bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 text-white font-semibold px-8 py-3 rounded transition" %>

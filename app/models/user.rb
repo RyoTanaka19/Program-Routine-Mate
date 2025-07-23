@@ -46,6 +46,7 @@ end
   has_many :study_comments, dependent: :destroy
   has_many :study_genres, dependent: :destroy
   has_many :study_answers, dependent: :destroy
+  has_many :study_challenges, through: :study_logs
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }

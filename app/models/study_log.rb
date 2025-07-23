@@ -25,6 +25,10 @@ class StudyLog < ApplicationRecord
     super + [ "study_genre" ]
   end
 
+  def ai_prompt
+    "#{study_genre}#{content}\n#{text}"
+  end
+
   private
 
   # 学習時間を計算して、totalに保存する

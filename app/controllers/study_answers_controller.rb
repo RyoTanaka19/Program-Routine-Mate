@@ -7,9 +7,16 @@ class StudyAnswersController < ApplicationController
   end
 
   def submit_answer
-    user_answer = params[:user_answer]
+    user_answer = study_answer_params[:user_answer]
 
-    explanation = OpenAiService.explain_answer(@study_challenge.user_response, user_answer)
+    begin
+      explanation = OpenAiService.explain_answer(@study_challenge.user_response, user_answer)
+    rescue StandardError => e
+      redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
+                  alert: "解説の取得に失敗しました（エラー: #{e.message}）"
+      return
+    end
+
     correct_answer = extract_correct_answer(@study_challenge.user_response)
 
     unless explanation.present? && correct_answer.present?
@@ -28,16 +35,24 @@ class StudyAnswersController < ApplicationController
     if @study_answer.save
       redirect_to result_study_log_study_challenge_study_answers_path(@study_log, @study_challenge)
     else
-      flash.now[:alert] = "回答の保存に失敗しました。"
-      render :answer
+      flash.now[:alert] = @study_answer.errors.full_messages.join("、")
+      render :answer, status: :unprocessable_entity
     end
   end
 
   def result
-    @study_answer = @study_challenge.study_answers.where(user: current_user).order(created_at: :desc).first
+    # 回答履歴取得を一括して取得（N+1回避）
+    all_challenges = @study_log.study_challenges.includes(:study_answers)
+    answers_by_challenge = StudyAnswer
+                             .where(user: current_user, study_challenge: all_challenges.ids)
+                             .order(created_at: :desc)
+                             .group_by(&:study_challenge_id)
+
+    @study_answer = answers_by_challenge[@study_challenge.id]&.first
 
     unless @study_answer
-      redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge), alert: "回答が見つかりません。"
+      redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
+                  alert: "回答が見つかりません。"
       return
     end
 
@@ -45,18 +60,16 @@ class StudyAnswersController < ApplicationController
     @correct_answer = @study_answer.correct_answer
     @explanation = @study_answer.explanation
 
-    all_challenges = @study_log.study_challenges
     user_scores = all_challenges.map do |challenge|
-      latest_answer = challenge.study_answers.where(user: current_user).order(created_at: :desc).first
-      latest_answer&.user_answer == latest_answer&.correct_answer ? 1 : 0
+      latest = answers_by_challenge[challenge.id]&.first
+      latest&.user_answer == latest&.correct_answer ? 1 : 0
     end
 
     @score = user_scores.sum
     @total = all_challenges.count
   end
 
-   def history
-    # current_userが過去に回答した全StudyAnswerを、作成日時の降順で取得
+  def history
     @study_answers = current_user.study_answers.includes(:study_challenge).order(created_at: :desc)
   end
 
@@ -65,6 +78,11 @@ class StudyAnswersController < ApplicationController
   def set_study_challenge_and_log
     @study_challenge = StudyChallenge.find(params[:study_challenge_id])
     @study_log = @study_challenge.study_log
+  end
+
+  def study_answer_params
+    # 修正：Strong Parametersのネストを明確に
+    params.require(:study_answer).permit(:user_answer)
   end
 
   def extract_correct_answer(response_text)
