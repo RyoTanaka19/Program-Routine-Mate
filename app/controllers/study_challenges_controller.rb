@@ -1,6 +1,6 @@
 class StudyChallengesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_study_log, only: [:new, :create]
+  before_action :set_study_log, only: [ :new, :create ]
 
   def new
     # 「挑戦しますか？」と尋ねる画面
