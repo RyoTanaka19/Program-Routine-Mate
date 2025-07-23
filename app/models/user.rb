@@ -79,12 +79,12 @@ end
     id == object&.user_id
   end
 
-  # ユーザー別学習ログの日数ランキング
-  def self.studied_logs_days_ranking
-    StudyLog
-      .select(Arel.sql("user_id, COUNT(DISTINCT DATE(date)) AS posted_days_count"))
-      .group(:user_id)
-      .order(Arel.sql("posted_days_count DESC"))
+
+ def self.studied_logs_days_ranking
+    joins(:study_logs)
+      .select("users.*, COUNT(DISTINCT DATE(study_logs.date)) AS posted_days_count")
+      .group("users.id")
+      .order("posted_days_count DESC")
   end
 
   # 学習ログの日付ごとの貢献データを取得

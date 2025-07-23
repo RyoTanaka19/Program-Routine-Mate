@@ -1,0 +1,41 @@
+<table class="min-w-full max-w-4xl mx-auto border border-gray-200 rounded-lg shadow-md overflow-hidden">
+  <thead class="bg-green-100 text-green-900 font-semibold text-left">
+    <tr>
+      <th class="px-4 py-3 w-20">順位</th>
+      <th class="px-4 py-3">ユーザー名</th>
+      <th class="px-4 py-3 w-24 text-center">投稿日数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% previous_posted_days_count = nil %>
+    <% rank = 0 %>
+    <% display_rank = 0 %> 
+    <% crown_icons = { 1 => "👑", 2 => "🥈", 3 => "🥉" } %>
+
+    <% @ranking.each_with_index do |user, index| %>
+      <% current_posted_days_count = user.posted_days_count.to_i %>
+      <% display_rank += 1 %>
+      <% if previous_posted_days_count != current_posted_days_count %>
+        <% rank = display_rank %>
+      <% end %>
+
+      <% crown_icon = crown_icons[rank] || "🎖️" %>
+      <% is_current_user = current_user&.id == user.id %>
+      <% row_class = is_current_user ? 'bg-green-50 font-bold' : (index.even? ? 'bg-white' : 'bg-gray-50') %>
+
+      <tr class="<%= row_class %> hover:bg-green-200 transition-colors duration-200">
+        <td class="px-4 py-3 text-blue-800 whitespace-nowrap text-center">
+          <%= crown_icon %> <span class="ml-1"><%= rank %>位</span>
+        </td>
+        <td class="px-4 py-3 text-blue-600 whitespace-nowrap">
+          <%= link_to user.name, user_path(user), class: "hover:underline" %>
+        </td>
+        <td class="px-4 py-3 text-gray-600 whitespace-nowrap text-center">
+          <%= current_posted_days_count %> 日
+        </td>
+      </tr>
+
+      <% previous_posted_days_count = current_posted_days_count %>
+    <% end %>
+  </tbody>
+</table>
