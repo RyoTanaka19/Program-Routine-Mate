@@ -79,7 +79,7 @@ end
     id == object&.user_id
   end
 
-  # ユーザー別学習ログの日数ランキング
+
  def self.studied_logs_days_ranking
     joins(:study_logs)
       .select("users.*, COUNT(DISTINCT DATE(study_logs.date)) AS posted_days_count")
