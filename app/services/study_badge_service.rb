@@ -91,7 +91,6 @@ class StudyBadgeService
     end
   end
 
-  # 学習記録を投稿したユニークな日数をカウント
   def logged_days_count
     @user.study_logs.distinct.count(:date)
   end
