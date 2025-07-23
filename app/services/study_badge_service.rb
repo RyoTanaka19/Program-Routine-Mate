@@ -8,17 +8,17 @@ class StudyBadgeService
     2 => {
       name: "2日学習記録達成!",
       description: "異なる2日で学習記録を投稿したユーザーに付与されるバッジ",
-      icon: "badge2.png"
+      icon: "icon2.png"
     },
     3 => {
       name: "3日学習記録達成!",
       description: "異なる3日で学習記録を投稿したユーザーに付与されるバッジ",
-      icon: "badge3.png"
+      icon: "icon3.png"
     },
     5 => {
       name: "5日学習記録達成!",
       description: "異なる5日で学習記録を投稿したユーザーに付与されるバッジ",
-      icon: "badge5.png"
+      icon: "icon5.png"
     },
     7 => {
       name: "7日学習記録達成!",
