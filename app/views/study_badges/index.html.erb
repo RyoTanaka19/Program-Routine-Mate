@@ -12,7 +12,7 @@
 
           <!-- 円形バッジアイコン部分 -->
           <div class="w-24 h-24 sm:w-24 sm:h-24 rounded-full bg-yellow-200 border-4 border-yellow-400 shadow-md flex items-center justify-center mb-2">
-            <%= image_tag(badge.icon, class: "w-10 h-10 sm:w-12 sm:h-12") if badge.icon.present? %>
+            <%= image_tag(asset_path(badge.icon), class: "...") if badge.icon.present? %>
           </div>
 
           <!-- バッジ名 -->
