@@ -1,18 +1,17 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
-def show
-  @user = User.find_by(id: params[:id])
-  if @user.nil?
-    redirect_to root_path, alert: "ユーザーが見つかりませんでした。"
-    return
+  def show
+    @user = User.find_by(id: params[:id])
+    if @user.nil?
+      redirect_to(root_path, alert: "ユーザーが見つかりませんでした。") and return
+    end
+    @study_logs = @user.study_logs
   end
-  @study_logs = @user.study_logs
-end
 
-def ranking
-  @ranking = User.studied_logs_days_ranking
-end
+  def ranking
+    @ranking = User.studied_logs_days_ranking
+  end
 
   # 退会理由入力フォームの表示
   def confirm_withdrawal
@@ -21,25 +20,32 @@ end
 
   # 退会理由を保存して退会処理（物理削除）
   def withdraw
-    withdrawal_reason = params.dig(:user, :withdrawal_reason)  # 安全に取得
-    current_user.assign_attributes(withdrawal_reason: withdrawal_reason)
-
-    if current_user.save
-      begin
-        # Google Sheetsに送信（連携サービスがあればここで呼ぶ）
-        GoogleSheetsService.new.append_withdrawal_reason(current_user)
-      rescue => e
-        Rails.logger.error "Google Sheets 連携エラー: #{e.message}"
-        # 失敗しても退会処理は続行
-      end
-
-      # 退会（物理削除）
-      current_user.destroy
-      reset_session
-      redirect_to root_path, notice: "退会が完了しました。ご利用ありがとうございました。"
+    if update_withdrawal_reason
+      send_withdrawal_reason_to_google_sheets
+      perform_user_withdrawal
     else
       flash.now[:alert] = "退会理由の入力に問題があります"
       render :confirm_withdrawal
     end
+  end
+
+  private
+
+  def update_withdrawal_reason
+    withdrawal_reason = params.dig(:user, :withdrawal_reason)
+    current_user.update(withdrawal_reason: withdrawal_reason)
+  end
+
+  def send_withdrawal_reason_to_google_sheets
+    GoogleSheetsService.new.append_withdrawal_reason(current_user)
+  rescue => e
+    Rails.logger.error "Google Sheets 連携エラー: #{e.message}"
+    # 失敗しても処理は継続
+  end
+
+  def perform_user_withdrawal
+    current_user.destroy
+    reset_session
+    redirect_to root_path, notice: "退会が完了しました。ご利用ありがとうございました。"
   end
 end
