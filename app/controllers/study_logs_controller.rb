@@ -1,8 +1,8 @@
 class StudyLogsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index, :autocomplete]
-  before_action :set_latest_study_reminder, only: [:new, :create]
-  before_action :set_study_log, only: [:edit, :update, :destroy]
-  before_action :set_study_genre_from_log_or_user, only: [:new, :edit]
+  before_action :authenticate_user!, except: [ :show, :index, :autocomplete ]
+  before_action :set_latest_study_reminder, only: [ :new, :create ]
+  before_action :set_study_log, only: [ :edit, :update, :destroy ]
+  before_action :set_study_genre_from_log_or_user, only: [ :new, :edit ]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def new
@@ -27,7 +27,7 @@ class StudyLogsController < ApplicationController
           flash.now[:alert] = "指定された学習ジャンルが見つかりませんでした。"
           render :new, status: :unprocessable_entity
         end
-        format.json { render_json_errors(@study_log, ["指定された学習ジャンルが見つかりませんでした。"]) }
+        format.json { render_json_errors(@study_log, [ "指定された学習ジャンルが見つかりませんでした。" ]) }
       end
       return
     end
@@ -95,7 +95,7 @@ class StudyLogsController < ApplicationController
     @q = StudyLog.ransack(params[:q])
     begin
       @study_logs = @q.result(distinct: true).limit(10)
-      render json: @study_logs.as_json(only: [:content])
+      render json: @study_logs.as_json(only: [ :content ])
     rescue ActiveRecord::StatementInvalid => e
       Rails.logger.error "[AutocompleteError] #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
       render json: { error: "検索中にエラーが発生しました。" }, status: 500
@@ -120,7 +120,7 @@ class StudyLogsController < ApplicationController
     study_logs = current_user.study_logs.where(date: date).includes(:study_genre).order(created_at: :asc)
 
     render json: study_logs.as_json(
-      only: [:id, :content, :text, :created_at],
+      only: [ :id, :content, :text, :created_at ],
       include: { study_genre: { only: :name } }
     )
   end
@@ -170,9 +170,9 @@ class StudyLogsController < ApplicationController
   def prepare_meta_tags(study_log)
     image_url = if study_log.image.present?
                   study_log.image.url.to_s
-                else
+    else
                   "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
-                end
+    end
 
     set_meta_tags og: {
                     site_name: "ProgramRoutineMate",
