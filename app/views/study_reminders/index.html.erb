@@ -150,12 +150,26 @@
           }
         },
 
-        eventClick: function(info) {
-          const event = info.event;
-          if (!event.title || !event.extendedProps.startTime || !event.extendedProps.endTime) return;
-          alert('イベント名 学習開始時間 - 学習終了時間: ' + event.title + ' ' + event.extendedProps.startTime + ' - ' + event.extendedProps.endTime);
-        },
+eventClick: function(info) {
+  const event = info.event;
 
+  // 背景イベント（学習ログの背景表示など）はクリック無効にする場合は残す
+  if (event.display === 'background') return;
+
+  // タイトルが空の場合の代替テキスト
+  const title = event.title && event.title.trim() !== '' ? event.title : '（タイトルなし）';
+
+  // extendedPropsの時間はあれば取得
+  const startTime = event.extendedProps?.startTime || '';
+  const endTime = event.extendedProps?.endTime || '';
+
+  let message = 'イベント名: ' + title;
+  if (startTime && endTime) {
+    message += '\n学習開始時間 - 学習終了時間: ' + startTime + ' - ' + endTime;
+  }
+
+  alert(message);
+},
         dateClick: function(info) {
           const selectedDate = new Date(info.dateStr);
           const today = new Date();
