@@ -1,13 +1,14 @@
 class StudyLogsController < ApplicationController
-  before_action :authenticate_user!, except: [ :show, :index, :autocomplete ]
-  before_action :set_latest_study_reminder, only: [ :new, :create ]
-  before_action :set_study_log, only: [ :edit, :update, :destroy ]
-  before_action :set_study_genre_from_log_or_user, only: [ :new, :edit ]
+  before_action :authenticate_user!, except: [:show, :index, :autocomplete]
+  before_action :set_latest_study_reminder, only: [:new, :create]
+  before_action :set_study_log, only: [:edit, :update, :destroy]
+  before_action :set_study_genre_from_log_or_user, only: [:new, :edit]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def new
     if @study_genre.nil?
-      redirect_to new_study_genre_path, alert: "ジャンルを先に設定してください" and return
+      redirect_to new_study_genre_path, alert: "ジャンルを先に設定してください"
+      return
     end
 
     @study_log = StudyLog.new(
@@ -17,7 +18,8 @@ class StudyLogsController < ApplicationController
   end
 
   def create
-    @study_genre = find_study_genre_from_params
+    @study_genre = find_or_last_study_genre
+
     if @study_genre.nil?
       @study_log = current_user.study_logs.new(study_log_params)
       respond_to do |format|
@@ -25,13 +27,12 @@ class StudyLogsController < ApplicationController
           flash.now[:alert] = "指定された学習ジャンルが見つかりませんでした。"
           render :new, status: :unprocessable_entity
         end
-        format.json { render_json_errors(@study_log, [ "指定された学習ジャンルが見つかりませんでした。" ]) }
+        format.json { render_json_errors(@study_log, ["指定された学習ジャンルが見つかりませんでした。"]) }
       end
       return
     end
 
-    @study_log = current_user.study_logs.new(study_log_params)
-    @study_log.study_genre_id ||= @study_genre.id
+    @study_log = current_user.study_logs.new(study_log_params.merge(study_genre_id: @study_genre.id))
     UserStudyGenre.find_or_create_by(user: current_user, study_genre: @study_genre)
 
     respond_to do |format|
@@ -94,15 +95,11 @@ class StudyLogsController < ApplicationController
     @q = StudyLog.ransack(params[:q])
     begin
       @study_logs = @q.result(distinct: true).limit(10)
-      render json: @study_logs.as_json(only: [ :content ])
-    rescue => e
+      render json: @study_logs.as_json(only: [:content])
+    rescue ActiveRecord::StatementInvalid => e
       Rails.logger.error "[AutocompleteError] #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
       render json: { error: "検索中にエラーが発生しました。" }, status: 500
     end
-  end
-
-  def ranking
-    @ranking = User.studied_logs_days_ranking
   end
 
   def show
@@ -116,40 +113,41 @@ class StudyLogsController < ApplicationController
     begin
       date = Date.parse(params[:date])
     rescue ArgumentError
-      render json: { error: "無効な日付です" }, status: :bad_request and return
+      render json: { error: "無効な日付です" }, status: :bad_request
+      return
     end
 
     study_logs = current_user.study_logs.where(date: date).includes(:study_genre).order(created_at: :asc)
 
     render json: study_logs.as_json(
-      only: [ :id, :content, :text, :created_at ],
+      only: [:id, :content, :text, :created_at],
       include: { study_genre: { only: :name } }
     )
   end
 
   private
 
-  # ✅ ① 共通のリマインダー取得処理（updateは除外）
+  # 共通のリマインダー取得処理（updateは除外）
   def set_latest_study_reminder
     @study_reminder = current_user.study_reminders.last
   end
 
-  # ✅ ② 学習記録の取得
+  # 学習記録の取得
   def set_study_log
     @study_log = current_user.study_logs.find(params[:id])
   end
 
-  # ✅ ③ 共通のジャンル取得（edit/new用）
+  # 共通のジャンル取得（edit/new用）
   def set_study_genre_from_log_or_user
     @study_genre = @study_log&.study_genre || current_user.study_genres.last
   end
 
-  # ✅ ④ ジャンル取得を分離
-  def find_study_genre_from_params
+  # ジャンル取得メソッド名変更・分離
+  def find_or_last_study_genre
     StudyGenre.find_by(id: params.dig(:study_log, :study_genre_id)) || current_user.study_genres.last
   end
 
-  # ✅ ⑤ JSON共通エラー出力
+  # JSON共通エラー出力
   def render_json_errors(record, custom_messages = nil)
     render json: { success: false, errors: custom_messages || record.errors.full_messages }, status: :unprocessable_entity
   end
@@ -172,9 +170,9 @@ class StudyLogsController < ApplicationController
   def prepare_meta_tags(study_log)
     image_url = if study_log.image.present?
                   study_log.image.url.to_s
-    else
+                else
                   "#{request.base_url}/images/ogp.png?text=#{CGI.escape(study_log.content)}"
-    end
+                end
 
     set_meta_tags og: {
                     site_name: "ProgramRoutineMate",
