@@ -143,4 +143,4 @@ Figma: https://www.figma.com/design/l76ZQiTKnKvVSaeN2Gx7GI/Program-Routin-Mate-%
 
 ## ER 図
 
-[![Image from Gyazo](https://i.gyazo.com/dea452113b9ec60fb39ba3f57926f559.png)](https://gyazo.com/dea452113b9ec60fb39ba3f57926f559)
+[![Image from Gyazo](https://i.gyazo.com/5341c14a544d9e9aee313026618bae7e.png)](https://gyazo.com/5341c14a544d9e9aee313026618bae7e)
