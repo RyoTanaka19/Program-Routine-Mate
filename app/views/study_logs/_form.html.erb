@@ -68,7 +68,7 @@
 
     <div class="form-group mb-4">
       <%= f.label :date, "日付(自動)", class: "block text-sm font-medium text-green-500" %>
-      <%= f.text_field :date, value: Date.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
+      <%= f.text_field :date, value: Time.zone.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
     </div>
 
     <!-- 送信 -->
