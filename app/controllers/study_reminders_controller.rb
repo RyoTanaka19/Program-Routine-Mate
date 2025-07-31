@@ -15,7 +15,12 @@ class StudyRemindersController < ApplicationController
   @study_reminder = current_user.study_reminders.new(study_reminder_params)
 
   if @study_reminder.save
-    NotificationSchedulerService.new(@study_reminder).schedule_all
+    begin
+      NotificationSchedulerService.new(@study_reminder).schedule_all
+    rescue StandardError => e
+      Rails.logger.error("[NotificationSchedulerService] Failed to schedule notifications: #{e.message}")
+      flash[:alert] = "学習リマインダーは保存されましたが、通知の設定に失敗しました。管理者にお問い合わせください。"
+    end
 
     respond_to do |format|
       format.turbo_stream do
@@ -23,7 +28,7 @@ class StudyRemindersController < ApplicationController
         render :create
       end
       format.html do
-        flash[:notice] = "学習開始時間と学習終了時間が設定されました"
+        flash[:notice] ||= "学習開始時間と学習終了時間が設定されました"
         redirect_to study_reminders_path, status: :see_other
       end
     end
