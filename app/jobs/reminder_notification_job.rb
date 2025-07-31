@@ -4,7 +4,7 @@ class ReminderNotificationJob < ApplicationJob
   def perform(study_reminder_id, time_type)
     # 1. time_typeを安全にシンボル化し、許可された値のみ処理
     time_type_sym = safe_time_type(time_type)
-    return unless [:start_time, :end_time].include?(time_type_sym)
+    return unless [ :start_time, :end_time ].include?(time_type_sym)
 
     study_reminder = StudyReminder.find_by(id: study_reminder_id)
     return unless study_reminder
@@ -44,10 +44,10 @@ class ReminderNotificationJob < ApplicationJob
 
   def generate_personal_message(study_reminder, time_type)
     time = case time_type
-           when :start_time then safe_strftime(study_reminder.start_time)
-           when :end_time   then safe_strftime(study_reminder.end_time)
-           else nil
-           end
+    when :start_time then safe_strftime(study_reminder.start_time)
+    when :end_time   then safe_strftime(study_reminder.end_time)
+    else nil
+    end
     return nil unless time
 
     PERSONAL_MESSAGES[time_type] % { time: time }
@@ -59,7 +59,7 @@ class ReminderNotificationJob < ApplicationJob
 
   # 6. nil安全なstrftime
   def safe_strftime(time)
-    time&.strftime('%Y-%m-%d %H:%M:%S')
+    time&.strftime("%Y-%m-%d %H:%M:%S")
   end
 
   def send_line_notification(message, user)
