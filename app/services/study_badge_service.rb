@@ -79,7 +79,7 @@ class StudyBadgeService
     end
 
     # 重複付与防止
-    if @user.study_badges.exists?(badge.id)
+    if @user.user_study_badges.exists?(study_badge_id: badge.id)
       return
     end
 
