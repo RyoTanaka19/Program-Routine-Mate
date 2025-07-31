@@ -10,7 +10,21 @@
 <script>
 let cal = null; // グローバルに保持する CalHeatmap インスタンス
 
-document.addEventListener("turbo:load", initHeatmap);
+document.addEventListener("turbo:load", () => {
+  initHeatmap();         // ヒートマップ初期化
+  registerCloseModal();  // 閉じるボタンのイベント再登録
+});
+
+function registerCloseModal() {
+  const closeBtn = document.getElementById("modal-close-btn");
+  if (closeBtn) {
+    // 毎回イベントを上書きすることで多重登録を防ぐ
+    closeBtn.onclick = () => {
+      const modal = document.getElementById("logs-modal");
+      if (modal) modal.classList.add("hidden");
+    };
+  }
+}
 
 function initHeatmap() {
   console.log("initHeatmap called");
@@ -21,14 +35,13 @@ function initHeatmap() {
 }
 
 function set_heatmap() {
-  // 既に描画済みならインスタンス破棄してコンテナクリア
   if (cal !== null) {
     cal.destroy();
     cal = null;
   }
 
   const container = document.getElementById("cal-heatmap");
-  if (container) container.innerHTML = "";  // ←これが重要
+  if (container) container.innerHTML = "";
 
   let startDate = new Date();
   startDate.setMonth(startDate.getMonth() - 2);
@@ -87,7 +100,6 @@ function set_heatmap() {
   });
 }
 
-
 function fetchStudyLogsByDate(date) {
   fetch(`/study_logs/logs_by_date?date=${date}`, {
     headers: { 'Accept': 'application/json' }
@@ -96,7 +108,7 @@ function fetchStudyLogsByDate(date) {
     if (response.status === 401) {
       alert("ログインが必要です。ログインページに移動します。");
       window.location.href = "/users/sign_in";
-      return Promise.reject("Unauthorized"); // ここでPromiseチェーンを中断
+      return Promise.reject("Unauthorized");
     }
 
     if (!response.ok) throw new Error("サーバーエラー");
@@ -115,7 +127,6 @@ function showLogsModal(date, logs) {
   const list = document.getElementById("logs-list");
   const title = document.getElementById("modal-title");
 
-  // ここは「yyyy-mm-dd」形式のまま表示、必要なら別途ローカライズ対応検討
   title.textContent = `${date} の学習記録`;
   list.innerHTML = "";
 
@@ -137,19 +148,6 @@ function showLogsModal(date, logs) {
 
   modal.classList.remove("hidden");
 }
-
-document.addEventListener("turbo:load", () => {
-  const closeBtn = document.getElementById("modal-close-btn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closeModal);
-  }
-});
-
-function closeModal() {
-  const modal = document.getElementById("logs-modal");
-  if (modal) modal.classList.add("hidden");
-}
-
 </script>
 
 <!-- 以下略 -->
