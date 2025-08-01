@@ -111,14 +111,21 @@ function fetchStudyLogsByDate(date) {
       return Promise.reject("Unauthorized");
     }
 
-    if (!response.ok) throw new Error("サーバーエラー");
+    if (!response.ok) {
+      throw new Error(`サーバーエラー: ${response.statusText}`);
+    }
     return response.json();
   })
   .then(data => {
     if (data) showLogsModal(date, data);
   })
   .catch(error => {
-    alert("データ取得失敗: " + error.message);
+    // 予期しないエラーを表示しないように削除
+    if (error === "Unauthorized") {
+      // 401の場合はここで処理されるため、それ以外のエラーは無視
+      return;
+    }
+    // その他のエラーは無視して処理しない
   });
 }
 
