@@ -38,7 +38,7 @@ class StudyLogsController < ApplicationController
     respond_to do |format|
       if @study_log.save
         notice = "学習記録が作成されました！"
-        notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total.nil?
+        notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total_study_time.nil?
 
         format.html { redirect_to new_study_log_study_challenge_path(@study_log), notice: notice }
         format.json { render json: { success: true, contribution_graph: [] } }
@@ -164,7 +164,7 @@ class StudyLogsController < ApplicationController
   end
 
   def study_log_params
-    params.require(:study_log).permit(:content, :text, :image, :image_cache, :date, :study_genre_id, :study_reminder_id, :count, :remove_image)
+    params.require(:study_log).permit(:content, :text, :image, :image_cache, :date, :study_genre_id, :study_reminder_id, :count, :remove_image, :total_study_time)
   end
 
   def prepare_meta_tags(study_log)

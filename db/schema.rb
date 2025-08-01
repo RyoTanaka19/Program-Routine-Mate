@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_31_090048) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_01_030814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,7 +80,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_31_090048) do
     t.string "image"
     t.bigint "user_id"
     t.date "date"
-    t.integer "total"
+    t.integer "total_study_time"
     t.bigint "study_genre_id"
     t.integer "count"
     t.integer "study_reminder_id"
