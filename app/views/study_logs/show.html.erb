@@ -1,23 +1,8 @@
 <div class="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-4xl p-4 sm:p-6 mx-auto bg-white border border-gray-300 rounded-md shadow-md">
     
-    <!-- 投稿日と投稿時間を右端に配置 -->
-    <div class="flex justify-end space-x-4 mb-6">
-      <p><strong>投稿日:</strong> <%= @study_log.date %></p>
-      <p><strong>学習時間:</strong>
-      <% if @study_log.total_study_time.present? %>
-        <% minutes = @study_log.total_study_time / 60 %>
-        <% seconds = @study_log.total_study_time % 60 %>
-        <% if minutes > 0 %>
-          <%= "#{minutes}分#{seconds}秒" %>
-        <% else %>
-          <%= "#{seconds}秒" %>
-        <% end %>
-      <% else %>
-        未設定
-      <% end %>
-      </p>
-    </div>
+   <p><strong>学習時間:</strong> <%= display_study_time(@study_log.total_study_time) %></p>
+
 
     <!-- 投稿者のプロフィール画像 -->
     <div class="flex flex-col sm:flex-row sm:items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
@@ -61,6 +46,7 @@
           <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> 編集
         <% end %>
     
+
         <!-- 削除ボタン -->
         <%= link_to study_log_path(@study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, class: "inline-flex items-center justify-center px-6 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600" do %>
           <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
