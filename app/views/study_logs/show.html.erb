@@ -5,9 +5,9 @@
     <div class="flex justify-end space-x-4 mb-6">
       <p><strong>投稿日:</strong> <%= @study_log.date %></p>
       <p><strong>学習時間:</strong>
-      <% if @study_log.total.present? %>
-        <% minutes = @study_log.total / 60 %>
-        <% seconds = @study_log.total % 60 %>
+      <% if @study_log.total_study_time.present? %>
+        <% minutes = @study_log.total_study_time / 60 %>
+        <% seconds = @study_log.total_study_time % 60 %>
         <% if minutes > 0 %>
           <%= "#{minutes}分#{seconds}秒" %>
         <% else %>

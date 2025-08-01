@@ -40,12 +40,12 @@ class StudyLog < ApplicationRecord
     current_time = Time.current
 
     unless current_time >= start_time && current_time <= end_time
-      self.total = nil
+      self.total_study_time = nil
       return
     end
 
     elapsed_seconds = (current_time - start_time).to_i
-    self.total = elapsed_seconds > 0 ? elapsed_seconds : nil
+    self.total_study_time = elapsed_seconds > 0 ? elapsed_seconds : nil
   end
 
   # バッジをStudyBadgeServiceに委譲
