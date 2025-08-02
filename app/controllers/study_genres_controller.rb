@@ -1,5 +1,5 @@
 class StudyGenresController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update ]
 
   def index
     raw_stats = StudyGenre
@@ -67,7 +67,6 @@ class StudyGenresController < ApplicationController
     StudyGenre.transaction do
       # 二重チェック削除：ここは常に名前変更時の処理になるため条件不要に
       @study_genre.study_logs.update_all(study_genre_id: nil)
-
       unless @study_genre.update(study_genre_params)
         flash.now[:alert] = "ジャンルの更新に失敗しました。"
         raise ActiveRecord::Rollback
@@ -149,7 +148,7 @@ class StudyGenresController < ApplicationController
     respond_to do |format|
       format.html { render :new, status: :unprocessable_entity }
       format.turbo_stream { render turbo_stream: turbo_stream.replace("flash_messages", partial: "shared/flash_messages") }
-      format.json { render json: { success: false, errors: [flash.now[:alert]] }, status: :unprocessable_entity }
+      format.json { render json: { success: false, errors: [ flash.now[:alert] ] }, status: :unprocessable_entity }
     end
   end
 
