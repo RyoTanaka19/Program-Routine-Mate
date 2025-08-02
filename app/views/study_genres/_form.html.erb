@@ -6,8 +6,7 @@
 
         <p class="text-blue-600 mt-1">このジャンルはすでに設定されています。</p>
         <p class="text-yellow-600 mt-1">学習記録の投稿数: <%= genre.study_logs.count %> 件</p>
-
-        
+        <p class="text-yellow-300 mt-1">学習記録の継続日数: <%= genre.continuous_days %> 日</p>
 
         <%= form_with model: genre, url: study_genre_path(genre), method: :patch, class: "mt-4" do |f| %>
           <div class="mb-4">
