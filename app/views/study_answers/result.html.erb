@@ -1,14 +1,14 @@
 <div class="max-w-3xl mx-auto p-6 space-y-8 bg-white rounded-md shadow-md">
 
   <h1 class="text-3xl font-extrabold text-green-700 text-center mb-8">
-    AIによる採点結果
+    <%= t('study_answers.result_page.title') %>
   </h1>
 
   <%# 正誤判定 %>
   <% if @user_answer.present? && @correct_answer.present? %>
     <div class="rounded-md p-4 text-center
       <%= @user_answer == @correct_answer ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %> font-bold text-xl shadow-md">
-      <%= @user_answer == @correct_answer ? "✅ 正解です！" : "❌ 不正解です..." %>
+      <%= @user_answer == @correct_answer ? t('study_answers.result_page.correct') : t('study_answers.result_page.incorrect') %>
     </div>
   <% end %>
 
@@ -16,10 +16,10 @@
   <% if @score.present? && @total.present? %>
     <% correct_rate = ((@score.to_f / @total) * 100).round(1) %>
     <div class="bg-green-50 rounded-md shadow p-6 text-center">
-      <h2 class="text-xl font-semibold text-green-900 mb-3">今回の得点</h2>
-      <p class="text-4xl font-extrabold text-green-700 mb-2"><%= @score %> 点 / <%= @total %> 点</p>
+      <h2 class="text-xl font-semibold text-green-900 mb-3"><%= t('study_answers.result_page.score_title') %></h2>
+      <p class="text-4xl font-extrabold text-green-700 mb-2"><%= @score %> <%= t('study_answers.result_page.points') %> / <%= @total %> <%= t('study_answers.result_page.points') %></p>
       <p class="text-md">
-        正答率：
+        <%= t('study_answers.result_page.correct_rate') %>：
         <span class="font-semibold
           <%= if correct_rate == 100.0
               'glow-animation text-green-600'
@@ -38,7 +38,7 @@
 
   <%# 問題文 %>
   <div class="bg-green-50 rounded-md shadow p-6">
-    <h2 class="text-xl font-semibold text-green-700 mb-4 text-center">問題</h2>
+    <h2 class="text-xl font-semibold text-green-700 mb-4 text-center"><%= t('study_answers.result_page.question') %></h2>
     <pre class="font-mono leading-relaxed whitespace-pre-wrap break-words max-w-full mx-auto text-green-900 text-sm sm:text-base">
 <%= @study_challenge.user_response.gsub(/^正解:.*$/, "").strip %>
     </pre>
@@ -48,7 +48,7 @@
   <div class="bg-white rounded-md shadow p-6 text-center">
     <h2 class="text-xl font-semibold
       <%= @user_answer == @correct_answer ? 'text-green-700' : 'text-red-600' %> mb-2 flex justify-center items-center gap-2 mx-auto max-w-max">
-      あなたの回答
+      <%= t('study_answers.result_page.your_answer') %>
       <% if @user_answer.present? && @correct_answer.present? %>
         <span class="text-3xl ml-2">
           <%= @user_answer == @correct_answer ? "⭕️" : "❌" %>
@@ -65,7 +65,7 @@
   <div class="bg-green-50 rounded-md shadow p-6 max-w-xl mx-auto animate-fade-in">
     <h2 class="text-xl font-semibold text-green-700 mb-4 flex justify-center items-center gap-2">
       <i class="fas fa-lightbulb text-yellow-400"></i>
-      解説
+      <%= t('study_answers.result_page.explanation') %>
     </h2>
     <p class="text-green-900 leading-relaxed text-sm sm:text-base px-5 py-5">
       <%= @explanation %>
@@ -75,18 +75,18 @@
   <%# アクションボタン %>
   <div class="flex justify-center gap-6">
     <%= form_with url: study_log_study_challenges_path(@study_log), method: :post do %>
-      <%= submit_tag "別の問題に挑戦する",
+      <%= submit_tag t('study_answers.result_page.try_another'),
           data: { action: "click->loading#show" },
           class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded shadow transition" %>
     <% end %>
 
-    <%= link_to "学習記録一覧へ", study_logs_path,
+    <%= link_to t('study_answers.result_page.back_to_study_logs'), study_logs_path,
         data: { action: "click->loading#show" },
         class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded shadow transition" %>
   </div>
 
   <div class="text-center mt-8">
-    <%= link_to "過去の回答一覧", history_study_log_study_challenge_study_answers_path(@study_log, @study_challenge), class: "text-green-600 hover:underline font-semibold" %>
+    <%= link_to t('study_answers.result_page.history_link'), history_study_log_study_challenge_study_answers_path(@study_log, @study_challenge), class: "text-green-600 hover:underline font-semibold" %>
   </div>
 
 </div>

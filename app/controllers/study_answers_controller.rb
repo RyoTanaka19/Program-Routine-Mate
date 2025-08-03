@@ -13,7 +13,7 @@ class StudyAnswersController < ApplicationController
       explanation = OpenAiService.explain_answer(@study_challenge.user_response, user_answer)
     rescue StandardError => e
       redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
-                  alert: "解説の取得に失敗しました（エラー: #{e.message}）"
+                  alert: t("study_answers.explanation_fetch_failed", error: e.message)
       return
     end
 
@@ -21,7 +21,7 @@ class StudyAnswersController < ApplicationController
 
     unless explanation.present? && correct_answer.present?
       redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
-                  alert: "解説の取得に失敗しました。"
+                  alert: t("study_answers.explanation_missing")
       return
     end
 
@@ -41,7 +41,6 @@ class StudyAnswersController < ApplicationController
   end
 
   def result
-    # 回答履歴取得を一括して取得（N+1回避）
     all_challenges = @study_log.study_challenges.includes(:study_answers)
     answers_by_challenge = StudyAnswer
                              .where(user: current_user, study_challenge: all_challenges.ids)
@@ -52,7 +51,7 @@ class StudyAnswersController < ApplicationController
 
     unless @study_answer
       redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
-                  alert: "回答が見つかりません。"
+                  alert: t("study_answers.answer_not_found")
       return
     end
 
@@ -81,7 +80,6 @@ class StudyAnswersController < ApplicationController
   end
 
   def study_answer_params
-    # 修正：Strong Parametersのネストを明確に
     params.require(:study_answer).permit(:user_answer)
   end
 

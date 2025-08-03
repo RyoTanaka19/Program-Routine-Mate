@@ -1,9 +1,8 @@
-
 <!-- 回答画面 -->
 <div class="flex items-center justify-center min-h-screen px-6 sm:px-10 lg:px-16 bg-yellow-50">
   <div class="text-center w-full max-w-lg bg-white rounded-lg shadow-md p-8">
     <h2 class="text-3xl font-extrabold mb-6 text-green-700 tracking-wide">
-      問題に回答してください
+      <%= t('study_answers.answer_page.title') %>
     </h2>
 
     <!-- 問題文 -->
@@ -27,7 +26,7 @@
       <!-- 回答選択エリア -->
       <div class="text-center">
         <p class="font-semibold mb-4 text-lg text-green-600">
-          あなたの回答を選んでください
+          <%= t('study_answers.answer_page.select_prompt') %>
         </p>
 
         <div class="flex flex-col items-start gap-4 max-w-xs mx-auto <%= 'border border-red-500 p-2 rounded' if @study_answer.errors[:user_answer].any? %>">
@@ -43,7 +42,7 @@
       </div>
 
       <!-- 送信ボタン -->
-      <%= f.submit "回答を送信",
+      <%= f.submit t('study_answers.answer_page.submit_button'),
           data: { action: "click->loading#show" },
           class: "mt-8 w-full sm:w-auto bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 text-white font-semibold px-8 py-3 rounded transition" %>
     <% end %>

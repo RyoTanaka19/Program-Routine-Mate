@@ -15,7 +15,6 @@
       gtag('config', 'G-KQWLCDX3Q3');
     </script>
 
-    <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
     <%= favicon_link_tag('mate.png') %>
@@ -33,7 +32,6 @@
 
     <%= action_cable_meta_tag %>
     <%= display_meta_tags(default_meta_tags) %>
-    <title><%= page_title(yield(:title)) %></title>
 
     <!-- jQuery, Chart.js -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

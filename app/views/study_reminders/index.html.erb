@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>学習セッションカレンダー</title>
+  <title><%= t('study_reminders.calendar_title') %></title>
 
   <style>
     #calendar {
@@ -76,7 +76,7 @@
 
 <body class="bg-gray-100 font-sans min-h-screen">
   <header>
-    <h1>学習カレンダー</h1>
+    <h1><%= t('study_reminders.calendar_title') %></h1>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-6">
@@ -96,6 +96,15 @@
   </div>
 
   <script>
+    // Railsのi18nメッセージをJavaScriptで使うために渡す
+    const I18nMessages = {
+      pastDateAlert: "<%= j t('study_reminders.alerts.past_date') %>",
+      emptyTitle: "<%= j t('study_reminders.alerts.empty_title') %>",
+      eventNameLabel: "<%= j t('study_reminders.alerts.event_name') %>",
+      eventTimeLabel: "<%= j t('study_reminders.alerts.event_time') %>",
+      renderError: "<%= j t('study_reminders.errors.render_failed') %>"
+    };
+
     let calendarInstance = null;
 
     function initializeCalendar() {
@@ -107,9 +116,9 @@
       }
 
       calendarInstance = new FullCalendar.Calendar(calendarEl, {
-        locale: 'ja',
+        locale: '<%= I18n.locale %>',
         initialView: 'dayGridMonth',
-        height: 600, // 固定値に変更
+        height: 600,
         events: [
           <% @study_reminders.each do |reminder| %>
             {
@@ -150,26 +159,23 @@
           }
         },
 
-eventClick: function(info) {
-  const event = info.event;
+        eventClick: function(info) {
+          const event = info.event;
+          if (event.display === 'background') return;
 
-  // 背景イベント（学習ログの背景表示など）はクリック無効にする場合は残す
-  if (event.display === 'background') return;
+          const title = event.title && event.title.trim() !== '' ? event.title : I18nMessages.emptyTitle;
 
-  // タイトルが空の場合の代替テキスト
-  const title = event.title && event.title.trim() !== '' ? event.title : '（タイトルなし）';
+          const startTime = event.extendedProps?.startTime || '';
+          const endTime = event.extendedProps?.endTime || '';
 
-  // extendedPropsの時間はあれば取得
-  const startTime = event.extendedProps?.startTime || '';
-  const endTime = event.extendedProps?.endTime || '';
+          let message = `${I18nMessages.eventNameLabel}: ${title}`;
+          if (startTime && endTime) {
+            message += `\n${I18nMessages.eventTimeLabel}: ${startTime} - ${endTime}`;
+          }
 
-  let message = 'イベント名: ' + title;
-  if (startTime && endTime) {
-    message += '\n学習開始時間 - 学習終了時間: ' + startTime + ' - ' + endTime;
-  }
+          alert(message);
+        },
 
-  alert(message);
-},
         dateClick: function(info) {
           const selectedDate = new Date(info.dateStr);
           const today = new Date();
@@ -177,15 +183,13 @@ eventClick: function(info) {
           selectedDate.setHours(0, 0, 0, 0);
 
           if (selectedDate < today) {
-            alert('過去の日付には学習リマインダーを追加できません。');
+            alert(I18nMessages.pastDateAlert);
             return;
           }
 
-          // ✅ モーダル表示
           const modal = document.getElementById('study-reminder-modal');
           modal.classList.remove('hidden');
 
-          // ✅ フォーム初期化（タイトル・時間）
           const titleInput = document.getElementById('study_reminder_title');
           const startInput = document.getElementById('study_reminder_start_time');
           const endInput = document.getElementById('study_reminder_end_time');
@@ -197,7 +201,7 @@ eventClick: function(info) {
           if (selectedDate.getTime() === today.getTime()) {
             const now = new Date();
             now.setMinutes(now.getMinutes() + 1);
-            const end = new Date(now.getTime() + 60 * 1000); // 終了は +1分
+            const end = new Date(now.getTime() + 60 * 1000);
 
             const h = (d) => String(d.getHours()).padStart(2, '0');
             const m = (d) => String(d.getMinutes()).padStart(2, '0');
@@ -217,7 +221,7 @@ eventClick: function(info) {
       try {
         calendarInstance.render();
       } catch (error) {
-        console.error("カレンダーのレンダリングに失敗しました:", error);
+        console.error(I18nMessages.renderError, error);
       }
     }
 

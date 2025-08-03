@@ -8,12 +8,12 @@ class StudyCommentsController < ApplicationController
     @study_comment.study_log = @study_log
 
     if @study_comment.save
-      flash[:notice] = "コメントを投稿しました"
+      flash[:notice] = t("study_comments.created")
       CommentNotificationJob.perform_later(@study_comment.id) if @study_comment.study_log.user != current_user
 
       respond_to do |format|
         format.turbo_stream { render :create }
-        format.html { redirect_to @study_log, notice: "コメントを投稿しました" }
+        format.html { redirect_to @study_log, notice: t("study_comments.created") }
       end
     else
       respond_to do |format|
@@ -28,16 +28,16 @@ class StudyCommentsController < ApplicationController
 
   def destroy
     if @study_comment.destroy
-      flash[:notice] = "コメントを削除しました"
+      flash[:notice] = t("study_comments.destroyed")
       respond_to do |format|
         format.turbo_stream { render :destroy }
-        format.html { redirect_to @study_comment.study_log, notice: "コメントを削除しました" }
+        format.html { redirect_to @study_comment.study_log, notice: t("study_comments.destroyed") }
       end
     else
-      flash[:alert] = "コメントの削除に失敗しました"
+      flash[:alert] = t("study_comments.destroy_failed")
       respond_to do |format|
         format.turbo_stream { render :destroy_error }
-        format.html { redirect_to @study_comment.study_log, alert: "コメントの削除に失敗しました" }
+        format.html { redirect_to @study_comment.study_log, alert: t("study_comments.destroy_failed") }
       end
     end
   end
@@ -51,16 +51,15 @@ class StudyCommentsController < ApplicationController
 
   def update
     if @study_comment.update(update_params)
-      flash[:notice] = "コメントを編集しました"
+      flash[:notice] = t("study_comments.updated")
       respond_to do |format|
         format.turbo_stream { render :update }
-        format.html { redirect_to @study_comment.study_log, notice: "コメントを編集しました" }
+        format.html { redirect_to @study_comment.study_log, notice: t("study_comments.updated") }
       end
     else
       respond_to do |format|
         format.turbo_stream { render :update_error }
         format.html {
-          # 編集失敗時は編集フォームを再表示
           render :edit, status: :unprocessable_entity
         }
       end
@@ -72,13 +71,13 @@ class StudyCommentsController < ApplicationController
   def set_study_log
     @study_log = StudyLog.find(params[:study_log_id])
   rescue ActiveRecord::RecordNotFound
-    redirect_back fallback_location: root_path, alert: "投稿が見つかりません"
+    redirect_back fallback_location: root_path, alert: t("study_comments.not_found_study_log")
   end
 
   def set_study_comment
     @study_comment = current_user.study_comments.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_back fallback_location: root_path, alert: "コメントが見つかりません"
+    redirect_back fallback_location: root_path, alert: t("study_comments.not_found_study_comment")
   end
 
   def create_params

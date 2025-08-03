@@ -4,16 +4,15 @@
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8" }) do |f| %>
   <!-- エラーメッセージの表示部分 -->
-    <% if resource.errors.any? %>
-      <div class="text-red-500 bg-red-100 p-4 rounded-md">
-        <ul class="list-disc pl-5">
-          <% resource.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  </div>
+  <% if resource.errors.any? %>
+    <div class="text-red-500 bg-red-100 p-4 rounded-md">
+      <ul class="list-disc pl-5">
+        <% resource.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <!-- メールアドレスの入力フィールド -->
   <div class="mb-6">

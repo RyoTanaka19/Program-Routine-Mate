@@ -1,10 +1,58 @@
 import consumer from './consumer';
 
-// 多重購読防止：すでに購読していたらスキップ
+// DOM要素キャッシュ
+const notificationCountElement = document.getElementById('notification-count');
+const notificationAreaElement = document.getElementById('notification-area');
+const notificationIconElement = document.getElementById('notification-icon');
+
+// 通知要素を作成する関数（Tailwind CSSクラスを付与）
+function createNotificationElement(message) {
+  const notification = document.createElement('div');
+  notification.className = [
+    'bg-blue-200', // 水色背景
+    'p-3', // パディング
+    'mb-3', // 下マージン
+    'rounded-md', // 角丸
+    'shadow-md', // 影
+    'cursor-pointer',
+    'text-blue-900',
+    'select-none',
+  ].join(' ');
+  notification.innerText = message;
+  return notification;
+}
+
+// 通知数を取得する関数
+function getNotificationCount() {
+  if (!notificationCountElement) return 0;
+  const count = parseInt(notificationCountElement.innerText, 10);
+  return isNaN(count) ? 0 : count;
+}
+
+// 通知数を更新する関数
+function updateNotificationCount(newCount) {
+  if (notificationCountElement) notificationCountElement.innerText = newCount;
+}
+
+// 通知エリアの表示/非表示を切り替えるクリックイベントを一度だけ登録
+function setupNotificationToggle() {
+  if (!notificationIconElement || !notificationAreaElement) return;
+  if (notificationIconElement.hasAttribute('data-clicked')) return;
+
+  notificationIconElement.setAttribute('data-clicked', 'true');
+  notificationIconElement.addEventListener('click', () => {
+    if (!notificationAreaElement) return;
+    notificationAreaElement.style.display =
+      notificationAreaElement.style.display === 'none' ? 'block' : 'none';
+  });
+}
+
+// 多重購読防止 & 購読開始
 if (!window.notificationSubscribed) {
   consumer.subscriptions.create('NotificationChannel', {
     connected() {
       console.log('Connected to NotificationChannel');
+      setupNotificationToggle(); // ここで一度だけ登録
     },
 
     disconnected() {
@@ -12,47 +60,23 @@ if (!window.notificationSubscribed) {
     },
 
     received(data) {
-      const notificationArea = document.getElementById('notification-area');
-      const notification = document.createElement('div');
+      if (!notificationAreaElement) return;
 
-      // 通知のスタイル設定
-      notification.style.backgroundColor = 'lightblue';
-      notification.style.padding = '10px';
-      notification.style.marginBottom = '10px';
-      notification.style.borderRadius = '5px';
-      notification.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
-      notification.innerText = data.message;
+      // 通知を作成して追加
+      const notification = createNotificationElement(data.message);
+      notificationAreaElement.appendChild(notification);
 
-      // 通知を追加
-      notificationArea.appendChild(notification);
+      // 通知数を増やす
+      updateNotificationCount(getNotificationCount() + 1);
 
-      // 通知数を更新
-      const notificationCount = document.getElementById('notification-count');
-      let currentCount = parseInt(notificationCount.innerText);
-      notificationCount.innerText = currentCount + 1;
-
-      // 通知アイコンへのクリックイベントを一度だけ登録
-      const notificationIcon = document.getElementById('notification-icon');
-      if (!notificationIcon.hasAttribute('data-clicked')) {
-        notificationIcon.setAttribute('data-clicked', 'true');
-        notificationIcon.addEventListener('click', function () {
-          const notificationArea = document.getElementById('notification-area');
-          notificationArea.style.display =
-            notificationArea.style.display === 'none' ? 'block' : 'none';
-        });
-      }
-
-      // 通知をクリックしたら非表示＆カウント減らす
-      notification.addEventListener('click', function () {
-        notification.style.display = 'none';
-        let currentCount = parseInt(notificationCount.innerText);
-        if (currentCount > 0) {
-          notificationCount.innerText = currentCount - 1;
-        }
+      // 通知クリックで削除＆通知数減
+      notification.addEventListener('click', () => {
+        notification.remove();
+        const count = getNotificationCount();
+        if (count > 0) updateNotificationCount(count - 1);
       });
     },
   });
 
-  // 一度購読したことを記録
   window.notificationSubscribed = true;
 }
