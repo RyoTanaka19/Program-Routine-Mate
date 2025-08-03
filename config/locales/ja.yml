@@ -1,4 +1,18 @@
 ja:
+  defaults:
+    anonymous: '匿名'
+    no_content: '内容なし'
+
+  like_notification:
+    message: "%{liker_name}さんがあなたの学習記録「%{content}」にいいねしました！"
+
+  omniauth:
+    callbacks:
+      failure: "認証に失敗しました。再度お試しください。"
+    providers:
+      google: "Google"
+      line: "LINE"
+      github: "GitHub"
 
   home:
     title: 'プログラミング学習、続けたいけどなかなか難しい…'
@@ -418,6 +432,15 @@ ja:
     failed: 'いいねできませんでした。'
 
   study_comments:
+    user_name: "%{name}さん"
+    deleted_user: "退会したユーザー"
+    posted_at: "投稿日: %{date}"
+    edit: "編集"
+    delete: "削除"
+    text_label: "コメント"
+    submit_new: "送信"
+    submit_edit: "変更"
+    confirm_delete: "本当に削除しますか?"
     created: 'コメントを投稿しました'
     destroyed: 'コメントを削除しました'
     destroy_failed: 'コメントの削除に失敗しました'
@@ -433,3 +456,5 @@ ja:
     unit:
       rank: '位'
       days: '日'
+
+  comment_notification: "%{commenter_name}さんがあなたの学習記録「%{content}」にコメントしました！"

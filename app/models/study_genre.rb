@@ -53,11 +53,6 @@ class StudyGenre < ApplicationRecord
   end
 
   def continuous_days
-    # 例として、連続した学習記録の日数を計算するロジックを入れます。
-    # ここでは仮に「ユニークな日付数」を返す簡易実装です。
-
-    # study_logsが日付を持っている前提で連続判定ロジックを作る必要があります
-    # とりあえず登録されているログの日付のユニーク数を返す例
     study_logs.select(:date).distinct.count
   end
 

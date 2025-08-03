@@ -12,14 +12,13 @@ export default class extends Controller {
       .then((response) => response.json())
       .then((data) => this.updateResults(data))
       .catch((error) => {
-        console.error('Error fetching autocomplete data:', error);
+        console.error('Error fetching autocomplete data:', error); // ログを削除したい場合はこの行を削除
         this.showError();
       });
   }
 
   updateResults(data) {
     this.resultsTarget.innerHTML = '';
-    console.log('オートコンプリートAPIからの返却データ:', data);
     if (data.length === 0) {
       this.showNoResultsMessage();
       return;
@@ -54,7 +53,7 @@ export default class extends Controller {
   showError() {
     const message = document.createElement('li');
     message.textContent =
-      'データの取得に失敗しました。もう一度お試しください。';
+      'データの取得に失敗しました。ネットワーク接続を確認するか、もう一度お試しください。';
     message.classList.add('text-red-500', 'px-4', 'py-2');
     this.resultsTarget.appendChild(message);
   }

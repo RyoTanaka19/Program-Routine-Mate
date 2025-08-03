@@ -15,6 +15,7 @@
     <% @ranking.each_with_index do |user, index| %>
       <% current_posted_days_count = user.posted_days_count.to_i %>
       <% display_rank += 1 %>
+      
       <% if previous_posted_days_count != current_posted_days_count %>
         <% rank = display_rank %>
       <% end %>

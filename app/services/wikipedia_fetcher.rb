@@ -1,12 +1,11 @@
-# app/services/wikipedia_fetcher.rb
 require "net/http"
 require "uri"
 require "json"
+require "cgi"
 
 class WikipediaFetcher
-  # 指定されたキーワードのWikipedia要約を取得するクラスメソッド
   def self.fetch_summary(keyword)
-    encoded_keyword = URI.encode_www_form_component(keyword)
+    encoded_keyword = CGI.escape(keyword)
     url = URI("https://ja.wikipedia.org/api/rest_v1/page/summary/#{encoded_keyword}")
 
     begin
@@ -15,9 +14,11 @@ class WikipediaFetcher
       case response
       when Net::HTTPSuccess
         json = JSON.parse(response.body)
-        json["extract"].presence || "Wikipediaに該当する情報が見つかりませんでした。"
+        json["extract"] || "Wikipediaに該当する情報が見つかりませんでした。"
       when Net::HTTPNotFound
         "Wikipediaに該当するページが存在しません。"
+      when Net::HTTPBadRequest
+        "無効なリクエストです。パラメータを確認してください。"
       else
         "Wikipediaから情報を取得できませんでした。ステータス: #{response.code}"
       end
@@ -29,6 +30,7 @@ class WikipediaFetcher
     rescue JSON::ParserError => e
       "Wikipediaから取得したデータの解析に失敗しました（#{e.message}）"
     rescue StandardError => e
+      Rails.logger.error("WikipediaFetcher エラー: #{e.class}: #{e.message}")
       "予期しないエラーが発生しました（#{e.class}: #{e.message}）"
     end
   end

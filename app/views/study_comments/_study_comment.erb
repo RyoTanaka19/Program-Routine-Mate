@@ -27,17 +27,17 @@
         <!-- 投稿者名 -->
         <% if comment_user.present? %>
           <p class="text-sm font-semibold text-gray-700 mb-1">
-            <%= comment_user.name %>さん
+            <%= t("study_comments.user_name", name: comment_user.name) %>
           </p>
         <% else %>
           <p class="text-sm font-semibold text-gray-500 mb-1">
-            退会したユーザー
+            <%= t("study_comments.deleted_user") %>
           </p>
         <% end %>
 
         <!-- 投稿日 -->
         <p class="text-xs text-gray-500 mb-1">
-          投稿日: <%= study_comment.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+          <%= t("study_comments.posted_at", date: study_comment.created_at.strftime("%Y年%m月%d日 %H:%M")) %>
         </p>
 
         <!-- コメント本文 -->
@@ -52,14 +52,14 @@
                   class: "inline-flex items-center px-3 py-1.5 text-sm bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
                   data: { turbo_stream: true },
                   id: "button-edit-#{study_comment.id}" do %>
-              <i class="fas fa-pencil-alt mr-1"></i> 編集
+              <i class="fas fa-pencil-alt mr-1"></i> <%= t("study_comments.edit") %>
             <% end %>
 
             <%= link_to study_comment_path(study_comment),
                   class: "inline-flex items-center px-3 py-1.5 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300",
-                  data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" },
+                  data: { turbo_method: :delete, turbo_confirm: t("study_comments.confirm_delete") },
                   id: "button-delete-#{study_comment.id}" do %>
-              <i class="fas fa-trash mr-1"></i> 削除
+              <i class="fas fa-trash mr-1"></i> <%= t("study_comments.delete") %>
             <% end %>
           </div>
         <% end %>

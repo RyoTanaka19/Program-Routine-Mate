@@ -11,7 +11,13 @@ class StudyAnswersController < ApplicationController
 
     begin
       explanation = OpenAiService.explain_answer(@study_challenge.user_response, user_answer)
-    rescue StandardError => e
+    rescue OpenAiService::ApiError => e  # OpenAiServiceで発生する可能性のあるエラー
+      Rails.logger.error("API Error: #{e.message}")
+      redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
+                  alert: t("study_answers.explanation_fetch_failed", error: e.message)
+      return
+    rescue StandardError => e  # その他のエラーをキャッチ
+      Rails.logger.error("Unexpected Error: #{e.message}")
       redirect_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
                   alert: t("study_answers.explanation_fetch_failed", error: e.message)
       return
@@ -35,6 +41,7 @@ class StudyAnswersController < ApplicationController
     if @study_answer.save
       redirect_to result_study_log_study_challenge_study_answers_path(@study_log, @study_challenge)
     else
+      Rails.logger.error("StudyAnswer Save Failed: #{@study_answer.errors.full_messages.join(', ')}")
       flash.now[:alert] = @study_answer.errors.full_messages.join("、")
       render :answer, status: :unprocessable_entity
     end
@@ -75,8 +82,12 @@ class StudyAnswersController < ApplicationController
   private
 
   def set_study_challenge_and_log
-    @study_challenge = StudyChallenge.find(params[:study_challenge_id])
-    @study_log = @study_challenge.study_log
+    @study_challenge = StudyChallenge.find_by(id: params[:study_challenge_id])
+    unless @study_challenge
+      redirect_to study_logs_path, alert: t("study_answers.challenge_not_found")
+    else
+      @study_log = @study_challenge.study_log
+    end
   end
 
   def study_answer_params
@@ -84,7 +95,7 @@ class StudyAnswersController < ApplicationController
   end
 
   def extract_correct_answer(response_text)
-    matched = response_text.match(/^正解:\s*([A-D])/)
+    matched = response_text.match(/正解:\s*([A-D])/)
     matched ? matched[1] : nil
   end
 end
