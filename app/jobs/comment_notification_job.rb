@@ -9,8 +9,11 @@ class CommentNotificationJob < ApplicationJob
     safe_content = ActionController::Base.helpers.strip_tags(study_log.content).truncate(30)
     message = "#{commenter.name}さんがあなたの学習記録「#{safe_content}」にコメントしました！"
 
+    # 送信先ユーザーのLINE通知も送る
+    send_line_notification(message, study_log.user)
+
+    # ブラウザ通知
     broadcast_browser_notification(study_log.user.id, message)
-    send_line_notification(study_log.user, message)
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.warn "CommentNotificationJob failed: #{e.message}"
   end
@@ -21,15 +24,13 @@ class CommentNotificationJob < ApplicationJob
     ActionCable.server.broadcast("notification_channel_#{user_id}", { message: message })
   end
 
-  # LINE通知を送信するメソッド
-  def send_line_notification(user, message)
-    return if user.uid.blank?  # ユーザーのLINE IDが無ければ通知しない
+  # 追加: LINE通知を送るメソッド
+  def send_line_notification(message, user)
+    return if user.uid.blank?
 
-    client = LINE_BOT_API  # LINE APIのクライアントインスタンス
-    begin
-      client.push_message(user.uid, { type: "text", text: message })  # LINE通知送信
-    rescue StandardError => e
-      Rails.logger.error("LINE通知送信エラー: #{e.class} #{e.message}\n#{e.backtrace.join("\n")}")
-    end
+    client = LINE_BOT_API
+    client.push_message(user.uid, { type: "text", text: message })
+  rescue StandardError => e
+    Rails.logger.error("LINE通知送信エラー: #{e.class} #{e.message}\n#{e.backtrace.join("\n")}")
   end
 end

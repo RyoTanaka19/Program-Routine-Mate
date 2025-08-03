@@ -6,13 +6,17 @@ class LikeNotificationJob < ApplicationJob
     liker = User.find(liker_user_id)
     owner = study_log.user
 
+    # いいねした人と投稿の所有者が同じ場合は通知しない
     return if liker.id == owner.id
 
     safe_content = ActionController::Base.helpers.strip_tags(study_log.content).truncate(20)
     message = "#{liker.name}さんがあなたの学習記録「#{safe_content}」にいいねしました！"
 
+    # 送信先ユーザーのLINE通知も送る
+    send_line_notification(message, owner)
+
+    # ブラウザ通知
     broadcast_browser_notification(owner.id, message)
-    send_line_notification(owner, message)
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.warn "LikeNotificationJob failed: #{e.message}"
   end
@@ -23,15 +27,13 @@ class LikeNotificationJob < ApplicationJob
     ActionCable.server.broadcast("notification_channel_#{user_id}", { message: message })
   end
 
-  # LINE通知を送信するメソッド
-  def send_line_notification(user, message)
-    return if user.uid.blank?  # ユーザーのLINE IDが無ければ通知しない
+  # 追加: LINE通知を送るメソッド
+  def send_line_notification(message, user)
+    return if user.uid.blank?
 
-    client = LINE_BOT_API  # LINE APIのクライアントインスタンス
-    begin
-      client.push_message(user.uid, { type: "text", text: message })  # LINE通知送信
-    rescue StandardError => e
-      Rails.logger.error("LINE通知送信エラー: #{e.class} #{e.message}\n#{e.backtrace.join("\n")}")
-    end
+    client = LINE_BOT_API
+    client.push_message(user.uid, { type: "text", text: message })
+  rescue StandardError => e
+    Rails.logger.error("LINE通知送信エラー: #{e.class} #{e.message}\n#{e.backtrace.join("\n")}")
   end
 end
