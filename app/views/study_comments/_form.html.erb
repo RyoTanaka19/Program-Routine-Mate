@@ -3,7 +3,7 @@
     <!-- コメントフォーム全体をTurbo Frameで囲むことで、部分的な更新が可能に -->
     <div class="row mb-3" id="study_comments-form">
       <div class="col-lg-8 offset-lg-2">
-      
+        
         <%= form_with model: study_comment, 
                       url: (study_comment.new_record? ? study_log_study_comments_path(study_log) : study_comment_path(study_comment)), 
                       method: (study_comment.new_record? ? :post : :patch) do |form| %>
@@ -12,7 +12,7 @@
           <%= render 'shared/error_messages', object: form.object %>
 
           <!-- コメントの入力ラベル -->
-          <%= form.label :text, "コメント" %>
+          <%= form.label :text, t('study_comments.text_label') %>
 
           <!-- コメント本文の入力フィールド -->
           <%= form.text_area :text, 
@@ -25,7 +25,7 @@
           <br>
 
           <!-- コメント送信ボタン。新規作成と編集で共通 -->
-          <%= form.submit (study_comment.new_record? ? "送信" : "変更"), class: "bg-green-500 text-white hover:bg-green-600 rounded-md px-4 py-2" %>
+          <%= form.submit (study_comment.new_record? ? t('study_comments.submit_new') : t('study_comments.submit_edit')), class: "bg-green-500 text-white hover:bg-green-600 rounded-md px-4 py-2" %>
 
         <% end %>
       </div>

@@ -15,7 +15,7 @@ class StudyLikesController < ApplicationController
       LikeNotificationJob.perform_later(@study_log.id, current_user.id)
       respond_to do |format|
         format.html do
-          flash[:notice] = t("!study_likes.created")
+          flash[:notice] = t("study_likes.created")
           redirect_to @study_log
         end
         format.turbo_stream do

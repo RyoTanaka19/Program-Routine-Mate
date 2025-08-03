@@ -6,8 +6,12 @@
 
     <%= form_with url: study_log_study_challenges_path(@study_log), method: :post, local: true do %>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <%= submit_tag t("study_challenges.accept"), data: { action: "click->loading#show" }, class: "bg-green-500 text-white px-6 py-3 rounded text-base sm:text-lg" %>
-        <%= link_to t("study_challenges.decline"), study_logs_path, class: "bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded text-base sm:text-lg" %>
+        <%= submit_tag t("study_challenges.accept"), 
+                      data: { action: "click->loading#show" }, 
+                      class: "bg-green-500 text-white px-6 py-3 rounded text-base sm:text-lg" %>
+        <%= link_to t("study_challenges.decline"), 
+                    study_logs_path, 
+                    class: "bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded text-base sm:text-lg" %>
       </div>
     <% end %>
   </div>

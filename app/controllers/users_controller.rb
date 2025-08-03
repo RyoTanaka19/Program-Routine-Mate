@@ -2,11 +2,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @user = User.find_by(id: params[:id])
-    if @user.nil?
-      redirect_to(root_path, alert: t("users.not_found")) and return
-    end
+    @user = User.find(params[:id]) # ユーザーが見つからなければ例外が発生
     @study_logs = @user.study_logs
+  rescue ActiveRecord::RecordNotFound
+    redirect_to(root_path, alert: t("users.not_found"))
   end
 
   def ranking

@@ -6,8 +6,8 @@
         <%= t('study_genres.labels.has_study_logs') %>
 
         <p class="text-blue-600 mt-1"><%= t('study_genres.labels.already_set') %></p>
-        <p class="text-yellow-600 mt-1"><%= t('study_genres.labels.post_count', count: genre.study_logs.count) %></p>
-        <p class="text-yellow-300 mt-1"><%= t('study_genres.labels.continuous_days', days: genre.continuous_days) %></p>
+        <p class="text-blue-600 mt-1"><%= t('study_genres.labels.post_count', count: genre.study_logs.count) %></p>
+        <p class="text-blue-600 mt-1"><%= t('study_genres.labels.continuous_days', days: genre.continuous_days) %></p>
 
         <%= form_with model: genre, url: study_genre_path(genre), method: :patch, class: "mt-4" do |f| %>
           <div class="mb-4">
@@ -28,9 +28,6 @@
         <div class="mt-3 space-x-4">
           <%= link_to t('study_genres.links.post_study_log'), new_study_log_path(genre_id: genre.id), local: true, class: "text-green-600 hover:underline font-semibold" %>
         </div>
-
-        <h4 class="text-lg font-semibold text-blue-600 mt-4"><%= t('study_genres.labels.edit_genre') %></h4>
-
         <%= form_with model: genre, url: study_genre_path(genre), method: :patch, class: "mt-4" do |f| %>
           <div class="mb-4">
             <%= f.label :name, t('study_genres.forms.select_label'), class: "block text-blue-700 mb-2" %>

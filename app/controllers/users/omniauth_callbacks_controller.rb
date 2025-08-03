@@ -25,16 +25,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.new_record?
       @user.skip_password_validation = true
       unless @user.save
-        redirect_to root_path, alert: "認証に失敗しました。" and return
+        redirect_to root_path, alert: I18n.t("omniauth.callbacks.failure") and return
       end
     end
 
     sign_in_and_redirect @user, event: :authentication
-    set_flash_message(:notice, :success, kind: provider.to_s.capitalize) if is_navigational_format?
+    set_flash_message(:notice, :success, kind: I18n.t("omniauth.providers.#{provider}")) if is_navigational_format?
   end
 
   # 認証失敗時の処理（トップページへ）
   def failure
-    redirect_to root_path
+    redirect_to root_path, alert: I18n.t("omniauth.callbacks.failure")
   end
 end
