@@ -16,7 +16,7 @@
 
     <!-- 学習ジャンル -->
     <section class="mb-8">
-      <%= f.label :study_genre_id, "学習ジャンル(設定済み)", class: "text-blue-600 text-base mb-1" %>
+      <%= f.label :study_genre_id, nil, class: "text-blue-600 text-base mb-1" %>
       <%= f.select :study_genre_id, current_user.study_genres.collect { |genre| [genre.name, genre.id] }, class: "form-select text-blue-600 border-blue-300 focus:ring-2 focus:ring-blue-500" %>
     </section>
 
@@ -24,56 +24,53 @@
 
     <!-- 学習内容 -->
     <section class="mb-8">
-      <%= f.label :content, "学習内容（必須）", class: "block mb-1 text-red-600 font-semibold" %>
+      <%= f.label :content, nil, class: "block mb-1 text-red-600 font-semibold" %>
       <%= f.text_field :content,
-        placeholder: "この学習内容をもとにAIが問題を自動生成します。",
+        placeholder: t('placeholders.study_log.content'),
         class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
     </section>
 
- <!-- 画像 -->
-<section class="mb-8">
-  <%= f.label :image, "画像（任意）", class: "block mb-2 text-gray-700 font-medium" %>
-  <%= f.file_field :image,
-    class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-    accept: 'image/*' %>
+    <!-- 画像 -->
+    <section class="mb-8">
+      <%= f.label :image, nil, class: "block mb-2 text-gray-700 font-medium" %>
+      <%= f.file_field :image,
+        class: "block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+        accept: 'image/*' %>
 
-  <div class="mt-4 flex justify-center">
-    <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
-      width: 300, height: 200,
-      class: "rounded-md shadow-md",
-      id: "study_log_preview") %> <!-- ✅ 修正 -->
-  </div>
+      <div class="mt-4 flex justify-center">
+        <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png",
+          width: 300, height: 200,
+          class: "rounded-md shadow-md",
+          id: "study_log_preview") %>
+      </div>
 
-  <!-- チェックボックス: 画像を削除する -->
-  <% if @study_log.image? %>
-    <div class="mt-4 flex justify-center items-center">
-      <%= f.check_box :remove_image, class: "mr-2" %>
-      <%= f.label :remove_image, "画像を削除する", class: "text-red-600 font-medium" %>
-    </div>
-  <% end %>
+      <% if @study_log.image? %>
+        <div class="mt-4 flex justify-center items-center">
+          <%= f.check_box :remove_image, class: "mr-2" %>
+          <%= f.label :remove_image, t('labels.study_log.remove_image'), class: "text-red-600 font-medium" %>
+        </div>
+      <% end %>
 
-  <%= f.hidden_field :image_cache %>
-</section>
-
-
+      <%= f.hidden_field :image_cache %>
+    </section>
 
     <!-- 学んだこと -->
     <section class="mb-8">
-      <%= f.label :text, "学習内容から学んだこと（必須）", class: "block mb-1 text-red-600 font-semibold" %>
+      <%= f.label :text, nil, class: "block mb-1 text-red-600 font-semibold" %>
       <%= f.text_area :text,
           rows: 6,
-          placeholder: "学習内容から学んだことを基にAIが問題を生成するので、詳しくお書き下さい。",
+          placeholder: t('placeholders.study_log.text'),
           class: "w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y" %>
     </section>
 
     <div class="form-group mb-4">
-      <%= f.label :date, "日付(自動)", class: "block text-sm font-medium text-green-500" %>
+      <%= f.label :date, nil, class: "block text-sm font-medium text-green-500" %>
       <%= f.text_field :date, value: Time.zone.today.to_s, readonly: true, class: "mt-1 block w-full rounded-md shadow-sm bg-transparent" %>
     </div>
 
     <!-- 送信 -->
     <div class="mb-2">
-      <%= f.submit @study_log.new_record? ? "投稿" : "更新",
+      <%= f.submit @study_log.new_record? ? t('helpers.submit.study_log.create') : t('helpers.submit.study_log.update'),
           class: "w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md shadow focus:outline-none focus:ring-4 focus:ring-green-500" %>
     </div>
 

@@ -1,4 +1,3 @@
-
 <%= render 'search_form', q: @q, url: study_logs_path %>
 
 <br>
@@ -9,17 +8,16 @@
 </div>
 
 <script>
-let cal = null; // グローバルに保持する CalHeatmap インスタンス
+let cal = null;
 
 document.addEventListener("turbo:load", () => {
-  initHeatmap();         // ヒートマップ初期化
-  registerCloseModal();  // 閉じるボタンのイベント再登録
+  initHeatmap();
+  registerCloseModal();
 });
 
 function registerCloseModal() {
   const closeBtn = document.getElementById("modal-close-btn");
   if (closeBtn) {
-    // 毎回イベントを上書きすることで多重登録を防ぐ
     closeBtn.onclick = () => {
       const modal = document.getElementById("logs-modal");
       if (modal) modal.classList.add("hidden");
@@ -28,7 +26,6 @@ function registerCloseModal() {
 }
 
 function initHeatmap() {
-  console.log("initHeatmap called");
   const container = document.getElementById("cal-heatmap");
   if (!container) return;
 
@@ -107,7 +104,7 @@ function fetchStudyLogsByDate(date) {
   })
   .then(response => {
     if (response.status === 401) {
-      alert("ログインが必要です。ログインページに移動します。");
+      alert("<%= t('study_logs.login_required') %>");
       window.location.href = "/users/sign_in";
       return Promise.reject("Unauthorized");
     }
@@ -121,12 +118,7 @@ function fetchStudyLogsByDate(date) {
     if (data) showLogsModal(date, data);
   })
   .catch(error => {
-    // 予期しないエラーを表示しないように削除
-    if (error === "Unauthorized") {
-      // 401の場合はここで処理されるため、それ以外のエラーは無視
-      return;
-    }
-    // その他のエラーは無視して処理しない
+    if (error === "Unauthorized") return;
   });
 }
 
@@ -135,19 +127,19 @@ function showLogsModal(date, logs) {
   const list = document.getElementById("logs-list");
   const title = document.getElementById("modal-title");
 
-  title.textContent = `${date} の学習記録`;
+  title.textContent = I18n.t('study_logs.modal.title', date: date);
   list.innerHTML = "";
 
   if (logs.length === 0) {
-    list.innerHTML = "<li>この日の投稿はありません。</li>";
+    list.innerHTML = "<li><%= t('study_logs.modal.no_logs') %></li>";
   } else {
     logs.forEach(log => {
       const item = document.createElement("li");
       item.innerHTML = `
         <div class="p-3 border rounded shadow-sm bg-gray-50">
-          <div class="font-bold">${log.study_genre?.name || '未分類'}: ${log.content}</div>
+          <div class="font-bold">${log.study_genre?.name || '<%= t('study_logs.log_details.genre') %>'}: ${log.content}</div>
           <div class="text-sm text-gray-600 mt-1">${log.text || ''}</div>
-          <div class="text-xs text-gray-400 mt-1">投稿日: ${new Date(log.created_at).toLocaleString()}</div>
+          <div class="text-xs text-gray-400 mt-1"><%= t('study_logs.log_details.date') %>: ${new Date(log.created_at).toLocaleString()}</div>
         </div>
       `;
       list.appendChild(item);
@@ -158,93 +150,65 @@ function showLogsModal(date, logs) {
 }
 </script>
 
-<!-- 以下略 -->
-
-
 <br>
 
-<!-- 投稿一覧セクション -->
 <div class="flex flex-wrap gap-3 justify-center">
   <% @study_logs.each do |study_log| %>
     <div class="w-64 h-[340px] mb-3 flex flex-col border p-2 rounded-md shadow bg-white hover:bg-gray-100">
       <%= link_to study_log_path(study_log), class: "flex flex-col h-full justify-between", data: { action: "click->loading#show" } do %>
 
-        <!-- 中央寄せする中身全体を囲む -->
-        <!-- 中央寄せする中身全体を囲む（少し下に寄せ） -->
-<div class="flex-1 flex flex-col justify-end mt-1">
-  <!-- 画像（サイズ拡大 + 間隔調整）-->
-  <div class="mb-1 overflow-hidden rounded-md">
-    <%= image_tag(
-      study_log.image? ? study_log.image_url : "default_study_logs_image.png",
-      class: "w-full h-32 object-cover rounded"
-    ) %>
-  </div>
+        <div class="flex-1 flex flex-col justify-end mt-1">
+          <div class="mb-1 overflow-hidden rounded-md">
+            <%= image_tag(
+              study_log.image? ? study_log.image_url : "default_study_logs_image.png",
+              class: "w-full h-32 object-cover rounded"
+            ) %>
+          </div>
 
-  <!-- 学習内容 -->
-  <p class="text-[12px] font-medium text-gray-800 mb-2 line-clamp-2">
-    学習内容: <%= study_log.content %>
-  </p>
+          <p class="text-[12px] font-medium text-gray-800 mb-2 line-clamp-2">
+            <%= t('study_logs.log_details.genre') %>: <%= study_log.content %>
+          </p>
 
-  <!-- ジャンル -->
-  <p class="text-[11px] text-gray-600 leading-tight mb-1">
-    📚 <strong>ジャンル:</strong>
-    <%= study_log.study_genre&.display_name || "未設定" %>
-  </p>
+          <p class="text-[11px] text-gray-600 leading-tight mb-1">
+            📚 <strong><%= t('study_logs.log_details.genre') %>:</strong>
+            <%= study_log.study_genre&.display_name || t('study_logs.log_details.genre') %>
+          </p>
 
-  <!-- 投稿日 -->
-  <p class="text-[11px] text-gray-600 leading-tight mb-2">
-    🗓️ <strong>日:</strong> <%= study_log.date %>
-  </p>
+          <p class="text-[11px] text-gray-600 leading-tight mb-2">
+            🗓️ <strong><%= t('study_logs.log_details.date') %>:</strong> <%= study_log.date %>
+          </p>
 
- <!-- いいね -->
-<div class="flex items-center space-x-1 text-[11px] mb-2">
-  <%= render 'study_likes/like_button', study_log: study_log %>
-  <%= turbo_frame_tag "like-count-#{study_log.id}" do %>
-    <span class="text-gray-700"><%= study_log.study_likes.count %></span>
-  <% end %>
-</div>
+          <div class="flex items-center space-x-1 text-[11px] mb-2">
+            <%= render 'study_likes/like_button', study_log: study_log %>
+            <%= turbo_frame_tag "like-count-#{study_log.id}" do %>
+              <span class="text-gray-700"><%= study_log.study_likes.count %></span>
+            <% end %>
+          </div>
 
+          <div class="text-[10px] text-gray-500 leading-none mb-1">
+            <% if user_signed_in? && current_user == study_log.user %>
+              ✅ <span class="text-green-600"><%= t('study_logs.user_profile.logged_in') %></span>
+            <% else %>
+              ❌ <span class="text-red-500"><%= t('study_logs.user_profile.not_logged_in') %></span>
+            <% end %>
+          </div>
+        </div>
 
-  <!-- ログイン状態 -->
-  <div class="text-[10px] text-gray-500 leading-none mb-1">
-    <% if user_signed_in? && current_user == study_log.user %>
-      ✅ <span class="text-green-600">ログイン中</span>
-    <% else %>
-      ❌ <span class="text-red-500">未ログイン</span>
-    <% end %>
-  </div>
-</div>
-
-
-        <!-- ユーザー名（下部固定） -->
         <div class="flex items-center justify-end space-x-1 mt-2 text-[11px] text-blue-600">
-  <%= link_to user_path(study_log.user), class: "flex items-center space-x-1" do %>
-    <%= image_tag(
-      study_log.user.profile_image? ? study_log.user.profile_image_url : "default_study_logs_image.png",
-      class: "w-5 h-5 rounded-full object-cover border border-blue-400"
-    ) %>
-    <span><%= study_log.user.name %></span>
-  <% end %>
-</div>
+          <%= link_to user_path(study_log.user), class: "flex items-center space-x-1" do %>
+            <%= image_tag(
+              study_log.user.profile_image? ? study_log.user.profile_image_url : "default_study_logs_image.png",
+              class: "w-5 h-5 rounded-full object-cover border border-blue-400"
+            ) %>
+            <span><%= study_log.user.name %></span>
+          <% end %>
+        </div>
       <% end %>
     </div>
   <% end %>
 </div>
 
-
-
 <div data-controller="loading">
-  <!-- `a` タグをクリックしたら loading#show が呼ばれる -->
   <div data-action="click->loading#show">
     <%= paginate @study_logs %>
-  </div>
-</div>
-
-<!-- ★ モーダルのHTML ★ -->
-<div id="logs-modal" class="fixed z-50 inset-0 bg-black bg-opacity-50 hidden">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl mx-auto mt-20">
-    <h2 class="text-lg font-semibold mb-4" id="modal-title"></h2>
-    <ul id="logs-list" class="space-y-2 text-gray-700 max-h-[50vh] overflow-y-auto"></ul>
-    <button id="modal-close-btn" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">閉じる</button>
-  </div>
-</div>
+  </

@@ -1,0 +1,435 @@
+ja:
+
+  home:
+    title: 'プログラミング学習、続けたいけどなかなか難しい…'
+    description: 'そんなあなたのために、仲間と一緒に学べる場所を作りました。 一歩ずつ、一緒に成長していきましょう！'
+    recommended_for:
+      title: 'こんな方におすすめ!!'
+      cards:
+        beginner:
+          title: '仲間と学習したい初学者の人へ'
+          text: '1人ではなかなか学習が続かない…。仲間と一緒に学べる環境で、一歩ずつ続けていきましょう。'
+        overwhelmed:
+          title: '手を広げすぎて続かない初学者の人へ'
+          text: '学ぶことが多すぎて、どれも中途半端に…。このサービスなら21日間、1テーマに集中して習慣化できます。'
+        fun_with_ai:
+          title: 'AIなどで楽しく続けたい初学者の人へ'
+          text: '学習記録からAIが最適な問題を出題。他にもバッジやランキング機能で、楽しみながら継続できます!'
+    join_now: 'あなたも今日から学習仲間に!!'
+    scroll_instructions: 'scroll'
+    menu:
+      study_logs:
+        label: '学習投稿記録一覧'
+        description: '他の仲間の学習記録を見てみよう!'
+      study_calendar:
+        label: '学習カレンダー'
+        description: '学習時間を設定しよう!'
+      create_genre:
+        label: '学習ジャンル作成'
+        description: '続けたいジャンルを設定しよう!'
+      post_study_log:
+        label: '学習記録投稿'
+        description: '学習記録を投稿しよう!'
+
+  header:
+    menu: 'メニュー'
+    logout: 'ログアウト'
+    my_page: 'マイページ'
+    study_badges: '学習バッジ'
+    genre_list: 'ジャンル一覧'
+    ranking: '投稿日数ランキング'
+    withdraw: '退会'
+    login: 'ログイン'
+    use_guide: '使い方'
+    post_list: '投稿一覧'
+    calendar: 'カレンダー'
+    genre: 'ジャンル'
+    post: '投稿'
+    notifications: '通知'
+    profile: 'プロフィール'
+    no_notifications: '通知がありません'
+    login_label: 'ログイン'
+  notifications:
+    new_notification: '新しい通知があります'
+    read_more: 'もっと見る'
+  study_log:
+    post: '投稿'
+    calendar: 'カレンダー'
+    genre: 'ジャンル'
+    use_guide: '使い方'
+
+  footer:
+    copyright: '© %{year} ProgramRoutineMate. All rights reserved.'
+    terms: '利用規約'
+    privacy_policy: 'プライバシーポリシー'
+    contact: 'お問い合わせ'
+    github: 'GitHub'
+
+  friend_add_modal:
+    button_label: '友だち追加ボタン'
+    button_alt: '友だち追加'
+    button_text: 'LINE友だち追加'
+    qr_code_alt: 'LINE友だち追加QRコード'
+    thank_you_message: '友だち申請ありがとう!!'
+    close_button: '閉じる'
+
+  study_genres:
+    user_count:
+      title: '学習ジャンルごとのユーザー数'
+      chart_label: '投稿したユーザー数'
+      chart_title: 'ジャンル別 投稿ユーザー数'
+      x_axis: 'ユーザー数'
+      y_axis: '学習ジャンル'
+      no_data: 'まだ、誰も投稿してません'
+      error_chart_render: 'グラフの描画に失敗しました:'
+    labels:
+      wikipedia_summary: 'Wikipediaの概要'
+      lgtm_alt: 'LGTM'
+      post_info: '投稿情報'
+      post_count_label: '投稿数：'
+      posts: '件'
+      no_study_logs: 'まだこのジャンルの投稿がありません。'
+      chart_label: '日付ごとの投稿数'
+      x_axis: '日付'
+      y_axis: '投稿数'
+      has_study_logs: 'の学習記録があります。'
+      already_set: 'このジャンルはすでに設定されています。'
+      post_count: '学習記録の投稿数: %{count} 件'
+      continuous_days: '学習記録の継続日数: %{days} 日'
+      no_study_logs_yet: 'の学習記録がまだありません。'
+      edit_genre: 'ジャンルを編集'
+      add_new_genre: '新しいジャンルを追加'
+    links:
+      post_study_log: '学習記録を投稿する'
+    forms:
+      edit_label: 'ジャンル編集'
+      select_label: 'ジャンル選択'
+      update_button: 'ジャンル更新'
+      set_button: 'ジャンル設定'
+    errors:
+      create_condition_not_met: '新しいジャンルを設定する条件が満たされていません。'
+      duplicate_name: 'すでに設定しているジャンルは設定できません。'
+      no_change: '現在のジャンルでの更新はできません。'
+      update_failed: 'ジャンルの更新に失敗しました。'
+      not_found: '指定されたジャンルは見つかりません。'
+    notices:
+      created: 'ジャンルが設定されました。'
+      updated: 'ジャンルが更新されました。'
+
+  devise:
+    failure:
+      unauthenticated: 'ログインが必要です。'
+
+  study_log:
+    helper:
+      unset: '未設定'
+      minutes: '分'
+      seconds: '秒'
+    labels:
+      study_time: '学習時間'
+      study_genre: '学習ジャンル'
+      genre_not_selected: '未選択(変更のため)'
+      study_content: '学習内容'
+      study_image: '学習画像'
+      learned_things: '学習内容から学んだこと'
+      comment_list: 'コメント一覧'
+    user_info_none: 'ユーザー情報なし'
+    default_user: 'ユーザー'
+    buttons:
+      edit: '編集'
+      delete: '削除'
+      share_twitter: 'Twitterでシェア'
+    confirmations:
+      delete: '本当に削除しますか?'
+    tweet_text: 'さんの学習記録を投稿しました'
+    login_prompt:
+      comment_post: 'コメントを投稿するには、'
+      login_link_text: 'ログインしてください'
+      comment_post_desc: 'ログイン後に他のユーザーと交流できます！'
+
+  search:
+    genre_label: 'ジャンルを選択'
+    genre_include_blank: 'すべて'
+    keyword_label: 'キーワードで検索'
+    keyword_placeholder: '例: Ruby, 勉強会, SQL'
+    submit_button: '🔍 検索'
+    result_count: '検索結果: %{count} 件'
+    no_results: '検索結果がありません'
+
+  activerecord:
+    attributes:
+      study_log:
+        study_genre_id: '学習ジャンル(設定済み)'
+        content: '学習内容（必須）'
+        image: '画像（任意）'
+        remove_image: '画像を削除する'
+        text: '学習内容から学んだこと（必須）'
+        date: '日付(自動)'
+
+  helpers:
+    submit:
+      study_log:
+        create: '投稿'
+        update: '更新'
+
+  placeholders:
+    study_log:
+      content: 'この学習内容をもとにAIが問題を自動生成します。'
+      text: '学習内容から学んだことを基にAIが問題を生成するので、詳しくお書き下さい。'
+
+  labels:
+    study_log:
+      remove_image: '画像を削除する'
+
+  study_logs:
+    search_form:
+      keyword_label: "キーワードで検索"
+      submit_button: "🔍 検索"
+    modal:
+      title: "%{date} の学習記録"
+      no_logs: "この日の投稿はありません。"
+      close_button: "閉じる"
+    log_details:
+      genre: "ジャンル"
+      date: "日"
+      likes: "いいね"
+      logged_in: "ログイン中"
+      not_logged_in: "未ログイン"
+    user_profile:
+      logged_in: "ログイン中"
+      not_logged_in: "未ログイン"
+    alerts:
+      set_genre_first: 'ジャンルを先に設定してください'
+      genre_not_found: '指定された学習ジャンルが見つかりませんでした。'
+      creation_failed: '学習記録の作成に失敗しました。'
+      update_failed: '学習記録の変更に失敗しました。'
+      record_not_found: '指定された学習記録が見つかりませんでした。'
+      invalid_date: '無効な日付です'
+      search_error: '検索中にエラーが発生しました。'
+    notices:
+      created: '学習記録が作成されました！'
+      out_of_study_time: '（投稿時刻が学習時間外のため、学習時間は記録されませんでした）'
+      updated: '学習記録の変更をしました。'
+      destroyed: '学習記録の削除をしました。'
+    meta:
+      description: 'プログラミング学習記録の投稿'
+
+  open_ai:
+    system_role:
+      writing: 'あなたは初心者向けプログラミング講師です。わかりやすく、丁寧に作成してください。'
+      explanation: 'あなたは教育者です。正誤判定とわかりやすい解説を作成してください。'
+    prompts:
+      written: |
+        あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。
+        学習内容と感想を元に、理解度を深めるための具体的な記述式のプログラミング問題を1つ作成してください。
+        ・300字以内
+        ・問題文のみを出力してください（選択肢や解説は不要です）。
+        ・初心者にもわかりやすく、簡潔に作成してください。
+
+        学習内容と感想:
+        %{content}
+
+        問題:
+      multiple_choice: |
+        あなたはプログラミング初心者に役立つ優秀なプログラミングアシスタントです。
+        学習内容と感想を元に、理解度を深めるためのマルチプルチョイス形式のプログラミング問題を1つ作成してください。
+
+        - 問題文と、選択肢A〜Dを含めてください（形式例：A. 〜、B. 〜）。
+        - 正解は「正解: A〜D」のいずれかをランダムに指定してください。
+        - 出力は問題・選択肢・正解のみとし、それ以外は出力しないでください。
+        - 全体で300字以内におさめ、初心者でも理解できるようわかりやすく書いてください。
+
+        学習内容と感想:
+        %{content}
+
+        出力形式:
+        問題文
+        A. ○○○
+        B. ○○○
+        C. ○○○
+        D. ○○○
+        正解: B
+
+        問題:
+      explanation: |
+        以下の問題文と選択肢があります。ユーザーの回答が正しいかどうか判定し、正解・不正解の結果と理由、解説を300字以内でわかりやすく教えてください。
+
+        問題と選択肢:
+        %{question}
+
+        ユーザーの回答:
+        %{answer}
+
+        結果と解説:
+    errors:
+      unsupported_type: 'サポートされていない質問タイプです: %{type}'
+      api_error: 'OpenAIエラー: %{message}'
+
+  study_reminders:
+    calendar_title: '学習カレンダー'
+    alerts:
+      past_date: '過去の日付には学習リマインダーを追加できません。'
+      empty_title: '（タイトルなし）'
+      event_name: 'イベント名'
+      event_time: '学習開始時間 - 学習終了時間'
+    errors:
+      render_failed: 'カレンダーのレンダリングに失敗しました:'
+    form:
+      title: '学習リマインダー設定'
+      title_label: '学習タイトル'
+      title_placeholder: '学習タイトルを入力してください'
+      start_time_label: '学習開始日時'
+      end_time_label: '学習終了日時'
+      submit_button: 'リマインダーを設定'
+    create:
+      notification_schedule_failed: '学習リマインダーは保存されましたが、通知の設定に失敗しました。管理者にお問い合わせください。'
+      set_times_success: '学習開始時間と学習終了時間が設定されました'
+
+  study_answers:
+    result_page:
+      title: 'AIによる採点結果'
+      correct: '✅ 正解です！'
+      incorrect: '❌ 不正解です...'
+      score_title: '今回の得点'
+      points: '点'
+      correct_rate: '正答率'
+      question: '問題'
+      your_answer: 'あなたの回答'
+      explanation: '解説'
+      try_another: '別の問題に挑戦する'
+      back_to_study_logs: '学習記録一覧へ'
+      history_link: '過去の回答一覧'
+
+    answer_page:
+      title: '問題に回答してください'
+      select_prompt: 'あなたの回答を選んでください'
+      submit_button: '回答を送信'
+
+    explanation_fetch_failed: '解説の取得に失敗しました（エラー: %{error}）'
+    explanation_missing: '解説の取得に失敗しました。'
+    answer_not_found: '回答が見つかりません。'
+
+    history:
+      title: '過去の回答一覧'
+      headers:
+        question_title: '問題タイトル'
+        your_answer: 'あなたの回答'
+        correct_answer: '正解'
+        explanation: '解説'
+        answered_at: '回答日時'
+        result: '結果'
+        details: '詳細'
+      result:
+        correct: '正解'
+        incorrect: '不正解'
+      details_link: '結果を見る'
+      back_to_study_logs: '学習記録一覧へ'
+
+  study_challenges:
+    show:
+      title: '問題'
+      answer_button: '問題を回答する'
+    prompt: 'この学習内容に基づいて、問題に挑戦してみませんか？'
+    accept: 'はい、挑戦する'
+    decline: 'いいえ'
+    create:
+      fail_generate: '問題の生成に失敗しました。'
+      success: 'あなたに合った問題を出題しました！'
+      fail_save: '問題の保存に失敗しました。'
+
+  study_badges:
+    names:
+      first_study_log: '初めての学習記録達成!'
+      two_days: '2日学習記録達成!'
+      three_days: '3日学習記録達成!'
+      five_days: '5日学習記録達成!'
+      seven_days: '7日学習記録達成!'
+    descriptions:
+      first_study_log: '初めて学習記録を投稿したユーザーに付与されるバッジ'
+      two_days: '異なる2日で学習記録を投稿したユーザーに付与されるバッジ'
+      three_days: '異なる3日で学習記録を投稿したユーザーに付与されるバッジ'
+      five_days: '異なる5日で学習記録を投稿したユーザーに付与されるバッジ'
+      seven_days: '異なる7日で学習記録を投稿したユーザーに付与されるバッジ'
+    collection: 'さんのバッジコレクション'
+    earned: '獲得'
+    date_format: '%m/%d'
+    no_badge_message: 'まだバッジを獲得していません。'
+    encourage_message: 'さあ、学習を始めてバッジを集めましょう！'
+
+  sessions:
+    login_title: 'ログイン'
+    email_label: 'メールアドレス'
+    email_placeholder: 'メールアドレスを入力してください'
+    password_label: 'パスワード'
+    password_placeholder: 'パスワードを入力してください'
+    password_hint: '(6文字以上)'
+    remember_me: 'ログイン状態を保持する'
+    login_button: 'ログイン'
+    forgot_password_link: 'パスワードを忘れた方はこちら'
+    no_account_text: 'アカウントをお持ちでない場合は'
+    signup_link: 'サインアップ'
+    or_text: 'または'
+    google_login: 'Googleでログイン'
+    line_login: 'LINEでログイン'
+    github_login: 'GitHubでログイン'
+    required: '必須'
+
+  errors:
+    count_suffix: '件のエラー'
+    exists: 'があります。'
+    form_errors: '入力に誤りがあります。再度ご確認ください:'
+
+  forms:
+    required: '必須'
+    show: '表示'
+
+  users:
+    sign_up_title: '新規登録'
+    email: 'メールアドレス'
+    email_placeholder: 'メールアドレスを入力してください'
+    name: 'ユーザー名'
+    name_placeholder: 'ユーザー名を入力してください'
+    password: 'パスワード'
+    password_placeholder: 'パスワード(6文字以上)'
+    password_confirmation: 'パスワード確認'
+    password_confirmation_placeholder: 'パスワード確認(6文字以上)'
+    sign_up_button: '新規登録'
+    already_have_account: '既にアカウントを持っている？'
+    login_link: 'ログイン'
+
+    edit_profile_title: 'プロフィール情報編集'
+    attributes:
+      name: '名前'
+      email: 'メールアドレス'
+      self_introduction: '自己紹介'
+      profile_image: 'プロフィール画像'
+    current_image: '現在の画像：'
+    remove_profile_image: '画像を削除する'
+    back_to_mypage: 'マイページに戻る'
+    update_button: '更新する'
+    not_found: 'ユーザーが見つかりませんでした。'
+    withdrawal_reason_invalid: '退会理由の入力に問題があります'
+    withdrawal_completed: '退会が完了しました。ご利用ありがとうございました。'
+
+  study_likes:
+    created: 'いいねしました！'
+    destroyed: 'いいねを取り消しました。'
+    already_liked: 'すでにいいねしています。'
+    failed: 'いいねできませんでした。'
+
+  study_comments:
+    created: 'コメントを投稿しました'
+    destroyed: 'コメントを削除しました'
+    destroy_failed: 'コメントの削除に失敗しました'
+    updated: 'コメントを編集しました'
+    not_found_study_log: '投稿が見つかりません'
+    not_found_study_comment: 'コメントが見つかりません'
+
+  ranking:
+    table:
+      rank: '順位'
+      user_name: 'ユーザー名'
+      posted_days: '投稿日数'
+    unit:
+      rank: '位'
+      days: '日'

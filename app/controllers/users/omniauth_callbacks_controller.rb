@@ -19,22 +19,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
+  def callback_for(provider)
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
- def callback_for(provider)
-  @user = User.from_omniauth(request.env["omniauth.auth"])
+    if @user.new_record?
+      @user.skip_password_validation = true
+      unless @user.save
+        redirect_to root_path, alert: "認証に失敗しました。" and return
+      end
+    end
 
-if @user.new_record?
-  @user.skip_password_validation = true
-  unless @user.save
-    redirect_to root_path, alert: "認証に失敗しました。" and return
+    sign_in_and_redirect @user, event: :authentication
+    set_flash_message(:notice, :success, kind: provider.to_s.capitalize) if is_navigational_format?
   end
-end
-
-
-  sign_in_and_redirect @user, event: :authentication
-  set_flash_message(:notice, :success, kind: provider.to_s.capitalize) if is_navigational_format?
-end
-
 
   # 認証失敗時の処理（トップページへ）
   def failure

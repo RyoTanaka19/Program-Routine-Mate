@@ -94,6 +94,6 @@ end
       .group("DATE(created_at)")
       .order("DATE(created_at)")
       .count
-      .map { |date, total| { date: date.to_s, total: total } }
+      .map { |date, total_study_time| { date: date.to_s, total: total_study_time } }
   end
 end

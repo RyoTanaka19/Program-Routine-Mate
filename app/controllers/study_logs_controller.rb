@@ -7,7 +7,7 @@ class StudyLogsController < ApplicationController
 
   def new
     if @study_genre.nil?
-      redirect_to new_study_genre_path, alert: "ジャンルを先に設定してください"
+      redirect_to new_study_genre_path, alert: t("study_logs.alerts.set_genre_first")
       return
     end
 
@@ -24,10 +24,10 @@ class StudyLogsController < ApplicationController
       @study_log = current_user.study_logs.new(study_log_params)
       respond_to do |format|
         format.html do
-          flash.now[:alert] = "指定された学習ジャンルが見つかりませんでした。"
+          flash.now[:alert] = t("study_logs.alerts.genre_not_found")
           render :new, status: :unprocessable_entity
         end
-        format.json { render_json_errors(@study_log, [ "指定された学習ジャンルが見つかりませんでした。" ]) }
+        format.json { render_json_errors(@study_log, [ t("study_logs.alerts.genre_not_found") ]) }
       end
       return
     end
@@ -37,14 +37,14 @@ class StudyLogsController < ApplicationController
 
     respond_to do |format|
       if @study_log.save
-        notice = "学習記録が作成されました！"
-        notice += "（投稿時刻が学習時間外のため、学習時間は記録されませんでした）" if @study_log.total_study_time.nil?
+        notice = t("study_logs.notices.created")
+        notice += t("study_logs.notices.out_of_study_time") if @study_log.total_study_time.nil?
 
         format.html { redirect_to new_study_log_study_challenge_path(@study_log), notice: notice }
         format.json { render json: { success: true, contribution_graph: [] } }
       else
         format.html do
-          flash.now[:alert] = "学習記録の作成に失敗しました。"
+          flash.now[:alert] = t("study_logs.alerts.creation_failed")
           render :new, status: :unprocessable_entity
         end
         format.json { render_json_errors(@study_log) }
@@ -62,11 +62,11 @@ class StudyLogsController < ApplicationController
 
     respond_to do |format|
       if @study_log.update(study_log_params)
-        format.html { redirect_to study_logs_path, notice: "学習記録の変更をしました。" }
+        format.html { redirect_to study_logs_path, notice: t("study_logs.notices.updated") }
         format.json { render json: { success: true, contribution_graph: [] } }
       else
         format.html do
-          flash.now[:alert] = "学習記録の変更に失敗しました。"
+          flash.now[:alert] = t("study_logs.alerts.update_failed")
           render :edit, status: :unprocessable_entity
         end
         format.json { render_json_errors(@study_log) }
@@ -76,7 +76,7 @@ class StudyLogsController < ApplicationController
 
   def destroy
     @study_log.destroy
-    redirect_to study_logs_path, notice: "学習記録の削除をしました。"
+    redirect_to study_logs_path, notice: t("study_logs.notices.destroyed")
   end
 
   def index
@@ -98,7 +98,7 @@ class StudyLogsController < ApplicationController
       render json: @study_logs.as_json(only: [ :content ])
     rescue ActiveRecord::StatementInvalid => e
       Rails.logger.error "[AutocompleteError] #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
-      render json: { error: "検索中にエラーが発生しました。" }, status: 500
+      render json: { error: t("study_logs.alerts.search_error") }, status: 500
     end
   end
 
@@ -113,7 +113,7 @@ class StudyLogsController < ApplicationController
     begin
       date = Date.parse(params[:date])
     rescue ArgumentError
-      render json: { error: "無効な日付です" }, status: :bad_request
+      render json: { error: t("study_logs.alerts.invalid_date") }, status: :bad_request
       return
     end
 
@@ -127,33 +127,28 @@ class StudyLogsController < ApplicationController
 
   private
 
-  # 共通のリマインダー取得処理（updateは除外）
   def set_latest_study_reminder
     @study_reminder = current_user.study_reminders.last
   end
 
-  # 学習記録の取得
   def set_study_log
     @study_log = current_user.study_logs.find(params[:id])
   end
 
-  # 共通のジャンル取得（edit/new用）
   def set_study_genre_from_log_or_user
     @study_genre = @study_log&.study_genre || current_user.study_genres.last
   end
 
-  # ジャンル取得メソッド名変更・分離
   def find_or_last_study_genre
     StudyGenre.find_by(id: params.dig(:study_log, :study_genre_id)) || current_user.study_genres.last
   end
 
-  # JSON共通エラー出力
   def render_json_errors(record, custom_messages = nil)
     render json: { success: false, errors: custom_messages || record.errors.full_messages }, status: :unprocessable_entity
   end
 
   def record_not_found
-    flash[:alert] = "指定された学習記録が見つかりませんでした。"
+    flash[:alert] = t("study_logs.alerts.record_not_found")
     redirect_to study_logs_path
   end
 
@@ -177,7 +172,7 @@ class StudyLogsController < ApplicationController
     set_meta_tags og: {
                     site_name: "ProgramRoutineMate",
                     title: study_log.content,
-                    description: "プログラミング学習記録の投稿",
+                    description: t("study_logs.meta.description"),
                     type: "website",
                     url: request.original_url,
                     image: image_url,

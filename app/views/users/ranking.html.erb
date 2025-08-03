@@ -1,9 +1,9 @@
 <table class="min-w-full max-w-4xl mx-auto border border-gray-200 rounded-lg shadow-md overflow-hidden">
   <thead class="bg-green-100 text-green-900 font-semibold text-left">
     <tr>
-      <th class="px-4 py-3 w-20">順位</th>
-      <th class="px-4 py-3">ユーザー名</th>
-      <th class="px-4 py-3 w-24 text-center">投稿日数</th>
+      <th class="px-4 py-3 w-20"><%= t('ranking.table.rank') %></th>
+      <th class="px-4 py-3"><%= t('ranking.table.user_name') %></th>
+      <th class="px-4 py-3 w-24 text-center"><%= t('ranking.table.posted_days') %></th>
     </tr>
   </thead>
   <tbody>
@@ -25,13 +25,13 @@
 
       <tr class="<%= row_class %> hover:bg-green-200 transition-colors duration-200">
         <td class="px-4 py-3 text-blue-800 whitespace-nowrap text-center">
-          <%= crown_icon %> <span class="ml-1"><%= rank %>位</span>
+          <%= crown_icon %> <span class="ml-1"><%= rank %> <%= t('ranking.unit.rank') %></span>
         </td>
         <td class="px-4 py-3 text-blue-600 whitespace-nowrap">
           <%= link_to user.name, user_path(user), class: "hover:underline" %>
         </td>
         <td class="px-4 py-3 text-gray-600 whitespace-nowrap text-center">
-          <%= current_posted_days_count %> 日
+          <%= current_posted_days_count %> <%= t('ranking.unit.days') %>
         </td>
       </tr>
 

@@ -1,13 +1,13 @@
 <div class="flex justify-center px-4 min-h-[600px]">
   <div class="text-center max-w-md w-full mt-12">
     <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-green-700">
-      この学習内容に基づいて、問題に挑戦してみませんか？
+      <%= t("study_challenges.prompt") %>
     </h2>
 
     <%= form_with url: study_log_study_challenges_path(@study_log), method: :post, local: true do %>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <%= submit_tag "はい、挑戦する", data: { action: "click->loading#show" }, class: "bg-green-500 text-white px-6 py-3 rounded text-base sm:text-lg" %>
-        <%= link_to "いいえ", study_logs_path, class: "bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded text-base sm:text-lg" %>
+        <%= submit_tag t("study_challenges.accept"), data: { action: "click->loading#show" }, class: "bg-green-500 text-white px-6 py-3 rounded text-base sm:text-lg" %>
+        <%= link_to t("study_challenges.decline"), study_logs_path, class: "bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded text-base sm:text-lg" %>
       </div>
     <% end %>
   </div>

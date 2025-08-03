@@ -1,15 +1,16 @@
-<!-- 問題表示画面 -->
 <div class="flex items-center justify-center min-h-screen px-6 sm:px-10 lg:px-16 bg-yellow-50">
   <div class="text-center w-full max-w-lg bg-white rounded-lg shadow-md p-8">
-    <h2 class="text-3xl font-extrabold mb-6 text-green-700 tracking-wide">問題</h2>
+    <h2 class="text-3xl font-extrabold mb-6 text-green-700 tracking-wide">
+      <%= t("study_challenges.show.title") %>
+    </h2>
 
- <pre class="bg-green-50 p-6 rounded-md text-left whitespace-pre-wrap text-base sm:text-lg overflow-y-auto max-h-[24rem] leading-relaxed font-mono shadow-inner border border-green-200">
+    <pre class="bg-green-50 p-6 rounded-md text-left whitespace-pre-wrap text-base sm:text-lg overflow-y-auto max-h-[24rem] leading-relaxed font-mono shadow-inner border border-green-200">
   <%= @study_challenge.question_text %>
 </pre>
 
     <%= link_to answer_study_log_study_challenge_study_answers_path(@study_log, @study_challenge),
                 class: "inline-block mt-8 bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 text-white font-semibold px-8 py-3 rounded-md transition-colors" do %>
-      問題を回答する
+      <%= t("study_challenges.show.answer_button") %>
     <% end %>
   </div>
 </div>

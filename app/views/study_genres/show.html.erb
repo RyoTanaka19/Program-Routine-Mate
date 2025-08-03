@@ -12,7 +12,7 @@
       <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 6a9 9 0 11-6.363 15.363A9 9 0 0112 6z" />
       </svg>
-      Wikipediaの概要
+      <%= t('study_genres.labels.wikipedia_summary') %>
     </h2>
     <p class="text-blue-500 text-center leading-relaxed whitespace-pre-line">
       <%= @wikipedia_summary %>
@@ -22,7 +22,7 @@
   <% if @study_genre.study_logs.pluck(:created_at).map(&:to_date).uniq.count >= 21 %>
     <!-- ✅ LGTM画像：投稿があるときのみ中央に表示 -->
     <div id="lgtm-container" class="flex justify-center mb-6 transition-opacity duration-1000">
-      <%= image_tag 'lgtm.png', alt: 'LGTM', class: 'w-64 h-auto rounded-xl shadow-md' %>
+      <%= image_tag 'lgtm.png', alt: t('study_genres.labels.lgtm_alt'), class: 'w-64 h-auto rounded-xl shadow-md' %>
     </div>
 
     <script>
@@ -31,14 +31,12 @@
         if (lgtm) {
           setTimeout(() => {
             lgtm.classList.add("opacity-0");
-            setTimeout(() => lgtm.remove(), 1000); // 1秒後に削除
-          }, 5000); // 5秒後にフェードアウト開始
+            setTimeout(() => lgtm.remove(), 1000);
+          }, 5000);
         }
       }
 
-      // イベントリスナーの共通化
-      const events = ['DOMContentLoaded', 'turbo:load', 'turbo:frame-load'];
-      events.forEach(event => {
+      ['DOMContentLoaded', 'turbo:load', 'turbo:frame-load'].forEach(event => {
         document.addEventListener(event, fadeOutLgtm);
       });
     </script>
@@ -50,14 +48,14 @@
       <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M12 14v-4m0 0V6m0 4H8m4 0h4" />
       </svg>
-      投稿情報
+      <%= t('study_genres.labels.post_info') %>
     </h2>
 
     <% if @study_genre.study_logs.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-blue-600 mb-6">
         <div class="flex items-center">
-          <span class="mr-2 font-medium">投稿数：</span>
-          <span><%= @study_genre.study_logs.count %> 件</span>
+          <span class="mr-2 font-medium"><%= t('study_genres.labels.post_count_label') %></span>
+          <span><%= @study_genre.study_logs.count %> <%= t('study_genres.labels.posts') %></span>
         </div>
       </div>
 
@@ -66,16 +64,15 @@
         <canvas id="chart" class="w-full h-full"></canvas>
       </div>
     <% else %>
-      <!-- 中央寄せ用のflexboxクラスを追加 -->
       <div class="flex items-center justify-center h-64 text-blue-500">
-        <p>まだこのジャンルの投稿がありません。</p>
+        <p><%= t('study_genres.labels.no_study_logs') %></p>
       </div>
     <% end %>
   </div>
 
   <!-- jQueryとChart.jsのライブラリを読み込み -->
   <script>
-    let chartInstance = null; // グラフインスタンスを外部で保持
+    let chartInstance = null;
 
     function initializeChart() {
       $.ajax({
@@ -84,39 +81,34 @@
         success: function(data) {
           const labels = Object.keys(data);
           const counts = Object.values(data);
-
-          // グラフ描画処理を分けて関数化
           renderChart(labels, counts);
         },
         error: function(xhr, status, error) {
-          console.error("AJAXリクエストが失敗しました:", status, error);
-          alert("データの取得に失敗しました。ページを再読み込みしてください。");
+          console.error("<%= j t('study_genres.js.ajax_error_console') %>", status, error);
+          alert("<%= j t('study_genres.js.ajax_error_alert') %>");
         }
       });
     }
 
     function renderChart(labels, counts) {
       const ctx = document.getElementById('chart').getContext('2d');
-
-      // すでにインスタンスがあれば破棄
       if (chartInstance) {
         chartInstance.destroy();
       }
-
       chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
           labels: labels,
           datasets: [{
-            label: '日付ごとの投稿数',
+            label: '<%= j t("study_genres.labels.chart_label") %>',
             data: counts,
-            borderColor: '#4CAF50',                   // 線の色（緑）
-            backgroundColor: 'rgba(76, 175, 80, 0.2)', // 線下の薄緑塗りつぶし
-            fill: true,                               // 塗りつぶしを有効化
-            tension: 0.3,                             // 線の滑らかさ
-            pointRadius: 5,                           // データポイントの大きさ
-            pointHoverRadius: 7,                      // ホバー時のポイント大きさ
-            borderWidth: 3                            // 線の太さ
+            borderColor: '#4CAF50',
+            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            borderWidth: 3
           }]
         },
         options: {
@@ -125,13 +117,13 @@
           scales: {
             x: {
               ticks: { autoSkip: true, maxRotation: 0, minRotation: 0 },
-              title: { display: true, text: '日付', color: '#666' },
+              title: { display: true, text: '<%= j t("study_genres.labels.x_axis") %>', color: '#666' },
               grid: { offset: true, display: false }
             },
             y: {
               beginAtZero: true,
               ticks: { stepSize: 1 },
-              title: { display: true, text: '投稿数', color: '#666' }
+              title: { display: true, text: '<%= j t("study_genres.labels.y_axis") %>', color: '#666' }
             }
           },
           plugins: {
@@ -139,7 +131,7 @@
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  return `${context.parsed.y} 件`;
+                  return `${context.parsed.y} <%= j t("study_genres.labels.posts") %>`;
                 }
               }
             }
@@ -148,12 +140,10 @@
       });
     }
 
-    // ページが完全に読み込まれた後に処理を実行
-    document.addEventListener("DOMContentLoaded", initializeChart);
-    document.addEventListener("turbo:load", initializeChart);
-    document.addEventListener("turbo:frame-load", initializeChart);
+    ['DOMContentLoaded', 'turbo:load', 'turbo:frame-load'].forEach(event => {
+      document.addEventListener(event, initializeChart);
+    });
 
-    // Turboを使った遷移時でもグラフをリフレッシュ
     document.addEventListener('turbo:before-cache', function() {
       if (chartInstance) {
         chartInstance.destroy();

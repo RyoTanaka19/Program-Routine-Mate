@@ -1,14 +1,14 @@
 <%= form_with model: study_reminder, url: study_reminders_path, local: false, id: 'study-reminder-form' do |f| %>
   <div class="max-w-xl mx-auto bg-white border border-blue-300 rounded-2xl shadow-lg p-8 space-y-6">
     <h2 class="text-2xl font-bold text-green-700 text-center border-b border-blue-100 pb-4">
-      学習リマインダー設定
+      <%= t('study_reminders.form.title') %>
     </h2>
 
     <!-- タイトル -->
     <div class="space-y-2">
-      <%= f.label :title, "学習タイトル", class: "block text-sm font-semibold text-gray-700" %>
+      <%= f.label :title, t('study_reminders.form.title_label'), class: "block text-sm font-semibold text-gray-700" %>
       <%= f.text_field :title,
-          placeholder: "学習タイトルを入力してください",
+          placeholder: t('study_reminders.form.title_placeholder'),
           id: 'study_reminder_title',
           class: "block w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-blue-500" %>
       <% if study_reminder.errors[:title].any? %>
@@ -20,7 +20,7 @@
 
     <!-- 開始日時 -->
     <div class="space-y-2">
-      <%= f.label :start_time, "学習開始日時", class: "block text-sm font-semibold text-gray-700" %>
+      <%= f.label :start_time, t('study_reminders.form.start_time_label'), class: "block text-sm font-semibold text-gray-700" %>
       <%= f.datetime_local_field :start_time,
           value: nil,
           min: Time.current.strftime("%Y-%m-%dT%H:%M"),
@@ -35,7 +35,7 @@
 
     <!-- 終了日時 -->
     <div class="space-y-2">
-      <%= f.label :end_time, "学習終了日時", class: "block text-sm font-semibold text-gray-700" %>
+      <%= f.label :end_time, t('study_reminders.form.end_time_label'), class: "block text-sm font-semibold text-gray-700" %>
       <%= f.datetime_local_field :end_time,
           min: Time.current.strftime("%Y-%m-%dT%H:%M"),
           id: 'study_reminder_end_time',
@@ -49,7 +49,7 @@
 
     <!-- 送信ボタン -->
     <div>
-      <%= f.submit "リマインダーを設定",
+      <%= f.submit t('study_reminders.form.submit_button'),
           class: "w-full bg-green-600 hover:bg-green-700 text-white text-base font-semibold py-3 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
     </div>
   </div>

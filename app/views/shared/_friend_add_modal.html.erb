@@ -1,10 +1,10 @@
 <div data-controller="friend-add-modal">
   <!-- 友だち追加ボタン -->
   <div class="flex flex-col items-center w-20 mt-8">
-    <button data-action="friend-add-modal#openModal" aria-label="友だち追加ボタン" class="relative">
-      <%= image_tag("friend.png", alt: "友だち追加", class: "cursor-pointer mx-auto w-16 h-16") %>
+    <button data-action="friend-add-modal#openModal" aria-label="<%= t('friend_add_modal.button_label') %>" class="relative">
+      <%= image_tag("friend.png", alt: t('friend_add_modal.button_alt'), class: "cursor-pointer mx-auto w-16 h-16") %>
     </button>
-    <span class="mt-2 text-sm text-green-600 text-center">LINE友だち追加</span>
+    <span class="mt-2 text-sm text-green-600 text-center"><%= t('friend_add_modal.button_text') %></span>
   </div>
 
   <!-- モーダル -->
@@ -19,18 +19,18 @@
   >
     <div class="modal-content bg-white p-8 rounded-lg shadow-lg w-72 max-w-xs">
       <div class="flex flex-col items-center">
-        <%= image_tag("line_friend.png", alt: "LINE友だち追加QRコード", class: "mx-auto w-32 h-32") %>
+        <%= image_tag("line_friend.png", alt: t('friend_add_modal.qr_code_alt'), class: "mx-auto w-32 h-32") %>
         <div
           data-friend-add-modal-target="message"
           class="mt-4 text-[#00C300] text-lg font-semibold hidden animate-fade-in"
         >
-          友だち申請ありがとう!!
+          <%= t('friend_add_modal.thank_you_message') %>
         </div>
         <button
           data-action="click->friend-add-modal#closeModal"
           class="mt-4 px-4 py-2 bg-green-600 text-white rounded-full"
         >
-          閉じる
+          <%= t('friend_add_modal.close_button') %>
         </button>
       </div>
     </div>

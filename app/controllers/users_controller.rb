@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(id: params[:id])
     if @user.nil?
-      redirect_to(root_path, alert: "ユーザーが見つかりませんでした。") and return
+      redirect_to(root_path, alert: t("users.not_found")) and return
     end
     @study_logs = @user.study_logs
   end
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       send_withdrawal_reason_to_google_sheets
       perform_user_withdrawal
     else
-      flash.now[:alert] = "退会理由の入力に問題があります"
+      flash.now[:alert] = t("users.withdrawal_reason_invalid")
       render :confirm_withdrawal
     end
   end
@@ -46,6 +46,6 @@ class UsersController < ApplicationController
   def perform_user_withdrawal
     current_user.destroy
     reset_session
-    redirect_to root_path, notice: "退会が完了しました。ご利用ありがとうございました。"
+    redirect_to root_path, notice: t("users.withdrawal_completed")
   end
 end

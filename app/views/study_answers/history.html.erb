@@ -1,10 +1,20 @@
-<h1 class="text-3xl font-bold mb-6 text-center text-green-700">過去の回答一覧</h1>
+<h1 class="text-3xl font-bold mb-6 text-center text-green-700">
+  <%= t('study_answers.history.title') %>
+</h1>
 
 <div class="overflow-x-auto">
   <table class="min-w-full border border-gray-300 rounded-lg divide-y divide-gray-200">
     <thead class="bg-green-100">
       <tr>
-        <% headers = ["問題タイトル", "あなたの回答", "正解", "解説", "回答日時", "結果", "詳細"] %>
+        <% headers = [
+          t('study_answers.history.headers.question_title'),
+          t('study_answers.history.headers.your_answer'),
+          t('study_answers.history.headers.correct_answer'),
+          t('study_answers.history.headers.explanation'),
+          t('study_answers.history.headers.answered_at'),
+          t('study_answers.history.headers.result'),
+          t('study_answers.history.headers.details')
+        ] %>
         <% headers.each do |header| %>
           <th class="px-4 py-3 text-left text-sm font-semibold text-green-800 whitespace-nowrap">
             <%= header %>
@@ -16,9 +26,11 @@
     <tbody class="bg-white divide-y divide-gray-200">
       <% @study_answers.each do |answer| %>
         <tr class="hover:bg-green-50">
- <td class="px-4 py-3 max-w-xs whitespace-normal">
-  <%= link_to truncate(answer.study_challenge.question_text, length: 40), study_log_study_challenge_path(answer.study_challenge.study_log, answer.study_challenge), class: "text-green-600 hover:underline" %>
-</td>
+          <td class="px-4 py-3 max-w-xs whitespace-normal">
+            <%= link_to truncate(answer.study_challenge.question_text, length: 40),
+                        study_log_study_challenge_path(answer.study_challenge.study_log, answer.study_challenge),
+                        class: "text-green-600 hover:underline" %>
+          </td>
           <td class="px-4 py-3 whitespace-nowrap font-mono"><%= answer.user_answer %></td>
           <td class="px-4 py-3 whitespace-nowrap font-mono"><%= answer.correct_answer %></td>
           <td class="px-4 py-3 max-w-xs whitespace-normal text-gray-700">
@@ -29,13 +41,15 @@
           </td>
           <td class="px-4 py-3 whitespace-nowrap font-semibold">
             <% if answer.user_answer == answer.correct_answer %>
-              <span class="text-green-600">正解</span>
+              <span class="text-green-600"><%= t('study_answers.history.result.correct') %></span>
             <% else %>
-              <span class="text-red-600">不正解</span>
+              <span class="text-red-600"><%= t('study_answers.history.result.incorrect') %></span>
             <% end %>
           </td>
           <td class="px-4 py-3 whitespace-nowrap">
-            <%= link_to "結果を見る", result_study_log_study_challenge_study_answers_path(answer.study_challenge.study_log, answer.study_challenge), class: "text-blue-600 hover:underline" %>
+            <%= link_to t('study_answers.history.details_link'),
+                        result_study_log_study_challenge_study_answers_path(answer.study_challenge.study_log, answer.study_challenge),
+                        class: "text-blue-600 hover:underline" %>
           </td>
         </tr>
       <% end %>
@@ -44,7 +58,8 @@
 </div>
 
 <div class="text-center mt-6">
-  <%= link_to "学習記録一覧へ", study_logs_path,
-        data: { action: "click->loading#show" },
-        class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded shadow transition" %>
+  <%= link_to t('study_answers.history.back_to_study_logs'),
+              study_logs_path,
+              data: { action: "click->loading#show" },
+              class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded shadow transition" %>
 </div>

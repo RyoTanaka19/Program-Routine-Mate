@@ -1,32 +1,31 @@
 <div class="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-4xl p-4 sm:p-6 mx-auto bg-white border border-gray-300 rounded-md shadow-md">
     
-   <p><strong>学習時間:</strong> <%= display_study_time(@study_log.total_study_time) %></p>
-
+   <p><strong><%= t('study_log.labels.study_time') %>:</strong> <%= display_study_time(@study_log.total_study_time) %></p>
 
     <!-- 投稿者のプロフィール画像 -->
     <div class="flex flex-col sm:flex-row sm:items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
       <%= link_to user_path(@study_log.user), class: "flex items-center" do %>
         <%= image_tag(@study_log.user.profile_image? ? @study_log.user.profile_image_url : "default_study_logs_image.png", class: "w-16 h-16 rounded-full object-cover") %>
-        <p class="text-lg font-semibold text-gray-700 sm:ml-4"><%= @study_log.user&.name || "ユーザー情報なし" %></p>
+        <p class="text-lg font-semibold text-gray-700 sm:ml-4"><%= @study_log.user&.name || t('study_log.user_info_none') %></p>
       <% end %>
     </div>
 
     <!-- 学習ジャンル -->
     <p class="mb-6">
-      <strong>学習ジャンル:</strong>
-      <%= @study_log.study_genre ? @study_log.study_genre.display_name : "未選択(変更のため)" %>
+      <strong><%= t('study_log.labels.study_genre') %>:</strong>
+      <%= @study_log.study_genre ? @study_log.study_genre.display_name : t('study_log.genre_not_selected') %>
     </p>
 
     <!-- 学習内容 -->
     <div class="mb-6">
-      <p class="text-lg font-semibold text-gray-800">学習内容:</p>
+      <p class="text-lg font-semibold text-gray-800"><%= t('study_log.labels.study_content') %>:</p>
       <p class="border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm break-words whitespace-pre-wrap"><%= @study_log.content %></p>
     </div>
 
     <!-- 画像 -->
     <div class="mb-6">
-      <p class="text-lg font-semibold">学習画像:</p>
+      <p class="text-lg font-semibold"><%= t('study_log.labels.study_image') %>:</p>
       <div class="border border-gray-300 rounded-md p-2 sm:p-4 shadow-sm">
         <%= image_tag(@study_log.image? ? @study_log.image_url : "default_study_logs_image.png", class: "w-full h-auto rounded-md object-cover", style: "max-height: 250px;") %>
       </div>
@@ -34,7 +33,7 @@
 
     <!-- 学習内容から学んだこと -->
     <div class="mb-6">
-      <p class="text-lg font-semibold">学習内容から学んだこと:</p>
+      <p class="text-lg font-semibold"><%= t('study_log.labels.learned_things') %>:</p>
       <p class="border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm break-words whitespace-pre-wrap"><%= @study_log.text %></p>
     </div>
 
@@ -43,21 +42,20 @@
       <div class="mt-6 flex flex-col space-y-3">
         <!-- 編集ボタン -->
         <%= link_to edit_study_log_path(@study_log), class: "inline-flex items-center justify-center px-6 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600" do %>
-          <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> 編集
+          <i class="fas fa-pencil-alt w-4 h-4 mr-2"></i> <%= t('study_log.buttons.edit') %>
         <% end %>
-    
 
         <!-- 削除ボタン -->
-        <%= link_to study_log_path(@study_log), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか?" }, class: "inline-flex items-center justify-center px-6 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600" do %>
-          <i class="fas fa-trash w-4 h-4 mr-2"></i> 削除
+        <%= link_to study_log_path(@study_log), data: { turbo_method: :delete, turbo_confirm: t('study_log.confirmations.delete') }, class: "inline-flex items-center justify-center px-6 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600" do %>
+          <i class="fas fa-trash w-4 h-4 mr-2"></i> <%= t('study_log.buttons.delete') %>
         <% end %>
     
         <!-- シェアボタン -->
         <div class="w-full flex justify-center text-gray-600">
-          <% tweet_text = "#{@study_log.user&.name || 'ユーザー'} さんの学習記録：#{@study_log.content}を投稿しました。" %>
+          <% tweet_text = "#{@study_log.user&.name || t('study_log.default_user')} #{t('study_log.tweet_text')}: #{@study_log.content}" %>
           <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(study_log_url(@study_log))}&text=#{CGI.escape(tweet_text)}" %>
           
-          <%= link_to twitter_share_url, target: '_blank', title: "Twitterでシェア", class: "block" do %>
+          <%= link_to twitter_share_url, target: '_blank', title: t('study_log.buttons.share_twitter'), class: "block" do %>
             <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
           <% end %>
         </div>
@@ -75,18 +73,18 @@
     <% unless user_signed_in? %>
       <div class="mt-6 bg-green-100 border-l-4 border-green-400 p-4 rounded-md text-center shadow-sm">
         <p class="text-green-800 text-base sm:text-lg font-semibold">
-          コメントを投稿するには、
-          <%= link_to "ログインしてください", new_user_session_path, class: "underline text-blue-600 hover:text-blue-800" %>。
+          <%= t('study_log.login_prompt.comment_post') %>
+          <%= link_to t('study_log.login_prompt.login_link_text'), new_user_session_path, class: "underline text-blue-600 hover:text-blue-800" %>。
         </p>
         <p class="text-sm text-gray-700 mt-1">
-          ログイン後に他のユーザーと交流できます！
+          <%= t('study_log.login_prompt.comment_post_desc') %>
         </p>
       </div>
     <% end %>
 
     <!-- コメント一覧 -->
     <div class="mt-6">
-      <h2 class="text-xl sm:text-2xl font-semibold text-center mb-4">コメント一覧</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold text-center mb-4"><%= t('study_log.labels.comment_list') %></h2>
       <div class="border border-gray-300 rounded-md shadow-sm p-4 bg-white overflow-x-auto">
         <table class="w-full border-collapse text-sm sm:text-base">
           <tbody id="study_comments-list">

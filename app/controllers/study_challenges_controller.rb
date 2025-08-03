@@ -12,7 +12,7 @@ class StudyChallengesController < ApplicationController
 
     if user_response_text.blank?
       Rails.logger.warn("[AI生成失敗] study_log_id=#{@study_log.id}, prompt=#{ai_prompt}")
-      redirect_to study_logs_path, alert: "問題の生成に失敗しました。"
+      redirect_to study_logs_path, alert: I18n.t("study_challenges.create.fail_generate")
       return
     end
 
@@ -22,18 +22,18 @@ class StudyChallengesController < ApplicationController
     )
 
     if study_challenge.save
-      redirect_to study_challenge_path(study_challenge), notice: "あなたに合った問題を出題しました！"
+      redirect_to study_challenge_path(study_challenge), notice: I18n.t("study_challenges.create.success")
     else
       Rails.logger.error("[保存失敗] study_challenge=#{study_challenge.inspect}")
-      redirect_to study_logs_path, alert: "問題の保存に失敗しました。"
+      redirect_to study_logs_path, alert: I18n.t("study_challenges.create.fail_save")
     end
   end
 
-def show
-  @study_challenge = current_user.study_challenges.find(params[:id])
-  @study_log = @study_challenge.study_log
-  @question_only = @study_challenge.question_text
-end
+  def show
+    @study_challenge = current_user.study_challenges.find(params[:id])
+    @study_log = @study_challenge.study_log
+    @question_only = @study_challenge.question_text
+  end
 
   private
 
