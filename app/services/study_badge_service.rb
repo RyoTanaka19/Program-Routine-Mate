@@ -8,17 +8,17 @@ class StudyBadgeService
     2 => {
       name_key: "study_badges.names.two_days",
       description_key: "study_badges.descriptions.two_days",
-      icon: "badge2.png"
+      icon: "icon2.png"
     },
     3 => {
       name_key: "study_badges.names.three_days",
       description_key: "study_badges.descriptions.three_days",
-      icon: "badge3.png"
+      icon: "icon3.png"
     },
     5 => {
       name_key: "study_badges.names.five_days",
       description_key: "study_badges.descriptions.five_days",
-      icon: "badge5.png"
+      icon: "icon5.png"
     },
     7 => {
       name_key: "study_badges.names.seven_days",
