@@ -19,7 +19,7 @@ class BadgeNotificationJob < ApplicationJob
     end
 
     begin
-      broadcast_notification(user.id, message)
+      broadcast_browser_notification(user.id, message)
     rescue => e
       Rails.logger.error("ブラウザ通知送信エラー: #{e.class} - #{e.message}")
     end
@@ -28,16 +28,15 @@ class BadgeNotificationJob < ApplicationJob
   private
 
   def send_line_notification(message, user)
+    # LINEユーザーIDが未設定の場合はスキップ（LINE連携未実施）
     return if user.uid.blank?
 
+    # LINE_BOT_API は config/initializers/line_bot.rb 等で定義された LINE Bot クライアント
     client = LINE_BOT_API
     client.push_message(user.uid, { type: "text", text: message })
   end
 
-  def broadcast_notification(user_id, message)
-    ActionCable.server.broadcast("notification_channel_#{user_id}", {
-      message: message,
-      type: "badge"
-    })
+  def broadcast_browser_notification(user_id, message)
+    ActionCable.server.broadcast("notification_channel_#{user_id}", { message: message })
   end
 end
