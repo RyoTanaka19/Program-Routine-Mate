@@ -6,97 +6,137 @@
   <title><%= t('study_reminders.calendar_title') %></title>
 
   <style>
-    #calendar {
-      height: 600px;
-    }
-
-    .fc-daygrid-day {
-      height: 80px;
-    }
-
-    .fc-daygrid-day-number {
-      font-size: 16px;
-      font-weight: 600;
-      padding-left: 6px;
-      padding-top: 4px;
-    }
-
-    .fc-daygrid-day-events {
-      padding: 4px 6px;
-    }
-
-    .fc-daygrid-event {
-      padding: 4px 8px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .fc-daygrid-day:hover {
-      background-color: #f9fafb;
-    }
-
-    .calendar-wrapper {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 1rem;
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f3f4f6; /* Tailwind gray-100 */
     }
 
     header {
-      background-color: #22c55e; /* Tailwind green-500 */
-      padding: 1.25rem 1rem;
-      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+      background-color: #22c55e; /* green-500 */
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     header h1 {
       color: white;
-      font-weight: 700;
-      font-size: 1.875rem;
+      font-size: 1.5rem;
       text-align: center;
-      letter-spacing: 0.03em;
+      font-weight: bold;
+    }
+
+    .calendar-wrapper {
+      padding: 1rem 0.75rem;
+    }
+
+    #calendar {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+    }
+
+    .fc-daygrid-day-number {
+      font-size: 0.875rem;
+      padding-left: 4px;
+      padding-top: 2px;
+    }
+
+    .fc-daygrid-event {
+      padding: 2px 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-radius: 6px;
+    }
+
+    .fc .fc-toolbar-title {
+      font-size: 1rem;
+    }
+
+    .fc-button {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
     }
 
     #study-reminder-modal {
+      position: fixed;
+      inset: 0;
       background-color: rgba(0, 0, 0, 0.55);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
     }
 
-    #study-reminder-modal button {
+    #study-reminder-modal.active {
+      display: flex;
+    }
+
+    #study-reminder-modal .modal-content {
+      background-color: white;
+      width: 100%;
+      max-width: 90%;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #study-reminder-modal button.close-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+      font-size: 1.5rem;
       color: #4b5563;
-      transition: color 0.3s ease;
+      background: none;
+      border: none;
     }
 
-    #study-reminder-modal button:hover {
-      color: #111827;
+    @media (min-width: 768px) {
+      header h1 {
+        font-size: 1.875rem;
+      }
+
+      .fc-daygrid-event {
+        font-size: 0.9rem;
+      }
+
+      .fc .fc-toolbar-title {
+        font-size: 1.25rem;
+      }
+
+      #study-reminder-modal .modal-content {
+        max-width: 640px;
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 
-<body class="bg-gray-100 font-sans min-h-screen">
+<body>
   <header>
     <h1><%= t('study_reminders.calendar_title') %></h1>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-6">
-    <div class="calendar-wrapper">
-      <div id="calendar" class="bg-white rounded-lg shadow-md p-4 min-h-[600px]"></div>
-    </div>
+  <main class="calendar-wrapper">
+    <div id="calendar"></div>
   </main>
 
   <div id="dummy"></div>
 
-  <!-- ✅ モーダル -->
-  <div id="study-reminder-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-    <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
-      <button onclick="closeModal()" class="absolute top-3 right-4 text-gray-600 hover:text-gray-900 text-2xl">&times;</button>
+  <!-- モーダル -->
+  <div id="study-reminder-modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
       <%= render partial: 'form', locals: { study_reminder: StudyReminder.new } %>
     </div>
   </div>
 
   <script>
-    // Railsのi18nメッセージをJavaScriptで使うために渡す
     const I18nMessages = {
       pastDateAlert: "<%= j t('study_reminders.alerts.past_date') %>",
       emptyTitle: "<%= j t('study_reminders.alerts.empty_title') %>",
@@ -111,19 +151,17 @@
       const calendarEl = document.getElementById('calendar');
       if (!calendarEl) return;
 
-      if (calendarInstance) {
-        calendarInstance.destroy();
-      }
+      if (calendarInstance) calendarInstance.destroy();
 
       calendarInstance = new FullCalendar.Calendar(calendarEl, {
         locale: '<%= I18n.locale %>',
         initialView: 'dayGridMonth',
-        height: 600,
+        height: 'auto',
         events: [
           <% @study_reminders.each do |reminder| %>
             {
               start: '<%= reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
-              end: '<%= reminder.end_time.present? ? reminder.end_time.strftime("%Y-%m-%dT%H:%M:%S") : reminder.start_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+              end: '<%= reminder.end_time || reminder.start_time %>',
               title: '<%= j reminder.title.presence || "" %>',
               extendedProps: {
                 startTime: '<%= reminder.start_time.strftime("%H:%M") %>',
@@ -163,8 +201,7 @@
           const event = info.event;
           if (event.display === 'background') return;
 
-          const title = event.title && event.title.trim() !== '' ? event.title : I18nMessages.emptyTitle;
-
+          const title = event.title?.trim() || I18nMessages.emptyTitle;
           const startTime = event.extendedProps?.startTime || '';
           const endTime = event.extendedProps?.endTime || '';
 
@@ -188,7 +225,7 @@
           }
 
           const modal = document.getElementById('study-reminder-modal');
-          modal.classList.remove('hidden');
+          modal.classList.add('active');
 
           const titleInput = document.getElementById('study_reminder_title');
           const startInput = document.getElementById('study_reminder_start_time');
@@ -227,7 +264,7 @@
 
     function closeModal() {
       const modal = document.getElementById('study-reminder-modal');
-      modal.classList.add('hidden');
+      modal.classList.remove('active');
     }
 
     function setupCalendar() {
