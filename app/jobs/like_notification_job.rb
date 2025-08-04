@@ -10,7 +10,9 @@ class LikeNotificationJob < ApplicationJob
     return if liker.id == owner.id
 
     message = build_like_message(liker, study_log)
-    broadcast_notification(owner.id, message)
+
+    # 必要な情報をすべて引数で渡す
+    broadcast_notification(owner.id, message, liker.id, study_log.id)
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.warn "LikeNotificationJob failed: StudyLog ID: #{study_log_id}, User ID: #{liker_user_id}. Error: #{e.message}"
   end
@@ -22,16 +24,16 @@ class LikeNotificationJob < ApplicationJob
     liker_name = liker.name.presence || I18n.t("defaults.anonymous")
     safe_content = safe_content.presence || I18n.t("defaults.no_content")
 
-    # i18n を使ってメッセージを構築
     I18n.t("like_notification.message", liker_name: liker_name, content: safe_content)
   end
 
-  def broadcast_notification(user_id, message)
+  # 修正ポイント：メソッド内で参照しないで、引数で渡す
+  def broadcast_notification(user_id, message, sender_id, study_log_id)
     ActionCable.server.broadcast("notification_channel_#{user_id}", {
       message: message,
       type: "like",
-      sender_id: liker.id,
-      study_log_id: study_log.id
+      sender_id: sender_id,
+      study_log_id: study_log_id
     })
   end
 end

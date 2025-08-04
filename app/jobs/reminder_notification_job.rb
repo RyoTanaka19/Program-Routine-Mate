@@ -18,7 +18,7 @@ class ReminderNotificationJob < ApplicationJob
     return if personal_message.nil? || broadcast_message.nil?
 
     send_line_notification(personal_message, user)
-    broadcast_browser_notification(user.id, personal_message)
+    broadcast_notification(user.id, personal_message)
     broadcast_to_other_users(user.id, broadcast_message)
   end
 
@@ -71,7 +71,7 @@ class ReminderNotificationJob < ApplicationJob
     Rails.logger.error("LINE通知送信エラー: #{e.class} #{e.message}\n#{e.backtrace.join("\n")}")
   end
 
-  def broadcast_browser_notification(user_id, message)
+  def broadcast_notification(user_id, message)
     ActionCable.server.broadcast("notification_channel_#{user_id}", { message: message })
   rescue StandardError => e
     Rails.logger.error("ブラウザ通知送信エラー: #{e.class} #{e.message}\n#{e.backtrace.join("\n")}")

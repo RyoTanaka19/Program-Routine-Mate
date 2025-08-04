@@ -5,10 +5,9 @@ class StudyReminder < ApplicationRecord
 
   validate :start_time_must_be_in_the_future
   validate :end_time_must_be_after_start_time
-
   validate :start_and_end_time_must_be_different
 
-    def calendar_event_data
+  def calendar_event_data
     {
       title: title,
       start: start_time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -23,7 +22,6 @@ class StudyReminder < ApplicationRecord
   end
 
   private
-
 
   def start_time_must_be_in_the_future
     if start_time.present? && start_time < Time.current
