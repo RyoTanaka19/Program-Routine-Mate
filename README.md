@@ -102,9 +102,11 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 
 ## ■ 機能紹介
 
+
+
 | 会員登録・ログイン                                                                                                                               | 投稿一覧                                                                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1916" height="991" alt="read_me_login" src="https://github.com/user-attachments/assets/ddc8c805-296b-43ab-b04a-166740d33141" />      | <img width="1912" height="991" alt="read_me_study_log" src="https://github.com/user-attachments/assets/73c35747-336f-4efe-a9f7-5b84e374e72b" />                  |
+| <img width="1916" height="991" alt="read_me_login" src="https://github.com/user-attachments/assets/ddc8c805-296b-43ab-b04a-166740d33141" />      | <img width="1920" height="996" alt="study_logs" src="https://github.com/user-attachments/assets/7df5fa53-2539-416d-99f5-e27e6f3584a1" />               |
 | **devise**を用いて、標準的なメールアドレス/パスワード認証に加え、**Google ログイン**と**LINE ログイン**と**GitHub ログイン機能**を実装しました。 | 投稿した学習記録は、一覧に表示されます。**ransack とオートコンプリート機能かつマルチ検索**で検索機能を実装しており、学習ジャンルと学習内容で絞って検索できます。 |
 
 | ジャンル・記録                                                                                                                                           | 学習カレンダー                                                                                                                                                                                                                                 |
@@ -119,10 +121,11 @@ Mattermost や Discode というコミュニケーションサービスを使っ
 
 | バッジ獲得                                                                                                                                | ランキング戦                                                                                                                                |
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1920" height="992" alt="study_batge" src="https://github.com/user-attachments/assets/9d65efb1-7711-4930-97e5-acc8d8bc9c00" /> | <img width="1913" height="983" alt="study_ranking" src="https://github.com/user-attachments/assets/acbc201f-ad2f-488b-8b10-e45d8cd3b20f" /> |
+| <img width="1920" height="992" alt="study_batge" src="https://github.com/user-attachments/assets/9d65efb1-7711-4930-97e5-acc8d8bc9c00" /> | <img width="1921" height="993" alt="study_rankig" src="https://github.com/user-attachments/assets/cd2bc706-5839-473b-b5c1-7cbdc50208c3" /> |
 | 継続的に学習記録を投稿するとバッジが獲得できます。                                                                                        | 学習継続によるランキング戦で他のユーザーと学習継続の競い合いができます。                                                                    |
 
 ## 使用技術
+
 
 | カテゴリ       | 技術                                                                     |
 | -------------- | ------------------------------------------------------------------------ |
