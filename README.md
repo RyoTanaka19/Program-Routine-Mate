@@ -145,4 +145,4 @@ Figma: https://www.figma.com/design/l76ZQiTKnKvVSaeN2Gx7GI/Program-Routin-Mate-%
 
 ## ER 図
 
-[![Image from Gyazo](https://i.gyazo.com/5341c14a544d9e9aee313026618bae7e.png)](https://gyazo.com/5341c14a544d9e9aee313026618bae7e)
+[![Image from Gyazo](https://i.gyazo.com/0b1c067d7e4890e3b62cf966c2cbe159.png)](https://gyazo.com/0b1c067d7e4890e3b62cf966c2cbe159)
