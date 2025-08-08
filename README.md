@@ -122,7 +122,7 @@ RUNTEQではコミュニティが非常に活発で、MattermostやDiscordを通
 | インフラ       | Render / Amazon S3                                                       |
 | 認証           | Devise / Google 認証 / LINE 認証 / GitHub 認証                           |
 | 非同期処理     | ActionCable / Redis / Sidekiq/                                            |
-| ライブラリ     | Cal-Heatmap.js / Chart.js / FullCalendar.js/ Aos.js                           |
+| ライブラリ     | Cal-Heatmap.js / Chart.js / FullCalendar.js / Aos.js                           |
 | API            | LINE Messaging API / OpenAI API / Wikipedia REST API / Google Sheets API |
 | VCS            | GitHub                                                                   |
 | CI/CD          | GitHub Actions                                                           |
