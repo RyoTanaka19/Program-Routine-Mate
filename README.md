@@ -110,6 +110,12 @@ RUNTEQではコミュニティが非常に活発で、MattermostやDiscordを通
 | <img width="1920" height="992" alt="study_batge" src="https://github.com/user-attachments/assets/9d65efb1-7711-4930-97e5-acc8d8bc9c00" /> | <img width="1921" height="993" alt="study_rankig" src="https://github.com/user-attachments/assets/cd2bc706-5839-473b-b5c1-7cbdc50208c3" /> |
 | 継続的に学習記録を投稿するとバッジを獲得できます。                                                                                        | 学習継続によるランキング戦で、他のユーザーと競い合いがらモチベーションを高められます。                                                                    |
 
+## 今後の開発について
+GitHubと連携し、このWebアプリからリポジトリを作成できるようにしたり、
+学習記録に応じて個人のGitHubの「草（貢献グラフの緑）」が増えるような機能の実装に挑戦したいと考えています。
+
+また、ユーザーの意見を参考にしながら、開発やUI・UXのブラッシュアップも進めていきたいと思っています。
+  
 ## 使用技術
 
 
