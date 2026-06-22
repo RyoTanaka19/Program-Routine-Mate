@@ -1,6 +1,5 @@
 
 
-サービス URL :[Program-Routine-Mate](https://program-routine-mate.com/)
 ![Image](app/assets/images/ogp.png)
 
 ## ▪️ サービス概要
